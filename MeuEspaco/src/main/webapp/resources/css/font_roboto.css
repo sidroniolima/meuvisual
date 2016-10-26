@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Roboto';
+  src: 	url("#{resource['fonts/Roboto-Black.ttf']}") format('truetype'), 
+  		url("#{resource['fonts/Roboto-BlackItalic.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-Bold.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-BoldItalic.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-Italic.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-Light.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-LightItalic.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-Medium.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-MedimItalic.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-Regular.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-Thin.ttf']}") format('truetype'),
+  		url("#{resource['fonts/Roboto-ThinItalic.ttf']}") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

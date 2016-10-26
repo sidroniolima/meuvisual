@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-logged.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-logged.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+        <div id="content">
+
+            <div class="container">
+                <div class="col-md-12">
+                    <div id="main-slider">
+                        <div class="item">
+                           	<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-slider-1.jpg" alt="Meu Espaço" class="img-responsive"/>
+                        </div>     
+                        <div class="item">
+                           	<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-slider-2.jpg" alt="Meu Espaço" class="img-responsive"/>
+                        </div>                                             
+                    </div>
+                    <!-- /#main-slider -->
+                </div>
+            </div>
+
+            <!-- *** ADVANTAGES HOMEPAGE ***
+ _________________________________________________________ -->
+
+            <div id="advantages">
+
+                <div class="container">
+                    <div class="same-height-row">
+                        <div class="col-sm-4">
+                            <div class="box same-height clickable">
+								<a href="#">
+									<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-esquerda.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+								</a>                                
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="box same-height">
+                            	<a href="https://www.facebook.com/meuvisualoficial/" target="_blank">
+               						<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-centro.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+               					</a>
+               				</div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="box same-height clickable">
+                            	<a href="./passo-a-passo.xhtml">
+									<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-direita.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+								</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row -->
+
+                </div>
+                <!-- /.container -->
+
+            </div>
+             
+            <!-- /#advantages -->
+
+            <!-- *** ADVANTAGES END *** -->
+
+            <!-- *** HOT PRODUCT SLIDESHOW ***
+ _________________________________________________________ -->
+            <div id="hot">
+
+                <div class="box">
+                    <div class="container">
+                        <div class="col-md-12">
+                            <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-novidades-meu-espaco.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="product-slider">
+                        
+                        <ui:repeat 
+                        	var="item" 
+                        	value="#{indexBean.destaques}">
+	                        
+	                        <div class="item">
+	                            <div class="product">
+	                                <div class="flip-container">
+	                                    
+	                                    <div class="flipper">
+	                                        <div class="front">
+	                                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}">
+	                                                <img src="#{res['image-server']}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
+	                                            </a>
+	                                        </div>
+	                                        <div class="back">
+	                                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}">
+	                                                <img src="#{res['image-server']}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(2)}" alt="" class="img-responsive"/>
+	                                            </a>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                
+	                                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}" class="invisible">
+	                                    <img src="#{res['image-server']}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
+	                                </a>
+	                                
+	                                <div class="text">
+	                                    <h5><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}">#{item.descricao}</a></h5>
+	                                    <h6>#{item.codigoInterno}</h6>
+	                                </div>
+	                                <!-- /.text -->
+	                            </div>
+	                            <!-- /.product -->
+	                        </div>
+	                
+	                	</ui:repeat>
+
+                    </div>
+                    <!-- /.product-slider -->
+                </div>
+                <!-- /.container -->
+
+            </div>
+            <!-- /#hot -->
+
+            <!-- *** HOT END *** -->
+
+            <!-- *** GET INSPIRED ***
+ _________________________________________________________ -->
+            <div class="container" data-animate="fadeInUpBig">
+                <div class="col-md-12">
+                    <div class="box slideshow">
+                        <h3>Inspire-se</h3>
+                        <p class="lead">Seja inspirada pelo nosso design exclusivo</p>
+                        <div id="get-inspired" class="owl-carousel owl-theme">
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-1.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-2.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-3.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-4.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- *** GET INSPIRED END *** -->
+
+            <!-- *** BLOG HOMEPAGE ***
+ _________________________________________________________ -->
+
+            <div class="box text-center" data-animate="fadeInUp">
+                <div class="container">
+                    <div class="col-md-12">
+                        <p class="lead">
+                        	<a href="http://meuvisual.com.br/area-exclusiva/novidades/" target="_blank">
+                        		<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-tendencias-blog.jpg" class="img-responsive" alt="Tendências Meu Visual" />
+                        	</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- *** BLOG HOMEPAGE END *** -->
+
+        </div>
+        <!-- /#content -->	
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

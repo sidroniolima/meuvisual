@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+            <div class="container">	
+            
+				<div class="col-md-12">
+                
+                    <ul class="breadcrumb">
+                        <li><a href="#">Home</a>
+
+                        <li>
+                        	<a href="./pesquisa-escolha.xhtml">Escolha</a>
+                        </li>
+                        
+                        </li>
+                        <li>Visualização de escolha</li>
+                    </ul>
+                    
+                </div>
+
+                <div class="col-md-9">
+                
+                    <div class="box" id="box-escolha">
+        	
+        				<h3>Visualização de Escolha</h3>
+        	
+						<div class="row">
+			                <div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-cod">Código</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-cod" 
+			                            	value="#{visualizaEscolhaBean.escolha.codigoFormatado()}"
+			                            	readonly="true"/>				                            	
+				                 	</div>
+				            	</div>
+				            </div>
+				            
+							<div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-status">Status</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-status" 
+			                            	value="#{visualizaEscolhaBean.escolha.status.descricao}"
+			                            	readonly="true"/>		                            	
+				                 	</div>
+				            	</div>
+				            </div>					        
+				            
+			                <div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-codigo-cliente">Código do cliente</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-codigo-cliente" 
+			                            	value="#{visualizaEscolhaBean.escolha.cliente.codigoSiga}"
+			                            	readonly="true"/>				                            	
+				                 	</div>
+				            	</div>
+				            </div>						                
+						
+			                <div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-nome">Nome do cliente</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-nome" 
+			                            	value="#{visualizaEscolhaBean.escolha.cliente.nome}"
+			                            	readonly="true"/>				                            	
+				                 	</div>
+				            	</div>
+				            </div>
+				            
+			                <div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-data">Data</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-data" 
+			                            	value="#{visualizaEscolhaBean.escolha.data}"
+			                            	readonly="true">
+			                            	
+			                            	<f:converter
+			                            		converterId="localDateTimeFacesConverter"/>
+			                            </h:inputText>				                            	
+				                 	</div>
+				            	</div>
+				            </div>
+				            
+							<div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-data-envio">Data de envio</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-data-envio" 
+			                            	value="#{visualizaEscolhaBean.escolha.dataEnvio}"
+			                            	readonly="true">
+			                            	
+			                            	<f:converter
+			                            		converterId="localDateTimeFacesConverter"/>
+			                            </h:inputText>				                            	
+				                 	</div>
+				            	</div>
+				            </div>		
+				            
+							<div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-data-final">Data de finalização</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-data-final" 
+			                            	value="#{visualizaEscolhaBean.escolha.dataFinalizacao}"
+			                            	readonly="true">
+			                            	
+			                            	<f:converter
+			                            		converterId="localDateTimeFacesConverter"/>
+			                            </h:inputText>				                            	
+				                 	</div>
+				            	</div>
+				            </div>
+				            
+							<div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-qtd-itens">Qtd de itens</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-qtd-intes" 
+			                            	value="#{visualizaEscolhaBean.escolha.qtdDeItens()}"
+			                            	readonly="true">
+			                            	
+			                            	<f:convertNumber
+			                            		type="number"
+			                            		locale="pt_BR"/>
+			                            </h:inputText>				                            	
+				                 	</div>
+				            	</div>
+				            </div>		
+				            
+				            <div class="col-md-12">
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
+			                            <label for="input-qtd-intes-nao-descontaveis">Material de apoio</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-qtd-intes-nao-descontaveis" 
+			                            	value="#{atendeEscolhaBean.escolha.qtdDeItensNaoDescontaveis()}"
+			                            	readonly="true">
+			                            	
+			                            	<f:convertNumber
+			                            		type="number"
+			                            		locale="pt_BR"/>
+			                            </h:inputText>				                            	
+				                 	</div>
+					            </div>
+					    	</div>	
+				            
+						</div>											
+						
+					</div>
+					<!-- /.box-escolha -->
+				</div>
+			
+		        <div class="col-md-12" id="table">
+		
+		            <div class="box">
+		
+	                    <h3>Itens do escolha</h3>
+	                    
+	                    <div class="table-responsive">
+	                        <table class="table table-striped table-advance table-hover">
+	                            <thead>
+	                                <tr>
+	                                    <th>Código</th>
+	                                    <th style="width:350px">Descrição</th>
+	                                    <th style="width:250px">Grade</th>
+	                                    <th style="width:250px">Subgrupo</th>
+	                                    <th style="width:100px">Qtd</th>
+	                                </tr>
+	                            </thead>
+	                            
+	                            <tbody>
+	                            
+									<ui:repeat 
+										var="item" 
+									   	value="#{visualizaEscolhaBean.escolha.itens}">		                          
+										<tr>
+										   <td>#{item.produto.codigoInterno}</td>
+										   <td>#{item.produto.descricao}</td>
+										   <td>#{item.grade}</td>
+										   <td>#{item.produto.subgrupo.descricao}</td>
+										   <td>
+										   		<h:outputText 
+										   			value="#{item.qtd}">
+										   			
+										   			<f:convertNumber 
+										   				type="number"
+										   				locale="pt_BR"/>
+										   		</h:outputText>
+										   </td>
+										</tr>
+									</ui:repeat>		                            
+
+                                   </tbody>
+                               </table>
+
+                       	</div>
+                        <!-- /.table-responsive -->
+                  	</div> 
+                  	<!-- /#box -->
+                  	
+            	</div>
+            	<!-- /.cod-md-12 -->
+		            	
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->		
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

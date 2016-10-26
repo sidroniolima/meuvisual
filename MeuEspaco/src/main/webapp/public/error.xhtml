@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"	
+	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	
+	<c:set var="root" value="#{request.contextPath}" />
+	  
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+	       <div id="content">
+	           <div class="container">
+	
+	               <div class="col-md-12">
+	
+	                   <ul class="breadcrumb">
+	                       <li><a href="${root}/private/site/index.xhtml">Home</a>
+	                       </li>
+	                       <li>Ocorreu um erro.</li>
+	                   </ul>
+	
+	
+	                   <div class="row" id="error-page">
+	                       <div class="col-sm-6 col-sm-offset-3">
+	                           <div class="box">
+	
+	                               <p class="text-center">
+										<img src="#{res['image-server']}/imagens/meu-espaco/site/logo.png" alt="Meu Espaço - logo" class="img-responsive"/>
+	                               </p>
+	
+	                               <h3>Desculpe, a ação solicitada gerou um erro inesperado. Tente novamente e 
+	                               caso haja dúvidas entre em contato conosco. :(</h3>
+	                               <h4 class="text-muted">Erro desconhecido.</h4>
+	
+	                               <p class="buttons"><a href="${root}/private/site/index.xhtml" class="btn btn-primary"><i class="fa fa-home"></i> Volte à página inicial</a>
+	                               </p>
+	                           </div>
+	                       </div>
+	                   </div>
+	
+	
+	               </div>
+	               <!-- /.col-md-9 -->
+	           </div>
+	           <!-- /.container -->
+	       </div>
+	       <!-- /#content -->
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  template="/public/template_initial.xhtml"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:p="http://primefaces.org/ui">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+            <div class="container">	
+            
+            <!-- Conteúdo -->
+            
+				<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-cliente.xhtml">Cliente</a>
+			                </li>
+			                <li>
+			                	Cadastro
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->   	
+			 	
+				<div class="row">
+	                <div class="col-md-9">
+	
+	                    <div class="box" id="box-cadastro">
+	        	
+	        				<h3>Atualização de clientes</h3>
+	        	
+			        	   	<h:form 
+			        	   		id="formCadastro"
+			        	   		enctype="multipart/form-data">
+			   			
+				   				<h:messages 
+						    	  	id="messages"
+							      	errorClass="alert alert-block alert-danger fade in"
+							      	infoClass="alert alert-block alert-success fade in"
+						     	 	style="padding-left:0px"
+						     	 	globalOnly="true"/>
+						     	 	
+						   		<h:panelGroup
+						   			id="panel-implantacao"
+						   			rendered="#{not atualizacaoClientesBean.desativaImplantacao}">
+						     	 	
+							     	<div class="box">
+							     	
+							     		<h4>Informações de clientes do ERP.</h4>
+							       	
+										<p:fileUpload 
+									    	value="#{atualizacaoClientesBean.fileERP}" 
+									    	mode="simple" 
+									    	skinSimple="true"
+									    	label="Upload"
+									    	allowTypes="/(\.|\/)(csv$/"
+									    	invalidFileMessage="Esse arquivo não é válido."
+									    	sizeLimit="9999"
+									    	invalidSizeMessage="Tamanho do arquivo não permitido"/>
+									 
+									    <p:commandButton 
+									    	value="Enviar" 
+									    	ajax="false" 
+									    	actionListener="#{atualizacaoClientesBean.importaPreCadastros()}">
+									    		
+									    </p:commandButton>
+									
+									</div>
+									
+									<div class="box">
+									
+										<h4>Informações de senha do sistema legado.</h4>
+				                	
+									    <p:fileUpload 
+									    	value="#{atualizacaoClientesBean.fileLegado}" 
+									    	mode="simple" 
+									    	skinSimple="true"
+									    	label="Upload"
+									    	allowTypes="/(\.|\/)(csv$/"
+									    	invalidFileMessage="Esse arquivo não é válido."
+									    	sizeLimit="9999"
+									    	invalidSizeMessage="Tamanho do arquivo não permitido"/>
+									 
+									    <p:commandButton 
+									    	value="Enviar" 
+									    	ajax="false" 
+									    	actionListener="#{atualizacaoClientesBean.atualizaSenhasDoSistemaLegado()}">
+									    		
+									    </p:commandButton>
+								    </div>
+								    
+									<div class="box">
+									
+										<h4>Informações de Regiões.</h4>
+				                	
+									    <p:fileUpload 
+									    	value="#{atualizacaoClientesBean.fileRegioes}" 
+									    	mode="simple" 
+									    	skinSimple="true"
+									    	label="Upload"
+									    	allowTypes="/(\.|\/)(csv$/"
+									    	invalidFileMessage="Esse arquivo não é válido."
+									    	sizeLimit="9999"
+									    	invalidSizeMessage="Tamanho do arquivo não permitido"/>
+									 
+									    <p:commandButton 
+									    	value="Enviar" 
+									    	ajax="false" 
+									    	actionListener="#{atualizacaoClientesBean.atualiaAsRegioes()}">
+									    		
+									    </p:commandButton>
+								    </div>	
+								    
+								</h:panelGroup>		
+							    
+								<div class="box">
+								
+									<button
+										jsfc="h:commandButton"
+										type="button"
+										class="btn btn-primary" 
+										value="Atualizar..."
+										action="#{atualizacaoClientesBean.atualizaClientesPeloERP()}">
+										
+					                   <f:passThroughAttribute name="data-toggle" value="modal" />
+					                   <f:passThroughAttribute name="data-target" value="#myModal" />
+					                   <f:ajax
+					                   	render="@all"/>										
+										
+									</button>										
+								</div>	
+								
+           		<!-- Modal -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h4 class="modal-title" id="myModalLabel">Espere por favor, executando a atualização de clientes</h4>
+				      </div>
+				      <div class="modal-body">
+							<div class="progress">
+							  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+							  </div>
+							</div>
+				      </div>
+				      <div class="modal-footer">
+				        Esta caixa fechará automaticamente quando finaliazada a atualização.
+				      </div>				      
+				    </div>
+				  </div>
+				</div> 								
+								
+							</h:form>			                	
+					    
+					    </div><!-- /.box-cadastro -->
+					</div><!-- /#col-md-row -->
+				
+				</div> <!-- /.row -->            
+            
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->		
+        
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  template="/public/template_initial.xhtml">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+
+        	<div class="container">
+        	
+	        	<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-cliente.xhtml">Cliente</a>
+			                </li>
+			                <li>
+			                	Cadastro
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->   	
+			 	
+				<div class="row">
+	                <div class="col-md-9">
+	
+	                    <div class="box" id="box-cadastro">
+	        	
+	        				<h3>Cadastro de cliente</h3>
+	        	
+			        	   	<h:form 
+			        	   		id="formCadastro">
+			   			
+				   				<h:messages 
+						    	  	id="messages"
+							      	errorClass="alert alert-block alert-danger fade in"
+							      	infoClass="alert alert-block alert-success fade in"
+						     	 	style="padding-left:0px"
+						     	 	globalOnly="true"/>
+						       	
+								<div class="row">
+					                <div class="col-md-12">
+						
+										<h:inputHidden
+						            		value="#{cadastroClienteBean.cliente.codigo}"/>
+
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-codigo">Código</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-codigo" 
+					                            	pt:placeholder="Código"
+					                            	value="#{cadastroClienteBean.cliente.codigoSiga}"
+					                            	readonly="#{cadastroClienteBean.cliente.status == 'ATIVO'}"/>
+					                        </div>
+					                 	</div>
+					                 	
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-status">Status <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroClienteBean.cliente.status}"
+					                          		id="select-status"
+					                          		required="true"
+					                          		requiredMessage="Informe o status do cliente.">
+					                          		
+					                          		<f:selectItem 
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroClienteBean.status}"
+					                          			var="status"
+					                          			itemLabel="#{status.descricao}"
+					                          			itemValue="#{status}"/>
+					                          		
+					                          		<f:ajax
+					                          			event="change"
+					                          			render="m_select-status"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-status" 
+								                   	for="select-status"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>							                 	
+										
+										<div class="col-sm-8"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-nome">Nome <span class="required">*</span></label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-nome" 
+					                            	pt:placeholder="Nome"
+					                            	value="#{cadastroClienteBean.cliente.nome}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar o nome.">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-nome" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-nome" 
+								                   	for="input-nome"
+								                   	class="alert-danger fade in"/>				                            	
+						                 	</div>
+						            	</div>
+						            	
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-regiao">Região <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroClienteBean.cliente.regiao}"
+					                          		id="select-regiao"
+					                          		required="true"
+					                          		requiredMessage="O cliente deve pertencer a uma região.">
+					                          		
+					                          		<f:selectItem 
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroClienteBean.regioes}"
+					                          			var="regiao"
+					                          			itemLabel="#{regiao.descricao}"
+					                          			itemValue="#{regiao}"/>
+					                          		
+					                          		<f:ajax
+					                          			event="change"
+					                          			render="m_select-regiao"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-regiao" 
+								                   	for="select-regiao"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>						            	
+						            	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cpf">Cpf <span class="required">*</span></label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-cpf" 
+					                            	pt:placeholder="Cpf somente números"
+					                            	value="#{cadastroClienteBean.cliente.cpf}"
+					                            	converter="cpfFacesConverter">
+					                            	
+						                        	<f:ajax
+						                          		event="blur"
+						                          		render="m_input-cpf"/>
+					                          	</h:inputText>
+
+								                <h:message 
+								                   	id="m_input-cpf" 
+								                   	for="input-cpf"
+								                   	class="alert-danger fade in"/>						                          	
+					                          	
+					                        </div>
+					                 	</div>
+					                 	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-rg">Rg</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-rg" 
+					                            	pt:placeholder="Rg somente números"
+					                            	value="#{cadastroClienteBean.cliente.rg}"
+					                            	converter="rgFacesConverter">
+					                            	
+					                          	</h:inputText>
+					                          	
+					                        </div>
+					                 	</div>			
+					                 	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-telefone-fixo">Telefone fixo</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-telefone-fixo" 
+					                            	pt:placeholder="Informe o telefone com ddd"
+					                            	value="#{cadastroClienteBean.cliente.telefoneFixo}">
+					                            	
+						                        	<f:ajax
+						                          		event="blur"
+						                          		render="m_input-telefone-fixo"/>
+					                          	</h:inputText>
+
+								                <h:message 
+								                   	id="m_input-telefone-fixo" 
+								                   	for="input-telefone-fixo"
+								                   	class="alert-danger fade in"/>						                          	
+					                          	
+					                        </div>
+					                 	</div>			
+					                 	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-celular">Celular</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-celular" 
+					                            	pt:placeholder="Informe o celular com ddd"
+					                            	value="#{cadastroClienteBean.cliente.celular}">
+					                            	
+						                        	<f:ajax
+						                          		event="blur"
+						                          		render="m_input-celular"/>
+					                          	</h:inputText>
+
+								                <h:message 
+								                   	id="m_input-celular" 
+								                   	for="input-celular"
+								                   	class="alert-danger fade in"/>						                          	
+					                          	
+					                        </div>
+					                 	</div>		
+					                 	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-email">Email <span class="required">*</span></label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-email" 
+					                            	pt:placeholder="Informe um email válido"
+					                            	value="#{cadastroClienteBean.cliente.email}">
+					                            	
+						                        	<f:ajax
+						                          		event="blur"
+						                          		render="m_input-email"/>
+					                          	</h:inputText>
+
+								                <h:message 
+								                   	id="m_input-email" 
+								                   	for="input-email"
+								                   	class="alert-danger fade in"/>						                          	
+					                          	
+					                        </div>
+					                 	</div>		
+					                 	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-qtd-escolha">Qtd para escolha <span class="required">*</span></label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-qtd-escolha" 
+					                            	value="#{cadastroClienteBean.cliente.qtdDePecasParaEscolha}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar a quantidade.">
+					                            	
+					                            	<f:convertNumber 
+					                            		type="number"
+					                            		maxFractionDigits="0"/>
+					                            	
+						                        	<f:ajax
+						                          		event="blur"
+						                          		render="m_input-qtd-escolha"/>
+					                          	</h:inputText>
+
+								                <h:message 
+								                   	id="m_input-qtd-escolha" 
+								                   	for="input-qtd-escolha"
+								                   	class="alert-danger fade in"/>						                          	
+					                          	
+					                        </div>
+					                 	</div>					                 	
+						            	
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	action="#{cadastroClienteBean.salvar()}"
+					                        	value="Salvar">
+					                        	
+					                        	<f:ajax
+					                        		execute="@form"
+					                        		render="formCadastro"/>
+				                        	</h:commandButton>
+			                        	</div>
+					    			</div><!-- /.col-md-12 -->
+			                         
+			                	</div><!-- /.row -->
+					    
+					    	</h:form>
+					    	
+					    </div><!-- /.box-cadastro -->
+					</div><!-- /#col-md-row -->
+				
+				</div> <!-- /.row -->
+			
+			</div><!-- /.container -->
+    	
+    	</div> 
+		<!-- /#content -->
+		
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

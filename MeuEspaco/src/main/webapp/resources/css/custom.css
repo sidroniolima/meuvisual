@@ -1,0 +1,393 @@
+/** Your theme modifications here **/
+
+.square
+{
+	width: 20px;
+    height: 20px;
+}
+.cor-000000
+{
+	background-color: #000000;
+}
+
+/** Ametista Rosa **/
+.cor-FFCCFF
+{
+	background-color: #FFCCFF;
+}
+
+/** Amarelo **/
+.cor-FFFF00
+{
+	background-color: #FFFF00;
+}
+
+/** Ametista verde **/
+.cor-999999
+{
+	background-color: #999999;
+}
+
+/** Ametista **/
+.cor-9966CC
+{
+	background-color: #9966CC;
+}
+	
+/** Apatita **/
+.cor-0099CC
+{
+	background-color: #0099CC;
+}
+
+/** Azul claro **/
+.cor-1E90FF
+{
+	background-color: #1E90FF;
+}
+
+/** Azul escuro **/
+.cor-00008B
+{
+	background-color: #00008B;
+}
+
+/** Branco p�rola **/
+.cor-F2F2F2
+{
+	background-color: #F2F2F2;
+}
+
+/** Branco **/
+.cor-FAFAFA
+{
+	background-color: #FAFAFA;
+}
+
+/** Bronze **/
+.cor-886A08
+{
+	background-color: #886A08;
+}
+
+/** C rosa leitoso **/
+.cor-FFCCCC
+{
+	background-color: #FFCCCC;
+}
+
+/** Caramelo **/
+.cor-B45F04
+{
+	background-color: #B45F04;
+}
+
+/** Cb leitoso **/
+.cor-FFFFFF
+{
+	background-color: #FFFFFF;
+}
+
+/** Cinza **/
+.cor-CDC0B0
+{
+	background-color: #CDC0B0;
+}
+
+/** Citrino champagne **/
+.cor-FFFFCC
+{
+	background-color: #FFFFCC;
+}
+
+/** Citrino conhaque **/
+.cor-663300
+{
+	background-color: #663300;
+}
+
+/** Citrino lim�o **/
+.cor-CCCC66
+{
+	background-color: #CCCC66;
+}
+
+/** Citrino **/
+.cor-FF6600
+{
+	background-color: #FF6600;
+}
+
+/** Cobre **/
+.cor-8A4B08
+{
+	background-color: #8A4B08;
+}
+
+/** Cristal **/
+.cor-CCCCCC
+{
+	background-color: #CCCCCC;
+}
+
+/** Esmeralda **/
+.cor-006600
+{
+	background-color: #006600;
+}
+
+/** Fum� **/
+.cor-666633
+{
+	background-color: #666633;
+}
+
+/** Furta-cor **/
+.cor-FFFFE0
+{
+	background-color: #FFFFE0;
+}
+
+/** Jade **/	
+.cor-00a86b
+{
+	background-color: #00a86b;
+}
+
+/** Jade Clara **/	
+.cor-00d285
+{
+	background-color: #00d285;
+}
+
+/** Jade Escura **/	
+.cor-149365
+{
+	background-color: #149365;
+}
+
+/** Jaspe Marrom **/	
+.cor-8B4513
+{
+	background-color: #8B4513;
+}
+
+/** Kunzita **/
+.cor-810886
+{
+	background-color: #810886;
+}
+
+/** Laranja **/
+.cor-FFA500
+{
+	background-color: #FFA500;
+}
+
+/** Lil�s **/
+.cor-B23AEE
+{
+	background-color: #B23AEE;
+}
+
+/** Marfim **/
+.cor-F8ECE0
+{
+	background-color: #F8ECE0;
+}
+
+/** Morganita **/
+.cor-FF9966
+{
+	background-color: #FF9966;
+}
+
+/** Nude **/
+.cor-d9c8aa
+{
+	background-color: #d9c8aa;
+}
+
+
+/** Onix **/
+.cor-000000
+{
+	background-color: #000000;
+}
+
+/** Para�ba brasil **/
+.cor-33CCCC
+{
+	background-color: #33CCCC;
+}
+
+/** Para�ba verde **/
+.cor-66FF99
+{
+	background-color: #66FF99;
+}
+
+/** Para�ba **/
+.cor-33CCCC
+{
+	background-color: #33CCCC;
+}
+
+/** Pink **/
+.cor-FF0040
+{
+	background-color: #FF0040;
+}
+
+/** Preto **/
+.cor-000000
+{
+	background-color: #000000;
+}
+
+/** Rodolita **/
+.cor-FF6699
+{
+	background-color: #FF6699;
+}
+
+/** Rosa beb� **/
+.cor-F6CED8
+{
+	background-color: #F6CED8;
+}
+
+/** Rosa **/
+.cor-F781BE
+{
+	background-color: #F781BE;
+}
+
+/** Rubelita **/
+.cor-FF0066
+{
+	background-color: #FF0066;
+}
+
+/** Rubi **/
+.cor-660033
+{
+	background-color: #660033;
+}
+
+/** Rutilado **/
+.cor-FF9933
+{
+	background-color: #FF9933;
+}
+
+/** Safira rosa **/
+.cor-FF3399
+{
+	background-color: #FF3399;
+}
+
+/** Safira **/
+.cor-0000FF
+{
+	background-color: #0000FF;
+}	#2c6bcd
+
+/** Safira Light **/
+.cor-2c6bcd
+{
+	background-color: #2c6bcd;
+}	
+
+/** Tanzanita **/
+.cor-9999FF
+{
+	background-color: #9999FF;
+}
+
+/** Topazio imperial **/
+.cor-DF3A01
+{
+	background-color: #DF3A01;
+}
+
+/** Topazio london **/
+.cor-006699
+{
+	background-color: #006699;
+}
+
+/** Topazio sky **/
+.cor-00CCFF
+{
+	background-color: #00CCFF;
+}
+
+/** Topazio swiss **/
+.cor-0099FF
+{
+	background-color: #0099FF;
+}
+
+/** Topazio **/
+.cor-0489B1
+{
+	background-color: #0489B1;
+}
+
+/** Turmalina Brasil **/
+.cor-6B8E23
+{
+	background-color: #6B8E23;
+}
+
+/** Turmalina verde **/
+.cor-003300
+{
+	background-color: #003300;
+}
+
+/** Turquesa **/
+.cor-00CED1
+{
+	background-color: #00CED1;
+}
+
+/** Verde escuro **/
+.cor-008B00
+{
+	background-color: #008B00;
+}
+
+/** Verde **/
+.cor-00FF00
+{
+	background-color: #00FF00;
+}
+
+/** Vermelho **/
+.cor-00FF00
+{
+	background-color: #00FF00;
+}
+
+/** Vinho **/
+.cor-8B0000
+{
+	background-color: #8B0000;
+}
+
+/** Colorido **/
+.cor-colorido
+{
+	background: -moz-linear-gradient(left,  #000000 0%, #000000 50%, #ffffff 51%, #ffffff 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#000000), color-stop(50%,#000000), color-stop(51%,#ffffff), color-stop(100%,#ffffff));
+	background: -webkit-linear-gradient(left,  #000000 0%,#000000 50%,#ffffff 51%,#ffffff 100%);
+	background: -o-linear-gradient(left,  #000000 0%,#000000 50%,#ffffff 51%,#ffffff 100%);
+	background: -ms-linear-gradient(left,  #000000 0%,#000000 50%,#ffffff 51%,#ffffff 100%);
+	background: linear-gradient(to right,  #00FF00 0%,#00FF00 32%, #6B8E23 33%, #6B8E23 66%, #9999FF 67%,#9999FF 100%);
+}
+
+.upper-case{
+	text-transform: capitalize;
+}

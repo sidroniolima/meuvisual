@@ -1,0 +1,665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  template="/public/template_initial.xhtml">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+
+        	<div class="container">
+
+	        	<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-produto.xhtml">Produto</a>
+			                </li>
+			                <li>
+			                	Cadastro
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->   
+			 	
+			 	<h:form id="frm-cadastro">
+			 	
+				 	<div class="row" id="row-cadastro"> 	
+	
+		                <div class="col-md-9">
+		                
+							<h:messages 
+					    	  	id="messages"
+						      	errorClass="alert alert-block alert-danger fade in"
+						      	infoClass="alert alert-block alert-success fade in"
+					     	 	style="padding-left:0px"
+					     	 	globalOnly="true"/>		                
+		
+		                    <div class="box" id="box-cadastro">
+		        	
+		        				<h3>Cadastro de produto</h3>
+		        	
+								<div class="row">
+					                <div class="col-md-12">
+						
+										<h:inputHidden
+						            		value="#{cadastroProdutoBean.produto.codigo}"/>
+										
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cod-interno">Código externo</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-cod-interno" 
+					                            	pt:placeholder="Código"
+					                            	value="#{cadastroProdutoBean.produto.codigoInterno}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar um código.">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-cod-interno" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-cod-interno" 
+								                   	for="input-cod-interno"
+								                   	class="alert-danger fade in"/>				                            	
+						                 	</div>
+						            	</div>
+						            	
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-descricao">Descrição</label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-descricao" 
+					                            	pt:placeholder="Descrição"
+					                            	value="#{cadastroProdutoBean.produto.descricao}">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-descricao" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-descricao" 
+								                   	for="input-descricao"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>		
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-finalidade">Finalidade <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.finalidade}"
+					                          		id="select-finalidade"
+					                          		required="true"
+					                          		requiredMessage="Informe a finalidade do produto.">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione a finalidade do produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.finalidades}"
+					                          			var="fim"
+					                          			itemLabel="#{fim.descricao}"
+					                          			itemValue="#{fim}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-finalidade"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-finalidade" 
+								                   	for="select-finalidade"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>												
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-departamento">Departamento <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.departamento}"
+					                          		id="select-departamento"
+					                          		required="true"
+					                          		requiredMessage="Informe o departamento do produto.">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione o departamento do produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.departamentos}"
+					                          			var="dep"
+					                          			itemLabel="#{dep.descricao}"
+					                          			itemValue="#{dep}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-departamento @form"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-departamento" 
+								                   	for="select-departamento"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>			
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-tipoProduto">Tipo <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.tipoProduto}"
+					                          		id="select-tipoProduto"
+					                          		required="true"
+					                          		requiredMessage="Informe o tipo do produto.">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione o tipoProduto do produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.tiposProdutos}"
+					                          			var="tipo"
+					                          			itemLabel="#{tipo.descricao}"
+					                          			itemValue="#{tipo}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-tipoProduto @form"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-tipoProduto" 
+								                   	for="select-tipoProduto"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>		
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-composicao-produto">Composição <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.composicao}"
+					                          		id="select-composicao-produto"
+					                          		required="true"
+					                          		requiredMessage="Informe o composicao do produto.">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione a composicao do produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.composicoes}"
+					                          			var="composicao"
+					                          			itemLabel="#{composicao.descricao}"
+					                          			itemValue="#{composicao}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-composicao-produto @form"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-composicao-produto" 
+								                   	for="select-composicao-produto"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>						                    					                    								
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-subgrupo">Subgrupo <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.subgrupo}"
+					                          		id="select-subgrupo"
+					                          		required="true"
+					                          		requiredMessage="Informe o subgrupo do produto.">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione a família, grupo, subgrupo"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.subgrupos}"
+					                          			var="subgrupo"
+					                          			itemLabel="#{subgrupo}"
+					                          			itemValue="#{subgrupo}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-subgrupo @form"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-subgrupo" 
+								                   	for="select-subgrupo"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>											
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-tipo-grade">Tipo de grade <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.tipoGrade}"
+					                          		id="select-tipo-grade"
+					                          		required="true"
+					                          		requiredMessage="Informe o tipo de grade do produto."
+					                          		valueChangeListener="#{cadastroProdutoBean.handleSelecaoDeTipoGrade}"
+					                          		disabled="#{cadastroProdutoBean.produto.tipoGrade != null}">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione o tipo de grade do produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.tiposGrades}"
+					                          			var="tipo"
+					                          			itemLabel="#{tipo.descricao}"
+					                          			itemValue="#{tipo}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="frm-cadastro:select-tipo-grade frm-cadastro:m_select-tipo-grade frm-cadastro:panel-grade"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-tipo-grade" 
+								                   	for="select-tipo-grade"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>		
+
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-un">Unidade <span class="required">*</span></label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{cadastroProdutoBean.produto.unidade}"
+					                          		id="select-un"
+					                          		required="true"
+					                          		requiredMessage="Informe a unidade do produto.">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione a unidade do produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{cadastroProdutoBean.unidades}"
+					                          			var="un"
+					                          			itemLabel="#{un.descricao}"
+					                          			itemValue="#{un}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-un"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-un" 
+								                   	for="select-un"
+								                   	class="alert-danger fade in"/>				                          	
+					                          	
+					                        </div>
+					                    </div>							                    
+					                    
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-estoque-minimo">Estoque mínimo</label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-estoque-minimo" 
+					                            	pt:placeholder="Limite inferior do estoque"
+					                            	value="#{cadastroProdutoBean.produto.estoqueReposicao}">
+					                            	
+					                            	<f:convertNumber 
+					                            		locale="pt_BR"/>
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-estoque-minimo" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-estoque-minimo" 
+								                   	for="input-estoque-minimo"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>		
+										
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-estoque-maximo">Limite máximo</label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-estoque-maximo" 
+					                            	pt:placeholder="Limite superior do estoque"
+					                            	value="#{cadastroProdutoBean.produto.estoqueMaximo}">
+					                            	
+					                            	<f:convertNumber 
+					                            		locale="pt_BR"/>
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-estoque-maximo" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-estoque-maximo" 
+								                   	for="input-estoque-maximo"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>		
+										
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="check-ativo">Ativo</label>
+					                            <h:selectBooleanCheckbox
+					                            	id="check-ativo" 
+					                            	value="#{cadastroProdutoBean.produto.ativo}">
+					                            	<f:ajax/>
+					                            </h:selectBooleanCheckbox>
+						                 	</div>
+						            	</div>										
+					                    
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	action="#{cadastroProdutoBean.salvar()}"
+					                        	value="Salvar">
+					                        	
+					                        	<f:ajax
+					                        		execute="@this"
+					                        		render="frm-cadastro"/>
+				                        	</h:commandButton>
+			                        	</div>
+					    			</div><!-- /.col-md-12 -->
+			                         
+			                	</div><!-- /.row -->
+						    
+						    </div><!-- /.box-cadastro -->
+						</div><!-- /#col-md-row -->
+						
+					</div> <!-- /.row row-cadastro -->
+					
+					<div class="row" id="row-caracteristicas"> <!--  -->
+	
+						<div class="col-md-9">
+						
+			   				<h:messages 
+					    	  	id="messages-caracteristicas"
+						      	errorClass="alert alert-block alert-danger fade in"
+						      	infoClass="alert alert-block alert-success fade in"
+					     	 	style="padding-left:0px"
+					     	 	globalOnly="true"/>						
+		
+		                    <div class="box" id="box-cadastro">
+		        	
+		        				<h3>Características do produto</h3>
+		        	
+		        				<h:panelGroup
+		        					id="panel-caracteristica">
+		        					
+									<div class="row">
+						                <div class="col-md-12">
+							
+						                    <div class="col-sm-6">    
+						                        <div class="form-group">
+						                        
+						                            <label for="select-caracteristica">Característica <span class="required">*</span></label>
+						                          	<h:selectOneMenu 
+						                          		styleClass="form-control"
+						                          		value="#{cadastroProdutoBean.caracteristica}"
+						                          		id="select-caracteristica"
+						                          		converter="caracteristicaConverter">
+						                          		
+						                          		<f:selectItem 
+						                          			noSelectionOption="true"/>
+						                          			
+						                          		<f:selectItems
+						                          			value="#{cadastroProdutoBean.caracteristicas}"
+						                          			var="cara"
+						                          			itemLabel="#{cara.descricao}"
+						                          			itemValue="#{cara}"/>
+						                          			
+						                          	</h:selectOneMenu>  						                            
+						                            
+						                        </div>
+						                    </div>
+						                    
+						                    <div class="col-sm-6">    
+												<div class="form-group">
+					                        
+						                            <label for="input-valor-caracteristica">Valor</label>
+						                            <h:inputText
+						                            	class="form-control" 
+						                            	id="input-valor-caracteristica" 
+						                            	value="#{cadastroProdutoBean.valorCaracteristica}">
+						                            	
+									              	</h:inputText>
+					                            	
+					                        	</div>						                        
+											</div>		
+							            		
+				                        	<div class="col-sm-12 text-center">                        
+						                        <h:commandButton
+						                        	class="btn btn-primary"
+						                        	action="#{cadastroProdutoBean.adicionaCaracteristica()}"
+						                        	value="Adicionar">
+						                        	
+						                        	<f:ajax
+						                        		execute="@form"
+						                        		render="frm-cadastro"/>
+					                        	</h:commandButton>
+				                        	</div>
+						    			</div><!-- /.col-md-12 -->
+				                         
+				                	</div><!-- /.row -->
+				                </h:panelGroup> <!-- /#panel-caracteristicas -->
+				                
+						    </div><!-- /.box-cadastro -->
+						</div><!-- /#col-md-row -->
+					
+					</div> <!-- /.row row-caracteristicas -->	
+					
+					<div class="row" id="row-lista-de-características"> <!--  -->
+	
+						<div class="col-md-9">
+
+							<div class="box">
+				
+			                    <div class="table-responsive">
+			                        <table class="table table-striped table-advance table-hover">
+			                            <thead>
+			                                <tr>
+			                                    <th>Característica</th>
+			                                    <th>Valor</th>
+			                                    <th style="text-align: right">Controle</th>
+			                                </tr>
+			                            </thead>
+			                            
+			                            <tbody>
+			                            
+											<ui:repeat 
+												var="entry" 
+											   	value="#{cadastroProdutoBean.produto.caracteristicas.entrySet().toArray()}">		                          
+												<tr>
+												   
+												   <td>#{entry.key.descricao}</td>
+												   <td>#{entry.value}</td>
+												   
+												   <td style="text-align: right">
+													   
+													   <div class="btn-group" >
+															<a class="btn btn-danger" 
+																jsfc="h:commandLink"
+																type="button"
+																immediate="true">
+											                  
+													        	<f:setPropertyActionListener 
+													        		value="#{entry.key}" 
+													        		target="#{cadastroProdutoBean.caracteristicaSelecionada}"/>
+											                   												        	
+											                   <f:passThroughAttribute name="data-toggle" value="modal" />
+											                   <f:passThroughAttribute name="data-target" value="#myModal-caracteristica" />
+											                   <f:ajax/>
+															
+																<i class="icon_close_alt2"></i>
+															</a>
+													    </div>
+												    </td>
+												</tr>
+											</ui:repeat>		                            
+	
+	                                    </tbody>
+	                                </table>
+		
+		                       	</div>
+		                        <!-- /.table-responsive -->
+		                  	</div> 
+		                  	<!-- /#box -->						
+						
+						</div>
+					</div>	<!-- /.row-lista-de-características -->	
+					
+					<div class="row" id="modal-exclusao-caracteristica">
+		            	
+		            	<div class="col-md-12">
+		                            
+							<div class="modal fade" id="myModal-caracteristica" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+						    	<div class="modal-dialog modal-md">
+						        	<div class="modal-content">
+						                	<div class="modal-header">
+						                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						                    	<h4 class="modal-title">Confirmação de exclusão</h4>
+						                	</div>
+						                	<div class="modal-body">
+						                		<h:panelGroup 
+							                		layout="block" 
+							                		id="panelDescricao-caracteristica">
+							                	
+							                		Deseja realmente remover a característica selecionada?
+							                		<div 
+				                						style="text-align:right"
+				                						id="btns-confirm-caracteristica">
+								                	
+								                		<a  type="submit"
+								                			class="btn btn-warning btn-sm"
+								                			jsfc="h:commandLink"
+								                			action="#{cadastroProdutoBean.removeCaracteristica()}">
+								                			Sim
+														
+															<f:passThroughAttribute name="data-dismiss" value="modal" />
+															<f:ajax
+										               			execute="@form"
+										               			render="@all"/>
+														</a>
+							                		
+							                			<button 
+							                				id="close-caracteristica"
+							                				type="submit" 
+							                				class="btn btn-info btn-sm">Não</button>
+							                		</div>
+							                		<!-- /.btns-confirm -->
+							                		
+						                		</h:panelGroup>
+						                	</div>
+						
+						        	</div>
+						    	</div>
+							</div>	
+		                        
+		                </div>
+		                <!-- /.col-md-12 -->
+		         	
+		         	</div>
+		         	<!-- /.row modal-exclusao-caracteristica-->				         				
+						
+				</h:form>
+			
+			</div><!-- /.container -->
+    	
+    	</div> 
+		<!-- /#content -->
+		
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

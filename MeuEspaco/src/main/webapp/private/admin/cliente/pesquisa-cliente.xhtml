@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  template="/public/template_initial.xhtml"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+		    <div class="container">
+		    
+		    	<h:form 
+		        	id="form-pesquisa">
+		        	
+	   				<h:messages 
+			      		id="messages"
+			      		errorClass="alert alert-block alert-danger fade in"
+			      		infoClass="alert alert-success fade in"
+			      		style="padding-left:0px;"/>		        	
+		        	
+		        	<div class="row">
+		
+				        <div class="col-md-12">
+				            <ul class="breadcrumb">
+				                <li>
+				                	<a href="#">Home</a>
+				                </li>
+				                <li>
+				                	<a href="./cadastro-cliente.xhtml">Cliente</a>
+				                </li>
+				                <li>
+				                	Pesquisa
+				                </li>				                
+				            </ul>
+				        </div>
+				 	</div>
+				 	<!-- /.row -->
+				 	
+				 	<div class="row">
+				 	
+						<!-- Div FILTRO -->
+				        <div class="col-md-12" id="filtro">
+				
+				            <div class="box">
+				
+			                    <h4>Filtro</h4>	
+			                    
+			                    <h:form
+			                    	id="form-filtro"
+			                    	styleClass="form-inline">
+			                    	
+			                    	<div class="row">
+			                    
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cod-siga">Código Siga</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-cod-siga" 
+					                            	value="#{pesquisaClienteBean.filtro.codigoSiga}"/>				                            	
+						                 	</div>
+						            	</div>
+
+					                    <div class="col-sm-4"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cpf">Cpf</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-cpf" 
+					                            	value="#{pesquisaClienteBean.filtro.cpf}">
+					                            	
+					                            	<f:converter
+					                            		converterId="cpfFacesConverter"/>
+					                            </h:inputText>				                            	
+						                 	</div>
+						            	</div>		
+						            	
+					                    <div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-nome">Nome</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-nome" 
+					                            	value="#{pesquisaClienteBean.filtro.nome}"/>				                            	
+						                 	</div>
+						            	</div>							            	
+						            	
+						            	<div class="col-sm-2"> 	
+						            		<br/>			            	
+						            	
+											<div class="form-group">
+											
+						                        <h:commandButton
+						                        	id="btn-filtrar"
+						                        	styleClass="btn btn-primary"
+						                        	action="#{pesquisaClienteBean.filtra()}"
+						                        	value="Filtrar">
+						                        	
+						                        	<f:ajax
+						                        		execute="@form"
+						                        		render=":form-pesquisa:panel-clientes :form-pesquisa:panel-load-more"/>
+					                        	</h:commandButton>
+					                        </div>
+					                	</div>
+			                        </div>
+
+		                    	</h:form>
+		                    	<!-- /form-filtro -->
+		                    	
+		                  	</div> 
+		                  	<!-- /#box -->
+		                  	
+		            	</div>
+		            	<!-- /.cod-md-12 filtro-->					 	
+				 	
+				 		<h:panelGroup
+				 			id="panel-clientes">				 	
+				
+					        <div class="col-md-12" id="table">
+					
+					            <div class="box">
+					
+				                    <h3>Pesquisa de cliente</h3>
+				                    
+				                    <div class="table-responsive">
+				                        <table class="table table-striped table-advance table-hover">
+				                            <thead>
+				                                <tr>
+				                                    <th style="width:120px">Status</th>
+				                                    <th style="width:50px">Código</th>
+				                                    <th style="width:260px">Nome</th>
+				                                    <th style="width:130px">Cpf</th>
+				                                    <th style="width:130px">Rg</th>
+				                                    <th style="width:350px">Região</th>
+				                                    <th style="width:180px; text-align: right">Controle</th>
+				                                </tr>
+				                            </thead>
+				                            
+				                            <tbody>
+				                            
+												<ui:repeat 
+													var="cliente" 
+												   	value="#{pesquisaClienteBean.clientes}">		                          
+													<tr>
+														<td>#{cliente.status.descricao}</td>
+													  	<td>#{cliente.codigoSiga}</td>
+													   	<td>
+													   		<div style="overflow: hidden; width:280px">
+													   			#{cliente.nome}
+													   		</div>
+													   	</td>
+													   	<td>#{cliente.cpf.valor}</td>
+													  	<td>#{cliente.rg.valor}</td>
+													  	<td>#{cliente.regiao.descricao}</td>
+													   
+													   	<td style="text-align: right">
+														   <div class="btn-group" >
+														        <h:link
+														        	styleClass="btn btn-warning" 
+														        	outcome="cadastro-cliente"
+														        	includeViewParams="true">
+														        	
+														        		<f:param
+														        			name="paramCodigo"
+														        			value="#{cliente.codigo}"/>
+														        			
+																	<i class="icon_check_alt2"></i>
+														        </h:link>
+	
+																<a class="btn btn-primary" 
+																	jsfc="h:commandLink"
+																	action="#{pesquisaClienteBean.efetivaCadastro()}"
+																	title="Efetivar cadastro"
+																	disabled="#{cliente.status != 'PRE_CADASTRO'}">
+												                  
+												                   <f:setPropertyActionListener 
+												                  	 	value="#{cliente}" 
+												                  	 	target="#{pesquisaClienteBean.clienteSelecionado}"/>
+												                   												        	
+												                   <f:ajax
+												                   		execute="@this"
+												                   		render="@form"/>
+																
+																	<i class="icon_heart_alt"></i>
+																</a>													        
+														        
+																<a class="btn btn-danger" 
+																	jsfc="h:commandLink"
+																	type="button"
+																	immediate="true">
+												                  
+												                   <f:setPropertyActionListener 
+												                  	 	value="#{cliente}" 
+												                  	 	target="#{pesquisaClienteBean.clienteSelecionado}"/>
+												                   												        	
+												                   <f:passThroughAttribute name="data-toggle" value="modal" />
+												                   <f:passThroughAttribute name="data-target" value="#myModal" />
+												                   <f:ajax/>
+																
+																	<i class="icon_close_alt2"></i>
+																</a>
+														    </div>
+													    </td>
+													</tr>
+												</ui:repeat>		                            
+		
+		                                    </tbody>
+		                                </table>
+			
+			                       	</div>
+			                        <!-- /.table-responsive -->
+			                  	</div> 
+			                  	<!-- /#box -->
+			                  	
+			            	</div>
+			            	<!-- /.cod-md-12 -->
+			            	
+			            </h:panelGroup>
+		            	
+		            </div>
+		            <!-- /.row -->
+		            
+		            <div class="row">
+		            	
+		            	<div class="col-md-12">
+		                            
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+						    	<div class="modal-dialog modal-md">
+						        	<div class="modal-content">
+						            	<h:form id="myForm">
+						                	<div class="modal-header">
+						                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						                    	<h4 class="modal-title">Confirmação de exclusão</h4>
+						                	</div>
+						                	<div class="modal-body">
+						                		<h:panelGroup 
+							                		layout="block" 
+							                		id="panelDescricao">
+							                	
+							                		Deseja realmente excluir o cliente selecionado?
+							                		<div 
+				                						style="text-align:right"
+				                						id="btns-confirm">
+								                	
+								                		<a  type="submit"
+								                			class="btn btn-warning btn-sm"
+								                			jsfc="h:commandLink"
+								                			action="#{pesquisaClienteBean.excluir()}">
+								                			Sim
+														
+															<f:passThroughAttribute name="data-dismiss" value="modal" />
+															<f:ajax
+										               			execute="@this"
+										               			render="form-pesquisa"/>
+														</a>
+							                		
+							                			<button 
+							                				id="close"
+							                				type="submit" 
+							                				class="btn btn-info btn-sm">Não</button>
+							                		</div>
+							                		<!-- /.btns-confirm -->
+							                		
+						                		</h:panelGroup>
+						                	</div>
+						
+						            	</h:form>
+						        	</div>
+						    	</div>
+							</div>	
+		                        
+		                </div>
+		                <!-- /.col-md-12 -->
+		         	
+		         	</div>
+		         	<!-- /.row -->
+		         	
+		         	<div class="row">
+		         	
+			        	<h:panelGroup
+							id="panel-load-more">
+						    
+						    <div class="pages">
+						    
+				                <div class="col-md-12" id="paginator">
+				                
+									<nav style="text-align:center">
+						     				
+									  <ul class="pagination">
+									  
+									    <li>
+									    	<a
+									    		jsfc="h:commandLink"
+									    		actionListener="#{pesquisaClienteBean.paginator.previous()}"
+									    		action="#{pesquisaClienteBean.listarComPaginacao()}" 
+									    		value="«">
+
+							                   	<f:ajax
+							                   		render="panel-clientes"/>   
+									    	</a>
+									    </li>
+									    
+									    <c:forEach 
+									    	begin="0" 
+									    	end="#{pesquisaClienteBean.paginator.partesVisiveis() - 1}"
+									    	var="index">
+									    
+										    <li>
+									    		<a
+									    			jsfc="h:commandLink"
+										    		actionListener="#{pesquisaClienteBean.paginator.goTo(index)}" 
+										    		action="#{pesquisaClienteBean.listarComPaginacao()}"
+										    		value="#{index+1}" >
+										    		
+								                   	<f:ajax
+								                   		render="panel-clientes"/>   
+										    	</a>
+										    </li>
+									    </c:forEach>
+
+									    <li class="disabled"
+											style="#{not pesquisaClienteBean.paginator.particionado ? 'display:none' : ''}">
+									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
+									    </li>
+									    <li
+									    	style="#{not pesquisaClienteBean.paginator.particionado ? 'display:none' : ''}">
+									      <h:commandLink
+									    		actionListener="#{pesquisaClienteBean.paginator.goToLast()}" 
+									    		action="#{pesquisaClienteBean.listarComPaginacao()}"
+									    		value="#{pesquisaClienteBean.paginator.partes}">
+									    		
+							                   	<f:ajax
+							                   		render="panel-clientes"/>   
+									    	</h:commandLink>
+									    </li>
+									    <li>
+									      <h:commandLink
+									    		actionListener="#{pesquisaClienteBean.paginator.next()}" 
+									    		action="#{pesquisaClienteBean.listarComPaginacao()}"
+									    		value="»">
+									    		
+							                   	<f:ajax
+							                   		render="panel-clientes"/>   
+									    	</h:commandLink>
+									    </li>									    									    
+									  </ul>
+									</nav>		                
+				                
+				                </div> <!-- /#paginator -->
+				                
+						    </div>
+							    
+						</h:panelGroup>
+						<!-- /#panel-load-more -->		
+		        	</div>
+		        	<!-- /.row -->
+                
+                </h:form> <!-- /#form-pesquisa -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->                           
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

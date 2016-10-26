@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-logged.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-logged.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+        <div id="content">
+            <div class="container">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="./index.xhtml">Home</a>
+                        </li>
+                        <li>Listagem de produtos da pesquisa
+                        </li>
+                    </ul>
+
+                </div>
+                
+                <h:form
+                	id="frm-listagem">
+                
+	                <div class="col-md-12">
+	                	
+	                	<h:messages 
+				    	  	id="messages"
+					      	errorClass="alert alert-block alert-danger fade in"
+				     	 	style="padding-left:0px"
+				     	 	globalOnly="true"/>   
+				    </div>
+	                
+	                <div class="col-md-3">
+	                    <!-- *** MENUS AND FILTERS ***
+	 _________________________________________________________ -->
+	                    <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Categorias</h3>
+	                        </div>
+	
+	                        <div class="panel-body">
+	                            <ul class="nav nav-pills nav-stacked category-menu">
+	                            
+	                            	<ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
+	                            
+	                                	<li><a href="#">#{dep}</a>
+		                                    
+		                                    <ul>
+												<ui:repeat 
+			                                   		var="menu" 
+			                                   		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
+				                                	<li>
+				                                       	<a 
+				                                       		jsfc="h:outputLink"
+				                                       		value="./lista-produtos.xhtml">
+				                                       		
+				                                       		<h:outputText value="#{menu.descricao}" />
+				                                       		
+				                                       		<f:param
+				                                       			name="paramDep"
+				                                       			value="#{dep}"/>
+				                                       		
+				                                       		<f:param
+				                                       			name="paramGrupo"
+				                                       			value="#{menu.codigo}"/>
+				                                       	</a>	
+													</li>                                  		
+				                                    		
+		                                    	</ui:repeat>
+												<!-- /#ui:repeat grupos -->
+		                                    </ul>
+	                                	</li>
+	                                	
+	                                </ui:repeat>
+	                                <!-- /.ui:repeat dep -->
+	                            </ul>
+	
+	                        </div>
+	                    </div>
+	                    
+	                </div> <!-- /.col-md 3 -->
+	                    
+					<div class="col-md-9">
+					    <div class="box">
+					        <h1>Pequisa: #{pesquisaProdutoSiteBean.paramPesquisa}</h1>
+					    </div>
+					    
+					    <h:panelGroup
+							id="panel-sem-registros"
+							rendered="#{pesquisaProdutoSiteBean.produtos == null}">
+							
+							<div class="box">
+								<p>Não há produtos para a pesquisa realizada.</p>
+							</div>
+								
+						</h:panelGroup>
+					    
+					    <h:panelGroup
+					    	id="panel-produtos"
+					    	rendered="#{pesquisaProdutoSiteBean.produtos.size() gt 0}">
+					    	
+						    <div class="row products">
+						
+					            <ui:repeat 
+					            	var="produto" 
+					            	value="#{pesquisaProdutoSiteBean.produtos}">				
+						
+							        <div class="col-md-4 col-sm-6">
+							            
+							            <div class="product">
+							                <div class="flip-container">
+							                    
+							                    <div class="flipper">
+							                    
+							                        <div class="front">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="#{produto.buscaFotoPeloIndice(1)}" />
+							                            </a>
+							                        </div>
+							                        <div class="back">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+							                            </a>
+							                        </div>
+							                    </div>
+							                </div>
+							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
+							                    <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+							                </a>
+							                <div class="text">
+							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
+							                    <p class="price">#{produto.codigoInterno}</p>
+							                    <p class="buttons">
+							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
+							                    </p>
+							                </div>
+							                <!-- /.text -->
+							            </div>
+							            <!-- /.product -->
+							            
+							        </div>
+							        <!-- /.col-md-4 -->
+						        </ui:repeat>
+						    </div>
+						    <!-- /.products -->
+						
+						</h:panelGroup>
+						<!-- /#panel-produtos -->
+						
+						<h:panelGroup
+							id="panel-load-more">
+						    
+						    <div class="pages">
+						    
+				                <div class="col-md-12" id="paginator">
+				                
+									<nav style="text-align:center">
+						     				
+									  <ul class="pagination">
+									    <li>
+									    	<h:commandLink
+									    		actionListener="#{pesquisaProdutoSiteBean.paginator.previous()}"
+									    		action="#{pesquisaProdutoSiteBean.listarComPaginacao()}" 
+									    		value="«">
+
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+									    
+									    <c:forEach 
+									    	begin="0" 
+									    	end="#{pesquisaProdutoSiteBean.paginator.partesVisiveis() - 1}"
+									    	var="index">
+									    
+										    <li>
+									    		<h:commandLink
+										    		actionListener="#{pesquisaProdutoSiteBean.paginator.goTo(index)}" 
+										    		action="#{pesquisaProdutoSiteBean.listarComPaginacao()}"
+										    		value="#{index+1}" >
+										    		
+								                   	<f:ajax
+								                   		render="panel-produtos"/>   
+										    	</h:commandLink>
+										    </li>
+									    </c:forEach>
+									    
+										<li class="disabled" 
+											style="#{not pesquisaProdutoSiteBean.paginator.particionado ? 'display:none' : ''}">
+									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
+									    </li>
+									    
+									    <li
+									    	style="#{not pesquisaProdutoSiteBean.paginator.particionado ? 'display:none' : ''}">
+									      <h:commandLink
+									    		actionListener="#{pesquisaProdutoSiteBean.paginator.goToLast()}" 
+									    		action="#{pesquisaProdutoSiteBean.listarComPaginacao()}"
+									    		value="#{pesquisaProdutoSiteBean.paginator.partes}">
+									    		
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+
+									    <li>
+									      <h:commandLink
+									    		actionListener="#{pesquisaProdutoSiteBean.paginator.next()}" 
+									    		action="#{pesquisaProdutoSiteBean.listarComPaginacao()}"
+									    		value="»">
+									    		
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+									  </ul>
+									</nav>		                
+				                
+				                </div> <!-- /#paginator -->
+				                
+						    </div>
+							    
+						</h:panelGroup>
+						<!-- /#panel-load-more -->							
+						
+					</div>
+					<!-- /.col-md-9 -->	
+					
+				</h:form> <!-- /.frm-listagem -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->	
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

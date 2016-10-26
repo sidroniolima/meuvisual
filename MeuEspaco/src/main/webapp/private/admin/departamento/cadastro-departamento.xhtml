@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  template="/public/template_initial.xhtml">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+
+        	<div class="container">
+        	
+	        	<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-departamento.xhtml">Departamento</a>
+			                </li>
+			                <li>
+			                	Cadastro
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->   	
+
+				<div class="row">
+	                <div class="col-md-9">
+	
+	                    <div class="box" id="box-cadastro">
+	        	
+	        				<h3>Cadastro de Departamento</h3>
+	        	
+			        	   	<h:form id="formCadastro">
+			   			
+				   				<h:messages 
+						    	  	id="messages"
+							      	errorClass="alert alert-block alert-danger fade in"
+							      	infoClass="alert alert-block alert-success fade in"
+						     	 	style="padding-left:0px"
+						     	 	globalOnly="true"/>
+						       	
+								<div class="row">
+					                <div class="col-md-12">
+						
+										<h:inputHidden
+						            		value="#{cadastroDepartamentoBean.dep.codigo}"/>
+
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-codigo">Código</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-codigo" 
+					                            	pt:placeholder="Código"
+					                            	value="#{cadastroDepartamentoBean.dep.codigoFormatado()}"
+					                            	readonly="true"/>
+					                        </div>
+					                 	</div>
+										
+										<div class="col-sm-8"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-descricao">Descrição</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-descricao" 
+					                            	pt:placeholder="Descrição"
+					                            	value="#{cadastroDepartamentoBean.dep.descricao}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar a descrição.">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-descricao" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-descricao" 
+								                   	for="input-descricao"
+								                   	class="alert-danger fade in"/>				                            	
+						                 	</div>
+						            	</div>
+						            	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="check-ativo">Ativo</label>
+					                            <h:selectBooleanCheckbox
+					                            	id="check-ativo" 
+					                            	value="#{cadastroDepartamentoBean.dep.ativo}">
+					                            	<f:ajax/>
+					                            </h:selectBooleanCheckbox>
+						                 	</div>
+						            	</div>		            	
+						            	
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	action="#{cadastroDepartamentoBean.salvar()}"
+					                        	value="Salvar">
+					                        	
+					                        	<f:ajax
+					                        		execute="@form"
+					                        		render="formCadastro"/>
+				                        	</h:commandButton>
+			                        	</div>
+					    			</div><!-- /.col-md-12 -->
+			                         
+			                	</div><!-- /.row -->
+					    
+					    	</h:form>
+					    	
+					    </div><!-- /.box-cadastro -->
+					</div><!-- /#col-md-row -->
+				
+				</div> <!-- /.row -->
+			
+			</div><!-- /.container -->
+    	
+    	</div> 
+		<!-- /#content -->
+		
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

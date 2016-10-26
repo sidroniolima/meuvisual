@@ -1,0 +1,567 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  template="/public/template_initial.xhtml"
+	  xmlns:p="http://primefaces.org/ui">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+
+        	<div class="container">
+
+	        	<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-produto.xhtml">Produto</a>
+			                </li>
+			                <li>
+			                	Fotos e site
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->  
+			 	
+			 	<h:form id="frm-cadastro"> 
+			 	
+				 	<div class="row" id="row-cadastro"> 	
+	
+		                <div class="col-md-9">
+		                
+							<h:messages 
+					    	  	id="messages"
+						      	errorClass="alert alert-block alert-danger fade in"
+						      	infoClass="alert alert-block alert-success fade in"
+					     	 	style="padding-left:0px"
+					     	 	globalOnly="true"/>		                
+		
+		                    <div class="box" id="box-cadastro">
+		        	
+		        				<h3>Informações do produto</h3>
+		        	
+								<div class="row">
+					                <div class="col-md-12">
+						
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cod-interno">Código externo</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-cod-interno" 
+					                            	value="#{fotoProdutoBean.produto.codigoInterno}"
+					                            	readonly="true"/>
+								                    
+						                 	</div>
+						            	</div>
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-descricao">Descrição</label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-descricao" 
+					                            	value="#{fotoProdutoBean.produto.descricao}"
+					                            	readonly="true"/>
+					                        </div>
+										</div>		
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-departamento">Departamento <span class="required">*</span></label>
+					                          	<h:inputText
+					                            	class="form-control" 
+					                            	id="input-departamento" 
+					                            	value="#{fotoProdutoBean.produto.departamento.descricao}"
+					                            	readonly="true"/>                          	
+					                          	
+					                        </div>
+					                    </div>			
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-tipoProduto">Tipo <span class="required">*</span></label>
+					                          	<h:inputText
+					                            	class="form-control" 
+					                            	id="input-tipo" 
+					                            	value="#{fotoProdutoBean.produto.tipoProduto.descricao}"
+					                            	readonly="true"/>			                          	
+					                          	
+					                        </div>
+					                    </div>		
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-composicao-produto">Composição <span class="required">*</span></label>
+					                          	<h:inputText
+					                            	class="form-control" 
+					                            	id="input-composicao" 
+					                            	value="#{fotoProdutoBean.produto.composicao.descricao}"
+					                            	readonly="true"/>			                          	
+					                        </div>
+					                    </div>						                    					                    								
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-subgrupo">Subgrupo <span class="required">*</span></label>
+					                          	<h:inputText
+					                            	class="form-control" 
+					                            	id="input-subgrupo" 
+					                            	value="#{fotoProdutoBean.produto.subgrupo.descricao}"
+					                            	readonly="true"/>			                          	
+					                        </div>
+					                    </div>		
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-subgrupo">Detalhes</label>
+					                          	<h:inputTextarea 
+					                            	class="form-control" 
+					                            	id="input-detalhes" 
+					                            	value="#{fotoProdutoBean.produto.detalhes}"
+					                            	cols="60"
+					                            	rows="10"/>			                          	
+					                        </div>
+					                    </div>	
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-subgrupo">Cuidados <span class="required">*</span></label>
+					                          	<h:inputTextarea
+					                            	class="form-control" 
+					                            	id="input-cuidados" 
+					                            	value="#{fotoProdutoBean.produto.cuidados}"
+					                            	cols="60"
+					                            	rows="10"/>			                          	
+					                        </div>
+					                    </div>	
+					                    
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="select-subgrupo">Marketing <span class="required">*</span></label>
+					                          	<h:inputTextarea
+					                            	class="form-control" 
+					                            	id="input-marketing" 
+					                            	value="#{fotoProdutoBean.produto.marketing}"
+					                            	cols="60"
+					                            	rows="10"/>			                          	
+					                        </div>
+					                    </div>						                    					                    					                    
+
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	action="#{fotoProdutoBean.atualizaInformacoes()}"
+					                        	value="Atualizar">
+					                        	
+					                        	<f:ajax
+					                        		execute="@form"
+					                        		render="frm-cadastro"/>
+				                        	</h:commandButton>
+			                        	</div>					                    									
+										
+					    			</div><!-- /.col-md-12 -->
+			                         
+			                	</div><!-- /.row -->
+						    
+						    </div><!-- /.box-cadastro -->
+						</div><!-- /#col-md-row -->
+						
+					</div> <!-- /.row row-cadastro -->
+	
+					<div class="row" id="row-relacionados"> <!--  -->
+	
+						<div class="col-md-9">
+	
+							<div class="box">					
+					
+			    				<h4 class="page-title">Produtos relacionados</h4>
+	
+								<div class="row">
+					                <div class="col-md-12">
+
+									<h:messages 
+							    	  	id="messages-relacao"
+								      	errorClass="alert alert-block alert-danger fade in"
+								      	infoClass="alert alert-block alert-success fade in"
+							     	 	style="padding-left:0px"
+							     	 	globalOnly="true"/>							                
+						
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="select-produto">Produto relacionado</label>
+					                          	<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{fotoProdutoBean.produtoRelacionado}"
+					                          		id="select-departamento">
+					                          		
+					                          		<f:selectItem 
+					                          			itemLabel="Selecione o produto"
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{fotoProdutoBean.produtos}"
+					                          			var="prod"
+					                          			itemLabel="#{prod.codigoInterno} - #{prod.descricao}"
+					                          			itemValue="#{prod}"/>
+					                          		
+					                          		<f:ajax
+					                          			execute="@this"
+					                          			event="change"
+					                          			render="m_select-produto @form"/>
+					                          	</h:selectOneMenu>  
+	
+								                <h:message 
+								                   	id="m_select-departamento" 
+								                   	for="select-departamento"
+								                   	class="alert-danger fade in"/>				                          	
+				                        	</div>
+	
+				                        	<div class="col-sm-12 text-center">                        
+						                        <h:commandButton
+						                        	class="btn btn-primary"
+						                        	action="#{fotoProdutoBean.adicionaRelacaoAoProduto()}"
+						                        	value="Adicionar">
+						                        	
+						                        	<f:ajax
+						                        		execute="@form"
+						                        		render="frm-cadastro"/>
+					                        	</h:commandButton>
+				                        	</div>
+				                        	
+						    			</div><!-- /.col-md-12 -->
+				                         
+				                	</div><!-- /.row -->
+							    
+							    </div><!-- /#col-md-row -->
+							</div><!-- /.box-cadastro -->
+			    			
+			    		</div>
+			    		<!-- /.row-col-md-9 -->
+			    		
+			    	</div>		
+			    	<!-- /#row-relacionados -->		
+			    	
+					<div class="row" id="row-lista-de-relacao"> <!--  -->
+	
+						<div class="col-md-9">
+
+							<div class="box">
+				
+			                    <div class="table-responsive">
+			                        <table class="table table-striped table-advance table-hover">
+			                            <thead>
+			                                <tr>
+			                                    <th style="width:100px">Código</th>
+			                                    <th style="width:250px">Descrição</th>
+			                                    <th style="text-align: right">Controle</th>
+			                                </tr>
+			                            </thead>
+			                            
+			                            <tbody>
+			                            
+											<ui:repeat 
+												var="relac" 
+											   	value="#{fotoProdutoBean.produto.produtosRelacionados.toArray()}">		                          
+												<tr>
+												   <td>#{relac.codigoInterno}</td>
+												   <td>#{relac.descricao}</td>
+												   
+												   <td style="text-align: right">
+													   <div class="btn-group" >
+													        
+															<a class="btn btn-danger" 
+																jsfc="h:commandLink"
+																type="button"
+																immediate="true">
+											                  
+													        	<f:setPropertyActionListener 
+													        		value="#{relac}" 
+													        		target="#{fotoProdutoBean.relacionamentoSelecionado}"/>
+											                   												        	
+											                   <f:passThroughAttribute name="data-toggle" value="modal" />
+											                   <f:passThroughAttribute name="data-target" value="#myModal-relacao" />
+											                   <f:ajax/>
+															
+																<i class="icon_close_alt2"></i>
+															</a>
+													    </div>
+												    </td>
+												</tr>
+											</ui:repeat>		                            
+	
+	                                    </tbody>
+	                                </table>
+		
+		                       	</div>
+		                        <!-- /.table-responsive -->
+		                  	</div> 
+		                  	<!-- /#box -->						
+						
+						</div>
+					</div>	<!-- /.row-lista-de-grades -->
+					
+					<div class="row" id="modal-exclusao-relacao">
+		            	
+		            	<div class="col-md-12">
+		                            
+							<div class="modal fade" id="myModal-relacao" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+						    	<div class="modal-dialog modal-md">
+						        	<div class="modal-content">
+						            	<h:form id="frm-remocao-relacao">
+						                	<div class="modal-header">
+						                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						                    	<h4 class="modal-title">Confirmação de remoção</h4>
+						                	</div>
+						                	<div class="modal-body">
+						                		<h:panelGroup 
+							                		layout="block" 
+							                		id="panelDescricao">
+							                	
+							                		Deseja realmente remover a relação entre os produtos?
+							                		<div 
+				                						style="text-align:right"
+				                						id="btns-confirm">
+								                	
+								                		<a  type="submit"
+								                			class="btn btn-warning btn-sm"
+								                			jsfc="h:commandLink"
+								                			action="#{fotoProdutoBean.removeRelacionamento()}">
+								                			Sim
+														
+															<f:passThroughAttribute name="data-dismiss" value="modal" />
+															<f:ajax
+										               			execute="@this"
+										               			render="@all"/>
+														</a>
+							                		
+							                			<button 
+							                				id="close"
+							                				type="submit" 
+							                				class="btn btn-info btn-sm">Não</button>
+							                		</div>
+							                		<!-- /.btns-confirm -->
+							                		
+						                		</h:panelGroup>
+						                	</div>
+						
+						            	</h:form>
+						        	</div>
+						    	</div>
+							</div>	
+		                        
+		                </div>
+		                <!-- /.col-md-12 -->
+		         	
+		         	</div>
+		         	<!-- /.row modal-exclusao-relacao-->					    	
+			    		
+			    </h:form><!-- /#frm-cadastro -->		
+
+				<div class="row" id="row-upload"> <!--  -->
+
+					<div class="col-md-9">
+
+						<div class="box">					
+						
+							<h:messages 
+					    	  	id="messages-upload"
+						      	errorClass="alert alert-block alert-danger fade in"
+						      	infoClass="alert alert-block alert-success fade in"
+					     	 	style="padding-left:0px"
+					     	 	globalOnly="true"/>								
+				
+		    				<h4 class="page-title">Upload de foto</h4>
+		        			<br />
+				
+							<h:form enctype="multipart/form-data">
+							
+							    <p:fileUpload 
+							    	value="#{fotoProdutoBean.file}" 
+							    	mode="simple" 
+							    	skinSimple="true"
+							    	label="Upload"
+							    	allowTypes="/(\.|\/)(jpe?g|png$/"
+							    	invalidFileMessage="Esse arquivo não é válido."
+							    	sizeLimit="1024"
+							    	invalidSizeMessage="Tamanho da imagem não permitido"/>
+							 
+							    <p:commandButton 
+							    	value="Enviar" 
+							    	ajax="false" 
+							    	actionListener="#{fotoProdutoBean.uploadFoto}">
+							    		
+							    </p:commandButton>
+							    
+							</h:form>
+				
+		    			</div>	
+		    			<!-- /.row box -->
+		    			
+		    		</div>
+		    		<!-- /.row-col-md-9 -->
+		    		
+		    	</div>		
+		    	<!-- /#row-upload -->		
+				
+				<div class="row" id="row-lista-de-fotos"> <!--  -->
+
+					<div class="col-md-9">
+
+						<div class="box">
+						
+							<h4 class="page-title">Fotos cadastradas</h4>
+			
+							<div class="row">
+							
+								<h:form id="frm-fotos">
+			
+									<ui:repeat 
+										var="foto"
+										varStatus="counter"
+									   	value="#{fotoProdutoBean.produto.fotos.toArray()}">		                          
+										
+										<div class="col-xs-6 col-md-3">
+										
+											<div class="thumbnail">
+												<img src="#{res['image-server']}/imagens/meu-espaco/#{foto}" alt="#{foto}"/>
+												
+												<div class="caption">
+	
+	 												<a class="btn btn-danger"
+														jsfc="h:commandLink"
+														type="button"
+														immediate="true">
+									                  
+									                   <f:setPropertyActionListener 
+									                  	 	value="#{foto}" 
+									                  	 	target="#{fotoProdutoBean.fotoSelecionada}"/>
+									                   												        	
+									                   <f:passThroughAttribute name="data-toggle" value="modal" />
+									                   <f:passThroughAttribute name="data-target" value="#myModal" />
+									                   <f:ajax/>
+													
+														<i class="icon_close_alt2"></i>
+													</a>											
+												
+												</div>
+											</div>
+										
+										</div>
+									</ui:repeat>
+									
+								</h:form>
+								<!-- /#frm-fotos -->
+							</div>
+										                            
+                  		</div> 
+                  		<!-- /#box -->						
+					
+					</div>
+				</div>	<!-- /.row-lista-de-grades -->
+				
+				<div class="row">
+		            	
+	            	<div class="col-md-12">
+	                            
+						<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+					    	<div class="modal-dialog modal-md">
+					        	<div class="modal-content">
+					            	<h:form id="myForm">
+					                	<div class="modal-header">
+					                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+					                    	<h4 class="modal-title">Confirmação de exclusão</h4>
+					                	</div>
+					                	<div class="modal-body">
+					                		<h:panelGroup 
+						                		layout="block" 
+						                		id="panelDescricao">
+						                	
+						                		Deseja realmente remover a foto do produto?
+						                		<div 
+			                						style="text-align:right"
+			                						id="btns-confirm">
+							                	
+							                		<a  type="submit"
+							                			class="btn btn-warning btn-sm"
+							                			jsfc="h:commandLink"
+							                			action="#{fotoProdutoBean.removeFoto()}">
+							                			Sim
+													
+														<f:passThroughAttribute name="data-dismiss" value="modal" />
+														<f:ajax
+									               			execute="@this"
+									               			render="frm-fotos"/>
+													</a>
+						                		
+						                			<button 
+						                				id="close"
+						                				type="submit" 
+						                				class="btn btn-info btn-sm">Não</button>
+						                		</div>
+						                		<!-- /.btns-confirm -->
+						                		
+					                		</h:panelGroup>
+					                	</div>
+					
+					            	</h:form>
+					        	</div>
+					    	</div>
+						</div>	
+	                        
+	                </div>
+	                <!-- /.col-md-12 -->
+	         	
+	         	</div>
+	         	<!-- /.row -->				
+					
+			</div><!-- /.container -->
+    	
+    	</div> 
+		<!-- /#content -->
+		
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

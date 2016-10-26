@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#*" PATH="/*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:0" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="lista-produtos::#private#site#lista-produtos.xhtml"
+    NAME="output" PATH="/private/site/lista-produtos.xhtml"
+    TARGET="rules:#private#site#lista-produtos.xhtml"
+    TITLE="lista-produtos" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:1" PATH="/*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:1" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="carrinho::#private#site#carrinho#carrinho.xhtml" NAME="output"
+    PATH="/private/site/carrinho/carrinho.xhtml"
+    TARGET="rules:#private#site#carrinho#carrinho.xhtml"
+    TITLE="carrinho" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:2" PATH="/*" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:2" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#public#site#index.xhtml"
+    NAME="output" PATH="/public/site/index.xhtml"
+    TARGET="rules:#public#site#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:3" PATH="/*" SHAPE="32,353,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:3" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="minhas-escolhas::#private#site#cliente#minhas-escolhas.xhtml"
+    NAME="output" PATH="/private/site/cliente/minhas-escolhas.xhtml"
+    TARGET="rules:#private#site#cliente#minhas-escolhas.xhtml"
+    TITLE="minhas-escolhas" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:4" PATH="/*" SHAPE="32,465,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:4" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index-cliente::#private#site#index.xhtml"
+    NAME="output" PATH="/private/site/index.xhtml"
+    TARGET="rules:#private#site#index.xhtml" TITLE="index-cliente" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:5" PATH="/*" SHAPE="32,577,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:5" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="index-admin::#private#admin#cliente#pesquisa-cliente.xhtml"
+    NAME="output" PATH="/private/admin/cliente/pesquisa-cliente.xhtml"
+    TARGET="rules:#private#admin#cliente#pesquisa-cliente.xhtml"
+    TITLE="index-admin" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:6" PATH="/*" SHAPE="32,689,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:6" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="altera-senha::#private#admin#usuario#altera-senha.xhtml"
+    NAME="output" PATH="/private/admin/usuario/altera-senha.xhtml"
+    TARGET="rules:#private#admin#usuario#altera-senha.xhtml"
+    TITLE="altera-senha" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:7" PATH="/*" SHAPE="32,801,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:7" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisa-usuario::#private#admin#usuario#pesquisa-usuario.xhtml"
+    NAME="output" PATH="/private/admin/usuario/pesquisa-usuario.xhtml"
+    TARGET="rules:#private#admin#usuario#pesquisa-usuario.xhtml"
+    TITLE="pesquisa-usuario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:8" PATH="/*" SHAPE="32,913,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:8" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="viewExpired::#public#viewExpired.xhtml"
+    NAME="output" PATH="/public/viewExpired.xhtml"
+    TARGET="rules:#public#viewExpired.xhtml" TITLE="viewExpired" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:9" PATH="/*" SHAPE="32,1025,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:9" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisa-produto-site::#private#site#lista-produtos-da-pesquisa.xhtml"
+    NAME="output" PATH="/private/site/lista-produtos-da-pesquisa.xhtml"
+    TARGET="rules:#private#site#lista-produtos-da-pesquisa.xhtml"
+    TITLE="pesquisa-produto-site" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:10" PATH="/*" SHAPE="32,1137,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:10" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisa-escolha::#private#admin#escolha#pesquisa-escolha.xhtml"
+    NAME="output" PATH="/private/admin/escolha/pesquisa-escolha.xhtml"
+    TARGET="rules:#private#admin#escolha#pesquisa-escolha.xhtml"
+    TITLE="pesquisa-escolha" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:11" PATH="/*" SHAPE="32,1249,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:11" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="carrinho-venda::#private#site#venda#carrinho.xhtml"
+    NAME="output" PATH="/private/site/venda/carrinho.xhtml"
+    TARGET="rules:#private#site#venda#carrinho.xhtml"
+    TITLE="carrinho-venda" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:12" PATH="/*" SHAPE="32,1361,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:12" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="cielo-api::#private#site#venda#finaliza-compra.xhtml"
+    NAME="output" PATH="/private/site/venda/finaliza-compra.xhtml"
+    TARGET="rules:#private#site#venda#finaliza-compra.xhtml"
+    TITLE="cielo-api" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:13" PATH="/*" SHAPE="32,1473,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:13" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="lista-produtos-venda::#private#site#venda#lista-produtos.xhtml"
+    NAME="output" PATH="/private/site/venda/lista-produtos.xhtml"
+    TARGET="rules:#private#site#venda#lista-produtos.xhtml"
+    TITLE="lista-produtos-venda" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:14" PATH="/*" SHAPE="32,1585,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:14" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="visualiza-compra::#private#site#venda#visualiza-compra.xhtml"
+    NAME="output" PATH="/private/site/venda/visualiza-compra.xhtml"
+    TARGET="rules:#private#site#venda#visualiza-compra.xhtml"
+    TITLE="visualiza-compra" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#site#venda#finaliza-compra.xhtml"
+  PATH="/private/site/venda/finaliza-compra.xhtml" SHAPE="240,1377,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#lista-produtos.xhtml"
+  PATH="/private/site/lista-produtos.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#cliente#minhas-escolhas.xhtml"
+  PATH="/private/site/cliente/minhas-escolhas.xhtml" SHAPE="240,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#admin#usuario#altera-senha.xhtml"
+  PATH="/private/admin/usuario/altera-senha.xhtml" SHAPE="240,705,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#venda#carrinho.xhtml"
+  PATH="/private/site/venda/carrinho.xhtml" SHAPE="240,1265,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#carrinho#carrinho.xhtml"
+  PATH="/private/site/carrinho/carrinho.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#public#site#index.xhtml"
+  PATH="/public/site/index.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#venda#lista-produtos.xhtml"
+  PATH="/private/site/venda/lista-produtos.xhtml" SHAPE="240,1489,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#private#site#lista-produtos-da-pesquisa.xhtml"
+  PATH="/private/site/lista-produtos-da-pesquisa.xhtml"
+  SHAPE="240,1041,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#index.xhtml"
+  PATH="/private/site/index.xhtml" SHAPE="240,481,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#private#admin#usuario#pesquisa-usuario.xhtml"
+  PATH="/private/admin/usuario/pesquisa-usuario.xhtml"
+  SHAPE="240,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#public#viewExpired.xhtml"
+  PATH="/public/viewExpired.xhtml" SHAPE="240,929,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#private#admin#escolha#pesquisa-escolha.xhtml"
+  PATH="/private/admin/escolha/pesquisa-escolha.xhtml"
+  SHAPE="240,1153,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#site#venda#visualiza-compra.xhtml"
+  PATH="/private/site/venda/visualiza-compra.xhtml" SHAPE="240,1601,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#private#admin#cliente#pesquisa-cliente.xhtml"
+  PATH="/private/admin/cliente/pesquisa-cliente.xhtml"
+  SHAPE="240,593,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:15" PATH="/*" SHAPE="32,1697,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:15" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="minhas-compras::#private#site#venda#minhas-compras.xhtml"
+    NAME="output" PATH="/private/site/venda/minhas-compras.xhtml"
+    TARGET="rules:#private#site#venda#minhas-compras.xhtml"
+    TITLE="minhas-compras" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#site#venda#minhas-compras.xhtml"
+  PATH="/private/site/venda/minhas-compras.xhtml" SHAPE="240,1713,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

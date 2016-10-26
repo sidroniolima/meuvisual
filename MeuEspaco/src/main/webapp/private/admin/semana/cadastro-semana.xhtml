@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  template="/public/template_initial.xhtml">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+
+        	<div class="container">
+        	
+	        	<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-semana.xhtml">Semana</a>
+			                </li>
+			                <li>
+			                	Cadastro
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->   	
+
+				<div class="row">
+	                <div class="col-md-9">
+	
+	                    <div class="box" id="box-cadastro">
+	        	
+	        				<h3>Cadastro de semana</h3>
+	        	
+			        	   	<h:form id="formCadastro">
+			   			
+				   				<h:messages 
+						    	  	id="messages"
+							      	errorClass="alert alert-block alert-danger fade in"
+							      	infoClass="alert alert-block alert-success fade in"
+						     	 	style="padding-left:0px"
+						     	 	globalOnly="true"/>
+						       	
+								<div class="row">
+					                <div class="col-md-12">
+						
+										<h:inputHidden
+						            		value="#{cadastroSemanaBean.semana.codigo}"/>
+										
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-descricao">Descrição</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-descricao" 
+					                            	pt:placeholder="Descrição"
+					                            	value="#{cadastroSemanaBean.semana.descricao}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar a descrição.">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-descricao" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-descricao" 
+								                   	for="input-descricao"
+								                   	class="alert-danger fade in"/>				                            	
+						                 	</div>
+						            	</div>
+						            	
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-data-inicial">Data inicial <span class="required">*</span></label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-data-inicial" 
+					                            	pt:placeholder="Data inicial"
+					                            	value="#{cadastroSemanaBean.semana.dataInicial}"
+					                            	required="true"
+					                            	requiredMessage="É necessário a data inicial.">
+					                            	
+					                            	<f:converter
+					                            		converterId="localDateFacesConverter"/>				                            	
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-data-inicial" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-data-inicial" 
+								                   	for="input-data-inicial"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>		
+										
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-data-final">Data final <span class="required">*</span></label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-data-final" 
+					                            	pt:placeholder="Data final"
+					                            	value="#{cadastroSemanaBean.semana.dataFinal}"
+					                            	required="true"
+					                            	requiredMessage="É necessário a data final.">
+					                            	
+					                            	<f:converter
+					                            		converterId="localDateFacesConverter"/>
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-data-final" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-data-final" 
+								                   	for="input-data-final"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>	
+										
+										<div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-dias">Dias entre ciclos <span class="required">*</span></label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-dias" 
+					                            	pt:placeholder="Número de dias entre ciclos."
+					                            	value="#{cadastroSemanaBean.semana.diasEntreCiclos}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar o número de dias.">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-dias" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-dias" 
+								                   	for="input-dias"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>											
+										
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	action="#{cadastroSemanaBean.salvar()}"
+					                        	value="Salvar">
+					                        	
+					                        	<f:ajax
+					                        		execute="@form"
+					                        		render="formCadastro"/>
+				                        	</h:commandButton>
+			                        	</div>
+					    			</div><!-- /.col-md-12 -->
+			                         
+			                	</div><!-- /.row -->
+					    
+					    	</h:form>
+					    	
+					    </div><!-- /.box-cadastro -->
+					</div><!-- /#col-md-row -->
+				
+				</div> <!-- /.row -->
+			
+			</div><!-- /.container -->
+    	
+    	</div> 
+		<!-- /#content -->
+		
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

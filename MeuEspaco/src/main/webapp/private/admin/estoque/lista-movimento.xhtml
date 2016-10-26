@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+            <div class="container">	
+            
+				<h:form 
+		        	id="form-pesquisa">
+		        	
+	   				<h:messages 
+			      		id="messages"
+			      		errorClass="alert alert-block alert-danger fade in"
+			      		infoClass="alert alert-success fade in"
+			      		style="padding-left:0px;"/>		        	
+		        	
+		        	<div class="row">
+		
+				        <div class="col-md-12">
+				            <ul class="breadcrumb">
+				                <li>
+				                	<a href="#">Home</a>
+				                </li>
+				                <li>
+				                	Auditoria de estoque
+				                </li>				                
+				            </ul>
+				        </div>
+				 	</div>
+				 	<!-- /.row -->
+				 	
+				 	<div class="row">
+
+						<!-- Div FILTRO -->
+				        <div class="col-md-12" id="filtro">
+				
+				            <div class="box">
+				
+			                    <h4>Filtro</h4>	
+			                    
+			                    <h:form
+			                    	id="form-filtro"
+			                    	styleClass="form-inline">
+			                    	
+			                    	<div class="row">
+			                    
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="select-origem">Origens</label>
+												<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{listaMovimentacaoBean.filtro.origem}"
+					                          		id="select-origem">
+					                          		
+					                          		<f:selectItem 
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{listaMovimentacaoBean.origens}"
+					                          			var="origem"
+					                          			itemLabel="#{origem.descricao}"
+					                          			itemValue="#{origem}"/>
+					                          		
+						                    	</h:selectOneMenu>  
+						                  	</div>
+						            	</div>	
+						            	
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="select-tipo">Tipo</label>
+												<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{listaMovimentacaoBean.filtro.tipo}"
+					                          		id="select-tipo">
+					                          		
+					                          		<f:selectItem 
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{listaMovimentacaoBean.tipos}"
+					                          			var="tipo"
+					                          			itemLabel="#{tipo.descricao}"
+					                          			itemValue="#{tipo}"/>
+					                          		
+						                    	</h:selectOneMenu>  
+						                  	</div>
+						            	</div>									            	
+
+					                    <div class="col-sm-4"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cod-interno">Produto</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-cod-interno" 
+					                            	value="#{listaMovimentacaoBean.filtro.codigoInterno}"/>				                            	
+						                 	</div>
+						            	</div>		
+						            	
+					                    <div class="col-sm-4"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-login">Usuário</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-login" 
+					                            	value="#{listaMovimentacaoBean.filtro.nomeUsuario}"/>				                            	
+						                 	</div>
+						            	</div>							            	
+						            	
+					                    <div class="col-sm-3"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-data-incial">Data inicial</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-data-incial" 
+					                            	value="#{listaMovimentacaoBean.filtro.dataInicial}">
+					                            	
+					                            	<f:converter
+					                            		converterId="localDateFacesConverter"/>
+					                            </h:inputText>				                            	
+						                 	</div>
+						            	</div>	
+						            	
+					                    <div class="col-sm-3"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-data-final">Data final</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-data-final" 
+					                            	value="#{listaMovimentacaoBean.filtro.dataFinal}">
+
+					                            	<f:converter
+					                            		converterId="localDateFacesConverter"/>					                            	
+					                            </h:inputText>				                            	
+						                 	</div>
+						            	</div>						            							            						            	
+						            	
+						            	<div class="col-sm-2"> 	
+						            		<br/>			            	
+						            	
+											<div class="form-group">
+											
+						                        <h:commandButton
+						                        	id="btn-filtrar"
+						                        	styleClass="btn btn-primary"
+						                        	action="#{listaMovimentacaoBean.listarComPaginacao}"
+						                        	value="Filtrar">
+						                        	
+						                        	<f:ajax
+						                        		execute="@form"
+						                        		render=":form-pesquisa:panelTable :form-pesquisa:panel-load-more"/>
+					                        	</h:commandButton>
+					                        </div>
+					                	</div>
+			                        </div>
+
+		                    	</h:form>
+		                    	<!-- /form-filtro -->
+		                    	
+		                  	</div> 
+		                  	<!-- /#box -->
+		                  	
+		            	</div>
+		            	<!-- /.cod-md-12 filtro-->	
+		            				            
+					</div>
+			        <!-- /.row --> 				 	
+				 	
+				 	<div class="row">
+				 		
+				 		<h:panelGroup
+				 			id="panelTable">
+					
+					        <div class="col-md-12" id="table">
+					
+					            <div class="box">
+					
+				                    <h3>Pesquisa de movimentação</h3>
+				                    
+				                    <div class="table-responsive">
+				                        <table class="table table-striped table-advance table-hover">
+				                            <thead>
+				                                <tr>
+				                                    <th style="width:170px">Date e Horário</th>
+				                                    <th style="width:100px">Login</th>
+				                                    <th style="width:100px">Cód. interno</th>
+				                                    <th style="width:250px">Descrição</th>
+				                                    <th style="width:180px">Grade</th>
+				                                    <th style="width:40px">Qtd</th>
+				                                    <th style="width:80px">Tipo</th>
+				                                    <th style="width:80px">Origem</th>
+				                                </tr>
+				                            </thead>
+				                            
+				                            <tbody>
+				                            
+												<ui:repeat 
+													var="mov" 
+												   	value="#{listaMovimentacaoBean.movimentos}">		                          
+													<tr>
+														<td>
+															<h:outputText
+																value="#{mov.horario}">
+																
+																<f:converter
+																	converterId="localDateTimeFacesConverter"/>
+															</h:outputText>
+														</td>
+														<td>#{mov.usuario.login}</td>
+														
+													   <td>#{mov.produto.codigoInterno}</td>
+													   <td>
+													   		<div style="width:310px; overflow: hidden;">
+													   			#{mov.produto.descricao}
+													   		</div>
+													   </td>
+													   <td>#{mov.grade}</td>
+													   <td>
+													   	<h:outputText 
+													   		value="#{mov.qtd}">
+													   		
+													   		<f:convertNumber 
+													   			type="number"
+													   			locale="pt_BR"/>
+													   	</h:outputText>
+													   </td>
+													   <td>#{mov.tipoMovimento.descricao}</td>
+													   <td>#{mov.origem.descricao}</td>
+													</tr>
+												</ui:repeat>		                            
+		
+		                                    </tbody>
+		                                </table>
+			
+			                       	</div>
+			                        <!-- /.table-responsive -->
+			                  	</div> 
+			                  	<!-- /#box -->
+			                  	
+			            	</div>
+			            	<!-- /.cod-md-12 -->
+			            	
+			            </h:panelGroup>
+			            
+			        </div>
+			            
+		         	<div class="row">
+		                
+						<h:panelGroup
+							id="panel-load-more">
+						    
+						    <div class="pages">
+						    
+				                <div class="col-md-12" id="paginator">
+				                
+									<nav style="text-align:center">
+						     				
+									  <ul class="pagination">
+									  
+									    <li>
+									    	<a
+									    		jsfc="h:commandLink"
+									    		actionListener="#{listaMovimentacaoBean.paginator.previous()}"
+									    		action="#{listaMovimentacaoBean.listarComPaginacao()}" 
+									    		value="«">
+
+							                   	<f:ajax
+							                   		render="panelTable"/>   
+									    	</a>
+									    </li>
+
+									    <c:forEach 
+									    	begin="0" 
+									    	end="#{listaMovimentacaoBean.paginator.partesVisiveis() - 1}"
+									    	var="index">
+									    
+										    <li>
+									    		<a
+									    			jsfc="h:commandLink"
+										    		actionListener="#{listaMovimentacaoBean.paginator.goTo(index)}" 
+										    		action="#{listaMovimentacaoBean.listarComPaginacao()}"
+										    		value="#{index+1}" >
+										    		
+								                   	<f:ajax
+								                   		render="panelTable"/>   
+										    	</a>
+										    </li>
+									    </c:forEach>
+
+									    <li class="disabled"
+									    	style="#{not listaMovimentacaoBean.paginator.particionado ? 'display:none' : ''}">
+									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
+									    </li>
+									    
+									    <li
+									    	style="#{not listaMovimentacaoBean.paginator.particionado ? 'display:none' : ''}">
+									      <h:commandLink
+									    		actionListener="#{listaMovimentacaoBean.paginator.goToLast()}" 
+									    		action="#{listaMovimentacaoBean.listarComPaginacao()}"
+									    		value="#{listaMovimentacaoBean.paginator.partes}">
+									    		
+							                   	<f:ajax
+							                   		render="panelTable"/>   
+									    	</h:commandLink>
+									    </li>
+									    <li>
+									      <h:commandLink
+									    		actionListener="#{listaMovimentacaoBean.paginator.next()}" 
+									    		action="#{listaMovimentacaoBean.listarComPaginacao()}"
+									    		value="»">
+									    		
+							                   	<f:ajax
+							                   		render="panelTable"/>   
+									    	</h:commandLink>
+									    </li>									    									    
+									  </ul>
+									</nav>		                
+				                
+				                </div> <!-- /#paginator -->
+				                
+						    </div>
+							    
+						</h:panelGroup>
+						<!-- /#panel-load-more -->	
+		                
+		        	</div>
+		        	<!-- /.row -->
+                
+                </h:form> <!-- /#form-pesquisa -->            
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->		
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

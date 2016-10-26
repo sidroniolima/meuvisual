@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  template="/public/template_initial.xhtml"
+	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+            <div class="container">
+            
+				<div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="#">Home</a>
+                        </li>
+                        <li>Registro de cliente</li>
+                    </ul>
+                </div>            
+	
+	        	<div class="col-md-6">
+	        	
+                    <div class="box">
+                        <h1>Novo cadastro</h1>
+
+                        <p class="lead">Não tem acesso ao Meu Espaço ainda?</p>
+                        <p>Ao fazer o cadastro você tem acesso a produtos de qualidade e uma oportunidade de aumento de renda única.</p>
+                        <p class="text-muted">Se você tem alguma dúvida, sinta-se a vontade para entrar em <a href="contact.html">contato</a> conosco.</p>
+
+                        <hr/>
+
+                        <h:form id="frm-registro">
+                        
+                        	<h:messages 
+					    	  	id="messages"
+						      	errorClass="alert alert-block alert-danger fade in"
+						      	infoClass="alert alert-block alert-success fade in"
+					     	 	style="padding-left:0px"
+					     	 	globalOnly="true"/>		
+                           
+                            <div class="form-group">
+                                <label for="nome">Nome <span class="required">*</span></label>
+                                <input 
+                                	type="text" 
+                                	class="form-control text-capitalize" 
+                                	id="nome"
+                                	jsfc="h:inputText"
+                                	value="#{registraPreCadastroBean.preCadastro.nome}"
+                                	pt:placeholder="Informe o nome completo."
+                                	required="true"
+                                	requiredMessage="É necessário preencher o nome.">
+	                            	
+	                            	<f:ajax 
+				                        event="blur" 
+				                        render="m_nome" />
+				                        	
+				              	</input>
+				                    
+				                <h:message 
+				                   	id="m_nome" 
+				                   	for="nome"
+				                   	class="alert-danger fade in"/>                                	
+                            </div>
+                            
+							<div class="form-group">
+                                <label for="cpf">Cpf <span class="required">*</span></label>
+                                <input 
+                                	type="number"
+                                	pattern="[0-9]"
+                                	class="form-control" 
+                                	id="cpf"
+                                	jsfc="h:inputText"
+                                	value="#{registraPreCadastroBean.preCadastro.cpf.valor}"
+                                	pt:placeholder="Apenas números."
+                                	required="true"
+                                	requiredMessage="É necessário preencher o Cpf."
+                                	validatorMessage="Digite apenas números no Cpf."
+                                	maxlength="11">
+	                            	
+	                            	<f:ajax 
+				                        event="blur" 
+				                        render="m_cpf" />
+				                        	
+				              	</input>
+				                    
+				                <h:message 
+				                   	id="m_cpf" 
+				                   	for="cpf"
+				                   	class="alert-danger fade in"/>                                	
+                            </div>                            
+                            
+                            <div class="form-group">
+                                <label for="email">Email <span class="required">*</span></label>
+                                <input 
+                                	type="text" 
+                                	class="form-control" 
+                                	id="email"
+                                	jsfc="h:inputText"
+                                	value="#{registraPreCadastroBean.preCadastro.email}"
+                                	required="true"
+                                	requiredMessage="É necessário preencher o email."
+                                	validatorMessage="Email inválido."
+                                	pt:placeholder="Informe um email válido e ativo.">
+                                	
+                                	<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+	                            	
+	                            	<f:ajax 
+				                        event="blur" 
+				                        render="m_email" />
+				                        	
+				              	</input>
+				                    
+				                <h:message 
+				                   	id="m_email" 
+				                   	for="email"
+				                   	class="alert-danger fade in"/>                                	
+                            </div>         
+                            
+							<div class="form-group">
+			                        
+	                            <label for="password">Senha <span class="required">*</span></label>
+			                    <h:inputSecret
+			                    	value="#{registraPreCadastroBean.preCadastro.senha}" 
+			                    	required="true"
+			                        class="form-control" 
+			                        id="password"
+			                        pt:placeholder="Digite a senha."
+			                        requiredMessage="Informe a senha."
+			                        binding="#{passwordComponent}">
+			                        
+			                        <f:ajax 
+			                        	event="blur" 
+			                        	render="m_password" />
+			                        	
+			                    </h:inputSecret>
+	                            	
+				                <h:message 
+				                   	id="m_password" 
+				                   	for="password"
+				                   	class="alert-danger fade in"/>  				                   	
+	                            	
+	                        </div>								              	
+				              	
+				          	<div class="form-group">
+				          	
+				                <label for="confirmPassword">Confirme a senha <span class="required">*</span></label>
+				                    
+			                    <h:inputSecret 
+			                    	id="confirmPassword" 
+			                    	required="true"
+			                        styleClass="form-control"
+			                        pt:placeholder="Confirme a senha."
+			                        requiredMessage="É necessário que você confirme sua senha.">                        
+			                        
+			                        <f:validator validatorId="confirmPasswordValidator" />
+			                        <f:attribute name="passwordComponent" value="#{passwordComponent}" />
+			                        <f:ajax event="blur" execute="confirmPassword password" render="m_confirm" />                       
+			                    </h:inputSecret>
+			                    
+				                <h:message 
+				                   	id="m_confirm" 
+				                   	for="confirmPassword"
+				                   	class="alert-danger fade in"/> 
+							</div>                                                  
+                            
+                            <div class="text-center">
+		                        <h:commandButton
+		                        	class="btn btn-primary"
+		                        	action="#{registraPreCadastroBean.registra()}"
+		                        	value="Registrar">
+		                        	
+		                        	<f:ajax
+		                        		execute="@form"
+		                        		render="frm-registro"/>
+	                        	</h:commandButton>                                
+                            </div>
+                        </h:form>
+                        
+                    </div>
+                    
+                </div>
+                
+				<div class="col-md-6">
+                    <div class="box">
+                        <h1>Login</h1>
+
+                        <p class="lead">Já é um(a) revendedor(a)?</p>
+                        <p class="text-muted">Entre com seu Cpf e senha e tenha acesso à sua escolha</p>
+
+                        <hr/>
+
+	                   <h:form id="frm-login">
+	                        
+	                        <div class="form-group">
+	                            <label for="login">Cpf <span class="required">*</span></label>
+	                           
+	                            <h:inputText 
+	                            	class="form-control" 
+	                            	id="username"
+	                            	value="#{loginBean.username}"					                            	
+	                            	required="true"
+					                requiredMessage="Informe o cpf utilizando apenas números."
+                                	validatorMessage="Digite apenas números no Cpf."
+                                	maxlength="11">
+	                            	
+	                            	<f:ajax 
+				                        event="blur" 
+				                        render="m_username" />
+								                        	
+								</h:inputText>
+								
+				                <h:message 
+				                   	id="m_username" 
+				                   	for="username"
+				                   	class="alert-danger fade in"/>				
+	                        </div>
+	                        
+	                        <div class="form-group">
+	                            <label for="password">Senha <span class="required">*</span></label>
+	                            <h:inputSecret 
+	                            	type="password" 
+	                            	class="form-control" 
+	                            	id="password"
+	                            	value="#{loginBean.password}"					                            	
+	                            	required="true"
+					                requiredMessage="Informe a senha.">
+					                            	
+	                            	<f:ajax 
+				                        event="blur" 
+				                        render="m_password" />
+								                        	
+								</h:inputSecret>
+								                    
+				                <h:message 
+				                   	id="m_password" 
+				                   	for="password"
+				                   	class="alert-danger fade in"/>	
+	                        </div>
+	                        
+	                        <div class="form-group">
+				   				<h:messages 
+						    	  	id="messages"
+							      	errorClass="alert alert-block alert-danger fade in"
+							      	infoClass="alert alert-block alert-success fade in"
+						     	 	style="padding-left:0px"
+						     	 	globalOnly="true"/>	                        
+	                        </div>
+	                        
+	                        <div class="text-center">
+
+				            <button 
+				            	class="btn btn-primary " 
+				            	type="submit"
+				            	jsfc="h:commandLink"
+				            	action="#{loginBean.login()}">
+				            	<i class="fa fa-user-md"></i> Login
+				            	
+				            		<f:ajax
+		                        		execute="@form"
+		                        		render="frm-login"/>
+				            	</button>	  
+				            	
+				            	                      
+	                        </div>
+
+	                	</h:form>
+                    </div>
+                </div>                
+                
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->                
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

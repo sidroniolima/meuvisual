@@ -1,0 +1,181 @@
+package net.mv.meuespaco.util;
+
+/**
+ * Paginador utilizado na navegação dos registros. 
+ * 
+ * @author Sidronio
+ *
+ */
+public class Paginator {
+
+	private int firstResult = 0;
+	private int qtdPorPagina = 0;
+	private int totalDeRegistros = 0;
+	
+	private boolean habilitado = true;
+	private int lastResult;
+	
+	public Paginator(int qtdPorPagina) {
+		this.qtdPorPagina = qtdPorPagina;
+		this.firstResult = 0;
+		this.lastResult = (firstResult + qtdPorPagina) - 1;
+	}
+
+	public Paginator(int qtdPorPagina, int totalDeRegistros) {
+		this(qtdPorPagina);
+		this.totalDeRegistros = totalDeRegistros;
+		
+		if (lastResult > totalDeRegistros) 
+		{
+			lastResult = totalDeRegistros - 1;
+		}
+	}
+
+	public void goTo(int index) {
+		
+		if (index == 0) 
+		{
+			firstResult = 0;
+			lastResult = qtdPorPagina - 1;
+		} else 
+		{
+			firstResult = (index * qtdPorPagina);
+			lastResult = firstResult + qtdPorPagina - 1;
+		}
+		
+		if (lastResult > totalDeRegistros) 
+		{
+			lastResult = totalDeRegistros - 1;
+		}
+	}
+	
+	public void next() {
+		
+		if (firstResult + qtdPorPagina < getTotalDeRegistros()) 
+		{
+			firstResult = getLastResult() + 1;
+			lastResult = firstResult + qtdPorPagina -1;
+		}
+
+	}
+	
+	public void previous() {
+		
+		if (firstResult - qtdPorPagina <= 0) 
+		{
+			firstResult = 0;
+			lastResult = qtdPorPagina - 1;
+		} else {
+			firstResult = firstResult - qtdPorPagina;
+			lastResult = (firstResult + qtdPorPagina) - 1;
+		}
+		
+	}
+	
+	/**
+	 * Reinicia o Paginator.
+	 */
+	public void reset() {
+		
+		firstResult = 0;
+		
+		lastResult = firstResult + qtdPorPagina - 1;
+	
+		/*
+		if (lastResult > totalDeRegistros) 
+		{
+			lastResult = totalDeRegistros - 1;
+		}*/
+	}
+	
+	/**
+	 * Desabilita o Paginator, setando o início para 0 
+	 * e a quantidade de registros para infinito.
+	 */
+	public void desabilita() {
+		this.firstResult = 0;
+		this.qtdPorPagina = Integer.MAX_VALUE;
+		
+		habilitado = false;
+	}
+	
+	/**
+	 * Permite apenas a visualização de 18 partes. O restante 
+	 * deverá ser navegado pelas setas direcionais.
+	 * 
+	 * @return
+	 */
+	public int partesVisiveis() {
+		int partes = getPartes();
+		return partes > 15 ? 15 : partes;
+	}
+	
+	/**
+	 * Calcula o número de partes (páginas) que o paginador tem baseado
+	 * na quantidade de registros e a quantidade por página.
+	 * 
+	 * @return qtd de partes.
+	 */
+	public int getPartes() {
+		
+		int divisao = totalDeRegistros/qtdPorPagina;
+		
+		if (totalDeRegistros % qtdPorPagina != 0) {
+			divisao++;
+		}
+		
+		return divisao;
+	}
+	
+	/**
+	 * Posiciona o paginador na última parte (página).
+	 */
+	public void goToLast() {
+		this.goTo(this.getPartes()-1);
+	}
+	
+	/**
+	 * Verifica se o paginator deve ser particionado.
+	 * 
+	 * @return true se sim.
+	 */
+	public boolean isParticionado() {
+		return this.getPartes() > this.partesVisiveis();
+	}
+	
+	public int getLastResult() {
+		return lastResult;
+	}
+	public int getFirstResult() {
+		return this.firstResult;
+	}
+	public int getQtdPorPagina() {
+		return this.qtdPorPagina;
+	}
+	
+	public int getTotalDeRegistros() {
+		return totalDeRegistros;
+	}
+	public void setTotalDeRegistros(int totalDeRegistros) {
+		if (this.totalDeRegistros > 0 && this.totalDeRegistros != totalDeRegistros)
+		{
+			this.reset();
+		}
+		this.totalDeRegistros = totalDeRegistros;
+	}
+
+	/**
+	 * @return the habilitado
+	 */
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+
+	@Override
+	public String toString() {
+		return "Paginator [getLastResult()=" + getLastResult()
+				+ ", getFirstResult()=" + getFirstResult()
+				+ ", getQtdPorPagina()=" + getQtdPorPagina() + "]";
+	}
+
+}

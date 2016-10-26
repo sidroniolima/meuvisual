@@ -1,0 +1,389 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-logged.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-logged.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+            <div class="container">
+            
+            	<h:form id="frm-lista-produto">
+
+	                <div class="col-md-12">
+	                
+	                    <ul class="breadcrumb">
+	                        <li><a href="./index.xhtml">Home</a>
+	                        </li>
+	                        <li>#{listaProdutosConsignadosBean.dep.descricao}</li>
+	                        <li>#{listaProdutosConsignadosBean.grupo.descricao}</li>
+	                        <li>#{listaProdutosConsignadosBean.subgrupo.descricao}</li>
+	                    </ul>
+	                    
+	                </div>
+	
+	                <div class="col-md-3">
+	                    <!-- *** MENUS AND FILTERS *** -->
+	 
+	 					<!-- 
+	                    <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">#{listaProdutosConsignadosBean.dep.descricao}</h3>
+	                        </div>
+	                        
+	                        <div class="panel-body">
+	                        	
+	                            <ul class="nav nav-pills nav-stacked category-menu">
+	                                <li>
+                                      	<a 
+                                      		jsfc="h:outputLink"
+                                      		outcome="lista-produtos">
+                                      		
+                                      		<h:outputText value="#{listaProdutosConsignadosBean.grupo.descricao}" />
+                                      		
+                                      		<f:param
+                                      			name="paramDep"
+                                      			value="#{listaProdutosConsignadosBean.dep}"/>
+                                      		
+                                      		<f:param
+                                      			name="paramGrupo"
+                                      			value="#{listaProdutosConsignadosBean.grupo.codigo}"/>
+                                      	</a>	                                    	
+	                                    	
+	                                    <ul>
+	                                    	<ui:repeat 
+	                                    		var="sub" 
+	                                    		value="#{listaProdutosConsignadosBean.subgrupos}">
+		                                        <li>
+		                                        	<a 
+		                                        		jsfc="h:outputLink"
+		                                        		outcome="lista-produtos">
+		                                        		
+		                                        		<h:outputText value="#{sub.descricao}" />
+		                                        		
+		                                        		<f:param
+		                                        			name="paramDep"
+		                                        			value="#{listaProdutosConsignadosBean.dep}"/>
+		                                        		
+		                                        		<f:param
+		                                        			name="paramSubgrupo"
+		                                        			value="#{sub.codigo}"/>
+		                                        	</a>
+		                                        </li>
+	                                        </ui:repeat>
+	                                    </ul>
+	                                </li>
+	                            </ul>
+	                        </div>
+		                   	
+	                    </div>
+	                     -->
+	                    
+						<h:panelGroup
+	                    	id="panel-filtros">
+	                    
+		                    <div class="panel panel-default sidebar-menu">
+		                    
+		                        <div class="panel-heading">
+		                            <h3 class="panel-title">Banho 
+		                            	<a class="btn btn-xs btn-default pull-right" 
+		                            		href="#"
+		                            		jsfc="h:commandLink"
+		                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
+		                            	
+		                            		<f:ajax
+		                            			execute="@this"
+		                            			render="panel-produtos panel-filtros panel-load-more"/>
+		                            			
+		                            		<i class="fa fa-times-circle"></i> Limpar
+		                            	</a>
+		                            </h3>
+		                        </div>
+		
+		                        <div class="panel-body">
+		                        
+		                        	<div class="form-group">
+		                        
+										<h:selectOneRadio
+											id="select-composicao"
+											value="#{listaProdutosConsignadosBean.filtro.composicao}"
+											valueChangeListener="#{listaProdutosConsignadosBean.filtraPorComposicaoListener}"
+			                               	layout="pageDirection"
+			                               	style="padding-left:20px">
+			                               			                               	
+			                               	<f:selectItems
+			                               		value="#{listaProdutosConsignadosBean.composicoes}"
+			                               		var="comp"
+			                               		itemLabel="&nbsp;&nbsp;&nbsp;#{comp.descricao}"
+			                               		itemValue="#{comp}"/>
+			                               		
+						                   	<f:ajax
+						                   		execute="@this"
+						                        event="change"
+						                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
+			                        	</h:selectOneRadio>	
+			                        </div>                      
+		
+		                        </div>
+		                    </div>
+		                    
+		                    <ui:repeat 
+								var="entry" 
+								value="#{listaProdutosConsignadosBean.caracteristicas.entrySet().toArray()}">	
+		
+		                    	<div class="panel panel-default sidebar-menu">
+								
+			                        <div class="panel-heading">
+			                            <h3 class="panel-title">#{entry.key.descricao} 
+			                            	<a class="btn btn-xs btn-default pull-right" 
+			                            		href="#"
+			                            		jsfc="h:commandLink"
+			                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
+			                            	
+							                   	<f:ajax
+							                   		execute="@this"
+							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>   
+			                            			
+			                            		<i class="fa fa-times-circle"></i> Limpar
+			                            	</a>
+			                            </h3>
+			                        </div>
+		
+		                        	<div class="panel-body">
+		    
+		                                <div class="form-group">
+		                                
+											<h:selectOneRadio
+												id="select-caracteristicas"
+												value="#{listaProdutosConsignadosBean.filtro.caracteristica}"
+												valueChangeListener="#{listaProdutosConsignadosBean.filtraPorCaracteristicaListener}"
+				                               	layout="pageDirection"
+				                               	style="padding-left:20px">
+				                               			                               	
+				                               	<f:selectItems
+				                               		value="#{entry.value}"
+				                               		var="value"
+				                               		itemLabel="&nbsp;&nbsp;&nbsp;#{value}"
+				                               		itemValue="#{value}"/>
+				                               		
+							                   	<f:ajax
+							                   		execute="@this"
+							                        event="change"
+							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		
+							                               
+				                        	</h:selectOneRadio> 
+		                                
+		                                </div>
+		
+		                        	</div> 
+		                        	
+		                        </div>
+							</ui:repeat>	 
+			                    
+		                    <!-- *** MENUS AND FILTERS END *** -->
+		                
+		                </h:panelGroup>
+	                </div>
+	
+					<div class="col-md-9">
+					    <div class="box">
+					    	<h:outputText 
+					    		style="font-size:28px"
+					    		value="#{listaProdutosConsignadosBean.grupo.descricao}" />
+				       	 	
+				       	 	<h:outputText 
+				       	 		style="font-size:22px"
+				       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
+				       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
+					    </div>
+					    
+					    <h:panelGroup
+					    	id="panel-produtos">
+					    	
+					    	<h:panelGroup
+								id="panel-sem-registros"
+								rendered="#{listaProdutosConsignadosBean.produtos.size() == 0 || listaProdutosConsignadosBean.produtos eq null}">
+								
+								<div class="box">
+									<p>Não há produtos para o filtro selecionado.</p>
+					   				
+					   				<h:messages
+							      		id="messages"
+							      		errorClass="alert alert-block alert-danger fade in"
+							      		infoClass="alert alert-success fade in"
+							      		style="padding-left:0px;"
+							      		globalOnly="true"/>										
+								</div>
+								
+							</h:panelGroup>
+					
+						    <div class="row products">
+						
+					            <ui:repeat 
+					            	var="produto" 
+					            	value="#{listaProdutosConsignadosBean.produtos}">				
+						
+							        <div class="col-md-4 col-sm-6">
+							            
+							            <div class="product">
+							                <div class="flip-container">
+							                    
+							                    <div class="flipper">
+							                    
+							                        <div class="front">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="#{produto.buscaFotoPeloIndice(1)}" />
+							                            </a>
+							                        </div>
+							                        <div class="back">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+							                            </a>
+							                        </div>
+							                    </div>
+							                </div>
+							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
+							                    <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+							                </a>
+							                <div class="text">
+							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
+							                    <p class="price">#{produto.codigoInterno}</p>
+							                    <p class="buttons">
+							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
+							                    </p>
+							                </div>
+							                <!-- /.text -->
+							            </div>
+							            <!-- /.product -->
+							            
+							        </div>
+							        <!-- /.col-md-4 -->
+						        </ui:repeat>
+						    </div>
+						    <!-- /.products -->
+						
+						</h:panelGroup>
+						<!-- /#panel-produtos -->
+
+						<h:panelGroup
+							id="panel-load-more"
+							rendered="#{not (listaProdutosConsignadosBean.produtos.size() == 0 || listaProdutosConsignadosBean.produtos eq null)}">
+							
+						    <div class="pages">
+						    
+				                <div class="col-md-12" id="paginator">
+				                
+									<nav style="text-align:center">
+						     				
+									  <ul class="pagination">
+									    <li>
+									    	<a
+									    		jsfc="h:commandLink"
+									    		actionListener="#{listaProdutosConsignadosBean.paginator.previous()}"
+									    		action="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}" 
+									    		value="«">
+
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</a>
+									    </li>
+
+									    <c:forEach 
+									    	begin="0" 
+									    	end="#{listaProdutosConsignadosBean.paginator.partesVisiveis()-1}"
+									    	var="index">
+									    	
+										    <li>
+									    		<a
+									    			jsfc="h:commandLink"
+										    		actionListener="#{listaProdutosConsignadosBean.paginator.goTo(index)}" 
+										    		action="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}"
+										    		value="#{index+1}" >
+										    		
+								                   	<f:ajax
+								                   		render="panel-produtos"/>   
+										    	</a>
+										    </li>
+									    </c:forEach>
+									    
+										<li class="disabled" 
+											style="#{not listaProdutosConsignadosBean.paginator.particionado ? 'display:none' : ''}">
+									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
+									    </li>
+									    
+									    <li
+									    	style="#{not listaProdutosConsignadosBean.paginator.particionado ? 'display:none' : ''}">
+									    	
+									      <h:commandLink
+									    		actionListener="#{listaProdutosConsignadosBean.paginator.goToLast()}" 
+									    		action="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}"
+									    		value="#{listaProdutosConsignadosBean.paginator.partes}">
+									    		
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+									    
+									    
+									    <li>
+									      <h:commandLink
+									    		actionListener="#{listaProdutosConsignadosBean.paginator.next()}" 
+									    		action="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}"
+									    		value="»">
+									    		
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+									  </ul>
+									</nav>		                
+				                
+				                </div> <!-- /#paginator -->
+				                
+						    </div>
+							    
+						</h:panelGroup>
+						<!-- /#panel-load-more -->						
+						
+					</div>
+					<!-- /.col-md-9 -->	
+					
+				</h:form> <!-- end form -->
+				
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->				
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

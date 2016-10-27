@@ -8,7 +8,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.model.cielo.CreditCard;
+import net.mv.meuespaco.model.cielo.Card;
 
 /**
  * Validator do número do cartão de crédito.
@@ -25,7 +25,7 @@ public class CreditCardNumberValidator implements Validator {
 		String cardNumber = (String) value;
 		cardNumber = cardNumber.replace(".", "");
 		
-		CreditCard creditCar = new CreditCard(cardNumber);
+		Card creditCar = new Card(cardNumber);
 		
 		try 
 		{

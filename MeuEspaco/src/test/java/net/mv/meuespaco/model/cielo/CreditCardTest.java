@@ -19,39 +19,39 @@ import net.mv.meuespaco.util.DataDoSistema;
 
 public class CreditCardTest {
 
-	private CreditCard creditCard_2;
-	private CreditCard creditCard_1;
-	private CreditCard creditCard_3;
-	private CreditCard creditCard_4;
-	private CreditCard creditCard_5;
-	private CreditCard creditCard_6;
-	private CreditCard creditCard_7;
+	private Card creditCard_2;
+	private Card creditCard_1;
+	private Card creditCard_3;
+	private Card creditCard_4;
+	private Card creditCard_5;
+	private Card creditCard_6;
+	private Card creditCard_7;
 	
 	private DataDoSistema dataFalsa = Mockito.mock(DataDoSistema.class);
-	private CreditCard cartaoMaster;
-	private CreditCard cartaoVisa;
-	private CreditCard cartaoDiners;
-	private CreditCard cartaoDiscover;
-	private CreditCard cartaoJCB;
-	private CreditCard cartaoAura;
+	private Card cartaoMaster;
+	private Card cartaoVisa;
+	private Card cartaoDiners;
+	private Card cartaoDiscover;
+	private Card cartaoJCB;
+	private Card cartaoAura;
 	
 	@Before
 	public void init()
 	{
-		creditCard_1 = new CreditCard("5162445578415641", "12/2000", dataFalsa);
-		creditCard_2 = new CreditCard("1111444455551112", "13/2016", dataFalsa);
-		creditCard_3 = new CreditCard("7451234871","11/2017", dataFalsa);
-		creditCard_4 = new CreditCard("5162203955588846","11/2016", dataFalsa);
-		creditCard_5 = new CreditCard("51622039555888469","10/2016", dataFalsa);
-		creditCard_6 = new CreditCard("51622039","07/2016", dataFalsa);
-		creditCard_7 = new CreditCard("5162203955588846","09/2016", dataFalsa);
+		creditCard_1 = new Card("5162445578415641", "12/2000", dataFalsa);
+		creditCard_2 = new Card("1111444455551112", "13/2016", dataFalsa);
+		creditCard_3 = new Card("7451234871","11/2017", dataFalsa);
+		creditCard_4 = new Card("5162203955588846","11/2016", dataFalsa);
+		creditCard_5 = new Card("51622039555888469","10/2016", dataFalsa);
+		creditCard_6 = new Card("51622039","07/2016", dataFalsa);
+		creditCard_7 = new Card("5162203955588846","09/2016", dataFalsa);
 		
-		cartaoMaster = new CreditCard("5162203955588846","09/2016", dataFalsa);
-		cartaoVisa = new CreditCard("4162203955588846","09/2016", dataFalsa);
-		cartaoDiners = new CreditCard("38022039555888","09/2016", dataFalsa);
-		cartaoDiscover = new CreditCard("6011203955588846","09/2016", dataFalsa);
-		cartaoJCB = new CreditCard("3562203955588846","09/2016", dataFalsa);
-		cartaoAura = new CreditCard("5062203955588846","09/2016", dataFalsa);
+		cartaoMaster = new Card("5162203955588846","09/2016", dataFalsa);
+		cartaoVisa = new Card("4162203955588846","09/2016", dataFalsa);
+		cartaoDiners = new Card("38022039555888","09/2016", dataFalsa);
+		cartaoDiscover = new Card("6011203955588846","09/2016", dataFalsa);
+		cartaoJCB = new Card("3562203955588846","09/2016", dataFalsa);
+		cartaoAura = new Card("5062203955588846","09/2016", dataFalsa);
 	}
 	
 	@Test

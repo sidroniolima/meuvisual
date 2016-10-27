@@ -9,8 +9,9 @@ import org.junit.Test;
 
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.cielo.Brand;
+import net.mv.meuespaco.model.cielo.Card;
 import net.mv.meuespaco.model.cielo.CieloException;
-import net.mv.meuespaco.model.cielo.CreditCard;
+import net.mv.meuespaco.model.cielo.CreditPayment;
 import net.mv.meuespaco.model.cielo.Customer;
 import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.cielo.Payment;
@@ -22,7 +23,7 @@ public class IntegracaoCieloServiceImplTest {
 	private IntegracaoCieloService integracaoSrvc = new IntegracaoCieloServiceImpl();
 	private Pagamento pagamento;
 	private Customer customer;
-	private CreditCard creditCard;
+	private Card creditCard;
 	private Payment payment;
 	
 	@Before
@@ -34,10 +35,10 @@ public class IntegracaoCieloServiceImplTest {
 	}
 	
 	@Test
-	public void deveAprovarVenda() throws CieloException, IntegracaoException 
+	public void deveAprovarVendaDeCredito() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -46,11 +47,11 @@ public class IntegracaoCieloServiceImplTest {
 		assertTrue("Transação Autorizada", resposta.isAutorizado());
 	}
 	
-	@Test
-	public void naoDeveAprovarVenda() throws CieloException, IntegracaoException 
+	@Test(expected=CieloException.class)
+	public void naoDeveAprovarVendaDeCredito() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000002", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000002", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -60,10 +61,10 @@ public class IntegracaoCieloServiceImplTest {
 	}
 	
 	@Test
-	public void naoDeveAprovarVenda_TimeOut() throws CieloException, IntegracaoException 
+	public void naoDeveAprovarVendaDeCredito_TimeOut() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000009", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000009", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -73,11 +74,11 @@ public class IntegracaoCieloServiceImplTest {
 				resposta.getPayment().getReturnCode().contains("99"));
 	}
 	
-	@Test
-	public void naoDeveAprovarVenda_CartaoCancelado() throws CieloException, IntegracaoException 
+	@Test(expected=CieloException.class)
+	public void naoDeveAprovarVendaDeCredito_CartaoCancelado() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000007", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000007", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -86,11 +87,11 @@ public class IntegracaoCieloServiceImplTest {
 		assertTrue("Transação NÃO Autorizada", !resposta.isAutorizado());
 	}
 	
-	@Test
-	public void naoDeveAprovarVenda_Problemas_Com_O_Cartao() throws CieloException, IntegracaoException 
+	@Test(expected=CieloException.class)
+	public void naoDeveAprovarVendaDeCredito_Problemas_Com_O_Cartao() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000008", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000008", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -99,11 +100,11 @@ public class IntegracaoCieloServiceImplTest {
 		assertTrue("Transação NÃO Autorizada", !resposta.isAutorizado());
 	}
 	
-	@Test
-	public void naoDeveAprovarVenda_Cartao_Bloqueado() throws CieloException, IntegracaoException 
+	@Test(expected=CieloException.class)
+	public void naoDeveAprovarVendaDeCredito_Cartao_Bloqueado() throws IntegracaoException, CieloException 
 	{
-		creditCard = new CreditCard("0000000000000005", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000005", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -112,11 +113,11 @@ public class IntegracaoCieloServiceImplTest {
 		assertTrue("Transação NÃO Autorizada", !resposta.isAutorizado());
 	}
 	
-	@Test
-	public void naoDeveAprovarVenda_Cartao_Expirado() throws CieloException, IntegracaoException 
+	@Test(expected=CieloException.class)
+	public void naoDeveAprovarVendaDeCredito_Cartao_Expirado() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000003", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("0000000000000003", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
@@ -126,10 +127,10 @@ public class IntegracaoCieloServiceImplTest {
 	}
 	
 	@Test
-	public void deveGerarError_Numero_Cartao() throws IntegracaoException
+	public void deveGerarErrorNoCredito_Numero_Cartao() throws IntegracaoException
 	{
-		creditCard = new CreditCard("000000000000000000000000003", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		creditCard = new Card("000000000000000000000000003", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta;
@@ -139,7 +140,7 @@ public class IntegracaoCieloServiceImplTest {
 			resposta = integracaoSrvc.efetuaPagamento(pagamento);
 			fail("Deveria ter lançado a exceção.");
 		} catch (CieloException e) {
-			System.out.println(e.getMessage());
+			
 		}
 		
 	}

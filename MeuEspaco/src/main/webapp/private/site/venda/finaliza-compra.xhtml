@@ -69,7 +69,7 @@
 						                            	class="form-control text-capitalize" 
 						                            	id="input-nome" 
 						                            	pt:placeholder="Nome"
-						                            	value="#{pagamentoBean.pagamento.payment.creditCard.holder}"
+						                            	value="#{pagamentoBean.pagamento.payment.card.holder}"
 						                            	required="true"
 						                            	requiredMessage="É necessário informar o nome.">
 						                            	
@@ -96,7 +96,7 @@
 						                            	class="form-control" 
 						                            	id="input-credit-card" 
 						                            	pt:placeholder="Digite apenas os números"
-						                            	value="#{pagamentoBean.pagamento.payment.creditCard.cardNumber}"
+						                            	value="#{pagamentoBean.pagamento.payment.card.cardNumber}"
 						                            	required="true"
 						                            	requiredMessage="Favor preencher o número do cartão.">
 						                            					                             		
@@ -126,7 +126,7 @@
 						                            	class="form-control" 
 						                            	id="input-expiration-date" 
 						                            	pt:placeholder="Digite no formato MM/AAAA"
-						                            	value="#{pagamentoBean.pagamento.payment.creditCard.expirationDate}"
+						                            	value="#{pagamentoBean.pagamento.payment.card.expirationDate}"
 						                            	required="true"
 						                            	requiredMessage="Preencha a validade do cartão no formato MM/aaaa"
 						                            	>
@@ -158,7 +158,7 @@
 						                            	class="form-control" 
 						                            	id="input-security-code" 
 						                            	pt:placeholder="Digite o código com 3 dígitos"
-						                            	value="#{pagamentoBean.pagamento.payment.creditCard.securityCode}"
+						                            	value="#{pagamentoBean.pagamento.payment.card.securityCode}"
 						                            	maxlength="3"
 						                            	required="true"
 						                            	requiredMessage="O código de segurança é necessário.">
@@ -182,11 +182,11 @@
 						                            <label for="select-brand">Bandeira do cartão <span class="required">*</span></label>
 						                          	<h:selectOneMenu 
 						                          		styleClass="form-control"
-						                          		value="#{pagamentoBean.pagamento.payment.creditCard.brand}"
+						                          		value="#{pagamentoBean.pagamento.payment.card.brand}"
 						                          		id="select-brand"
 						                          		required="true"
 						                          		requiredMessage="Informe a bandeira."
-						                          		disabled="#{pagamentoBean.pagamento.payment.creditCard.brand ne null}">
+						                          		disabled="#{pagamentoBean.pagamento.payment.card.brand ne null}">
 						                          		
 						                          		<f:selectItem itemLabel="Selecione a bandeira" 
 						                          			noSelectionOption="true"/>
@@ -239,7 +239,7 @@
 		                    <div class="box" id="order-summary">
 		                        <div class="box-header">
 		                            <h3>Sumário da compra</h3>
-		                            <b>Código: </b> #{pagamentoBean.pagamento.merchandOrderId}
+		                            <b>Código: </b> #{pagamentoBean.pagamento.merchantOrderId}
 		                        </div>
 		                        <p class="text-muted">Abaixo, os números da venda.</p>
 		

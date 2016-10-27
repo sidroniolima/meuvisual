@@ -4,28 +4,16 @@ import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Payment {
+public abstract class Payment {
 
-	@SerializedName("Type")
-	private PaymentType type;
-	
 	@SerializedName("Amount")
 	private float amount;
-	
-	@SerializedName("Installments")
-	private int installments;
-	
-	@SerializedName("CreditCard")
-	private CreditCard creditCard;
-	
-	@SerializedName("ProofOfSale")
-	private String proofOfSale;
+
+	@SerializedName(value="CreditCard", alternate={"DebitCard"})
+	private Card card;
 	
 	@SerializedName("Tid")
 	private String tId;
-	
-	@SerializedName("AuthorizationCode")
-	private String authorizationCode;
 	
 	@SerializedName("SoftDescriptor")
 	private final String softDescriptor = "Meu Espaço";
@@ -46,27 +34,21 @@ public class Payment {
 	 * Padrão com installments (parcela) única.
 	 */
 	public Payment() {	
-		this.installments = 1;
-		this.type = PaymentType.CreditCard;
 		this.paymentId = UUID.randomUUID();
-		this.creditCard = new CreditCard();
+		this.card = new Card();
 	}
 	
 	/**
 	 * Criação do pagamento;
 	 * 
-	 * @param type
 	 * @param amount
-	 * @param installments
-	 * @param creditCard
+	 * @param card
 	 */
-	public Payment(PaymentType type, float amount, int installments, CreditCard creditCard) 
+	public Payment(float amount, Card card) 
 	{
 		this();
-		this.type = type;
 		this.amount = amount;
-		this.installments = installments;
-		this.creditCard = creditCard;
+		this.card = card;
 	}
 	
 	/**
@@ -79,32 +61,49 @@ public class Payment {
 		this();
 		this.amount = amount;
 	}
-
+	
+	
 	/**
-	 * Criaçã da Resposta.
+	 * Construtor com todos os membros.
 	 * 
-	 * @param proofOfSale
+	 * @param amount
+	 * @param card
 	 * @param tId
-	 * @param authorizationCode
-	 * @param paymanetId
+	 * @param paymentId
 	 * @param status
 	 * @param returnCode
 	 * @param returnMessage
 	 */
-	public Payment(String proofOfSale, String tId, String authorizationCode, 
-			UUID paymentId, String status,
-			String returnCode, String returnMessage) 
-	{
+	public Payment(float amount, Card card, String tId, UUID paymentId, String status, String returnCode,
+			String returnMessage) {
 		this();
-		
-		this.proofOfSale = proofOfSale;
+		this.amount = amount;
+		this.card = card;
 		this.tId = tId;
-		this.authorizationCode = authorizationCode;
 		this.paymentId = paymentId;
 		this.status = status;
 		this.returnCode = returnCode;
 		this.returnMessage = returnMessage;
 	}
+
+	/**
+	 * Define o tipo do Payment.
+	 * 
+	 * @return
+	 */
+	public abstract PaymentType getType();
+	
+	/**
+	 * Serializa o objeto.
+	 * 
+	 * @return json.
+	 */
+	public abstract String toJson();
+	
+	/**
+	 * Cria um objeto pelo Json.
+	 */
+	public abstract Payment fromJson(String json);
 	
 	/**
 	 * Verifica se um pagamento foi autorizado, 
@@ -114,14 +113,7 @@ public class Payment {
 	 */
 	public boolean isAutorizado()
 	{
-		return this.returnCode.equals("4");
-	}
-	
-	public PaymentType getType() {
-		return type;
-	}
-	public void setType(PaymentType type) {
-		this.type = type;
+		return this.status.equals("1");
 	}
 	
 	public float getAmount() {
@@ -131,25 +123,11 @@ public class Payment {
 		this.amount = amount;
 	}
 	
-	public int getInstallments() {
-		return installments;
+	public Card getCard() {
+		return card;
 	}
-	public void setInstallments(int installments) {
-		this.installments = installments;
-	}
-	
-	public CreditCard getCreditCard() {
-		return creditCard;
-	}
-	public void setCreditCard(CreditCard creditCard) {
-		this.creditCard = creditCard;
-	}
-
-	public String getProofOfSale() {
-		return proofOfSale;
-	}
-	public void setProofOfSale(String proofOfSale) {
-		this.proofOfSale = proofOfSale;
+	public void setCard(Card card) {
+		this.card = card;
 	}
 
 	public String gettId() {
@@ -157,13 +135,6 @@ public class Payment {
 	}
 	public void settId(String tId) {
 		this.tId = tId;
-	}
-
-	public String getAuthorizationCode() {
-		return authorizationCode;
-	}
-	public void setAuthorizationCode(String authorizationCode) {
-		this.authorizationCode = authorizationCode;
 	}
 
 	public UUID getPaymentId() {

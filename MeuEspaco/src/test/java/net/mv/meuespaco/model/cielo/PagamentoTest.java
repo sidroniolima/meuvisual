@@ -1,11 +1,11 @@
 package net.mv.meuespaco.model.cielo;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.gson.Gson;
 
 public class PagamentoTest {
 
@@ -56,22 +56,21 @@ public class PagamentoTest {
 	private Pagamento pagamento;
 	private Customer customer;
 	private Payment payment;
-	private CreditCard creditCard;
+	private Card creditCard;
 	
 	@Before
 	public void init()
 	{
-
+		customer = new Customer("Sidronio");
+		creditCard = new Card("1234123412341234", "Teste Holder", "09/2016", "123", Brand.Visa);
+		payment = new CreditPayment(15000, 1, creditCard);
+		pagamento = new Pagamento("365547", customer, payment);
+		
 	}
 	
 	@Test
-	public void deveGerarOJsonDoPagamento() 
-	{
-		customer = new Customer("Sidronio");
-		creditCard = new CreditCard("1234123412341234", "Teste Holder", "09/2016", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
-		pagamento = new Pagamento("365547", customer, payment);
-		
+	public void deveSerializarOPagamentoViaCartaoDeCredito() 
+	{	
 		String pagamentoJson = pagamento.converterToJson();
 		
 		assertTrue("Json gerado", pagamentoJson.length() > 0);
@@ -80,14 +79,14 @@ public class PagamentoTest {
 	}
 	
 	@Test
-	public void deveConverterDeJsonParaObjetoResposta() 
+	public void deveConverterDeJsonParaPagamentoViaCreditCardPayment() 
 	{
-		Pagamento resposta = new Gson().fromJson(respostaOk, Pagamento.class);
+		Pagamento pagamento = new Pagamento().fromJson(respostaOk);
 		
-		assertFalse("Resposta não null", null == resposta);
+		assertFalse("Resposta não null", null == pagamento);
 		
-		System.out.println(resposta);
+		System.out.println(pagamento);
 		
-		assertEquals("Status da resposta", "1", resposta.getPayment().getStatus());
+		assertEquals("Status da resposta", "1", pagamento.getPayment().getStatus());
 	}
 }

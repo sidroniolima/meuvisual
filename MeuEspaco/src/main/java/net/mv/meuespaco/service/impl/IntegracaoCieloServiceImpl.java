@@ -54,11 +54,15 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Pagamento efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException {
 
-		Response clientResponse = this.target
+		CieloError[] erros = null;
+		Response clientResponse;
+		String jsonPagamento = pagamento.converterToJson();
+		
+		clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
 				.header("MerchantKey", "QVFSNMALCAUVPPYZLTCBJESLIWNZWBPTVSNLLFCN")
-				.post(Entity.json(pagamento.converterToJson()), Response.class);
+				.post(Entity.json(jsonPagamento), Response.class);
 		
 		if (clientResponse.getStatus() == 500)
 		{
@@ -69,21 +73,26 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		log.info("Enviando pagamento: " + pagamento.converterToJson());
 		
 		String resposta = clientResponse.readEntity(String.class);
+		System.out.println("RESPOSTA -> " + clientResponse.getStatusInfo() + " ---- " + resposta);
+		log.info(resposta);
 		
-		Pagamento respostaJson;
-		CieloError[] erros;		
-		
-		try 
-		{
-			respostaJson = new Gson().fromJson(resposta, Pagamento.class);
-		} catch (JsonSyntaxException ex)
+		if (clientResponse.getStatus() == 400)
 		{
 			erros = new Gson().fromJson(resposta, CieloError[].class);
 			throw new CieloException(erros[0].toString());
 		}
 		
-		log.info(resposta);
-		return respostaJson;
+		Pagamento respostaPagamento;	
+		
+		respostaPagamento = new Pagamento().fromJson(resposta);
+		
+		if (!respostaPagamento.isAutorizado())
+		{
+			throw new CieloException("Pagamento não autorizado. Tente novamente com outro cartão.");
+		}
+		
+		
+		return respostaPagamento;
 	}
 
 }

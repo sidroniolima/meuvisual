@@ -8,7 +8,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.model.cielo.CreditCard;
+import net.mv.meuespaco.model.cielo.Card;
 
 /**
  * Valida na View a data de expiração do cartão.
@@ -19,11 +19,11 @@ import net.mv.meuespaco.model.cielo.CreditCard;
 @FacesValidator("creditCardExpirationDateValidator")
 public class CreditCardExpirationDateValidator implements Validator 
 {
-	private CreditCard creditCard;
+	private Card creditCard;
 
 	public CreditCardExpirationDateValidator() {	}
 	
-	public CreditCardExpirationDateValidator(CreditCard creditCard) 
+	public CreditCardExpirationDateValidator(Card creditCard) 
 	{
 		this();
 		this.creditCard = creditCard;
@@ -50,11 +50,11 @@ public class CreditCardExpirationDateValidator implements Validator
 	 * @param expirationDate
 	 * @return
 	 */
-	protected CreditCard getCreditCard(String expirationDate)
+	protected Card getCreditCard(String expirationDate)
 	{
 		if (null == creditCard)
 		{
-			return new CreditCard("", expirationDate);
+			return new Card("", expirationDate);
 		}
 		
 		return this.creditCard;

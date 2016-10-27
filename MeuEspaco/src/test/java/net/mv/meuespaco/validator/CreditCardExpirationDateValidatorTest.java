@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-import net.mv.meuespaco.model.cielo.CreditCard;
+import net.mv.meuespaco.model.cielo.Card;
 import net.mv.meuespaco.util.DataDoSistema;
 
 public class CreditCardExpirationDateValidatorTest {
@@ -29,7 +29,7 @@ public class CreditCardExpirationDateValidatorTest {
 		when(dataFalsa.hoje()).thenReturn(LocalDate.of(2016, 10, 30));
 		
 		CreditCardExpirationDateValidator validator = 
-				new CreditCardExpirationDateValidator(new CreditCard("", dataInvalida, dataFalsa));
+				new CreditCardExpirationDateValidator(new Card("", dataInvalida, dataFalsa));
 		
 		try
 		{
@@ -48,7 +48,7 @@ public class CreditCardExpirationDateValidatorTest {
 		when(dataFalsa.hoje()).thenReturn(LocalDate.of(2016, 10, 30));
 		
 		CreditCardExpirationDateValidator validator = 
-				new CreditCardExpirationDateValidator(new CreditCard("", dataValida, dataFalsa));
+				new CreditCardExpirationDateValidator(new Card("", dataValida, dataFalsa));
 		
 		try
 		{
@@ -66,7 +66,7 @@ public class CreditCardExpirationDateValidatorTest {
 		when(dataFalsa.hoje()).thenReturn(LocalDate.of(2016, 10, 30));
 		
 		CreditCardExpirationDateValidator validator = 
-				new CreditCardExpirationDateValidator(new CreditCard("", dataVencida, dataFalsa));
+				new CreditCardExpirationDateValidator(new Card("", dataVencida, dataFalsa));
 		
 		try
 		{

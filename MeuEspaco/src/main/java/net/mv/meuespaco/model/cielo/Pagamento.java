@@ -1,12 +1,13 @@
 package net.mv.meuespaco.model.cielo;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 public class Pagamento {
 
 	@SerializedName("MerchantOrderId")
-	private String merchandOrderId;
+	private String merchantOrderId;
 	
 	@SerializedName("Customer")
 	private Customer customer;
@@ -19,27 +20,28 @@ public class Pagamento {
 	}
 	
 	/**
-	 * Cria um pagamento com o código da venda (merchandId) e valor
+	 * Cria um pagamento com o código da venda (merchanyId) e valor
 	 * (amount).
 	 * 
 	 * @param merchanOrderId
 	 * @param amount
 	 */
-	public Pagamento(String merchanOrderId, String customerName, float amount)
+	public Pagamento(String merchantOrderId, String customerName)
 	{
 		this();
-		this.merchandOrderId = merchanOrderId;
-		this.payment = new Payment(amount);
+		this.merchantOrderId = merchantOrderId;
 		customer = new Customer(customerName);
 	}
 	
-	public Pagamento(String merchandOrderId, Customer customer, Payment payment) 
+	public Pagamento(String merchantOrderId, Customer customer, Payment payment) 
 	{
 		this();
-		this.merchandOrderId = merchandOrderId;
+		this.merchantOrderId = merchantOrderId;
 		this.customer = customer;
 		this.payment = payment;
 	}
+	
+	
 
 	/**
 	 * Converte o objeto pagamento para Json.
@@ -48,7 +50,33 @@ public class Pagamento {
 	 */
 	public String converterToJson()
 	{
-		return new Gson().toJson(this);
+		return this.generateGson().toJson(this);
+	}
+	
+	/**
+	 * Gera um pagamento pelo Json.
+	 * 
+	 * @param json
+	 * @return
+	 */
+	public Pagamento fromJson(String json)
+	{
+		return this.generateGson().fromJson(json, Pagamento.class);
+	}
+	
+	/**
+	 * Gera o Gson registrando os TypeAdapter para o serializador e 
+	 * deserializador.
+	 * 
+	 * @return
+	 */
+	private Gson generateGson()
+	{
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Pagamento.class, new PagamentoCreditPaymentDeserializer());
+		gsonBuilder.registerTypeAdapter(Pagamento.class, new PagamentoCreditPaymentSerializer());
+		
+		return gsonBuilder.create();
 	}
 	
 	/**
@@ -61,11 +89,11 @@ public class Pagamento {
 		return this.payment.isAutorizado();
 	}
 	
-	public String getMerchandOrderId() {
-		return merchandOrderId;
+	public String getMerchantOrderId() {
+		return merchantOrderId;
 	}
-	public void setMerchandOrderId(String merchandOrderId) {
-		this.merchandOrderId = merchandOrderId;
+	public void setMerchantOrderId(String merchantOrderId) {
+		this.merchantOrderId = merchantOrderId;
 	}
 	public Customer getCustomer() {
 		return customer;

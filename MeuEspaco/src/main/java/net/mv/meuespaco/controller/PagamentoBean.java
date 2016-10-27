@@ -11,6 +11,7 @@ import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.cielo.Brand;
 import net.mv.meuespaco.model.cielo.CieloException;
+import net.mv.meuespaco.model.cielo.CreditPayment;
 import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
@@ -58,8 +59,9 @@ public class PagamentoBean implements Serializable {
 
 		pagamento = new Pagamento(
 				venda.codigoFormatado(), 
-				clienteLogado.getNome(), 
-				venda.valorComDesconto().floatValue());
+				clienteLogado.getNome());
+		
+		pagamento.setPayment(new CreditPayment(venda.valorComDesconto().floatValue()));
 	}
 	
 	/**
@@ -72,6 +74,8 @@ public class PagamentoBean implements Serializable {
 	{
 		try 
 		{
+			this.pagamento.getPayment().getCard().setCardNumber("0000000000000001");
+			//TODO: retirar!!!
 			cielo.efetuaPagamento(this.pagamento);
 			
 			prePagamento.removerVenda();

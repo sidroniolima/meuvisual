@@ -4,7 +4,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.persistence.Transient;
@@ -19,7 +18,7 @@ import net.mv.meuespaco.util.Luhn;
  * @author sidronio
  *
  */
-public class CreditCard {
+public class Card {
 
 	@SerializedName("CardNumber")
 	private String cardNumber;
@@ -39,7 +38,7 @@ public class CreditCard {
 	@Transient
 	private DataDoSistema now;
 
-	public CreditCard() {	
+	public Card() {	
 		now = new DataDoSistema();
 	}
 	
@@ -48,13 +47,24 @@ public class CreditCard {
 	 * 
 	 * @param now
 	 */
-	public CreditCard(DataDoSistema now) 
+	public Card(DataDoSistema now) 
 	{
 		this();
 		this.now = now;
 	}
 
-	public CreditCard(String cardNumber, String holder, String expirationDate, String securityCode, Brand brand) {
+	public Card(String cardNumber, String holder, String expirationDate, Brand brand) 
+	{
+		this();
+		this.cardNumber = cardNumber;
+		this.holder = holder;
+		this.expirationDate = expirationDate;
+		this.brand = brand;
+	}
+
+	public Card(String cardNumber, String holder, String expirationDate, String securityCode, Brand brand) 
+	{
+		this();
 		this.setCardNumber(cardNumber);
 		this.holder = holder;
 		this.expirationDate = expirationDate;
@@ -67,7 +77,7 @@ public class CreditCard {
 	 * 
 	 * @param string
 	 */
-	public CreditCard(String cardNumber) 
+	public Card(String cardNumber) 
 	{
 		this();
 		this.setCardNumber(cardNumber);
@@ -79,7 +89,7 @@ public class CreditCard {
 	 * @param cardNumber
 	 * @param expirationDate
 	 */
-	public CreditCard(String cardNumber, String expirationDate) 
+	public Card(String cardNumber, String expirationDate) 
 	{
 		this();
 		this.setCardNumber(cardNumber);
@@ -94,7 +104,7 @@ public class CreditCard {
 	 * @param expirationDate
 	 * @param now
 	 */
-	public CreditCard(String cardNumber, String expirationDate, DataDoSistema now) {
+	public Card(String cardNumber, String expirationDate, DataDoSistema now) {
 		this();
 		this.setCardNumber(cardNumber);
 		this.expirationDate = expirationDate;

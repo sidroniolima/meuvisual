@@ -84,9 +84,9 @@ public class AtualizacaoClientesBean implements Serializable {
 		
 		status = 50;
 		
-		//clienteSrvc.inativaClientesQueNaoEstaoEntreOsCodigos(codigosDosClientesDoERP);
-		//usuarioSrvc.inativaUsuarios();
-		//usuarioSrvc.reativaUsuarios();
+		clienteSrvc.inativaClientesQueNaoEstaoEntreOsCodigos(codigosDosClientesDoERP);
+		usuarioSrvc.inativaUsuarios();
+		usuarioSrvc.reativaUsuarios();
 		
 		status = 100;
 

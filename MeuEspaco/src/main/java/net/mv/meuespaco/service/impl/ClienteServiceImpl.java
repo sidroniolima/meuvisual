@@ -273,7 +273,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 					if (null != cliente) {
 						
 						try {
-							
+
 							clientesDoArquivo.add(cliente.getCodigo());
 							cliente.atualizaValoresDoErp(v.getQtdPermitida(), v.getValorPermitido());
 							this.salva(cliente);

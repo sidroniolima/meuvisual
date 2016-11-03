@@ -50,7 +50,13 @@ public class Pagamento {
 	 */
 	public String converterToJson()
 	{
-		return this.generateGson().toJson(this);
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Pagamento.class, new PagamentoSerializer());
+		gsonBuilder.setPrettyPrinting();
+		
+		Gson gson = gsonBuilder.create();
+		
+		return gson.toJson(this);
 	}
 	
 	/**
@@ -59,26 +65,26 @@ public class Pagamento {
 	 * @param json
 	 * @return
 	 */
-	public Pagamento fromJson(String json)
-	{
-		return this.generateGson().fromJson(json, Pagamento.class);
-	}
-	
-	/**
-	 * Gera o Gson registrando os TypeAdapter para o serializador e 
-	 * deserializador.
-	 * 
-	 * @return
-	 */
-	private Gson generateGson()
+	public Pagamento fromJson(String json, PaymentType type)
 	{
 		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(Pagamento.class, new PagamentoCreditPaymentDeserializer());
-		gsonBuilder.registerTypeAdapter(Pagamento.class, new PagamentoCreditPaymentSerializer());
+		PagamentoDeserializer pagamentoDeserializer;
 		
-		return gsonBuilder.create();
+		if (type.equals(PaymentType.CreditCard))
+		{
+			pagamentoDeserializer = new PagamentoCreditDeserializer();
+		} else 
+		{
+			pagamentoDeserializer = new PagamentoDebitDeserializer();
+		}
+		
+		gsonBuilder.registerTypeAdapter(Pagamento.class, pagamentoDeserializer);
+		
+		Gson gson = gsonBuilder.serializeNulls().create();
+		
+		return gson.fromJson(json, Pagamento.class);
 	}
-	
+		
 	/**
 	 * Verifica se o pagament foi autorizado.
 	 * 

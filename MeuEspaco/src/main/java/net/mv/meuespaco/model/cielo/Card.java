@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import javax.persistence.Transient;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -109,6 +111,38 @@ public class Card {
 		this.setCardNumber(cardNumber);
 		this.expirationDate = expirationDate;
 		this.now = now;
+	}
+	
+	/**
+	 * Converte um objeto Crad em um Json.
+	 * 
+	 * @return json.
+	 */
+	public String toJson()
+	{
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Card.class, new CardSerializer());
+		gsonBuilder.setPrettyPrinting();
+		
+		Gson gson = gsonBuilder.create();
+		
+		return gson.toJson(this);
+	}
+	
+	/**
+	 * Cria um objeto Card a partir de um Json.
+	 * 
+	 * @param json
+	 * @return
+	 */
+	public Card fromJson(String json)
+	{
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(Card.class, new CardDeserializer());
+		
+		Gson gson = gsonBuilder.serializeNulls().create();
+		
+		return gson.fromJson(json, Card.class);
 	}
 
 	/**

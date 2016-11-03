@@ -62,9 +62,6 @@ public class CreditPaymentTest {
 		
 		assertFalse("Resposta não null", null == creditPayment);
 		
-		System.out.println(creditPayment);
-		
-		
 		assertEquals("Type", "CreditCard", creditPayment.getType().toString());
 		assertEquals("Amount", 157.00f, creditPayment.getAmount(), 0.0f);
 		assertEquals("Installments", 1, creditPayment.getInstallments());

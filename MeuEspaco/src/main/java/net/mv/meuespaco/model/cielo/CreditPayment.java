@@ -73,6 +73,18 @@ public class CreditPayment extends Payment {
 		return PaymentType.CreditCard;
 	}
 	
+	/**
+	 * Verifica se um pagamento foi autorizado, 
+	 * com código de retorno 1.
+	 * 
+	 * @return se autorizado ou não.
+	 */
+	@Override
+	public boolean isAutorizado()
+	{
+		return this.getStatus().equals("1");
+	}
+	
 	@Override
 	public String toJson()
 	{
@@ -88,7 +100,6 @@ public class CreditPayment extends Payment {
 	@Override
 	public CreditPayment fromJson(String json) 
 	{
-		System.out.println(json);
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(CreditPayment.class, new CreditPaymentDeserializer());
 		

@@ -74,18 +74,14 @@ public class PagamentoTest {
 		String pagamentoJson = pagamento.converterToJson();
 		
 		assertTrue("Json gerado", pagamentoJson.length() > 0);
-		
-		System.out.println(pagamentoJson);
 	}
 	
 	@Test
 	public void deveConverterDeJsonParaPagamentoViaCreditCardPayment() 
 	{
-		Pagamento pagamento = new Pagamento().fromJson(respostaOk);
+		Pagamento pagamento = new Pagamento().fromJson(respostaOk, PaymentType.CreditCard);
 		
 		assertFalse("Resposta não null", null == pagamento);
-		
-		System.out.println(pagamento);
 		
 		assertEquals("Status da resposta", "1", pagamento.getPayment().getStatus());
 	}

@@ -8,8 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
-public class PagamentoCreditPaymentDeserializer implements JsonDeserializer<Pagamento> 
-{
+public abstract class PagamentoDeserializer implements JsonDeserializer<Pagamento> {
 
 	@Override
 	public Pagamento deserialize(JsonElement json, Type type, JsonDeserializationContext context)
@@ -29,11 +28,18 @@ public class PagamentoCreditPaymentDeserializer implements JsonDeserializer<Paga
 		
 		final JsonObject jsonPayment = jsonPagamento.getAsJsonObject("Payment");
 		
-		payment = new CreditPayment().fromJson(jsonPayment.getAsJsonObject().toString());
+		payment = this.getPayment().fromJson(jsonPayment.getAsJsonObject().toString());
 		
 		pagamento = new Pagamento(merchantId, new Customer(name), payment); 
 		
 		return pagamento;
 	}
+	
+	/**
+	 * Retorna um pagamento via crédito ou débito.
+	 * 
+	 * @return
+	 */
+	public abstract Payment getPayment();
 
 }

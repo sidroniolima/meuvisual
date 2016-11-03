@@ -75,7 +75,8 @@ public abstract class Payment {
 	 * @param returnMessage
 	 */
 	public Payment(float amount, Card card, String tId, UUID paymentId, String status, String returnCode,
-			String returnMessage) {
+			String returnMessage) 
+	{
 		this();
 		this.amount = amount;
 		this.card = card;
@@ -86,6 +87,24 @@ public abstract class Payment {
 		this.returnMessage = returnMessage;
 	}
 
+	/**
+	 * @param amount
+	 * @param card
+	 * @param tId
+	 * @param paymentId
+	 * @param status
+	 * @param returnCode
+	 */
+	public Payment(float amount, Card card, String tId, UUID paymentId, String status, String returnCode) 
+	{
+		this();
+		this.amount = amount;
+		this.card = card;
+		this.tId = tId;
+		this.paymentId = paymentId;
+		this.status = status;
+		this.returnCode = returnCode;
+	}
 	/**
 	 * Define o tipo do Payment.
 	 * 
@@ -107,14 +126,10 @@ public abstract class Payment {
 	
 	/**
 	 * Verifica se um pagamento foi autorizado, 
-	 * com código de retorno 4.
 	 * 
 	 * @return se autorizado ou não.
 	 */
-	public boolean isAutorizado()
-	{
-		return this.status.equals("1");
-	}
+	public abstract boolean isAutorizado();
 	
 	public float getAmount() {
 		return amount;

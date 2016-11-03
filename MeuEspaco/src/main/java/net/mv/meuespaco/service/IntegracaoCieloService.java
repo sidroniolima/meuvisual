@@ -13,5 +13,7 @@ import net.mv.meuespaco.model.cielo.Pagamento;
 public interface IntegracaoCieloService {
 	
 	public void init();
-	public Pagamento efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException;
+	public Pagamento efetuaPagamentoCredito(Pagamento pagamento) throws CieloException, IntegracaoException;
+	public String efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException;
+	public Pagamento efetuaPagamentoDebito(Pagamento pagamento) throws CieloException, IntegracaoException;
 }

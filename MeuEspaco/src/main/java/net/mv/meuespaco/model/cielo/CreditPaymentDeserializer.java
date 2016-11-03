@@ -49,21 +49,7 @@ public class CreditPaymentDeserializer implements JsonDeserializer<CreditPayment
 	
 		final JsonObject jsonCard = jsonObject.getAsJsonObject("CreditCard");
 		
-		final JsonElement jsonCardNumber = jsonCard.get("CardNumber");
-		final String cardNumber = jsonCardNumber.getAsString();
-		
-		final JsonElement jsonHolder = jsonCard.get("Holder");
-		final String holder = jsonHolder.getAsString();
-		
-		final JsonElement jsonExpirationDate = jsonCard.get("ExpirationDate");
-		final String expirationDate = jsonExpirationDate.getAsString();
-		
-		final JsonElement jsonBrand = jsonCard.get("Brand");
-		final String strBrand = jsonBrand.getAsString();
-		final Brand brand = Brand.valueOf(strBrand);
-		
-		Card card;
-		card = new Card(cardNumber, holder, expirationDate, brand);
+		Card card = new Card().fromJson(jsonCard.toString());
 
 		CreditPayment payment = new 
 				CreditPayment(

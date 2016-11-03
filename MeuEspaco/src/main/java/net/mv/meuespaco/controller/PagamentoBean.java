@@ -76,7 +76,7 @@ public class PagamentoBean implements Serializable {
 		{
 			this.pagamento.getPayment().getCard().setCardNumber("0000000000000001");
 			//TODO: retirar!!!
-			cielo.efetuaPagamento(this.pagamento);
+			cielo.efetuaPagamentoCredito(this.pagamento);
 			
 			prePagamento.removerVenda();
 			

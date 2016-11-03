@@ -15,12 +15,12 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.cielo.CieloError;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
+import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.service.IntegracaoCieloService;
 
 /**
@@ -52,8 +52,34 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Pagamento efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException {
+	public Pagamento efetuaPagamentoCredito(Pagamento pagamento) throws CieloException, IntegracaoException {
 
+		Pagamento respostaPagamento = new Pagamento().fromJson(this.efetuaPagamento(pagamento), PaymentType.CreditCard);
+		
+		if (!respostaPagamento.isAutorizado())
+		{
+			throw new CieloException("Pagamento não autorizado. Tente novamente com outro cartão.");
+		}
+		
+		return respostaPagamento;
+	}
+
+	@Override
+	public Pagamento efetuaPagamentoDebito(Pagamento pagamento) throws CieloException, IntegracaoException 
+	{
+		Pagamento respostaPagamento = new Pagamento().fromJson(this.efetuaPagamento(pagamento), PaymentType.DebitCard);
+		
+		if (!respostaPagamento.isAutorizado())
+		{
+			throw new CieloException("Pagamento não autorizado. Tente novamente com outro cartão.");
+		}
+
+		return respostaPagamento;
+	}
+
+	@Override
+	public String efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException {
+		
 		CieloError[] erros = null;
 		Response clientResponse;
 		String jsonPagamento = pagamento.converterToJson();
@@ -70,11 +96,11 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 					+ "tente mais tarde por favor.");
 		}
 		
-		log.info("Enviando pagamento: " + pagamento.converterToJson());
+		log.info("Enviando Pagamento: " + pagamento.converterToJson());
 		
 		String resposta = clientResponse.readEntity(String.class);
-		System.out.println("RESPOSTA -> " + clientResponse.getStatusInfo() + " ---- " + resposta);
-		log.info(resposta);
+		
+		log.info("Recebendo Reposta: " + resposta);
 		
 		if (clientResponse.getStatus() == 400)
 		{
@@ -82,17 +108,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 			throw new CieloException(erros[0].toString());
 		}
 		
-		Pagamento respostaPagamento;	
-		
-		respostaPagamento = new Pagamento().fromJson(resposta);
-		
-		if (!respostaPagamento.isAutorizado())
-		{
-			throw new CieloException("Pagamento não autorizado. Tente novamente com outro cartão.");
-		}
-		
-		
-		return respostaPagamento;
+		return resposta;
 	}
 
 }

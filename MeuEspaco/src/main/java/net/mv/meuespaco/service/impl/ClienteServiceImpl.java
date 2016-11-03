@@ -149,7 +149,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 		} 
 		
-		if (this.qtdDisponivelParaEscolha() == 0) 
+		if (this.qtdDisponivelParaEscolha() <= 0) 
 		{
 			throw new RegraDeNegocioException(
 					String.format("Você já escolheu todas as peças disponíveis para este ciclo. "

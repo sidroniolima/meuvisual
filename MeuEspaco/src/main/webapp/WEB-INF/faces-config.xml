@@ -139,6 +139,9 @@
  </faces-config-extension>
 
  <application/>
+ 
+ 
+ 
  <factory>
   <exception-handler-factory>net.mv.meuespaco.util.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
  </factory>

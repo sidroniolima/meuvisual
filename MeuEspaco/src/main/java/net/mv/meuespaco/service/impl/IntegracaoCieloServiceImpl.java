@@ -52,8 +52,8 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Pagamento efetuaPagamentoCredito(Pagamento pagamento) throws CieloException, IntegracaoException {
-
+	public Pagamento efetuaPagamentoCredito(Pagamento pagamento) throws CieloException, IntegracaoException 
+	{
 		Pagamento respostaPagamento = new Pagamento().fromJson(this.efetuaPagamento(pagamento), PaymentType.CreditCard);
 		
 		if (!respostaPagamento.isAutorizado())

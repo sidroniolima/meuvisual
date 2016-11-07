@@ -26,6 +26,7 @@ import net.mv.meuespaco.service.UsuarioService;
 public class AutenticadorAutorizador extends AuthorizingRealm {
 	
 	private UsuarioService usuarioSrvc;
+	
 
 	@Override
 	public String getName() {

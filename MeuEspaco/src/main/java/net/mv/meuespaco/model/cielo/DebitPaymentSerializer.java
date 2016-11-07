@@ -1,6 +1,8 @@
 package net.mv.meuespaco.model.cielo;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,7 +18,7 @@ public class DebitPaymentSerializer implements JsonSerializer<DebitPayment>{
 		JsonObject jsonObject = new JsonObject();
 		
 		jsonObject.addProperty("Type", debit.getType().toString());
-		jsonObject.addProperty("Amount", debit.getAmount() * 100);
+		jsonObject.addProperty("Amount", new BigDecimal(debit.getAmount() * 100).setScale(0, RoundingMode.HALF_UP));
 		jsonObject.addProperty("ReturnUrl", debit.getReturnUrl());
 		
 		jsonObject.add("DebitCard", 

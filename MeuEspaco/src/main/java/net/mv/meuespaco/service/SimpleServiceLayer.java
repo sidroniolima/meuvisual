@@ -23,9 +23,10 @@ public interface SimpleServiceLayer<T, ID extends Serializable> {
 	 * Salva uma instância.
 	 * 
 	 * @param entidade
+	 * @return a entidade salva.
 	 * @throws RegraDeNegocioException
 	 */
-	public void salva(T entidade) throws RegraDeNegocioException;
+	public T salva(T entidade) throws RegraDeNegocioException;
 	
 	/**
 	 * Exclui uma instância pelo código.

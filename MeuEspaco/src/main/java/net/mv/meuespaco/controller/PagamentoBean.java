@@ -1,14 +1,22 @@
 package net.mv.meuespaco.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.exception.IntegracaoException;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.cielo.Brand;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.CreditPayment;
@@ -50,6 +58,8 @@ public class PagamentoBean implements Serializable {
 	
 	private Brand[] brands;
 	
+	private final String urlSucesso = "compra-sucesso.xhtml";
+	
 	@PostConstruct
 	public void init()
 	{
@@ -72,22 +82,44 @@ public class PagamentoBean implements Serializable {
 	 */
 	public String finaliza()
 	{
+		
 		try 
 		{
 			this.pagamento.getPayment().getCard().setCardNumber("0000000000000001");
 			//TODO: retirar!!!
-			cielo.efetuaPagamentoCredito(this.pagamento);
 			
-			prePagamento.removerVenda();
+			Pagamento resposta = cielo.efetuaPagamentoCredito(this.pagamento);
+			this.vendaSrvc.registraPagamento(this.venda, resposta.getPayment().getPaymentId().toString(), resposta.getPayment().getProofOfSale());
 			
-			return "minhas-compras";
+			this.redirecionaComSucesso(resposta.getPayment().getPaymentId());
 			
-		} catch (CieloException | IntegracaoException e) {
-			
+		} catch (CieloException | IntegracaoException e) 
+		{
 			FacesUtil.addErrorMessage("Sua compra não foi aprovada. Tente novamente");
+		
+		} catch (RegraDeNegocioException e) 
+		{
+			FacesUtil.addErrorMessage("Problema ao registrar o pagamento: " + e.getMessage());		
+		
+		} catch (IOException e) 
+		{
+			FacesUtil.addErrorMessage("Não foi possível redirecionar para a compra. Clique minhas compras no meu acima.");
 		}
 		
 		return "";
+	}
+
+	/**
+	 * Redireciona para a visualização do sucesso do pagamento da 
+	 * venda.
+	 * 
+	 * @param paymentId
+	 * @throws IOException 
+	 */
+	private void redirecionaComSucesso(UUID paymentId) throws IOException 
+	{
+		FacesContext.getCurrentInstance().getExternalContext().redirect(this.urlSucesso + 
+				"?payment-id="+paymentId.toString());
 	}
 
 	public Pagamento getPagamento() {

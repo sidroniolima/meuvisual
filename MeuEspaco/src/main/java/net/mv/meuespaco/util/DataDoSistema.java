@@ -1,6 +1,7 @@
 package net.mv.meuespaco.util;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Classe para fornecer a data atual do sistema, 
@@ -19,5 +20,14 @@ public class DataDoSistema {
 	public LocalDate hoje()
 	{
 		return LocalDate.now();
+	}
+
+	/**
+	 * Retorna o momento atual.
+	 * 
+	 * @return
+	 */
+	public LocalDateTime agora() {
+		return LocalDateTime.now();
 	}
 }

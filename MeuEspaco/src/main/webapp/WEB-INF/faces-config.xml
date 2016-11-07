@@ -131,6 +131,15 @@
   </navigation-case>
  </navigation-rule>
  
+   <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>compra-sucesso</from-outcome>
+   <to-view-id>/private/site/venda/compra-sucesso.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ 
  <faces-config-extension>
   <facelets-processing>
    <file-extension>.xhtml</file-extension>

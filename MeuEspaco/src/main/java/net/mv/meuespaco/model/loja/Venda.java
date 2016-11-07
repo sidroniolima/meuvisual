@@ -21,12 +21,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import net.mv.meuespaco.converter.LocalDateTimeDBConverter;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.EntidadeModel;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.grade.Grade;
+import net.mv.meuespaco.util.DataDoSistema;
 
 /**
  * Entidade para venda de produtos pelo site.
@@ -69,6 +71,19 @@ public class Venda extends EntidadeModel implements Serializable{
 			orphanRemoval=true)
 	List<ItemVenda> itens;
 	
+	@Column(name="payment_id")
+	private String paymentId;
+	
+	@Column(name="proof_of_sale")
+	private String proofOfSale;
+	
+	@Column(name="horario_pagamento", columnDefinition="DATETIME")
+	@Convert(converter=LocalDateTimeDBConverter.class)
+	private LocalDateTime horarioPagamento;
+	
+	@Transient
+	private DataDoSistema relogio;
+	
 	/**
 	 * Construtor padrão.
 	 */
@@ -77,11 +92,17 @@ public class Venda extends EntidadeModel implements Serializable{
 		status = StatusVenda.AGUARDANDO_PAGAMENTO;
 		this.descontoVenda = BigDecimal.ZERO;
 		this.horarioVenda = LocalDateTime.now();
+		this.relogio = new DataDoSistema();
 	}
 	
 	public Venda(Cliente cliente) {
 		this();
 		this.cliente = cliente;
+	}
+
+	public Venda(DataDoSistema relogio) {
+		this();
+		this.relogio = relogio;
 	}
 
 	/**
@@ -197,6 +218,22 @@ public class Venda extends EntidadeModel implements Serializable{
 		
 	}
 	
+	/**
+	 * Registra o pagamento da venda, com horário e mudança de 
+	 * status para PAGAMENTO_CONFIRMADO.
+	 * 
+	 * @param paymentId
+	 * @param proofOfSale
+	 */
+	public void registraPagamento(String paymentId, String proofOfSale)
+	{
+		this.horarioPagamento = relogio.agora();
+		this.status = StatusVenda.PAGAMENTO_CONFIRMADO;
+
+		this.paymentId = paymentId;
+		this.proofOfSale = proofOfSale;
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -245,6 +282,31 @@ public class Venda extends EntidadeModel implements Serializable{
 	}
 	public void setItens(List<ItemVenda> itens) {
 		this.itens = itens;
+	}
+	
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
+
+	public String getProofOfSale() {
+		return proofOfSale;
+	}
+	public void setProofOfSale(String proofOfSale) {
+		this.proofOfSale = proofOfSale;
+	}
+
+	public LocalDateTime getHorarioPagamento() {
+		return horarioPagamento;
+	}
+	public void setHorarioPagamento(LocalDateTime horarioPagamento) {
+		this.horarioPagamento = horarioPagamento;
+	}
+
+	public void setRelogio(DataDoSistema relogio) {
+		this.relogio = relogio;
 	}
 
 	@Override

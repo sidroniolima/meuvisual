@@ -29,7 +29,7 @@ public class CreditPaymentTest {
 		      + "\"AuthorizationCode\": \"123456\","
 		      + "\"PaymentId\": \"24bc8366-fc31-4d6c-8555-17049a836a07\","
 		      + "\"Type\": \"CreditCard\","
-		      + "\"Amount\": 15700,"
+		      + "\"Amount\": 15799,"
 		      + "\"Currency\": \"BRL\","
 		      + "\"Country\": \"BRA\","
 		      + "\"ExtraDataCollection\": [],"
@@ -42,17 +42,17 @@ public class CreditPaymentTest {
 	public void init()
 	{
 		creditCard = new Card("1234123412341234", "Teste Holder", "09/2016", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 	}
 	
 	@Test
 	public void deveSerializar() 
 	{	
 		String paymentJson = payment.toJson();
+		System.out.println(paymentJson);
 		
 		assertTrue("Json gerado", paymentJson.length() > 0);
-		
-		System.out.println(paymentJson);
+		assertTrue("Valor do pagamento", paymentJson.contains("15000"));
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class CreditPaymentTest {
 		assertFalse("Resposta não null", null == creditPayment);
 		
 		assertEquals("Type", "CreditCard", creditPayment.getType().toString());
-		assertEquals("Amount", 157.00f, creditPayment.getAmount(), 0.0f);
+		assertEquals("Amount", 157.99f, creditPayment.getAmount(), 0.0f);
 		assertEquals("Installments", 1, creditPayment.getInstallments());
 		
 		assertEquals("CreditCard Number", "1234123412341234", creditPayment.getCard().getCardNumber());
@@ -78,5 +78,12 @@ public class CreditPaymentTest {
 		assertEquals("ReturnCode", "4", creditPayment.getReturnCode());
 		assertEquals("Tid", "0305023644309", creditPayment.gettId());
 		assertEquals("ReturnMessage", "Operation Successful", creditPayment.getReturnMessage());
+	}
+	
+	@Test
+	public void deveCriarComValor()
+	{
+		CreditPayment payment99 = new CreditPayment(150.99f, 1, creditCard);
+		assertEquals("Valor do pagamento", 150.99f, payment99.getAmount(), 0.00f);
 	}
 }

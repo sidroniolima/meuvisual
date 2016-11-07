@@ -14,23 +14,24 @@ public class DebitPaymentDeserializer implements JsonDeserializer<DebitPayment> 
 	public DebitPayment deserialize(JsonElement json, Type type, JsonDeserializationContext context)
 			throws JsonParseException 
 	{
-		JsonObject jsonPayment = json.getAsJsonObject();
+		final JsonObject jsonPayment = json.getAsJsonObject();
 		
-		final JsonObject jsonObject = json.getAsJsonObject();
-
-		final JsonElement jsonAmount = jsonObject.get("Amount");
+		final JsonElement jsonAmount = jsonPayment.get("Amount");
 		final float amount = jsonAmount.getAsFloat()/100;
 		
-		final JsonElement jsonTId = jsonObject.get("Tid");
+		final JsonElement jsonTId = jsonPayment.get("Tid");
 		final String tId = jsonTId.getAsString();
+		
+		final JsonElement jsonProof = jsonPayment.get("ProofOfSale");
+		final String proof = jsonProof.getAsString();		
 
-		final JsonElement jsonPaymentId = jsonObject.get("PaymentId");
+		final JsonElement jsonPaymentId = jsonPayment.get("PaymentId");
 		final String paymentId = jsonPaymentId.getAsString();
 		
-		final JsonElement jsonStatus = jsonObject.get("Status");
+		final JsonElement jsonStatus = jsonPayment.get("Status");
 		final String status = jsonStatus.getAsString();
 
-		final JsonElement jsonReturnCode = jsonObject.get("ReturnCode");
+		final JsonElement jsonReturnCode = jsonPayment.get("ReturnCode");
 		final String returnCode = jsonReturnCode.getAsString();
 		
 		JsonElement jsonAuthenticationUrl = jsonPayment.get("AuthenticationUrl");
@@ -42,6 +43,7 @@ public class DebitPaymentDeserializer implements JsonDeserializer<DebitPayment> 
 		return new DebitPayment(
 				amount, 
 				tId, 
+				proof,
 				paymentId, 
 				status, 
 				returnCode, 

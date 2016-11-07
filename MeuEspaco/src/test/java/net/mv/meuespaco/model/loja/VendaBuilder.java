@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.grade.Grade;
+import net.mv.meuespaco.util.DataDoSistema;
 
 /**
  * DataTestBuilder da Venda utilizada para criação.
@@ -53,6 +54,12 @@ public class VendaBuilder {
 	public VendaBuilder doProduto(Produto produto, BigDecimal qtd, Grade grade)
 	{
 		this.instancia.addItem(produto, qtd, grade);
+		return this;
+	}
+	
+	public VendaBuilder comDataDoSistema(DataDoSistema horarioFalso) 
+	{
+		this.instancia.setRelogio(horarioFalso);
 		return this;
 	}
 	

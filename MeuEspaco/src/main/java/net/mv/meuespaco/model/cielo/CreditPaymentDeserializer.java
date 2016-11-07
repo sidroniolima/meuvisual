@@ -14,8 +14,9 @@ public class CreditPaymentDeserializer implements JsonDeserializer<CreditPayment
 
 	@Override
 	public CreditPayment deserialize(JsonElement json, Type type, JsonDeserializationContext context)
-			throws JsonParseException {
-		
+			throws JsonParseException 
+	{
+		String proof = null;
 		final JsonObject jsonObject = json.getAsJsonObject();
 
 		final JsonElement jsonAmount = jsonObject.get("Amount");
@@ -27,6 +28,13 @@ public class CreditPaymentDeserializer implements JsonDeserializer<CreditPayment
 		final JsonElement jsonAuthorizationCode = jsonObject.get("AuthorizationCode");
 		final String authorizationCode = jsonAuthorizationCode.getAsString();
 		*/
+		final JsonElement jsonProof = jsonObject.get("ProofOfSale");
+		
+		if (null != jsonProof)
+		{
+			proof = jsonProof.getAsString();	
+		}
+		
 		final JsonElement jsonPaymentId = jsonObject.get("PaymentId");
 		final String paymentId = jsonPaymentId.getAsString();
 		
@@ -56,7 +64,8 @@ public class CreditPaymentDeserializer implements JsonDeserializer<CreditPayment
 						amount, 
 						card, 
 						tId, 
-						UUID.fromString(paymentId) , 
+						proof,
+						UUID.fromString(paymentId), 
 						status, 
 						returnCode, 
 						returnMessage, 

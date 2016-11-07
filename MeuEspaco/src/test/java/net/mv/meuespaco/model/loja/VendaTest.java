@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
@@ -19,6 +21,7 @@ import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
 import net.mv.meuespaco.model.grade.GradeTamanho;
 import net.mv.meuespaco.model.grade.Tamanho;
+import net.mv.meuespaco.util.DataDoSistema;
 
 public class VendaTest {
 	
@@ -27,6 +30,8 @@ public class VendaTest {
 	
 	private Produto anel;
 	private Grade gradeAnel;
+	
+	private DataDoSistema horarioFalso = Mockito.mock(DataDoSistema.class);
 	
 	@Before
 	public void init()
@@ -217,5 +222,27 @@ public class VendaTest {
 		} catch (RegraDeNegocioException e) {
 			fail("Venda válida.");
 		}
+	}
+	
+	@Test
+	public void deveRegistrarPagamento()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now())
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.doProduto(brinco, BigDecimal.ONE, gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.comDataDoSistema(horarioFalso)
+				.constroi();
+		
+		when(horarioFalso.agora()).thenReturn(LocalDateTime.parse("2016-11-07T14:00:15"));
+		
+		venda1.registraPagamento("1817e007-a41e-49b0-9e17-12642ccb6323", "3931228");
+		
+		assertEquals("Payment ID", venda1.getPaymentId(), "1817e007-a41e-49b0-9e17-12642ccb6323");
+		assertEquals("Proof of Sale", venda1.getProofOfSale(), "3931228");
+		assertEquals("Status do pagamento", StatusVenda.PAGAMENTO_CONFIRMADO, venda1.getStatus());
+		assertEquals("Horario do pagamento", LocalDateTime.parse("2016-11-07T14:00:15"), venda1.getHorarioPagamento());
 	}
 }

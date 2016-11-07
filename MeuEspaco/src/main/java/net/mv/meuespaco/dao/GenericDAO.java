@@ -11,8 +11,9 @@ public interface GenericDAO<T, ID extends Serializable> {
 	 * Salva uma instância.
 	 * 
 	 * @param entidade
+	 * @return a entidade criada.
 	 */
-	public void salvar(T entidade);
+	public T salvar(T entidade);
 	
 	/**
 	 * Exclui um registro pelo identificado.

@@ -41,8 +41,6 @@ public class Pagamento {
 		this.payment = payment;
 	}
 	
-	
-
 	/**
 	 * Converte o objeto pagamento para Json.
 	 * 
@@ -69,14 +67,9 @@ public class Pagamento {
 	{
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		PagamentoDeserializer pagamentoDeserializer;
-		
-		if (type.equals(PaymentType.CreditCard))
-		{
-			pagamentoDeserializer = new PagamentoCreditDeserializer();
-		} else 
-		{
-			pagamentoDeserializer = new PagamentoDebitDeserializer();
-		}
+		gsonBuilder.setPrettyPrinting();
+
+		pagamentoDeserializer = new PagamentoDeserializerBuilder().cria(type);
 		
 		gsonBuilder.registerTypeAdapter(Pagamento.class, pagamentoDeserializer);
 		

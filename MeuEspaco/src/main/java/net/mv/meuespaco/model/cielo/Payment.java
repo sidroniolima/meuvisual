@@ -4,6 +4,13 @@ import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Classe Payment abstrata para implementação do Payment
+ * via Crédito ou Débito.
+ * 
+ * @author sidronio
+ *
+ */
 public abstract class Payment {
 
 	@SerializedName("Amount")
@@ -17,6 +24,9 @@ public abstract class Payment {
 	
 	@SerializedName("SoftDescriptor")
 	private final String softDescriptor = "Meu Espaço";
+	
+	@SerializedName("ProofOfSale")
+	private String proofOfSale;	
 	
 	@SerializedName("PaymentId")
 	private UUID paymentId;
@@ -74,13 +84,14 @@ public abstract class Payment {
 	 * @param returnCode
 	 * @param returnMessage
 	 */
-	public Payment(float amount, Card card, String tId, UUID paymentId, String status, String returnCode,
+	public Payment(float amount, Card card, String tId, String proofOSale, UUID paymentId, String status, String returnCode,
 			String returnMessage) 
 	{
 		this();
 		this.amount = amount;
 		this.card = card;
 		this.tId = tId;
+		this.proofOfSale = proofOSale;
 		this.paymentId = paymentId;
 		this.status = status;
 		this.returnCode = returnCode;
@@ -105,6 +116,19 @@ public abstract class Payment {
 		this.status = status;
 		this.returnCode = returnCode;
 	}
+	
+	public Payment(float amount, Card card, String tId, String proofOfSale, UUID paymentId, String status, String returnCode) 
+	{
+		this();
+		this.amount = amount;
+		this.card = card;
+		this.tId = tId;
+		this.proofOfSale = proofOfSale;
+		this.paymentId = paymentId;
+		this.status = status;
+		this.returnCode = returnCode;
+	}
+	
 	/**
 	 * Define o tipo do Payment.
 	 * 
@@ -130,7 +154,7 @@ public abstract class Payment {
 	 * @return se autorizado ou não.
 	 */
 	public abstract boolean isAutorizado();
-	
+
 	public float getAmount() {
 		return amount;
 	}
@@ -150,6 +174,13 @@ public abstract class Payment {
 	}
 	public void settId(String tId) {
 		this.tId = tId;
+	}
+	
+	public String getProofOfSale() {
+		return proofOfSale;
+	}
+	public void setProofOfSale(String proofOfSale) {
+		this.proofOfSale = proofOfSale;
 	}
 
 	public UUID getPaymentId() {

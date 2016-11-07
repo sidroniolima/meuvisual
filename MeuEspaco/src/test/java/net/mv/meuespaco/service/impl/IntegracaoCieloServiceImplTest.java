@@ -1,6 +1,7 @@
 package net.mv.meuespaco.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -39,13 +40,14 @@ public class IntegracaoCieloServiceImplTest {
 	public void deveAprovarVendaDeCredito() throws CieloException, IntegracaoException 
 	{
 		creditCard = new Card("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamentoCredito(pagamento);
 		
 		assertEquals("Pagamento via crédito", PaymentType.CreditCard, resposta.getPayment().getType());
 		assertEquals("Transação Aceita - Cód. 4", new String("4"), resposta.getPayment().getReturnCode());
+		assertFalse("Proof of Sale", null == resposta.getPayment().getProofOfSale());
 		assertTrue("Transação Autorizada", resposta.isAutorizado());
 	}
 	
@@ -53,7 +55,7 @@ public class IntegracaoCieloServiceImplTest {
 	public void naoDeveAprovarVendaDeCredito() throws CieloException, IntegracaoException 
 	{
 		creditCard = new Card("0000000000000002", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamentoCredito(pagamento);
@@ -66,7 +68,7 @@ public class IntegracaoCieloServiceImplTest {
 	public void naoDeveAprovarVendaDeCredito_CartaoCancelado() throws CieloException, IntegracaoException 
 	{
 		creditCard = new Card("0000000000000007", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamentoCredito(pagamento);
@@ -79,7 +81,7 @@ public class IntegracaoCieloServiceImplTest {
 	public void naoDeveAprovarVendaDeCredito_Problemas_Com_O_Cartao() throws CieloException, IntegracaoException 
 	{
 		creditCard = new Card("0000000000000008", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamentoCredito(pagamento);
@@ -92,7 +94,7 @@ public class IntegracaoCieloServiceImplTest {
 	public void naoDeveAprovarVendaDeCredito_Cartao_Bloqueado() throws IntegracaoException, CieloException 
 	{
 		creditCard = new Card("0000000000000005", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamentoCredito(pagamento);
@@ -105,7 +107,7 @@ public class IntegracaoCieloServiceImplTest {
 	public void naoDeveAprovarVendaDeCredito_Cartao_Expirado() throws CieloException, IntegracaoException 
 	{
 		creditCard = new Card("0000000000000003", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamentoCredito(pagamento);
@@ -118,7 +120,7 @@ public class IntegracaoCieloServiceImplTest {
 	public void deveGerarErrorNoCredito_Numero_Cartao() throws IntegracaoException
 	{
 		creditCard = new Card("000000000000000000000000003", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new CreditPayment(15000, 1, creditCard);
+		payment = new CreditPayment(150, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
 		Pagamento resposta;
@@ -154,4 +156,5 @@ public class IntegracaoCieloServiceImplTest {
 				debitPayment.getAuthenticationUrl().contains(
 						"https://authorizationmocksandbox.cieloecommerce.cielo.com.br/CardAuthenticator/Receive/"));
 	}
+	
 }

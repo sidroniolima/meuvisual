@@ -11,9 +11,6 @@ public class CreditPayment extends Payment {
 	@SerializedName("Installments")
 	private int installments;
 	
-	@SerializedName("ProofOfSale")
-	private String proofOfSale;
-	
 	@SerializedName("AuthorizationCode")
 	private String authorizationCode;
 	
@@ -50,21 +47,10 @@ public class CreditPayment extends Payment {
 		this.installments = 1;
 	}
 	
-	/**
-	 * Construtor com todos os membros.
-	 * 
-	 * @param amount
-	 * @param card
-	 * @param tId
-	 * @param paymentId
-	 * @param status
-	 * @param returnCode
-	 * @param returnMessage
-	 */
-	public CreditPayment(float amount, Card card, String tId, UUID paymentId, String status, 
+	public CreditPayment(float amount, Card card, String tId, String proofOfSale, UUID paymentId, String status, 
 			String returnCode, String returnMessage, int installments) 
 	{
-		super(amount, card, tId, paymentId, status, returnCode, returnMessage);
+		super(amount, card, tId, proofOfSale, paymentId, status, returnCode, returnMessage);
 		this.installments = installments;
 	}
 	
@@ -102,7 +88,7 @@ public class CreditPayment extends Payment {
 	{
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(CreditPayment.class, new CreditPaymentDeserializer());
-		
+		gsonBuilder.setPrettyPrinting();
 		Gson gson = gsonBuilder.serializeNulls().create();
 		
 		return gson.fromJson(json, CreditPayment.class);
@@ -113,13 +99,6 @@ public class CreditPayment extends Payment {
 	}
 	public void setInstallments(int installments) {
 		this.installments = installments;
-	}
-
-	public String getProofOfSale() {
-		return proofOfSale;
-	}
-	public void setProofOfSale(String proofOfSale) {
-		this.proofOfSale = proofOfSale;
 	}
 
 	public String getAuthorizationCode() {

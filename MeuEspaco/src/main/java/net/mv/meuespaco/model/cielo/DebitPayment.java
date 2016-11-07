@@ -36,6 +36,13 @@ public class DebitPayment extends Payment {
 		this.authenticationUrl = authenticationUrl;
 	}
 
+	public DebitPayment(float amount, String tId, String proofOfSale, String paymentId, String status, String returnCode,
+			String authenticationUrl, Card card) 
+	{
+		super(amount, card, tId, proofOfSale, UUID.fromString(paymentId), status, returnCode);
+		this.authenticationUrl = authenticationUrl;
+	}
+	
 	@Override
 	public PaymentType getType() {
 		return PaymentType.DebitCard;
@@ -66,11 +73,11 @@ public class DebitPayment extends Payment {
 	}
 
 	@Override
-	public Payment fromJson(String json) 
+	public DebitPayment fromJson(String json) 
 	{
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(DebitPayment.class, new DebitPaymentDeserializer());
-		
+		gsonBuilder.setPrettyPrinting();
 		Gson gson = gsonBuilder.serializeNulls().create();
 		
 		return gson.fromJson(json, DebitPayment.class);

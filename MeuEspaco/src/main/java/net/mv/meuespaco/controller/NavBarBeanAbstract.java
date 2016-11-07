@@ -72,8 +72,8 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	 * 
 	 * @return
 	 */
-	public String pesquisar() {
-		System.out.println("pesquisar");
+	public String pesquisar() 
+	{
 		if (pesquisa != null && !pesquisa.isEmpty()) { 
 
 			return 

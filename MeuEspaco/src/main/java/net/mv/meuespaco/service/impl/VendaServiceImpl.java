@@ -118,9 +118,9 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	}
 	
 	@Override
-	public Venda buscaUtilmaDoCliente(Cliente cliente) {
+	public Venda buscaUtilmaDoCliente(Cliente cliente) 
+	{
 		Venda venda = this.vendaDAO.buscarUltimaDoCliente(cliente);
-		System.out.println(venda.valorComDesconto());
 		return venda;
 	}
 }

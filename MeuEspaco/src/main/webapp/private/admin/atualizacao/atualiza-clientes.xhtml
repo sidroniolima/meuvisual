@@ -143,12 +143,11 @@
 										type="button"
 										class="btn btn-primary" 
 										value="Atualizar..."
-										action="#{atualizacaoClientesBean.atualizaClientesPeloERP()}">
-										
-					                   <f:passThroughAttribute name="data-toggle" value="modal" />
-					                   <f:passThroughAttribute name="data-target" value="#myModal" />
-					                   <f:ajax render="@all"/>										
-										
+										action="#{atualizacaoClientesBean.atualizaClientesPeloERP()}"
+										onclick="waitingDialog.show('Atualizando clientes e usuários...', {progressType: 'warning'});">
+
+					                   <f:ajax render="@form" onevent="callFunctionAjaxRequest"/>										
+
 									</button>										
 								</div>	
 								
@@ -195,6 +194,13 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="modal.js"/>
+		<script type="text/javascript">
+			function callFunctionAjaxRequest(data) {
+			     if (data.status == "success")
+			    	 waitingDialog.hide();
+			}
+		</script>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

@@ -8,6 +8,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jfree.util.Log;
 import org.primefaces.model.UploadedFile;
 
 import net.mv.meuespaco.service.ClienteService;
@@ -77,20 +78,13 @@ public class AtualizacaoClientesBean implements Serializable {
 	 * Atualiza a quantidade de peças para escolha e o status 
 	 * dos clientes de acordo com a exportação do ERP.
 	 */
-	public void atualizaClientesPeloERP() {
-		status = 10;
-		
+	public void atualizaClientesPeloERP() 
+	{
 		List<Long> codigosDosClientesDoERP = clienteSrvc.atualizaInformacoesVindasDoErp();
-		
-		status = 50;
 		
 		clienteSrvc.inativaClientesQueNaoEstaoEntreOsCodigos(codigosDosClientesDoERP);
 		usuarioSrvc.inativaUsuarios();
 		usuarioSrvc.reativaUsuarios();
-		
-		status = 100;
-
-		atualizado =true;
 		
 		FacesUtil.addSuccessMessage("Clientes e usuários atualizados com sucesso.");
 	}

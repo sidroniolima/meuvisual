@@ -321,7 +321,7 @@
                     <div class="row" id="productMain">
                         <div class="col-sm-6">
                             <div id="mainImage">
-                                <span class='zoom' id='ex1'>
+                                <span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
                                 	<img src="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
                                 </span>
                             </div>
@@ -517,6 +517,11 @@
 			$(document).ready(function(){
 				$('#ex1').zoom({magnify: 1.4});
 			});
+		</script>
+		<script>
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
 		</script>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			

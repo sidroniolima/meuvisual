@@ -1,10 +1,12 @@
 package net.mv.meuespaco.service.impl;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -19,6 +21,7 @@ import com.google.gson.Gson;
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.cielo.CieloError;
 import net.mv.meuespaco.model.cielo.CieloException;
+import net.mv.meuespaco.model.cielo.DebitPayment;
 import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.service.IntegracaoCieloService;
@@ -65,15 +68,12 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	}
 
 	@Override
-	public Pagamento efetuaPagamentoDebito(Pagamento pagamento) throws CieloException, IntegracaoException 
+	public Pagamento efetuaPagamentoDebito(Pagamento pagamento) throws CieloException, IntegracaoException, IOException 
 	{
 		Pagamento respostaPagamento = new Pagamento().fromJson(this.efetuaPagamento(pagamento), PaymentType.DebitCard);
 		
-		if (!respostaPagamento.isAutorizado())
-		{
-			throw new CieloException("Pagamento não autorizado. Tente novamente com outro cartão.");
-		}
-
+		DebitPayment payment = (DebitPayment) respostaPagamento.getPayment();
+		
 		return respostaPagamento;
 	}
 
@@ -109,6 +109,22 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		}
 		
 		return resposta;
+	}
+
+	@Override
+	public Pagamento consultaPagamento(String paymentId, PaymentType type) 
+	{
+		Response clientResponse = this.target
+				.path(paymentId)
+				.request(MediaType.APPLICATION_JSON)
+				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
+				.header("MerchantKey", "QVFSNMALCAUVPPYZLTCBJESLIWNZWBPTVSNLLFCN")
+				.get();
+		
+		Pagamento respostaDaAutenticacao = 
+				new Pagamento().fromJson(clientResponse.readEntity(String.class), type);
+		
+		return respostaDaAutenticacao;
 	}
 
 }

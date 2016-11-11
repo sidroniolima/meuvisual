@@ -5,6 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -136,7 +139,7 @@ public class IntegracaoCieloServiceImplTest {
 	}
 	
 	@Test
-	public void deveCriarUmPagamentoViaDebito() throws CieloException, IntegracaoException
+	public void deveCriarUmPagamentoViaDebito() throws CieloException, IntegracaoException, IOException, URISyntaxException
 	{
 		creditCard = new Card("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
 		Payment payment = new DebitPayment(1500, creditCard);
@@ -151,7 +154,7 @@ public class IntegracaoCieloServiceImplTest {
 		assertTrue("Transação Autorizada", resposta.isAutorizado());
 
 		DebitPayment debitPayment = (DebitPayment) resposta.getPayment();
-		
+		System.out.println(debitPayment.geraUrlRetorno());
 		assertTrue("Url de retorno", 			
 				debitPayment.getAuthenticationUrl().contains(
 						"https://authorizationmocksandbox.cieloecommerce.cielo.com.br/CardAuthenticator/Receive/"));

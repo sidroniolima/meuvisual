@@ -27,6 +27,7 @@ import net.mv.meuespaco.converter.LocalDateTimeDBConverter;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.EntidadeModel;
 import net.mv.meuespaco.model.Produto;
+import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.util.DataDoSistema;
 
@@ -76,14 +77,17 @@ public class Venda extends EntidadeModel implements Serializable{
 	
 	@Column(name="proof_of_sale")
 	private String proofOfSale;
+
+	@Enumerated(EnumType.STRING)
+	private PaymentType type;
 	
 	@Column(name="horario_pagamento", columnDefinition="DATETIME")
 	@Convert(converter=LocalDateTimeDBConverter.class)
 	private LocalDateTime horarioPagamento;
-	
+
 	@Transient
 	private DataDoSistema relogio;
-	
+
 	/**
 	 * Construtor padrão.
 	 */
@@ -224,14 +228,16 @@ public class Venda extends EntidadeModel implements Serializable{
 	 * 
 	 * @param paymentId
 	 * @param proofOfSale
+	 * @param type 
 	 */
-	public void registraPagamento(String paymentId, String proofOfSale)
+	public void registraPagamento(String paymentId, String proofOfSale, PaymentType type)
 	{
 		this.horarioPagamento = relogio.agora();
 		this.status = StatusVenda.PAGAMENTO_CONFIRMADO;
 
 		this.paymentId = paymentId;
 		this.proofOfSale = proofOfSale;
+		this.type = type;
 	}
 	
 	public Long getCodigo() {
@@ -296,6 +302,13 @@ public class Venda extends EntidadeModel implements Serializable{
 	}
 	public void setProofOfSale(String proofOfSale) {
 		this.proofOfSale = proofOfSale;
+	}
+
+	public PaymentType getType() {
+		return type;
+	}
+	public void setType(PaymentType type) {
+		this.type = type;
 	}
 
 	public LocalDateTime getHorarioPagamento() {

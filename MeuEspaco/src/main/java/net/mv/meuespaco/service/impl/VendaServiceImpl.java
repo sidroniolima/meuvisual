@@ -10,6 +10,7 @@ import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.VendaDAO;
 import net.mv.meuespaco.exception.DeleteException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
@@ -127,9 +128,9 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	}
 	
 	@Override
-	public void registraPagamento(Venda venda, String paymentId, String proofOfSale) throws RegraDeNegocioException 
+	public void registraPagamento(Venda venda, String paymentId, String proofOfSale, PaymentType type) throws RegraDeNegocioException 
 	{
-		venda.registraPagamento(paymentId, proofOfSale);
+		venda.registraPagamento(paymentId, proofOfSale, type);
 		this.salva(venda);
 	}
 }

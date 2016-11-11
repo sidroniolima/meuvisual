@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaVenda;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
@@ -90,8 +91,9 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * @param venda
 	 * @param paymentId id da compra
 	 * @param proofOfSale comprovante de venda
+	 * @param paymentType tipo de pagamento: cŕedito ou débito.
 	 * @throws RegraDeNegocioException 
 	 */
-	public void registraPagamento(Venda venda, String paymentId, String proofOfSale) throws RegraDeNegocioException;
+	public void registraPagamento(Venda venda, String paymentId, String proofOfSale, PaymentType paymentType) throws RegraDeNegocioException;
 	
 }

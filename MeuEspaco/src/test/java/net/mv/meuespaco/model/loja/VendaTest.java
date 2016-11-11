@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
+import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
@@ -238,7 +239,7 @@ public class VendaTest {
 		
 		when(horarioFalso.agora()).thenReturn(LocalDateTime.parse("2016-11-07T14:00:15"));
 		
-		venda1.registraPagamento("1817e007-a41e-49b0-9e17-12642ccb6323", "3931228");
+		venda1.registraPagamento("1817e007-a41e-49b0-9e17-12642ccb6323", "3931228", PaymentType.CreditCard);
 		
 		assertEquals("Payment ID", venda1.getPaymentId(), "1817e007-a41e-49b0-9e17-12642ccb6323");
 		assertEquals("Proof of Sale", venda1.getProofOfSale(), "3931228");

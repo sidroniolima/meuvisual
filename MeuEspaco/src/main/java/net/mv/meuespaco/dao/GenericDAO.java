@@ -12,7 +12,7 @@ public interface GenericDAO<T, ID extends Serializable> {
 	 * 
 	 * @param entidade
 	 */
-	public void salvar(T entidade);
+	public T salvar(T entidade);
 	
 	/**
 	 * Exclui um registro pelo identificado.

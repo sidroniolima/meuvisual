@@ -59,7 +59,7 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	}
 	
 	@Override
-	public void criaVendaPeloCarrinho(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException 
+	public Venda criaVendaPeloCarrinho(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException 
 	{
 		Venda venda = new Venda(cliente);
 		venda.setDescontoVenda(carrinho.getDesconto());
@@ -68,8 +68,9 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 			venda.addItem(item.getProduto(), item.getQtd(), item.getGrade());
 		}
 		
-		this.salva(venda);
+		Venda salva = this.salva(venda);
 		this.estoqueSrvc.movimentaVenda(venda.getItens());
+		return salva;
 	}
 	
 	@Override
@@ -94,8 +95,8 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	@Override
 	public Venda buscaCompletaPeloCodigo(Long codigo) 
 	{
-		return vendaDAO.buscarPeloCodigo(codigo);
-		//return vendaDAO.buscarCompleta(codigo);
+		//return vendaDAO.buscarPeloCodigo(codigo);
+		return vendaDAO.buscarCompleta(codigo);
 		//TODO: implementar a entidade para foto para evitar 
 		//duplicação nos dados dos itens que necessitam da foto.
 	}
@@ -111,10 +112,10 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	}
 
 	@Override
-	public void criaVendaPeloCarrinho(CarrinhoVenda carrinho, Cliente cliente, Cupom cupom)
+	public Venda criaVendaPeloCarrinho(CarrinhoVenda carrinho, Cliente cliente, Cupom cupom)
 			throws RegraDeNegocioException 
 	{
-		this.criaVendaPeloCarrinho(carrinho, cliente);
+		return this.criaVendaPeloCarrinho(carrinho, cliente);
 	}
 	
 	@Override
@@ -122,5 +123,12 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	{
 		Venda venda = this.vendaDAO.buscarUltimaDoCliente(cliente);
 		return venda;
+	}
+	
+	@Override
+	public void registraPagamento(Venda venda, String paymentId) throws RegraDeNegocioException 
+	{
+		venda.registraPagamento(paymentId);
+		this.salva(venda);
 	}
 }

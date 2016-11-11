@@ -33,10 +33,10 @@ public abstract class SimpleServiceLayerImpl<T, ID extends Serializable> impleme
 	}	
 	
 	@Override
-	public void salva(T entidade) throws RegraDeNegocioException {
+	public T salva(T entidade) throws RegraDeNegocioException {
 		this.validaInsercao(entidade);
 		
-		getDAO().salvar(entidade);
+		return (T) getDAO().salvar(entidade);
 	}
 
 	@Override

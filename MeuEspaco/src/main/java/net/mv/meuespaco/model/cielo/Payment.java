@@ -1,5 +1,7 @@
 package net.mv.meuespaco.model.cielo;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 import com.google.gson.annotations.SerializedName;
@@ -45,7 +47,8 @@ public class Payment {
 	/**
 	 * Padrão com installments (parcela) única.
 	 */
-	public Payment() {	
+	public Payment() 
+	{	
 		this.installments = 1;
 		this.type = PaymentType.CreditCard;
 		this.paymentId = UUID.randomUUID();
@@ -64,7 +67,7 @@ public class Payment {
 	{
 		this();
 		this.type = type;
-		this.amount = amount;
+		this.setAmount(amount);
 		this.installments = installments;
 		this.creditCard = creditCard;
 	}
@@ -77,7 +80,7 @@ public class Payment {
 	public Payment(float amount) 
 	{
 		this();
-		this.amount = amount;
+		this.setAmount(amount);
 	}
 
 	/**
@@ -107,6 +110,17 @@ public class Payment {
 	}
 	
 	/**
+	 * Calcula o valor em centavos da venda
+	 * 
+	 * @return valor em centavos.
+	 */
+	public float valorEmCentavos(float amount)
+	{
+		return new BigDecimal(amount * 100)
+				.setScale(0, RoundingMode.UNNECESSARY).floatValue();
+	}
+	
+	/**
 	 * Verifica se um pagamento foi autorizado, 
 	 * com código de retorno 4.
 	 * 
@@ -128,7 +142,7 @@ public class Payment {
 		return amount;
 	}
 	public void setAmount(float amount) {
-		this.amount = amount;
+		this.amount = this.valorEmCentavos(amount);
 	}
 	
 	public int getInstallments() {

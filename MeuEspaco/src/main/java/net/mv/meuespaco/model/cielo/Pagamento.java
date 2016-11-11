@@ -61,6 +61,21 @@ public class Pagamento {
 		return this.payment.isAutorizado();
 	}
 	
+	/**
+	 * Retorna o paymentId do Payment.
+	 * 
+	 * @return
+	 */
+	public String paymentId() 
+	{
+		if (null != this.payment)
+		{
+			return this.payment.getPaymentId().toString();
+		}
+		
+		return null;
+	}
+	
 	public String getMerchandOrderId() {
 		return merchandOrderId;
 	}
@@ -79,5 +94,5 @@ public class Pagamento {
 	public void setPayment(Payment payment) {
 		this.payment = payment;
 	}
-	
+
 }

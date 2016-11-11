@@ -69,6 +69,9 @@ public class Venda extends EntidadeModel implements Serializable{
 			orphanRemoval=true)
 	List<ItemVenda> itens;
 	
+	@Column(name="payment_id")
+	private String paymentId;
+	
 	/**
 	 * Construtor padrão.
 	 */
@@ -197,6 +200,17 @@ public class Venda extends EntidadeModel implements Serializable{
 		
 	}
 	
+	/**
+	 * Registra o pagamento da venda.
+	 * 
+	 * @param paymentId
+	 */
+	public void registraPagamento(String paymentId)
+	{
+		this.paymentId = paymentId;
+		this.setStatus(StatusVenda.PAGAMENTO_CONFIRMADO);
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -245,6 +259,13 @@ public class Venda extends EntidadeModel implements Serializable{
 	}
 	public void setItens(List<ItemVenda> itens) {
 		this.itens = itens;
+	}
+	
+	public String getPaymentId() {
+		return paymentId;
+	}
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
 	}
 
 	@Override

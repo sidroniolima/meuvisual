@@ -178,4 +178,16 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#private#site#venda#minhas-compras.xhtml"
   PATH="/private/site/venda/minhas-compras.xhtml" SHAPE="240,1713,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:16" PATH="/*" SHAPE="32,1809,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:16" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pagamento-sucesso::#private#site#venda#pagamento-sucesso.xhtml"
+    NAME="output" PATH="/private/site/venda/pagamento-sucesso.xhtml"
+    TARGET="rules:#private#site#venda#pagamento-sucesso.xhtml"
+    TITLE="pagamento-sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#site#venda#pagamento-sucesso.xhtml"
+  PATH="/private/site/venda/pagamento-sucesso.xhtml"
+  SHAPE="240,1825,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

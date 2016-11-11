@@ -1,6 +1,7 @@
 package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -9,6 +10,7 @@ import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.exception.IntegracaoException;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.cielo.Brand;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
@@ -54,12 +56,23 @@ public class PagamentoBean implements Serializable {
 	{
 		brands = Brand.values();
 		
-		venda = prePagamento.vendaParaPagamento();
+		Long codigoVenda = prePagamento.vendaParaPagamento().getCodigo();
+		Optional<Venda> vendaAguardandoPg = Optional.ofNullable(this.vendaSrvc.buscaCompletaPeloCodigo(codigoVenda));
+		
+		if (vendaAguardandoPg.isPresent())
+		{
+			this.venda = vendaAguardandoPg.get();
 
-		pagamento = new Pagamento(
-				venda.codigoFormatado(), 
-				clienteLogado.getNome(), 
-				venda.valorComDesconto().floatValue());
+			pagamento = new Pagamento(
+					venda.codigoFormatado(), 
+					clienteLogado.getNome(), 
+					venda.valorComDesconto().floatValue());
+
+		} else
+		{
+			FacesUtil.addErrorMessage("Não foi possível localizar a venda. Acesse-a pelo menu Minhas Compras");
+		}
+		
 	}
 	
 	/**
@@ -74,11 +87,13 @@ public class PagamentoBean implements Serializable {
 		{
 			cielo.efetuaPagamento(this.pagamento);
 			
+			this.vendaSrvc.registraPagamento(this.venda, this.pagamento.paymentId());
+
 			prePagamento.removerVenda();
 			
-			return "minhas-compras";
+			return "pagamento-sucesso";
 			
-		} catch (CieloException | IntegracaoException e) {
+		} catch (CieloException | IntegracaoException | RegraDeNegocioException e) {
 			
 			FacesUtil.addErrorMessage("Sua compra não foi aprovada. Tente novamente");
 		}

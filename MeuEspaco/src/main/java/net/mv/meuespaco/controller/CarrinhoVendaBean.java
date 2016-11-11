@@ -13,6 +13,7 @@ import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Cupom;
+import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.service.CupomService;
 import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.service.ReservaProdutoService;
@@ -77,9 +78,9 @@ public class CarrinhoVendaBean extends CarrinhoAbstractBean implements Serializa
 	{
 		try 
 		{
-			vendaSrvc.criaVendaPeloCarrinho(carrinho, cliente, cupom);
+			Venda venda = vendaSrvc.criaVendaPeloCarrinho(carrinho, cliente, cupom);
 			
-			prePagamento.registrarVenda(vendaSrvc.buscaUtilmaDoCliente(cliente));
+			prePagamento.registrarVenda(venda);
 			this.esvazia();
 			return "cielo-api";
 			

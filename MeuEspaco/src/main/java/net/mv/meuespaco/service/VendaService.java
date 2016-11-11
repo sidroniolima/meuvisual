@@ -33,9 +33,10 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * 
 	 * @param carrinho
 	 * @param cliente
+	 * @return a venda criada e salva
 	 * @throws RegraDeNegocioException 
 	 */
-	public void criaVendaPeloCarrinho(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException;
+	public Venda criaVendaPeloCarrinho(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException;
 
 	/**
 	 * Busca os itens de uma venda pelo código com 
@@ -69,9 +70,10 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * @param carrinho
 	 * @param cliente
 	 * @param cupom
+	 * @return a venda criada
 	 * @throws RegraDeNegocioException
 	 */
-	public void criaVendaPeloCarrinho(CarrinhoVenda carrinho, Cliente cliente, Cupom cupom)  throws RegraDeNegocioException;
+	public Venda criaVendaPeloCarrinho(CarrinhoVenda carrinho, Cliente cliente, Cupom cupom)  throws RegraDeNegocioException;
 	
 	/**
 	 * Busca e retorna a última compra do cliente.
@@ -80,5 +82,14 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * @return última compra do cliente
 	 */
 	public Venda buscaUtilmaDoCliente(Cliente cliente);
+
+	/**
+	 * Registra e salva o pagamento de uma venda.
+	 * @param venda atual
+	 * 
+	 * @param paymentId id do pagamento gerado pela Api.
+	 * @throws RegraDeNegocioException 
+	 */
+	public void registraPagamento(Venda venda, String paymentId) throws RegraDeNegocioException;
 	
 }

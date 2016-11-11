@@ -82,16 +82,11 @@ public class HibernateVendaDAO extends HibernateGenericDAO<Venda, Long> implemen
 		query.setFetchMode("grade", FetchMode.JOIN);
 		query.setFetchMode("itens", FetchMode.JOIN);
 		
-		query.createAlias("itens", "it");
-		
 		query.setFetchMode("itens.produto", FetchMode.JOIN);
 		query.setFetchMode("itens.produto.subgrupo", FetchMode.JOIN);
 		query.setFetchMode("itens.produto.subgrupo.grupo", FetchMode.JOIN);
-		query.setFetchMode("itens.produto.fotos", FetchMode.JOIN);
 		
 		query.createAlias("itens.produto", "prod");
-		
-		query.setProjection(Projections.distinct(Projections.property("it.codigo")));
 		
 		query.add(Restrictions.eq("codigo", codigo));
 		

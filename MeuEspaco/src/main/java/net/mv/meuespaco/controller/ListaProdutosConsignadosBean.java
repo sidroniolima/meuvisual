@@ -6,7 +6,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.mv.meuespaco.annotations.EstadoDeNavegacaoConsignadoAnnotation;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.util.EstadoDeNavegacao;
 import net.mv.meuespaco.util.FiltroListaProdutoConsignadoAnnotation;
 
 /**
@@ -25,6 +27,9 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	@FiltroListaProdutoConsignadoAnnotation
 	private FiltroListaProduto filtro;
 	
+	@Inject
+	@EstadoDeNavegacaoConsignadoAnnotation
+	private EstadoDeNavegacao estadoDeNavegacao;
 	/**
 	 * Lista os registros de produtos para consignação de forma paginada.
 	 */
@@ -38,6 +43,12 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 						this.getFiltro(), 
 						super.getPaginator()));
 		
+	}
+	
+	@Override
+	public EstadoDeNavegacao getEstadoDeNavegacao() 
+	{
+		return this.estadoDeNavegacao;
 	}
 	
 	@Override

@@ -46,9 +46,6 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	@Inject
 	private SubgrupoService subgrupoService;
 	
-	@Inject
-	private EstadoDeNavegacao estadoDeNavegacao;
-	
 	@Inject @Param
 	private String paramDep;
 	
@@ -78,7 +75,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		
-		if (estadoDeNavegacao.isEstadoCriado() && !isParametrizado()) {
+		if (this.getEstadoDeNavegacao().isEstadoCriado() && !isParametrizado()) {
 			this.restauraEstado();
 			
 			this.criaListaDeSubgrupos();
@@ -88,7 +85,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		
 			try {
 				this.preencheInformacoesDeNavegacao(paramDep, paramGrupo, paramSubgrupo);
-				estadoDeNavegacao.criaEstado();
+				this.getEstadoDeNavegacao().criaEstado();
 				
 				this.criaListaDeSubgrupos();
 				this.listarComPaginacaoESalvarEstado();
@@ -169,11 +166,11 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	 * Restaura um estado de navegação.
 	 */
 	public void restauraEstado() {
-		this.setFiltro(estadoDeNavegacao.getEstado().getFiltro());
-		this.dep = estadoDeNavegacao.getEstado().getDep();
-		this.grupo = estadoDeNavegacao.getEstado().getGrupo();
-		this.subgrupo = estadoDeNavegacao.getEstado().getSubgrupo();
-		this.paginator = estadoDeNavegacao.getEstado().getPaginator();
+		this.setFiltro(this.getEstadoDeNavegacao().getEstado().getFiltro());
+		this.dep = this.getEstadoDeNavegacao().getEstado().getDep();
+		this.grupo = this.getEstadoDeNavegacao().getEstado().getGrupo();
+		this.subgrupo = this.getEstadoDeNavegacao().getEstado().getSubgrupo();
+		this.paginator = this.getEstadoDeNavegacao().getEstado().getPaginator();
 	}
 
 	/**
@@ -191,7 +188,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	{
 		this.listarComPaginacao();
 		
-		this.estadoDeNavegacao.salvaEstado(
+		this.getEstadoDeNavegacao().salvaEstado(
 				this.getDep(), 
 				this.getGrupo(), 
 				this.getSubgrupo(), 
@@ -262,6 +259,8 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		*/
 	}
 
+	
+	
 	/**
 	 * @return the produtos
 	 */
@@ -332,9 +331,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		return produtoService;
 	}
 
-	public EstadoDeNavegacao getEstadoDeNavegacao() {
-		return estadoDeNavegacao;
-	}
+	public abstract EstadoDeNavegacao getEstadoDeNavegacao();
 
 	public abstract FiltroListaProduto getFiltro();
 	public abstract void setFiltro(FiltroListaProduto filtro);

@@ -6,7 +6,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.mv.meuespaco.annotations.EstadoDeNavegacaoVendaAnnotation;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.util.EstadoDeNavegacao;
 import net.mv.meuespaco.util.FiltroListaProdutoVendaAnnotation;
 
 /**
@@ -25,6 +27,10 @@ public class ListaProdutosVendaBean extends ListaProdutosAbstractBean implements
 	@FiltroListaProdutoVendaAnnotation
 	private FiltroListaProduto filtro;
 	
+	@Inject
+	@EstadoDeNavegacaoVendaAnnotation
+	private EstadoDeNavegacao estadoDeNavegacao;
+	
 	@Override
 	public void listarComPaginacao() {
 		super.setProdutos(
@@ -34,6 +40,11 @@ public class ListaProdutosVendaBean extends ListaProdutosAbstractBean implements
 						super.getSubgrupo(), 
 						this.getFiltro(), 
 						super.getPaginator()));
+	}
+	
+	@Override
+	public EstadoDeNavegacao getEstadoDeNavegacao() {
+		return this.estadoDeNavegacao;
 	}
 
 	@Override

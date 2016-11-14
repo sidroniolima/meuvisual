@@ -1,9 +1,5 @@
 package net.mv.meuespaco.util;
 
-import java.io.Serializable;
-
-import javax.enterprise.context.SessionScoped;
-
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.model.Departamento;
 import net.mv.meuespaco.model.Grupo;
@@ -12,16 +8,13 @@ import net.mv.meuespaco.model.Subgrupo;
 /**
  * Encapsula o estado de navegação da listagem de produtos para 
  * retornar de onde se parou quando continuar a escolha após a inserção de 
- * um item no carrinho.
+ * um item no carrinho. Abstração para Consignação e Venda.
  * 
  * @author Sidronio
  * 04/03/2016
  */
-@SessionScoped
-public class EstadoDeNavegacao implements Serializable {
+public abstract class EstadoDeNavegacao {
 
-	private static final long serialVersionUID = 6505538081342899676L;
-	
 	private Estado estado;
 	
 	/**
@@ -150,6 +143,12 @@ public class EstadoDeNavegacao implements Serializable {
 		 */
 		public void setPaginator(Paginator paginator) {
 			this.paginator = paginator;
+		}
+
+		@Override
+		public String toString() {
+			return "Estado [filtro=" + filtro + ", dep=" + dep + ", grupo=" + grupo + ", subgrupo=" + subgrupo
+					+ ", paginator=" + paginator + "]";
 		}
 		
 	}

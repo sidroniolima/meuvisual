@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -34,8 +35,10 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 
 	private static final long serialVersionUID = -257503943599691685L;
 	
-	private final Logger log = Logger.getLogger(IntegracaoCieloServiceImpl.class.getName());;
-	private final String apiUrl = "https://apisandbox.cieloecommerce.cielo.com.br/1/sales/";
+	private final Logger log = Logger.getLogger(IntegracaoCieloServiceImpl.class.getName());
+	
+	private final String apiUrlPagamento = "https://apisandbox.cieloecommerce.cielo.com.br/1/sales/";
+	private final String apiUrlConsulta = "https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/";
 	
 	private Client client;
 	private WebTarget target;
@@ -46,14 +49,14 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		client = new ResteasyClientBuilder()
 				.hostnameVerification(ResteasyClientBuilder.HostnameVerificationPolicy.ANY)
 				.build();
-		
-		target = this.client.target(apiUrl);
 	}
 	
 	@Override
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Pagamento efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException {
 
+		this.target = this.client.target(apiUrlPagamento);
+		
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
@@ -66,24 +69,57 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 					+ "tente mais tarde por favor.");
 		}
 		
-		log.info("Enviando pagamento: " + pagamento.converterToJson());
+		log.info("Enviando pagamento da compra: " + pagamento.getMerchandOrderId());
 		
-		String resposta = clientResponse.readEntity(String.class);
+		String respostaJson = clientResponse.readEntity(String.class);
 		
-		Pagamento respostaJson;
+		log.info(respostaJson);
+		
+		Pagamento resposta;
 		CieloError[] erros;		
 		
 		try 
 		{
-			respostaJson = new Gson().fromJson(resposta, Pagamento.class);
+			resposta = Pagamento.parseJson(respostaJson);
 		} catch (JsonSyntaxException ex)
 		{
-			erros = new Gson().fromJson(resposta, CieloError[].class);
+			erros = new Gson().fromJson(respostaJson, CieloError[].class);
 			throw new CieloException(erros[0].toString());
 		}
 		
-		log.info(resposta);
-		return respostaJson;
+		return resposta;
 	}
+	
+	@Override
+	@GET
+	public Pagamento consultaPagamento(String paymentId) throws CieloException, IntegracaoException 
+	{
+		Pagamento resposta;
+		
+		this.target = this.client.target(apiUrlConsulta + paymentId);
 
+		Response clientResponse = this.target
+				.request(MediaType.APPLICATION_JSON)
+				.header("Content-Type", "application/json")
+				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
+				.header("MerchantKey", "QVFSNMALCAUVPPYZLTCBJESLIWNZWBPTVSNLLFCN")	
+				.header("PaymentId", paymentId)
+				.get(Response.class);
+		
+		if (clientResponse.getStatus() == 500)
+		{
+			log.warning("CIELO Error 500");
+			
+			throw new IntegracaoException("Não foi possível consultar a venda neste momento. "
+					+ "Tente novamente mais tarde por favor.");
+		}
+		
+		String respostaJson = clientResponse.readEntity(String.class);
+		
+		log.info(respostaJson);
+		
+		resposta = Pagamento.parseJson(respostaJson);
+		
+		return resposta;
+	}
 }

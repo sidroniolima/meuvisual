@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml">
+	  	  
+	<!-- META DEFINE -->
+	<ui:define name="meta">
+	   	<meta http-equiv="cache-control" content="max-age=0" />
+	    <meta http-equiv="cache-control" content="no-cache" />
+	    <meta http-equiv="expires" content="0" />
+	    <meta http-equiv="pragma" content="no-cache" />
+	</ui:define>
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.violet.css" id="theme-stylesheet"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/site/venda/top_bar-venda.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/site/venda/nav_bar-venda.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+        <div id="content">
+
+            <div class="container">
+                <div class="col-md-12" style="padding-bottom: 30px">
+	            	<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-espaco-store-banner-1.jpg" alt="Meu Espaço Store" class="img-responsive"/>
+                </div>
+            </div>
+
+
+            <!-- *** GET INSPIRED ***
+ _________________________________________________________ -->
+            <div class="container" data-animate="fadeInUpBig">
+                <div class="col-md-12">
+                    <div class="box slideshow">
+                        <h3>Inspire-se</h3>
+                        <p class="lead">Seja inspirada pelo nosso design exclusivo</p>
+                        <div id="get-inspired" class="owl-carousel owl-theme">
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-1.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-2.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-3.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>
+                            <div class="item">
+                                <a href="#">
+                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-4.jpg" class="img-responsive" alt="" />
+                                </a>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- *** GET INSPIRED END *** -->
+
+            <!-- *** BLOG HOMEPAGE ***
+ _________________________________________________________ -->
+
+            <div class="box text-center" data-animate="fadeInUp">
+                <div class="container">
+                    <div class="col-md-12">
+                        <p class="lead">
+                        	<a href="http://meuvisual.com.br/area-exclusiva/novidades/" target="_blank">
+                        		<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-tendencias-blog.jpg" class="img-responsive" alt="Tendências Meu Visual" />
+                        	</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- *** BLOG HOMEPAGE END *** -->
+
+        </div>
+        <!-- /#content -->	
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

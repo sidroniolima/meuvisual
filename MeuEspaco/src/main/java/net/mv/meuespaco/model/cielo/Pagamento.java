@@ -52,6 +52,16 @@ public class Pagamento {
 	}
 	
 	/**
+	 * Cria um Pagamento a partir de um Json.
+	 * 
+	 * @param json
+	 */
+	public static Pagamento parseJson(String json)
+	{
+		return new Gson().fromJson(json, Pagamento.class);
+	}
+	
+	/**
 	 * Verifica se o pagament foi autorizado.
 	 * 
 	 * @return autorizado ou não.
@@ -68,7 +78,7 @@ public class Pagamento {
 	 */
 	public String paymentId() 
 	{
-		if (null != this.payment)
+		if (null != this.getPayment().getPaymentId())
 		{
 			return this.payment.getPaymentId().toString();
 		}
@@ -95,4 +105,41 @@ public class Pagamento {
 		this.payment = payment;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((customer == null) ? 0 : customer.hashCode());
+		result = prime * result + ((merchandOrderId == null) ? 0 : merchandOrderId.hashCode());
+		result = prime * result + ((payment == null) ? 0 : payment.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pagamento other = (Pagamento) obj;
+		if (customer == null) {
+			if (other.customer != null)
+				return false;
+		} else if (!customer.equals(other.customer))
+			return false;
+		if (merchandOrderId == null) {
+			if (other.merchandOrderId != null)
+				return false;
+		} else if (!merchandOrderId.equals(other.merchandOrderId))
+			return false;
+		if (payment == null) {
+			if (other.payment != null)
+				return false;
+		} else if (!payment.equals(other.payment))
+			return false;
+		return true;
+	}
+	
 }

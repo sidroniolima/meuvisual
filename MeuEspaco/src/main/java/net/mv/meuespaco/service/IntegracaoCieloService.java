@@ -14,4 +14,5 @@ public interface IntegracaoCieloService {
 	
 	public void init();
 	public Pagamento efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException;
+	public Pagamento consultaPagamento(String paymentId) throws CieloException, IntegracaoException;
 }

@@ -4,7 +4,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.persistence.Transient;
@@ -252,6 +251,51 @@ public class CreditCard {
 	public void setBrand(Brand brand) {
 		this.brand = brand;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((brand == null) ? 0 : brand.hashCode());
+		result = prime * result + ((cardNumber == null) ? 0 : cardNumber.hashCode());
+		result = prime * result + ((expirationDate == null) ? 0 : expirationDate.hashCode());
+		result = prime * result + ((holder == null) ? 0 : holder.hashCode());
+		result = prime * result + ((securityCode == null) ? 0 : securityCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CreditCard other = (CreditCard) obj;
+		if (brand != other.brand)
+			return false;
+		if (cardNumber == null) {
+			if (other.cardNumber != null)
+				return false;
+		} else if (!cardNumber.equals(other.cardNumber))
+			return false;
+		if (expirationDate == null) {
+			if (other.expirationDate != null)
+				return false;
+		} else if (!expirationDate.equals(other.expirationDate))
+			return false;
+		if (holder == null) {
+			if (other.holder != null)
+				return false;
+		} else if (!holder.equals(other.holder))
+			return false;
+		if (securityCode == null) {
+			if (other.securityCode != null)
+				return false;
+		} else if (!securityCode.equals(other.securityCode))
+			return false;
+		return true;
+	}
 	
 }

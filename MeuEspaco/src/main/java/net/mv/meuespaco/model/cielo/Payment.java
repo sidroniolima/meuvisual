@@ -51,7 +51,6 @@ public class Payment {
 	{	
 		this.installments = 1;
 		this.type = PaymentType.CreditCard;
-		this.paymentId = UUID.randomUUID();
 		this.creditCard = new CreditCard();
 	}
 	
@@ -139,10 +138,10 @@ public class Payment {
 	}
 	
 	public float getAmount() {
-		return amount;
+		return new BigDecimal(amount).setScale(2, RoundingMode.UNNECESSARY).floatValue();
 	}
 	public void setAmount(float amount) {
-		this.amount = this.valorEmCentavos(amount);
+		this.amount = amount;
 	}
 	
 	public int getInstallments() {
@@ -210,6 +209,84 @@ public class Payment {
 
 	public String getSoftDescriptor() {
 		return softDescriptor;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(amount);
+		result = prime * result + ((authorizationCode == null) ? 0 : authorizationCode.hashCode());
+		result = prime * result + ((creditCard == null) ? 0 : creditCard.hashCode());
+		result = prime * result + installments;
+		result = prime * result + ((paymentId == null) ? 0 : paymentId.hashCode());
+		result = prime * result + ((proofOfSale == null) ? 0 : proofOfSale.hashCode());
+		result = prime * result + ((softDescriptor == null) ? 0 : softDescriptor.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((tId == null) ? 0 : tId.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Payment other = (Payment) obj;
+		if (Float.floatToIntBits(amount) != Float.floatToIntBits(other.amount))
+			return false;
+		if (authorizationCode == null) {
+			if (other.authorizationCode != null)
+				return false;
+		} else if (!authorizationCode.equals(other.authorizationCode))
+			return false;
+		if (creditCard == null) {
+			if (other.creditCard != null)
+				return false;
+		} else if (!creditCard.equals(other.creditCard))
+			return false;
+		if (installments != other.installments)
+			return false;
+		if (paymentId == null) {
+			if (other.paymentId != null)
+				return false;
+		} else if (!paymentId.equals(other.paymentId))
+			return false;
+		if (proofOfSale == null) {
+			if (other.proofOfSale != null)
+				return false;
+		} else if (!proofOfSale.equals(other.proofOfSale))
+			return false;
+		if (softDescriptor == null) {
+			if (other.softDescriptor != null)
+				return false;
+		} else if (!softDescriptor.equals(other.softDescriptor))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (tId == null) {
+			if (other.tId != null)
+				return false;
+		} else if (!tId.equals(other.tId))
+			return false;
+		if (type != other.type)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Payment [type=" + type + ", amount=" + amount + ", installments=" + installments + ", creditCard="
+				+ creditCard + ", proofOfSale=" + proofOfSale + ", tId=" + tId + ", authorizationCode="
+				+ authorizationCode + ", softDescriptor=" + softDescriptor + ", paymentId=" + paymentId + ", status="
+				+ status + ", returnCode=" + returnCode + ", returnMessage=" + returnMessage + "]";
 	}
 
 }

@@ -141,6 +141,19 @@ public class IntegracaoCieloServiceImplTest {
 		} catch (CieloException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	@Test
+	public void deveConsultarUmPagamento() throws CieloException, IntegracaoException
+	{
+		creditCard = new CreditCard("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new Payment(PaymentType.CreditCard, 1390, 1, creditCard);
+		pagamento = new Pagamento("365547", customer, payment);
 		
+		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
+		
+		Pagamento consulta = integracaoSrvc.consultaPagamento(resposta.paymentId());
+
+		assertTrue("Deve verificar a Consulta", resposta.equals(consulta)); 
 	}
 }

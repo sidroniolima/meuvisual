@@ -28,7 +28,8 @@ public class AutenticadorAutorizador extends AuthorizingRealm {
 	private UsuarioService usuarioSrvc;
 
 	@Override
-	public String getName() {
+	public String getName() 
+	{
 		return this.getClass().getSimpleName();
 	}
 

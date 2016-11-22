@@ -211,6 +211,15 @@ public class Venda extends EntidadeModel implements Serializable{
 		this.setStatus(StatusVenda.PAGAMENTO_CONFIRMADO);
 	}
 	
+	/**
+	 * Informa se a venda está paga verificando o status.
+	 * 
+	 * @return se paga ou não.
+	 */
+	public boolean isPaga() {
+		return this.getStatus().equals(StatusVenda.PAGAMENTO_CONFIRMADO);
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}

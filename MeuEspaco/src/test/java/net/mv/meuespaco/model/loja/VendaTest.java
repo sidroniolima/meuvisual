@@ -218,4 +218,32 @@ public class VendaTest {
 			fail("Venda válida.");
 		}
 	}
+	
+	@Test
+	public void deveInformarQueAVendaEstaPaga()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now())
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		venda1.registraPagamento("0000");
+		
+		assertTrue("Venda paga", venda1.isPaga());
+	}
+	
+	@Test
+	public void deveInformarQueAVendaNaoEstaPaga()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now())
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertFalse("Venda NÃO paga", venda1.isPaga());
+	}
 }

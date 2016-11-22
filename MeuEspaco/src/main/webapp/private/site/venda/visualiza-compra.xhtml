@@ -39,16 +39,15 @@
 	                    
 	                </div>
 	
-	                <div class="col-md-9">
-	                
+	                <div class="col-md-6">
+	                               
 	                    <div class="box" id="box-Compra">
 	        	
-	        				<h3>Visualização de Compra</h3>
+	        				<h3>Informações da Compra</h3>
 	        	
 							<div class="row">
-				                <div class="col-md-12">
-					
-									<div class="col-sm-6"> 
+							
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-cod">Código</label>
@@ -59,11 +58,8 @@
 				                            	readonly="true"/>				                            	
 					                 	</div>
 					            	</div>
-					            </div>
-					            
-								<div class="col-md-12">
 					
-									<div class="col-sm-6"> 
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-status">Status</label>
@@ -74,11 +70,8 @@
 				                            	readonly="true"/>		                            	
 					                 	</div>
 					            	</div>
-					            </div>					            
-							
-				                <div class="col-md-12">
 					
-									<div class="col-sm-6"> 
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-nome">Cliente</label>
@@ -89,11 +82,8 @@
 				                            	readonly="true"/>				                            	
 					                 	</div>
 					            	</div>
-					            </div>
-					            
-				                <div class="col-md-12">
 					
-									<div class="col-sm-6"> 
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-data">Data e hora</label>
@@ -108,34 +98,31 @@
 				                            </h:inputText>				                            	
 					                 	</div>
 					            	</div>
-					            </div>
-	
-								<h:panelGroup
+									
+									<h:panelGroup
 									rendered="#{visualizaCompraBean.venda.status == 'FINALIZADA'}">
 									
-									<div class="col-md-12">
-						
-										<div class="col-sm-6"> 
-											<div class="form-group">
-						                        
-					                            <label for="input-data-final">Finalização</label>
-					                            <h:inputText 
-					                            	class="form-control" 
-					                            	id="input-data-final" 
-					                            	value="#{visualizaCompraBean.venda.horarioFinalizacao}"
-					                            	readonly="true">
-					                            	
-					                            	<f:converter
-					                            		converterId="localDateTimeFacesConverter"/>
-					                            </h:inputText>				                            	
-						                 	</div>
-						            	</div>
-						            </div>
-						        </h:panelGroup>		
+										<div class="col-md-6">
+							
+											<div class="col-md-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-data-final">Finalização</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-data-final" 
+						                            	value="#{visualizaCompraBean.venda.horarioFinalizacao}"
+						                            	readonly="true">
+						                            	
+						                            	<f:converter
+						                            		converterId="localDateTimeFacesConverter"/>
+						                            </h:inputText>				                            	
+							                 	</div>
+							            	</div>
+							            </div>
+						        	</h:panelGroup>		
 					            
-								<div class="col-md-12">
-					
-									<div class="col-sm-6"> 
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-qtd-itens">Qtd de itens</label>
@@ -151,11 +138,8 @@
 				                            </h:inputText>				                            	
 					                 	</div>
 					            	</div>
-					            </div>	
-					            
-								<div class="col-md-12">
 					
-									<div class="col-sm-6"> 
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-desconto">Desconto %</label>
@@ -170,11 +154,8 @@
 				                            </h:inputText>				                            	
 					                 	</div>
 					            	</div>
-					            </div>					            
-					            
-								<div class="col-md-12">
 					
-									<div class="col-sm-6"> 
+									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
 				                            <label for="input-valor">Valor</label>
@@ -190,13 +171,68 @@
 				                            </h:inputText>				                            	
 					                 	</div>
 					            	</div>
-					            </div>					            
+						    		
 					            
 							</div>											
-							
+
 						</div>
+
 						<!-- /.box-Compra -->
 					</div>
+				
+					<!-- box-pagamento -->
+					<div class="col-md-6">
+	                               
+	                    <div class="box" id="box-Compra">
+	        	
+	        				<h3>Pagamento</h3>
+	        	
+							<div class="row">
+							
+									<div class="col-md-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-tipo">Tipo</label>
+				                            <h:inputText 
+				                            	class="form-control" 
+				                            	id="input-tipo" 
+				                            	value="#{visualizaCompraBean.pagamento.payment.type.descricao}"
+				                            	readonly="true">
+				                            </h:inputText>				                            	
+					                 	</div>
+					            	</div>
+							
+							
+									<div class="col-md-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-cartao">Cartão</label>
+				                            <h:inputText 
+				                            	class="form-control" 
+				                            	id="input-cartao" 
+				                            	value="#{visualizaCompraBean.pagamento.payment.creditCard.cardNumber}"
+				                            	readonly="true"/>				                            	
+					                 	</div>
+					            	</div>
+					
+									<div class="col-md-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-parcela">Parcela</label>
+				                            <h:inputText 
+				                            	class="form-control" 
+				                            	id="input-parcela" 
+				                            	value="#{visualizaCompraBean.pagamento.payment.installments}"
+				                            	readonly="true"/>		                            	
+					                 	</div>
+					            	</div>
+					
+							</div>											
+
+						</div>
+
+						<!-- /.box-pagamento -->
+					</div>				
 				
 			        <div class="col-md-12" id="table">
 			

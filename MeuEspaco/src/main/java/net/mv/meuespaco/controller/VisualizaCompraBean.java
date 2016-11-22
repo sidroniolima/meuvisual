@@ -13,13 +13,18 @@ import org.apache.log4j.Logger;
 import org.omnifaces.cdi.Param;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
+import net.mv.meuespaco.exception.IntegracaoException;
+import net.mv.meuespaco.model.cielo.CieloException;
+import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
+import net.mv.meuespaco.service.IntegracaoCieloService;
 import net.mv.meuespaco.service.VendaService;
+import net.mv.meuespaco.util.FacesUtil;
 
 /**
- * Bean para visualização dos detalhes de uma Venda (compra) 
- * e seus itens. 
+ * Bean para visualização dos detalhes de uma Venda (compra), seus itens, 
+ * com fotos e informações do pagamento. 
  * 
  * @author Sidronio
  * @created 30/08/2016
@@ -39,8 +44,13 @@ public class VisualizaCompraBean implements Serializable{
 	private VendaService vendaSrvc;
 	
 	@Inject
+	private IntegracaoCieloService cieloSrvc;
+	
+	@Inject
 	@ClienteLogado
 	private Cliente clienteLogado;
+	
+	private Pagamento pagamento;
 	
 	private Venda venda;
 	
@@ -51,6 +61,18 @@ public class VisualizaCompraBean implements Serializable{
 		{
 			venda = vendaSrvc.buscaCompletaPeloCodigo(paramCodigo);
 			venda.setItens(vendaSrvc.buscaItensCompleto(paramCodigo));
+			
+			if (venda.isPaga())
+			{
+				try 
+				{
+					pagamento = cieloSrvc.consultaPagamento(venda.getPaymentId());
+				
+				} catch (CieloException | IntegracaoException e) 
+				{
+					FacesUtil.addErrorMessage("Não foi possível recuperar as informações do pagamento. Tente novamente mais tarde.");
+				}
+			}
 			
 			if (null != venda)
 			{
@@ -94,5 +116,9 @@ public class VisualizaCompraBean implements Serializable{
 
 	public Venda getVenda() {
 		return venda;
+	}
+
+	public Pagamento getPagamento() {
+		return pagamento;
 	}
 }

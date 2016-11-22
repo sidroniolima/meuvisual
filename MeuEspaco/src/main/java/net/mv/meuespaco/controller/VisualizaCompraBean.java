@@ -55,12 +55,24 @@ public class VisualizaCompraBean implements Serializable{
 	private Venda venda;
 	
 	@PostConstruct
-	public void init() {
+	public void init() throws IOException {
 		
 		if (null != paramCodigo)
 		{
 			venda = vendaSrvc.buscaCompletaPeloCodigo(paramCodigo);
+		
+			if (null == venda)
+			{
+				FacesUtil.addErrorMessage("Não foi possível localizar a venda.");
+				return;
+			}
+			
 			venda.setItens(vendaSrvc.buscaItensCompleto(paramCodigo));
+			
+			if (!venda.getCliente().equals(clienteLogado))
+			{
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/private/site/venda/403.xhtml");
+			}
 			
 			if (venda.isPaga())
 			{

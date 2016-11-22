@@ -8,6 +8,11 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.violet.css" id="theme-stylesheet"/>
+	</ui:define>
  
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
@@ -38,6 +43,15 @@
 	                    </ul>
 	                    
 	                </div>
+		
+	                <div class="col-md-12">
+	                	
+	                	<h:messages 
+				    	  	id="messages"
+					      	errorClass="alert alert-block alert-danger fade in"
+				     	 	style="padding-left:0px"
+				     	 	globalOnly="true"/>   
+				    </div>	
 	
 	                <div class="col-md-6">
 	                               
@@ -189,6 +203,17 @@
 	        	
 							<div class="row">
 							
+								<h:panelGroup
+									rendered="#{not visualizaCompraBean.venda.isPaga()}">
+									<div class="col-md-9"> 
+										<p>A venda ainda não foi paga. </p>
+										<p>Efetue o pagamento agora com seu cartão de crédito.</p>
+									</div>
+								</h:panelGroup>
+							
+								<h:panelGroup
+									rendered="#{visualizaCompraBean.venda.isPaga()}">
+							
 									<div class="col-md-6"> 
 										<div class="form-group">
 					                        
@@ -226,7 +251,7 @@
 				                            	readonly="true"/>		                            	
 					                 	</div>
 					            	</div>
-					
+								</h:panelGroup> <!-- panel-paga -->
 							</div>											
 
 						</div>

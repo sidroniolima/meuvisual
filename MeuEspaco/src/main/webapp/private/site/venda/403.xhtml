@@ -8,7 +8,12 @@
 	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 	
 	<c:set var="root" value="#{request.contextPath}" />
-	  
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.violet.css" id="theme-stylesheet"/>
+	</ui:define>
+ 
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
 		<ui:include src="/private/site/venda/top_bar-venda.xhtml"/>

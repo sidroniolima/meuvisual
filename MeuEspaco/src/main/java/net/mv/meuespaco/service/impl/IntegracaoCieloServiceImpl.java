@@ -49,7 +49,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	//private final String apiUrlConsulta = "https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/";
 	
 	private final String apiUrlTransacao = "https://api.cieloecommerce.cielo.com.br/1/sales/";
-	private final String apiUrlConsulta = "https://apiquery.cieloecommerce.cielo.com.br/";
+	private final String apiUrlConsulta = "https://apiquery.cieloecommerce.cielo.com.br/1/sales/";
 	
 	private final String msgErroIntegracao = "Não foi possível acessar os dados do pagamento. "
 			+ "Tente novamente mais tarde por favor.";
@@ -79,7 +79,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
-				.header("MerchantKey", "QVFSNMALCAUVPPYZLTCBJESLIWNZWBPTVSNLLFCN")
+				.header("MerchantKey", "a3571d9bdf1f0adddcfcf702223994fab4b5a6f1300e61332cc26719770c34b1")
 				.post(Entity.json(pagamento.converterToJson()), Response.class);
 		
 		if (clientResponse.getStatus() == 500)
@@ -120,7 +120,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 				.request(MediaType.APPLICATION_JSON)
 				.header("Content-Type", "application/json")
 				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
-				.header("MerchantKey", "QVFSNMALCAUVPPYZLTCBJESLIWNZWBPTVSNLLFCN")	
+				.header("MerchantKey", "a3571d9bdf1f0adddcfcf702223994fab4b5a6f1300e61332cc26719770c34b1")	
 				.header("PaymentId", paymentId)
 				.get(Response.class);
 		
@@ -156,7 +156,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 				.request(MediaType.APPLICATION_JSON)
 				.header("Content-Type", "application/json")
 				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
-				.header("MerchantKey", "QVFSNMALCAUVPPYZLTCBJESLIWNZWBPTVSNLLFCN")	
+				.header("MerchantKey", "a3571d9bdf1f0adddcfcf702223994fab4b5a6f1300e61332cc26719770c34b1")	
 				.header("PaymentId", paymentId)
 				.put(Entity.json(""), Response.class);
 		

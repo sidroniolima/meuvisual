@@ -141,8 +141,6 @@
   PATH="/private/site/venda/carrinho.xhtml" SHAPE="240,1265,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#private#site#carrinho#carrinho.xhtml"
   PATH="/private/site/carrinho/carrinho.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
- <PROCESS-ITEM NAME="rules:#public#site#index.xhtml"
-  PATH="/public/site/index.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#private#site#venda#lista-produtos.xhtml"
   PATH="/private/site/venda/lista-produtos.xhtml" SHAPE="240,1489,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM
@@ -190,4 +188,6 @@
  <PROCESS-ITEM NAME="rules:#private#site#venda#pagamento-sucesso.xhtml"
   PATH="/private/site/venda/pagamento-sucesso.xhtml"
   SHAPE="240,1825,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#public#site#index.xhtml"
+  PATH="/public/site/index.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

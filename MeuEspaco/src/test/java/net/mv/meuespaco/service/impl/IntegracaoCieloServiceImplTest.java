@@ -5,10 +5,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import net.mv.meuespaco.exception.IntegracaoException;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.cielo.Brand;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.CreditCard;
@@ -178,4 +181,18 @@ public class IntegracaoCieloServiceImplTest {
 			fail("Compra OK.");
 		}
 	}
+	
+	@Test
+	public void deveCancelarUmaVenda() throws IntegracaoException, CieloException, RegraDeNegocioException
+	{
+		creditCard = new CreditCard("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		pagamento = new Pagamento("365547", customer, payment);
+		
+		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
+		
+		Payment cancelamento = integracaoSrvc.cancelaCompra(resposta.paymentId(), new BigDecimal(150));
+		assertTrue("Cancelamento Ok", cancelamento.isCancelamentoEfetuado());
+	}
+	
 }

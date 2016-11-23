@@ -112,17 +112,6 @@ public class Payment {
 	}
 	
 	/**
-	 * Calcula o valor em centavos da venda
-	 * 
-	 * @return valor em centavos.
-	 */
-	public float valorEmCentavos(float amount)
-	{
-		return new BigDecimal(amount * 100)
-				.setScale(0, RoundingMode.UNNECESSARY).floatValue();
-	}
-	
-	/**
 	 * Verifica se um pagamento foi autorizado, 
 	 * com código de retorno 4.
 	 * 
@@ -131,6 +120,17 @@ public class Payment {
 	public boolean isAutorizado()
 	{
 		return this.returnCode.equals("4");
+	}
+	
+	/**
+	 * Verifica se o cancelamento foi bem sucedido.
+	 * 
+	 * @return cancelado ou não.
+	 */
+	public boolean isCancelamentoEfetuado() 
+	{
+		return this.status.equals("10") &&
+				this.returnMessage.equals("Operation Successful");
 	}
 	
 	public PaymentType getType() {

@@ -4,7 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaVenda;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.cielo.CieloException;
+import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
@@ -18,6 +21,10 @@ import net.mv.meuespaco.util.Paginator;
  * 
  * @author Sidronio
  * @created 23/08/2016
+ */
+/**
+ * @author sidronio
+ *
  */
 public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 
@@ -99,7 +106,37 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * status.
 	 * @param vendaSelecionada
 	 * @throws RegraDeNegocioException caso não seja possível cancelar
+	 * @throws IntegracaoException 
+	 * @throws CieloException 
 	 */
-	public void cancelaVenda(Venda vendaSelecionada) throws RegraDeNegocioException;
+	public void cancelaVenda(Venda vendaSelecionada) throws RegraDeNegocioException, IntegracaoException, CieloException;
+
+	/**
+	 * Busca uma venda pelo Id do pagamento (PaymentId)
+	 * 
+	 * @param paymentId
+	 * @return Venda
+	 */
+	public Venda buscaPeloPaymentId(String paymentId);
+
+	/**
+	 * Registra o pagamento via integração Cielo.
+	 * @param venda
+	 * @param pagamento
+	 * @throws IntegracaoException 
+	 * @throws CieloException 
+	 * @throws RegraDeNegocioException 
+	 */
+	public void registraPagamento(Venda venda, Pagamento pagamento) throws CieloException, IntegracaoException, RegraDeNegocioException;
+
+	/**
+	 * Consulta o pagamento de uma Venda.
+	 * 
+	 * @param venda
+	 * @return Pagamento da venda.
+	 * @throws IntegracaoException 
+	 * @throws CieloException 
+	 */
+	public Pagamento consultaPagamento(Venda venda) throws CieloException, IntegracaoException;
 	
 }

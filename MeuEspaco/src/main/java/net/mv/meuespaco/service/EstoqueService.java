@@ -264,4 +264,5 @@ public interface EstoqueService {
 	 * @throws RegraDeNegocioException 
 	 */
 	public void estornaVenda(List<? extends IMovimentavel> itens) throws RegraDeNegocioException;
+
 }

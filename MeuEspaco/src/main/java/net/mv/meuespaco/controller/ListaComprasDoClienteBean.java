@@ -9,7 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.service.VendaService;
@@ -50,11 +52,11 @@ public class ListaComprasDoClienteBean extends ListaSimples implements Serializa
 	 */
 	public void cancelaVenda()
 	{
-		String message = "Sua venda foi cancelada com sucesso.";
+		String message = "Sua compra foi cancelada com sucesso.";
 		
 		if (null == this.vendaSelecionada)
 		{
-			FacesUtil.addErrorMessage("Selecione a venda para cancelamento.");
+			FacesUtil.addErrorMessage("Selecione a compra para cancelamento.");
 			return;
 		}
 		
@@ -62,16 +64,17 @@ public class ListaComprasDoClienteBean extends ListaSimples implements Serializa
 		{
 			if (this.vendaSelecionada.isPaga())
 			{
-				message = "Sua venda foi cancelada e o valor não será cobrado em sua fatura. "
+				message = "Sua compra foi cancelada e o valor não será cobrado em sua fatura. "
 						+ "Caso haja dúvidas entre contato via chat ou telefone.";
 			}
-			
+		
 			this.vendaSrvc.cancelaVenda(vendaSelecionada);
-
 			FacesUtil.addSuccessMessage(message);
-			
-		} catch (RegraDeNegocioException e) {
+				
+		} catch (RegraDeNegocioException | IntegracaoException e) {
 			FacesUtil.addErrorMessage(e.getMessage());
+		} catch (CieloException e) {
+			FacesUtil.addErrorMessage("Não foi possível cancelar a venda. Entre em contato via chat ou telefone.");
 		}
 
 	}

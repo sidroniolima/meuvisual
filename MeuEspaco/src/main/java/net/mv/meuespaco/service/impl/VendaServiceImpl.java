@@ -10,7 +10,10 @@ import net.mv.meuespaco.controller.filtro.FiltroPesquisaVenda;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.VendaDAO;
 import net.mv.meuespaco.exception.DeleteException;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.cielo.CieloException;
+import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
@@ -19,6 +22,7 @@ import net.mv.meuespaco.model.loja.ItemCarrinho;
 import net.mv.meuespaco.model.loja.ItemVenda;
 import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.service.EstoqueService;
+import net.mv.meuespaco.service.IntegracaoCieloService;
 import net.mv.meuespaco.service.VendaService;
 import net.mv.meuespaco.util.Paginator;
 
@@ -36,6 +40,9 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	
 	@Inject
 	private EstoqueService estoqueSrvc;
+	
+	@Inject
+	private IntegracaoCieloService cieloSrvc;
 	
 	public VendaServiceImpl() {	}
 	
@@ -136,10 +143,35 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	}
 	
 	@Override
-	public void cancelaVenda(Venda venda) throws RegraDeNegocioException 
+	public void cancelaVenda(Venda venda) throws RegraDeNegocioException, IntegracaoException, CieloException 
 	{
+		if (venda.isPaga())
+		{
+			this.cieloSrvc.cancelaCompra(venda.getPaymentId(), venda.valorComDesconto());	
+		}
+		
 		venda.cancela();
 		this.salva(venda);
 		estoqueSrvc.estornaVenda(venda.getItens());
+	}
+	
+	@Override
+	public Venda buscaPeloPaymentId(String paymentId) 
+	{
+		return this.vendaDAO.buscarPeloPaymentId(paymentId); 
+	}
+	
+	@Override
+	public void registraPagamento(Venda venda, Pagamento pagamento) throws CieloException, IntegracaoException, RegraDeNegocioException 
+	{
+		Pagamento resposta = this.cieloSrvc.efetuaPagamento(pagamento);
+		venda.registraPagamento(resposta.paymentId(), resposta.horarioDoPagamento());
+		this.salva(venda);
+	}
+	
+	@Override
+	public Pagamento consultaPagamento(Venda venda) throws CieloException, IntegracaoException 
+	{
+		return this.cieloSrvc.consultaPagamento(venda.getPaymentId());
 	}
 }

@@ -18,7 +18,6 @@ import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
-import net.mv.meuespaco.service.IntegracaoCieloService;
 import net.mv.meuespaco.service.VendaService;
 import net.mv.meuespaco.util.FacesUtil;
 
@@ -42,9 +41,6 @@ public class VisualizaCompraBean implements Serializable{
 	
 	@Inject
 	private VendaService vendaSrvc;
-	
-	@Inject
-	private IntegracaoCieloService cieloSrvc;
 	
 	@Inject
 	@ClienteLogado
@@ -78,7 +74,7 @@ public class VisualizaCompraBean implements Serializable{
 			{
 				try 
 				{
-					pagamento = cieloSrvc.consultaPagamento(venda.getPaymentId());
+					pagamento = this.vendaSrvc.consultaPagamento(venda);
 				
 				} catch (CieloException | IntegracaoException e) 
 				{

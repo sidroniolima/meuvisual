@@ -202,4 +202,18 @@ public class HibernateVendaDAO extends HibernateGenericDAO<Venda, Long> implemen
 		
 		return (Venda) query.uniqueResult();
 	}
+	
+	@Override
+	public Venda buscarPeloPaymentId(String paymentId) 
+	{
+		Criteria query = this.getSession().createCriteria(Venda.class);
+		
+		query.setFetchMode("itens", FetchMode.JOIN);
+		
+		query.add(Restrictions.eq("paymentId", paymentId));
+		
+		query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return (Venda) query.uniqueResult();
+	}
 }

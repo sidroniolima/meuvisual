@@ -16,7 +16,6 @@ import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
-import net.mv.meuespaco.service.IntegracaoCieloService;
 import net.mv.meuespaco.service.VendaService;
 import net.mv.meuespaco.util.FacesUtil;
 
@@ -33,9 +32,6 @@ public class PagamentoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private IntegracaoCieloService cielo;
-	
 	@Inject
 	private VendaService vendaSrvc;
 	
@@ -85,9 +81,7 @@ public class PagamentoBean implements Serializable {
 	{
 		try 
 		{
-			Pagamento resposta = cielo.efetuaPagamento(this.pagamento);
-			
-			this.vendaSrvc.registraPagamento(this.venda, resposta.paymentId(), resposta.horarioDoPagamento());
+			this.vendaSrvc.registraPagamento(this.venda, this.pagamento);
 
 			prePagamento.removerVenda();
 			

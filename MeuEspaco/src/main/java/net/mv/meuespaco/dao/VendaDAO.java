@@ -1,6 +1,5 @@
 package net.mv.meuespaco.dao;
 
-import java.util.Collection;
 import java.util.List;
 
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaVenda;
@@ -60,5 +59,13 @@ public interface VendaDAO extends GenericDAO<Venda, Long> {
 	 * @return última venda
 	 */
 	Venda buscarUltimaDoCliente(Cliente cliente);
+
+	/**
+	 * Busca a Venda pelo PaymentId
+	 * 
+	 * @param paymentId
+	 * @return Venda
+	 */
+	Venda buscarPeloPaymentId(String paymentId);
 
 }

@@ -1,5 +1,6 @@
 package net.mv.meuespaco.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaVenda;
@@ -88,8 +89,17 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * @param venda atual
 	 * 
 	 * @param paymentId id do pagamento gerado pela Api.
+	 * @param localDateTime horario do pagamento
 	 * @throws RegraDeNegocioException 
 	 */
-	public void registraPagamento(Venda venda, String paymentId) throws RegraDeNegocioException;
+	public void registraPagamento(Venda venda, String paymentId, LocalDateTime localDateTime) throws RegraDeNegocioException;
+
+	/**
+	 * Cancela uma venda se possível e salva o horário e atualiza o 
+	 * status.
+	 * @param vendaSelecionada
+	 * @throws RegraDeNegocioException caso não seja possível cancelar
+	 */
+	public void cancelaVenda(Venda vendaSelecionada) throws RegraDeNegocioException;
 	
 }

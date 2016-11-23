@@ -28,7 +28,7 @@ public class NavBarVendaBean extends NavBarBeanAbstract implements Serializable 
 
 	@Override
 	protected String getUrl() {
-		return "/private/site/venda/lista-produtos-da-pesquisa.xhtml?faces-redirect=true&paramPesquisa=";
+		return "/private/venda/lista-produtos-da-pesquisa.xhtml?faces-redirect=true&paramPesquisa=";
 	}
 
 }

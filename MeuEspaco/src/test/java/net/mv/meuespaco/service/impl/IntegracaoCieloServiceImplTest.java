@@ -1,6 +1,7 @@
 package net.mv.meuespaco.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -155,5 +156,26 @@ public class IntegracaoCieloServiceImplTest {
 		Pagamento consulta = integracaoSrvc.consultaPagamento(resposta.paymentId());
 
 		assertTrue("Deve verificar a Consulta", resposta.equals(consulta)); 
+	}
+	
+	@Test
+	public void deveFornecerADataDeRecebimentoDoPagamento() throws IntegracaoException
+	{
+		creditCard = new CreditCard("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
+		pagamento = new Pagamento("365547", customer, payment);
+		
+		Pagamento resposta;
+		
+		try 
+		{
+			resposta = integracaoSrvc.efetuaPagamento(pagamento);
+
+			assertFalse("Data de recebimento.", resposta.getPayment().getRecievedDate().isEmpty());
+			assertFalse("Data de recebimento.", null == resposta.horarioDoPagamento());
+			
+		} catch (CieloException e) {
+			fail("Compra OK.");
+		}
 	}
 }

@@ -138,8 +138,20 @@ public class Usuario extends EntidadeModel implements Serializable {
 	 * 
 	 * @return True se for cliente.
 	 */
-	public boolean isCliente() {
+	public boolean isCliente() 
+	{
 		return this.permissoes.contains(Permissao.ROLE_CLIENTE);
+	}
+	
+	/**
+	 * Verifica se um cliente é apenas para Venda.
+	 * 
+	 * @return venda apenas ou consignado.
+	 */
+	public boolean isVendaApenas()
+	{
+		return this.permissoes.contains(Permissao.ROLE_VENDA) 
+				&& !this.isCliente();
 	}
 	
 	/**

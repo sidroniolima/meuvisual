@@ -3,6 +3,7 @@ package net.mv.meuespaco.model.loja;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -71,6 +72,14 @@ public class Venda extends EntidadeModel implements Serializable{
 	
 	@Column(name="payment_id")
 	private String paymentId;
+	
+	@Column(name="received_date", columnDefinition="DATETIME")
+	@Convert(converter=LocalDateTimeDBConverter.class)
+	private LocalDateTime receivedDate;
+
+	@Column(name="horario_cancelamento", columnDefinition="DATETIME")
+	@Convert(converter=LocalDateTimeDBConverter.class)
+	private LocalDateTime horarioCancelamento;
 	
 	/**
 	 * Construtor padrão.
@@ -204,10 +213,12 @@ public class Venda extends EntidadeModel implements Serializable{
 	 * Registra o pagamento da venda.
 	 * 
 	 * @param paymentId
+	 * @param horario 
 	 */
-	public void registraPagamento(String paymentId)
+	public void registraPagamento(String paymentId, LocalDateTime horario)
 	{
 		this.paymentId = paymentId;
+		this.receivedDate = horario;
 		this.setStatus(StatusVenda.PAGAMENTO_CONFIRMADO);
 	}
 	
@@ -218,6 +229,45 @@ public class Venda extends EntidadeModel implements Serializable{
 	 */
 	public boolean isPaga() {
 		return this.getStatus().equals(StatusVenda.PAGAMENTO_CONFIRMADO);
+	}
+	
+	/**
+	 * Verifica se uma venda pode ser cancelada.
+	 */
+	public boolean isCancelavel()
+	{
+		if (!this.isPaga())
+		{
+			return true;
+		}
+		
+		int diaDoPagamento = this.receivedDate.get(ChronoField.DAY_OF_MONTH);
+		int hoje = LocalDateTime.now().get(ChronoField.DAY_OF_MONTH);
+		
+		if (diaDoPagamento == hoje)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Cancela uma venda. 
+	 * @throws RegraDeNegocioException 
+	 */
+	public void cancela() throws RegraDeNegocioException 
+	{
+		if (this.isCancelavel())
+		{
+			this.status = StatusVenda.CANCELADA;
+			this.horarioCancelamento = LocalDateTime.now();
+		} else 
+		{
+			throw new RegraDeNegocioException("Esta venda não pode ser cancelada. "
+					+ "Apenas as vendas não pagas ou pagas hoje podem ser canceladas.");
+		}
+		
 	}
 	
 	public Long getCodigo() {
@@ -275,6 +325,20 @@ public class Venda extends EntidadeModel implements Serializable{
 	}
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
+	}
+
+	public LocalDateTime getReceivedDate() {
+		return receivedDate;
+	}
+	public void setReceivedDate(LocalDateTime receivedDate) {
+		this.receivedDate = receivedDate;
+	}
+	
+	public LocalDateTime getHorarioCancelamento() {
+		return horarioCancelamento;
+	}
+	public void setHorarioCancelamento(LocalDateTime horarioCancelamento) {
+		this.horarioCancelamento = horarioCancelamento;
 	}
 
 	@Override

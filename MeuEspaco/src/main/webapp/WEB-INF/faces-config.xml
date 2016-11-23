@@ -49,6 +49,14 @@
    <redirect/>
   </navigation-case>
  </navigation-rule>
+  <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>index-venda</from-outcome>
+   <to-view-id>/private/venda/index.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
  <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
@@ -93,7 +101,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>carrinho-venda</from-outcome>
-   <to-view-id>/private/site/venda/carrinho.xhtml</to-view-id>
+   <to-view-id>/private/venda/carrinho.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -101,7 +109,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>cielo-api</from-outcome>
-   <to-view-id>/private/site/venda/finaliza-compra.xhtml</to-view-id>
+   <to-view-id>/private/venda/finaliza-compra.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -109,7 +117,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>lista-produtos-venda</from-outcome>
-   <to-view-id>/private/site/venda/lista-produtos.xhtml</to-view-id>
+   <to-view-id>/private/venda/lista-produtos.xhtml</to-view-id>
    <redirect include-view-params="true"/>
   </navigation-case>
  </navigation-rule>
@@ -117,7 +125,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>visualiza-compra</from-outcome>
-   <to-view-id>/private/site/venda/visualiza-compra.xhtml</to-view-id>
+   <to-view-id>/private/venda/visualiza-compra.xhtml</to-view-id>
    <redirect include-view-params="false"/>
   </navigation-case>
  </navigation-rule>
@@ -126,7 +134,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>minhas-compras</from-outcome>
-   <to-view-id>/private/site/venda/minhas-compras.xhtml</to-view-id>
+   <to-view-id>/private/venda/minhas-compras.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
@@ -135,7 +143,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>pagamento-sucesso</from-outcome>
-   <to-view-id>/private/site/venda/pagamento-sucesso.xhtml</to-view-id>
+   <to-view-id>/private/venda/pagamento-sucesso.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule> 

@@ -102,11 +102,7 @@ public class LoginBean implements Serializable {
 						SecurityUtils.getSubject()));
 			}
 			
-			if (userLogged.isCliente()) {
-				return "index-cliente";
-			} else {
-				return "index-admin";
-			}
+			return redirecionaCliente();
 			
 		} catch (RegraDeNegocioException e) {
 			FacesUtil.addErrorMessage(String.format("Não foi possível logar no site. %s", e.getMessage()));
@@ -115,6 +111,24 @@ public class LoginBean implements Serializable {
 			
 		}
 		
+	}
+
+	/**
+	 * Redireciona o cliente de acordo com a permissão.
+	 */
+	private String redirecionaCliente() {
+		
+		if (userLogged.isAdmin())
+		{
+			return "index-admin";
+		}
+		
+		if (userLogged.isVendaApenas())
+		{
+			return "index-venda";
+		}
+		
+		return "index-cliente";
 	}
 
 	/**

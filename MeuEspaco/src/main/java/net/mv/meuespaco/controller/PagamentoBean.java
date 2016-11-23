@@ -85,9 +85,9 @@ public class PagamentoBean implements Serializable {
 	{
 		try 
 		{
-			Pagamento respsota = cielo.efetuaPagamento(this.pagamento);
+			Pagamento resposta = cielo.efetuaPagamento(this.pagamento);
 			
-			this.vendaSrvc.registraPagamento(this.venda, respsota.paymentId());
+			this.vendaSrvc.registraPagamento(this.venda, resposta.paymentId(), resposta.horarioDoPagamento());
 
 			prePagamento.removerVenda();
 			

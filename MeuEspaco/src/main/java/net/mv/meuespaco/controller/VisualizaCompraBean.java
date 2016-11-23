@@ -71,7 +71,7 @@ public class VisualizaCompraBean implements Serializable{
 			
 			if (!venda.getCliente().equals(clienteLogado))
 			{
-				FacesContext.getCurrentInstance().getExternalContext().redirect("/private/site/venda/403.xhtml");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/private/venda/403.xhtml");
 			}
 			
 			if (venda.isPaga())
@@ -116,7 +116,7 @@ public class VisualizaCompraBean implements Serializable{
 	{
 		try 
 		{
-			FacesContext.getCurrentInstance().getExternalContext().redirect("/private/site/venda/403.xhtml");
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/private/venda/403.xhtml");
 		} catch (IOException e) {
 			log.error(
 					String.format("Não foi possível negar o acesso para a venda %s para o cliente %s",

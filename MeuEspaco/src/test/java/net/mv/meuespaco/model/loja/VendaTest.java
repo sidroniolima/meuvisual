@@ -229,7 +229,7 @@ public class VendaTest {
 				.comDesconto(new BigDecimal(15))
 				.constroi();
 		
-		venda1.registraPagamento("0000");
+		venda1.registraPagamento("0000", LocalDateTime.parse("2016-11-23T08:50:40"));
 		
 		assertTrue("Venda paga", venda1.isPaga());
 	}
@@ -245,5 +245,57 @@ public class VendaTest {
 				.constroi();
 		
 		assertFalse("Venda NÃO paga", venda1.isPaga());
+	}
+	
+	@Test
+	public void devePermitirOCancelamentoDaVenda()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now())
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertTrue("Venda PODE ser cancelada.", venda1.isCancelavel());
+		
+		venda1.registraPagamento("0000", LocalDateTime.now());
+		
+		assertTrue("Venda PODE ser cancelada.", venda1.isCancelavel());
+	}
+	
+	@Test
+	public void deveImpedirOCancelamentoDaVenda()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		venda1.registraPagamento("0000", LocalDateTime.now().minusDays(1));
+		
+		assertFalse("Venda NÃO PODE ser cancelada.", venda1.isCancelavel());
+	}
+	
+	@Test
+	public void deveCancelarAVenda() throws RegraDeNegocioException
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		venda1.registraPagamento("0000", LocalDateTime.now());
+		
+		assertTrue("Venda foi paga", venda1.isPaga() && venda1.isCancelavel());
+		
+		venda1.cancela();
+		assertFalse("Venda cancelada", venda1.isPaga());
+		assertEquals("Status", StatusVenda.CANCELADA, venda1.getStatus());
+		assertFalse("Horario cancelamento", null == venda1.getHorarioCancelamento());
 	}
 }

@@ -9,9 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.service.VendaService;
+import net.mv.meuespaco.util.FacesUtil;
 
 /**
  * Lista as vendas do cliente com opção para visualização das mesmas.
@@ -34,12 +36,46 @@ public class ListaComprasDoClienteBean extends ListaSimples implements Serializa
 	
 	private List<Venda> vendas;
 	
+	private Venda vendaSelecionada;
+	
 	@Override
 	@PostConstruct
 	public void init() {
 		this.listarComPaginacao();
 	}
 
+	/**
+	 * Cancela uma venda paga ou não. Se paga 
+	 * apenas poderá ser cancelada no mesmo dia.
+	 */
+	public void cancelaVenda()
+	{
+		String message = "Sua venda foi cancelada com sucesso.";
+		
+		if (null == this.vendaSelecionada)
+		{
+			FacesUtil.addErrorMessage("Selecione a venda para cancelamento.");
+			return;
+		}
+		
+		try 
+		{
+			if (this.vendaSelecionada.isPaga())
+			{
+				message = "Sua venda foi cancelada e o valor não será cobrado em sua fatura. "
+						+ "Caso haja dúvidas entre contato via chat ou telefone.";
+			}
+			
+			this.vendaSrvc.cancelaVenda(vendaSelecionada);
+
+			FacesUtil.addSuccessMessage(message);
+			
+		} catch (RegraDeNegocioException e) {
+			FacesUtil.addErrorMessage(e.getMessage());
+		}
+
+	}
+	
 	@Override
 	public void listarComPaginacao() {
 		this.vendas = vendaSrvc.vendasDoCliente(cliente);
@@ -48,4 +84,14 @@ public class ListaComprasDoClienteBean extends ListaSimples implements Serializa
 	public List<Venda> getVendas() {
 		return vendas;
 	}
+
+	public Venda getVendaSelecionada() {
+		return vendaSelecionada;
+	}
+
+	public void setVendaSelecionada(Venda vendaSelecionada) {
+		this.vendaSelecionada = vendaSelecionada;
+	}
+	
 }
+

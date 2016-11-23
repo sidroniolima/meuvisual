@@ -11,7 +11,8 @@ public enum StatusVenda {
 	AGUARDANDO_PAGAMENTO("Aguardando pagamento"),
 	PAGAMENTO_CONFIRMADO("Pagamento confirmado"),
 	EM_SEPARACAO("Em separação"),
-	FINALIZADA("Finalizada");
+	FINALIZADA("Finalizada"), 
+	CANCELADA("Cancelada");
 	
 	private String descricao;
 	

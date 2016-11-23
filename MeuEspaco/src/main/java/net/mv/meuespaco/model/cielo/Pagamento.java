@@ -1,5 +1,8 @@
 package net.mv.meuespaco.model.cielo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -84,6 +87,23 @@ public class Pagamento {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * Retorna a data e hora do pagamento.
+	 * 
+	 * @return data e hora do pagamento.
+	 */
+	public LocalDateTime horarioDoPagamento()
+	{
+		String strDateRecieved = this.getPayment().getRecievedDate();
+		
+		if (strDateRecieved.isEmpty())
+		{
+			return null;
+		}
+
+		return LocalDateTime.parse(strDateRecieved, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 	
 	public String getMerchandOrderId() {

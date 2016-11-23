@@ -23,6 +23,7 @@ import net.mv.meuespaco.model.cielo.CieloError;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.service.IntegracaoCieloService;
+import net.mv.meuespaco.util.DataDoSistema;
 
 /**
  * Implementação do serviço de integração Cielo.
@@ -43,6 +44,8 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	private Client client;
 	private WebTarget target;
 	
+	private DataDoSistema relogio;
+
 	@PostConstruct
 	public void init()
 	{

@@ -20,8 +20,10 @@
 						rendered="#{loginBean.userLogged.admin}">
 						<a href="#{root}private/admin/dashboard/dashboard.xhtml" class="btn btn-success btn-sm" data-animate-hover="shake">PA</a>
 					</h:panelGroup>
-						            
-					<a href="#{root}private/site/index.xhtml?faces-redirect=true" class="btn btn-success btn-sm" data-animate-hover="shake">Meu espaço</a>						            
+					<h:panelGroup
+						rendered="#{loginBean.userLogged.cliente}">						            
+						<a href="#{root}private/site/index.xhtml?faces-redirect=true" class="btn btn-success btn-sm" data-animate-hover="shake">Meu espaço</a>
+					</h:panelGroup>						            
 	                <a href="#">#{loginBean.mensagemInicial}</a>
 	            </div>
 	            
@@ -40,7 +42,7 @@
 	                    
 		                    <li><a href="${root}private/site/cliente/meu-cadastro.xhtml">Minhas informações</a>
 		                    </li>
-		                    <li><a href="${root}private/site/venda/minhas-compras.xhtml">Minhas compras</a>
+		                    <li><a href="${root}private/venda/minhas-compras.xhtml">Minhas compras</a>
 		                    </li>
 		                    <li><a href="http://meuvisual.com.br/atendimento/" target="_blank">Atendimento</a>
 		                    </li>

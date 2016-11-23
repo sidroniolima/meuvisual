@@ -2,6 +2,8 @@ package net.mv.meuespaco.model.cielo;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -89,5 +91,12 @@ public class PagamentoTest {
 		System.out.println(resposta);
 		
 		assertEquals("Status da resposta", "1", resposta.getPayment().getStatus());
+	}
+	
+	@Test
+	public void deveFornecerADataDoPagamento()
+	{
+		Pagamento resposta = new Gson().fromJson(respostaOk, Pagamento.class);
+		assertEquals("Data do pagamento", LocalDateTime.parse("2016-10-14T08:21:50"), resposta.horarioDoPagamento());
 	}
 }

@@ -1,5 +1,6 @@
 package net.mv.meuespaco.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -124,11 +125,21 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 		Venda venda = this.vendaDAO.buscarUltimaDoCliente(cliente);
 		return venda;
 	}
+
+	@Override
+	public void registraPagamento(Venda venda, String paymentId, LocalDateTime horario)
+			throws RegraDeNegocioException 
+	{
+		venda.registraPagamento(paymentId, horario);
+		this.salva(venda);
+		
+	}
 	
 	@Override
-	public void registraPagamento(Venda venda, String paymentId) throws RegraDeNegocioException 
+	public void cancelaVenda(Venda venda) throws RegraDeNegocioException 
 	{
-		venda.registraPagamento(paymentId);
+		venda.cancela();
 		this.salva(venda);
+		estoqueSrvc.estornaVenda(venda.getItens());
 	}
 }

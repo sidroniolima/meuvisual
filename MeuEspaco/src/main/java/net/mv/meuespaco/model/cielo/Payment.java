@@ -14,6 +14,9 @@ public class Payment {
 	@SerializedName("Amount")
 	private float amount;
 	
+	@SerializedName("ReceivedDate")
+	private String recievedDate;
+	
 	@SerializedName("Installments")
 	private int installments;
 	
@@ -137,6 +140,13 @@ public class Payment {
 		this.type = type;
 	}
 	
+	public String getRecievedDate() {
+		return recievedDate;
+	}
+	public void setRecievedDate(String recievedDate) {
+		this.recievedDate = recievedDate;
+	}
+
 	public float getAmount() {
 		return new BigDecimal(amount).setScale(2, RoundingMode.UNNECESSARY).floatValue();
 	}

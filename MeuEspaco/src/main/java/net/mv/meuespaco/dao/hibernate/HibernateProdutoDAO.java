@@ -19,6 +19,7 @@ import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.dao.ProdutoDAO;
 import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
@@ -102,6 +103,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		Criteria subCriteria = this.getSession().createCriteria(Produto.class);
 		subCriteria.setProjection(Projections.property("codigo"));
 		subCriteria.add(Restrictions.eq("ativo", true));
+		subCriteria.add(Restrictions.eq("finalidade", Finalidade.CONSIGNADO));
+		
 		subCriteria.addOrder(Order.desc("dataDeCadastro"));
 		subCriteria.addOrder(Order.desc("codigo"));
 		subCriteria.setMaxResults(qtd);

@@ -38,7 +38,7 @@ public class PaymentTest {
 		payment = new Gson().fromJson(respostaCancelamento, Payment.class);
 		assertTrue("Pagamento convertido.", null != payment);
 		
-		assertEquals("Status de retorno", "10", payment.getStatus());
+		assertEquals("Status de retorno", 10, payment.getStatus());
 		assertEquals("Código de retorno", "9", payment.getReturnCode());
 		assertEquals("Mensagem de retorno", "Operation Successful", payment.getReturnMessage());
 	}

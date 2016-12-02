@@ -33,13 +33,13 @@ public class Payment {
 	private String authorizationCode;
 	
 	@SerializedName("SoftDescriptor")
-	private final String softDescriptor = "Meu Espaço";
+	private String softDescriptor;
 	
 	@SerializedName("PaymentId")
 	private UUID paymentId;
 	
 	@SerializedName("Status")
-	private String status;
+	private int status;
 	
 	@SerializedName("ReturnCode")
 	private String returnCode;
@@ -97,7 +97,7 @@ public class Payment {
 	 * @param returnMessage
 	 */
 	public Payment(String proofOfSale, String tId, String authorizationCode, 
-			UUID paymentId, String status,
+			UUID paymentId, int status,
 			String returnCode, String returnMessage) 
 	{
 		this();
@@ -119,7 +119,7 @@ public class Payment {
 	 */
 	public boolean isAutorizado()
 	{
-		return this.returnCode.equals("4");
+		return this.status == 2;
 	}
 	
 	/**
@@ -129,8 +129,7 @@ public class Payment {
 	 */
 	public boolean isCancelamentoEfetuado() 
 	{
-		return this.status.equals("10") &&
-				this.returnMessage.equals("Operation Successful");
+		return this.status == 10;
 	}
 	
 	public PaymentType getType() {
@@ -196,10 +195,10 @@ public class Payment {
 		this.paymentId = paymentId;
 	}
 
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
@@ -220,6 +219,9 @@ public class Payment {
 	public String getSoftDescriptor() {
 		return softDescriptor;
 	}
+	public void setSoftDescriptor(String softDescriptor) {
+		this.softDescriptor = softDescriptor;
+	}
 
 	@Override
 	public int hashCode() {
@@ -231,8 +233,11 @@ public class Payment {
 		result = prime * result + installments;
 		result = prime * result + ((paymentId == null) ? 0 : paymentId.hashCode());
 		result = prime * result + ((proofOfSale == null) ? 0 : proofOfSale.hashCode());
+		result = prime * result + ((recievedDate == null) ? 0 : recievedDate.hashCode());
+		result = prime * result + ((returnCode == null) ? 0 : returnCode.hashCode());
+		result = prime * result + ((returnMessage == null) ? 0 : returnMessage.hashCode());
 		result = prime * result + ((softDescriptor == null) ? 0 : softDescriptor.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + status;
 		result = prime * result + ((tId == null) ? 0 : tId.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -271,15 +276,27 @@ public class Payment {
 				return false;
 		} else if (!proofOfSale.equals(other.proofOfSale))
 			return false;
+		if (recievedDate == null) {
+			if (other.recievedDate != null)
+				return false;
+		} else if (!recievedDate.equals(other.recievedDate))
+			return false;
+		if (returnCode == null) {
+			if (other.returnCode != null)
+				return false;
+		} else if (!returnCode.equals(other.returnCode))
+			return false;
+		if (returnMessage == null) {
+			if (other.returnMessage != null)
+				return false;
+		} else if (!returnMessage.equals(other.returnMessage))
+			return false;
 		if (softDescriptor == null) {
 			if (other.softDescriptor != null)
 				return false;
 		} else if (!softDescriptor.equals(other.softDescriptor))
 			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
+		if (status != other.status)
 			return false;
 		if (tId == null) {
 			if (other.tId != null)

@@ -90,7 +90,7 @@ public class PagamentoTest {
 		
 		System.out.println(resposta);
 		
-		assertEquals("Status da resposta", "1", resposta.getPayment().getStatus());
+		assertEquals("Status da resposta", 1, resposta.getPayment().getStatus());
 	}
 	
 	@Test

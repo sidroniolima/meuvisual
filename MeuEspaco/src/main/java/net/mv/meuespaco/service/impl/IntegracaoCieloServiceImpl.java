@@ -54,6 +54,9 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	private final String msgErroIntegracao = "Não foi possível acessar os dados do pagamento. "
 			+ "Tente novamente mais tarde por favor.";
 	
+	private final String merchantId = "edbe2843-5292-4468-bdb1-7d9548cd6747";
+	private final String merchantKey = "IzbLJP5EZqTZ0iozhq0OCgw9dA85GsIwp9sGpold";
+	
 	private Client client;
 	private WebTarget target;
 	
@@ -78,8 +81,8 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
-				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
-				.header("MerchantKey", "a3571d9bdf1f0adddcfcf702223994fab4b5a6f1300e61332cc26719770c34b1")
+				.header("MerchantId", merchantId)
+				.header("MerchantKey", merchantKey)
 				.post(Entity.json(pagamento.converterToJson()), Response.class);
 		
 		if (clientResponse.getStatus() == 500)
@@ -119,8 +122,8 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("Content-Type", "application/json")
-				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
-				.header("MerchantKey", "a3571d9bdf1f0adddcfcf702223994fab4b5a6f1300e61332cc26719770c34b1")	
+				.header("MerchantId", merchantId)
+				.header("MerchantKey", merchantKey)
 				.header("PaymentId", paymentId)
 				.get(Response.class);
 		
@@ -155,8 +158,8 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("Content-Type", "application/json")
-				.header("MerchantId", "fc0ee470-05c5-49f3-8199-6feef8fe3880")
-				.header("MerchantKey", "a3571d9bdf1f0adddcfcf702223994fab4b5a6f1300e61332cc26719770c34b1")	
+				.header("MerchantId", merchantId)
+				.header("MerchantKey", merchantKey)
 				.header("PaymentId", paymentId)
 				.put(Entity.json(""), Response.class);
 		

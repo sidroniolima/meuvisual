@@ -33,7 +33,7 @@ public class Payment {
 	private String authorizationCode;
 	
 	@SerializedName("SoftDescriptor")
-	private final String softDescriptor = "Meu Espaço";
+	private String softDescriptor;
 	
 	@SerializedName("PaymentId")
 	private UUID paymentId;
@@ -219,6 +219,9 @@ public class Payment {
 
 	public String getSoftDescriptor() {
 		return softDescriptor;
+	}
+	public void setSoftDescriptor(String softDescriptor) {
+		this.softDescriptor = softDescriptor;
 	}
 
 	@Override

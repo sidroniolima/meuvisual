@@ -165,6 +165,12 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	public void registraPagamento(Venda venda, Pagamento pagamento) throws CieloException, IntegracaoException, RegraDeNegocioException 
 	{
 		Pagamento resposta = this.cieloSrvc.efetuaPagamento(pagamento);
+		
+		if (!resposta.isAutorizado())
+		{
+			throw new RegraDeNegocioException("Infelizmente seu pagamento não foi aprovado. Tente novamente.");
+		}
+		
 		venda.registraPagamento(resposta.paymentId(), resposta.horarioDoPagamento());
 		this.salva(venda);
 	}

@@ -1,9 +1,11 @@
 package net.mv.meuespaco.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +20,7 @@ import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.service.VendaService;
 import net.mv.meuespaco.util.FacesUtil;
+import net.mv.meuespaco.util.ValorEmCentavos;
 
 /**
  * Camada controller para o pagamento da venda com preenchimento 
@@ -47,28 +50,84 @@ public class PagamentoBean implements Serializable {
 	
 	private Brand[] brands;
 	
-	@PostConstruct
-	public void init()
+	public PagamentoBean() {	}
+	
+	public PagamentoBean(VendaService vendaSrvc, Cliente clienteLogado, PrePagamentoBean prePagamento) 
 	{
+		this.vendaSrvc = vendaSrvc;
+		this.clienteLogado = clienteLogado;
+		this.prePagamento = prePagamento;
+	}
+
+	@PostConstruct
+	public void init() throws IOException
+	{
+		if (isPostback())
+	    {
+			this.redirecionaParaIndex();
+			return;
+	    }
+		
 		brands = Brand.values();
 		
+		Optional<Venda> vendaAguardandoPg = Optional.ofNullable(prePagamento.vendaParaPagamento());
+		
+		if (!vendaAguardandoPg.isPresent())
+		{
+			this.redirecionaParaIndex();
+			return;
+		}
+		
 		Long codigoVenda = prePagamento.vendaParaPagamento().getCodigo();
-		Optional<Venda> vendaAguardandoPg = Optional.ofNullable(this.vendaSrvc.buscaCompletaPeloCodigo(codigoVenda));
+		
+		vendaAguardandoPg = Optional.ofNullable(this.vendaSrvc.buscaCompletaPeloCodigo(codigoVenda));
 		
 		if (vendaAguardandoPg.isPresent())
 		{
 			this.venda = vendaAguardandoPg.get();
 
-			pagamento = new Pagamento(
-					venda.codigoFormatado(), 
-					clienteLogado.getNome(), 
-					venda.valorComDesconto().floatValue());
+			criaPagamento();
 
 		} else
 		{
 			FacesUtil.addErrorMessage("Não foi possível localizar a venda. Acesse-a pelo menu Minhas Compras");
 		}
 		
+	}
+	   
+	/**
+	 * Redericiona para o Index. Utilizado no caso de PostBack
+	 * @throws IOException 
+	 */
+	private void redirecionaParaIndex() throws IOException 
+	{
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/private/venda/index.xhtml");
+	}
+
+	/**
+	 * Verifica se é Postback.
+	 * 
+	 * @return
+	 */
+	private boolean isPostback()
+	{
+		if (null == FacesContext.getCurrentInstance())
+		{
+			return false;
+		}
+		
+		return FacesContext.getCurrentInstance().isPostback();
+	}
+
+	/**
+	 * Cria o pagamento dada a venda, o nome do cliente e o valor.
+	 */
+	private void criaPagamento() 
+	{
+		pagamento = new Pagamento(
+				venda.codigoFormatado(), 
+				clienteLogado.getNome(), 
+				ValorEmCentavos.toCentavos(venda.valorComDesconto()).intValue());
 	}
 	
 	/**
@@ -87,8 +146,9 @@ public class PagamentoBean implements Serializable {
 			
 			return "pagamento-sucesso";
 			
-		} catch (CieloException | IntegracaoException | RegraDeNegocioException e) {
-			
+		} catch (CieloException | IntegracaoException | RegraDeNegocioException e) 
+		{
+			criaPagamento();
 			FacesUtil.addErrorMessage("Sua compra não foi aprovada. Tente novamente");
 		}
 		

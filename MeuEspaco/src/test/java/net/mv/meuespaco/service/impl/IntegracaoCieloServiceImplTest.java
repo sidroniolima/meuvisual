@@ -46,7 +46,7 @@ public class IntegracaoCieloServiceImplTest {
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
 		
-		assertEquals("Transação Aceita - Cód. 4", new String("4"), resposta.getPayment().getReturnCode());
+		assertEquals("Pagamento Confirmado - Status 2 ", 2, resposta.getPayment().getStatus());
 		assertTrue("Transação Autorizada", resposta.isAutorizado());
 	}
 	
@@ -66,7 +66,7 @@ public class IntegracaoCieloServiceImplTest {
 	@Test
 	public void naoDeveAprovarVenda_TimeOut() throws CieloException, IntegracaoException 
 	{
-		creditCard = new CreditCard("0000000000000009", "Teste Holder", "09/2017", "123", Brand.Visa);
+		creditCard = new CreditCard("000000000000009", "Teste Holder", "09/2017", "123", Brand.Visa);
 		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
 		pagamento = new Pagamento("365547", customer, payment);
 		
@@ -158,7 +158,12 @@ public class IntegracaoCieloServiceImplTest {
 		
 		Pagamento consulta = integracaoSrvc.consultaPagamento(resposta.paymentId());
 
-		assertTrue("Deve verificar a Consulta", resposta.equals(consulta)); 
+		assertEquals("Deve verificar a Consulta", resposta.getPayment().getStatus(), consulta.getPayment().getStatus()); 
+		assertEquals("Deve verificar a Consulta", resposta.getPayment().getProofOfSale(), consulta.getPayment().getProofOfSale());
+		assertEquals("Deve verificar a Consulta", resposta.getPayment().gettId(), consulta.getPayment().gettId());
+		assertEquals("Deve verificar a Consulta", resposta.getPayment().getAuthorizationCode(), consulta.getPayment().getAuthorizationCode());
+		assertEquals("Deve verificar a Consulta", resposta.getPayment().getCreditCard().getCardNumber(), consulta.getPayment().getCreditCard().getCardNumber());
+		assertEquals("Deve verificar a Consulta", resposta.getCustomer().getName(), consulta.getCustomer().getName());
 	}
 	
 	@Test

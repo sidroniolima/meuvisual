@@ -1,6 +1,7 @@
 package net.mv.meuespaco.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -18,8 +19,11 @@ import org.mockito.Mockito;
 
 import net.mv.meuespaco.dao.VendaDAO;
 import net.mv.meuespaco.exception.DeleteException;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
+import net.mv.meuespaco.model.cielo.CieloException;
+import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
 import net.mv.meuespaco.model.grade.GradeTamanho;
@@ -28,9 +32,11 @@ import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoConsignado;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ItemCarrinho;
+import net.mv.meuespaco.model.loja.StatusVenda;
 import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.model.loja.VendaBuilder;
 import net.mv.meuespaco.service.EstoqueService;
+import net.mv.meuespaco.service.IntegracaoCieloService;
 import net.mv.meuespaco.service.VendaService;
 
 public class VendaServiceImplTest {
@@ -38,13 +44,59 @@ public class VendaServiceImplTest {
 	private VendaDAO daoFalso = Mockito.mock(VendaDAO.class);
 	private EstoqueService estoqueFalso = Mockito.mock(EstoqueService.class);
 	private Carrinho carrinhoFalso = Mockito.mock(CarrinhoConsignado.class);
+	private IntegracaoCieloService cieloFalso = Mockito.mock(IntegracaoCieloService.class);
 	
 	private Venda vendaPadrao;
 	
-	private VendaService vendaSrvc = new VendaServiceImpl(daoFalso, estoqueFalso);
+	private VendaService vendaSrvc = new VendaServiceImpl(daoFalso, estoqueFalso, cieloFalso);
 	
 	ItemCarrinho item1;
 	ItemCarrinho item2;
+	
+	private final String respostaOk = 
+			"{"
+			+ "\"MerchantOrderId\":\"365547\","
+			+ "\"Customer\":"
+			+ "	{"
+			+ "		\"Name\":\"Sidronio\""
+			+ "	},"
+			+ "\"Payment\":"
+			+ "	{"
+			+ "		\"ServiceTaxAmount\":0,"
+			+ "		\"Installments\":1,"
+			+ "		\"Interest\":0,"
+			+ "		\"Capture\":false,"
+			+ "		\"Authenticate\":false,"
+			+ "		\"Recurrent\":false,"
+			+ "		\"CreditCard\":"
+			+ "			{"
+			+ "				\"CardNumber\":\"000000******0001\","
+			+ "				\"Holder\":\"Teste Holder\","
+			+ "				\"ExpirationDate\":\"09/2017\","
+			+ "				\"SaveCard\":false,"
+			+ "				\"Brand\":\"Visa\""
+			+ "			},"
+			+ "		\"Tid\":\"1014082150250\","
+			+ "		\"ProofOfSale\":\"2150250\","
+			+ "		\"AuthorizationCode\":\"332571\","
+			+ "		\"Provider\":\"Simulado\","
+			+ "		\"PaymentId\":\"fbf27534-e289-4f7e-a7bb-f49bb4f4e321\","
+			+ "		\"Type\":\"CreditCard\","
+			+ "		\"Amount\":15000,"
+			+ "		\"ReceivedDate\":\"2016-10-14 08:21:50\","
+			+ "		\"Currency\":\"BRL\","
+			+ "		\"Country\":\"BRA\","
+			+ "		\"ReturnCode\":\"4\","
+			+ "		\"ReturnMessage\":\"Operation Successful\","
+			+ "		\"Status\":2,"
+			+ "		\"Links\":["
+			+ "					{\"Method\":\"GET\",\"Rel\":\"self\",\"Href\":\"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/fbf27534-e289-4f7e-a7bb-f49bb4f4e321\"},"
+			+ "					{\"Method\":\"PUT\",\"Rel\":\"capture\",\"Href\":\"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/fbf27534-e289-4f7e-a7bb-f49bb4f4e321/capture\"},"
+			+ "					{\"Method\":\"PUT\",\"Rel\":\"void\",\"Href\":\"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/fbf27534-e289-4f7e-a7bb-f49bb4f4e321/void\"}"
+			+ "				]"
+			+ "		}"
+			+ "	}";
+	
 	
 	@Before
 	public void init()
@@ -66,6 +118,12 @@ public class VendaServiceImplTest {
 				BigDecimal.ONE, 
 				new GradeTamanho(Tamanho.TAM_22));
 		
+	}
+	
+	@Test
+	public void deveCriarAVenda()
+	{
+		assertTrue("Venda criada", vendaPadrao.getStatus().equals(StatusVenda.AGUARDANDO_PAGAMENTO));
 	}
 	
 	@Test
@@ -144,6 +202,17 @@ public class VendaServiceImplTest {
 
 		verify(daoFalso, never()).excluir(argumento.getValue());
 		verify(estoqueFalso, never()).estornaVenda(vendaPadrao.getItens());
+	}
+	
+	@Test
+	public void deveRegistrarPagamento() throws CieloException, IntegracaoException, RegraDeNegocioException
+	{
+		Pagamento pg = Pagamento.parseJson(respostaOk);
 		
+		when(cieloFalso.efetuaPagamento(pg)).thenReturn(pg);
+		vendaSrvc.registraPagamento(vendaPadrao, pg);
+		
+		assertTrue("Verifica se a venda foi registrada.", vendaPadrao.isPaga());
+
 	}
 }

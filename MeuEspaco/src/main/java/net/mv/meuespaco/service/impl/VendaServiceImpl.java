@@ -46,9 +46,10 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	
 	public VendaServiceImpl() {	}
 	
-	public VendaServiceImpl(VendaDAO vendaDAO, EstoqueService estoqueSrvc) {
+	public VendaServiceImpl(VendaDAO vendaDAO, EstoqueService estoqueSrvc, IntegracaoCieloService cieloSrvc) {
 		this.vendaDAO = vendaDAO;
 		this.estoqueSrvc = estoqueSrvc;
+		this.cieloSrvc = cieloSrvc;
 	}
 
 	@Override

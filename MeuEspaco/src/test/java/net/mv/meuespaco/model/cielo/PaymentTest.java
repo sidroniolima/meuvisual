@@ -27,9 +27,11 @@ public class PaymentTest {
 	public void deveCriarComValorEmCentavos() 
 	{
 		CreditCard card = new CreditCard("0000000000000001", "07/2017");
-		payment = new Payment(PaymentType.CreditCard, 1099f, 1, card);
+		payment = new Payment(PaymentType.CreditCard, 1099, 1, card);
 		
-		assertEquals("Valor em centavos...", 1099f, payment.getAmount(), 0.00f);
+		System.out.println(payment);
+		
+		assertEquals("Valor em centavos...", 1099, payment.getAmount(), 0.00);
 	}
 
 	@Test

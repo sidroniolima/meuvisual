@@ -46,7 +46,7 @@ public class PagamentoTest {
 			+ "		\"Country\":\"BRA\","
 			+ "		\"ReturnCode\":\"4\","
 			+ "		\"ReturnMessage\":\"Operation Successful\","
-			+ "		\"Status\":1,"
+			+ "		\"Status\":2,"
 			+ "		\"Links\":["
 			+ "					{\"Method\":\"GET\",\"Rel\":\"self\",\"Href\":\"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/fbf27534-e289-4f7e-a7bb-f49bb4f4e321\"},"
 			+ "					{\"Method\":\"PUT\",\"Rel\":\"capture\",\"Href\":\"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/fbf27534-e289-4f7e-a7bb-f49bb4f4e321/capture\"},"
@@ -90,7 +90,7 @@ public class PagamentoTest {
 		
 		System.out.println(resposta);
 		
-		assertEquals("Status da resposta", 1, resposta.getPayment().getStatus());
+		assertEquals("Status da resposta", 2, resposta.getPayment().getStatus());
 	}
 	
 	@Test

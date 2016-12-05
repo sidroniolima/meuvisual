@@ -28,7 +28,7 @@ public class Pagamento {
 	 * @param merchanOrderId
 	 * @param amount
 	 */
-	public Pagamento(String merchanOrderId, String customerName, float amount)
+	public Pagamento(String merchanOrderId, String customerName, int amount)
 	{
 		this();
 		this.merchandOrderId = merchanOrderId;

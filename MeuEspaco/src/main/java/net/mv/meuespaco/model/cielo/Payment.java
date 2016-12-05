@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.gson.annotations.SerializedName;
 
 public class Payment {
@@ -12,7 +13,7 @@ public class Payment {
 	private PaymentType type;
 	
 	@SerializedName("Amount")
-	private float amount;
+	private int amount;
 	
 	@SerializedName("ReceivedDate")
 	private String recievedDate;
@@ -22,6 +23,9 @@ public class Payment {
 	
 	@SerializedName("CreditCard")
 	private CreditCard creditCard;
+	
+	@SerializedName("Capture")
+	private final boolean capture = true;
 	
 	@SerializedName("ProofOfSale")
 	private String proofOfSale;
@@ -65,7 +69,7 @@ public class Payment {
 	 * @param installments
 	 * @param creditCard
 	 */
-	public Payment(PaymentType type, float amount, int installments, CreditCard creditCard) 
+	public Payment(PaymentType type, int amount, int installments, CreditCard creditCard) 
 	{
 		this();
 		this.type = type;
@@ -79,7 +83,7 @@ public class Payment {
 	 * 
 	 * @param amount
 	 */
-	public Payment(float amount) 
+	public Payment(int amount) 
 	{
 		this();
 		this.setAmount(amount);
@@ -146,10 +150,10 @@ public class Payment {
 		this.recievedDate = recievedDate;
 	}
 
-	public float getAmount() {
-		return new BigDecimal(amount).setScale(2, RoundingMode.UNNECESSARY).floatValue();
+	public int getAmount() {
+		return this.amount;
 	}
-	public void setAmount(float amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	
@@ -310,7 +314,7 @@ public class Payment {
 
 	@Override
 	public String toString() {
-		return "Payment [type=" + type + ", amount=" + amount + ", installments=" + installments + ", creditCard="
+		return "Payment [type=" + type + ", amount=" + this.getAmount() + ", installments=" + installments + ", creditCard="
 				+ creditCard + ", proofOfSale=" + proofOfSale + ", tId=" + tId + ", authorizationCode="
 				+ authorizationCode + ", softDescriptor=" + softDescriptor + ", paymentId=" + paymentId + ", status="
 				+ status + ", returnCode=" + returnCode + ", returnMessage=" + returnMessage + "]";

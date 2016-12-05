@@ -44,14 +44,14 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	
 	private final Logger log = Logger.getLogger(IntegracaoCieloServiceImpl.class.getName());
 	
-	private final String apiUrlTransacao = "https://apisandbox.cieloecommerce.cielo.com.br/1/sales/";
-	private final String apiUrlConsulta = "https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/";
-
 	private final String msgErroIntegracao = "Não foi possível acessar os dados do pagamento. "
 			+ "Tente novamente mais tarde por favor.";
+
+	private final String apiUrlTransacao = "https://api.cieloecommerce.cielo.com.br/1/sales/";
+	private final String apiUrlConsulta = "https://apiquery.cieloecommerce.cielo.com.br/1/sales/";
 	
-	private final String merchantId = "f671db88-6045-41f5-9bc7-90ca1eebfcf6";
-	private final String merchantKey = "MOGLSHRTCYJIHVMCFBWEUTNCCXWKUKDPBMGNYDLB";
+	private final String merchantId = "edbe2843-5292-4468-bdb1-7d9548cd6747";
+	private final String merchantKey = "IzbLJP5EZqTZ0iozhq0OCgw9dA85GsIwp9sGpold";
 	
 	private Client client;
 	private WebTarget target;

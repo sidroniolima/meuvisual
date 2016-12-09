@@ -334,7 +334,7 @@
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
 	                         
 	                   <delete file="${project.build.outputDirectory}/config.properties"/>
-	                   <copy file="src/main/resources/config.prod.properties"
+	                   <copy file="src/main/resources/config.properties"
 	                         tofile="${project.build.outputDirectory}/config.properties"/>	                         
 	                 </tasks>
 	               </configuration>

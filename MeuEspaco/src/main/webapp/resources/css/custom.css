@@ -291,7 +291,7 @@
 .cor-0000FF
 {
 	background-color: #0000FF;
-}	#2c6bcd
+}	
 
 /** Safira Light **/
 .cor-2c6bcd
@@ -366,15 +366,63 @@
 }
 
 /** Vermelho **/
-.cor-00FF00
+.cor-FF0000
 {
-	background-color: #00FF00;
+	background-color: #FF0000;
 }
 
 /** Vinho **/
 .cor-8B0000
 {
 	background-color: #8B0000;
+}
+
+/** Lilás vintage **/
+.cor-DB7093
+{
+	background-color: #DB7093;
+}
+
+/** Chocolate **/
+.cor-CD853f
+{
+	background-color: #CD853f;
+}
+
+/** Cinza mescla **/
+.cor-CDC5BF
+{
+	background-color: #CDC5BF;
+}
+
+/** Branco leitoso **/
+.cor-FFFFF0
+{
+	background-color: #FFFFF0;
+}
+
+/** Rosa leitoso **/
+.cor-FFF5EE
+{
+	background-color: #FFF5EE;
+}
+
+/** Verde leitoso **/
+.cor-F5FFFA
+{
+	background-color: #F5FFFA;
+}
+
+/** Calcedônia **/
+.cor-EEE0E5
+{
+	background-color: #EEE0E5;
+}
+
+/** Jade verde **/
+.cor-3CB371
+{
+	background-color: #3CB371;
 }
 
 /** Colorido **/

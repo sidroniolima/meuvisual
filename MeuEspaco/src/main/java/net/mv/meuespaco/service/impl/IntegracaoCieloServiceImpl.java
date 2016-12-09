@@ -47,11 +47,8 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	private final String msgErroIntegracao = "Não foi possível acessar os dados do pagamento. "
 			+ "Tente novamente mais tarde por favor.";
 
-	private final String apiUrlTransacao = "https://api.cieloecommerce.cielo.com.br/1/sales/";
-	private final String apiUrlConsulta = "https://apiquery.cieloecommerce.cielo.com.br/1/sales/";
-	
-	private final String merchantId = "edbe2843-5292-4468-bdb1-7d9548cd6747";
-	private final String merchantKey = "IzbLJP5EZqTZ0iozhq0OCgw9dA85GsIwp9sGpold";
+	@Inject
+	private CieloPropertiesProxy props;
 	
 	private Client client;
 	private WebTarget target;
@@ -60,6 +57,15 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	private VendaService vendaSrvc;
 	
 	private DataDoSistema relogio;
+
+	public IntegracaoCieloServiceImpl() {	}
+	
+	public IntegracaoCieloServiceImpl(CieloPropertiesProxy props, VendaService vendaSrvc, DataDoSistema relogio) 
+	{
+		this.props = props;
+		this.vendaSrvc = vendaSrvc;
+		this.relogio = relogio;
+	}
 
 	@PostConstruct
 	public void init()
@@ -73,14 +79,14 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Pagamento efetuaPagamento(Pagamento pagamento) throws CieloException, IntegracaoException {
 
-		this.target = this.client.target(apiUrlTransacao);
+		this.target = this.client.target(this.props.getUrlTransacao());
 		
 		String json = pagamento.converterToJson();
 		
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
-				.header("MerchantId", merchantId)
-				.header("MerchantKey", merchantKey)
+				.header("MerchantId", this.props.getMerchantId())
+				.header("MerchantKey", this.props.getMerchantKey())
 				.post(Entity.json(json), Response.class);
 		
 		if (clientResponse.getStatus() == 500)
@@ -88,7 +94,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 			throw new IntegracaoException(msgErroIntegracao);
 		}
 		
-		log.info("Enviando pagamento da compra: " + pagamento.getMerchandOrderId() + " JSON -> " + json);
+		log.info("Enviando pagamento da compra: " + pagamento.getMerchandOrderId());
 		
 		String respostaJson = clientResponse.readEntity(String.class);
 		
@@ -115,13 +121,13 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 	{
 		Pagamento resposta;
 		
-		this.target = this.client.target(apiUrlConsulta + paymentId);
+		this.target = this.client.target(this.props.getUrlConsulta() + paymentId);
 
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("Content-Type", "application/json")
-				.header("MerchantId", merchantId)
-				.header("MerchantKey", merchantKey)
+				.header("MerchantId", this.props.getMerchantId())
+				.header("MerchantKey", this.props.getMerchantKey())
 				.header("PaymentId", paymentId)
 				.get(Response.class);
 		
@@ -151,13 +157,13 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		
 		BigDecimal valorEmCentavos = ValorEmCentavos.toCentavos(valorDaVenda);
 		
-		this.target = this.client.target(this.apiUrlTransacao + paymentId + "/void?amount="+valorEmCentavos);
+		this.target = this.client.target(this.props.getUrlTransacao() + paymentId + "/void?amount="+valorEmCentavos);
 		
 		Response clientResponse = this.target
 				.request(MediaType.APPLICATION_JSON)
 				.header("Content-Type", "application/json")
-				.header("MerchantId", merchantId)
-				.header("MerchantKey", merchantKey)
+				.header("MerchantId", this.props.getMerchantId())
+				.header("MerchantKey", this.props.getMerchantKey())
 				.header("PaymentId", paymentId)
 				.put(Entity.json(""), Response.class);
 		
@@ -192,4 +198,5 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		
 		return resposta;
 	}
+	
 }

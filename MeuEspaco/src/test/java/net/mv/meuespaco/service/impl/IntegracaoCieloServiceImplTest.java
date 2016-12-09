@@ -9,6 +9,9 @@ import java.math.BigDecimal;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import static org.mockito.Mockito.when;
 
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -20,20 +23,33 @@ import net.mv.meuespaco.model.cielo.Pagamento;
 import net.mv.meuespaco.model.cielo.Payment;
 import net.mv.meuespaco.model.cielo.PaymentType;
 import net.mv.meuespaco.service.IntegracaoCieloService;
+import net.mv.meuespaco.service.VendaService;
+import net.mv.meuespaco.util.DataDoSistema;
 
 public class IntegracaoCieloServiceImplTest {
 
-	private IntegracaoCieloService integracaoSrvc = new IntegracaoCieloServiceImpl();
+	private IntegracaoCieloService integracaoSrvc;
 	private Pagamento pagamento;
 	private Customer customer;
 	private CreditCard creditCard;
 	private Payment payment;
+	
+	private DataDoSistema relogioFalso = Mockito.mock(DataDoSistema.class);
+	private CieloPropertiesProxy propertiesFalsas = Mockito.mock(CieloPropertiesProxy.class);
+	private VendaService verdaSrvcFalso = Mockito.mock(VendaService.class);
 	
 	@Before
 	public void setup()
 	{
 		customer = new Customer("Sidronio");
 
+		integracaoSrvc = new IntegracaoCieloServiceImpl(propertiesFalsas, verdaSrvcFalso, relogioFalso);
+		
+		when(propertiesFalsas.getUrlTransacao()).thenReturn("https://apisandbox.cieloecommerce.cielo.com.br/1/sales/");
+		when(propertiesFalsas.getUrlConsulta()).thenReturn("https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/");
+		when(propertiesFalsas.getMerchantId()).thenReturn("f671db88-6045-41f5-9bc7-90ca1eebfcf6");
+		when(propertiesFalsas.getMerchantKey()).thenReturn("MOGLSHRTCYJIHVMCFBWEUTNCCXWKUKDPBMGNYDLB");
+		
 		integracaoSrvc.init();
 	}
 	
@@ -61,20 +77,6 @@ public class IntegracaoCieloServiceImplTest {
 		
 		assertEquals("Transação Não autorizada - Cód. 2", new String("2"), resposta.getPayment().getReturnCode());
 		assertTrue("Transação NÃO Autorizada", !resposta.isAutorizado());
-	}
-	
-	@Test
-	public void naoDeveAprovarVenda_TimeOut() throws CieloException, IntegracaoException 
-	{
-		creditCard = new CreditCard("000000000000009", "Teste Holder", "09/2017", "123", Brand.Visa);
-		payment = new Payment(PaymentType.CreditCard, 15000, 1, creditCard);
-		pagamento = new Pagamento("365547", customer, payment);
-		
-		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
-		
-		assertTrue("Transação ora não ora autorizada - Cód. 4/99", 
-				resposta.getPayment().getReturnCode().contains("4") || 
-				resposta.getPayment().getReturnCode().contains("99"));
 	}
 	
 	@Test

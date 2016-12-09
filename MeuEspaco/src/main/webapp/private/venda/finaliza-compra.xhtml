@@ -325,9 +325,12 @@
     	<h:outputScript library="js" name="jquery.mask.min.js" />
 
 		<script>
-		$(document).ready(function(){
+
+		let dateMask = function(){
 			jQuery('input[id*="input-expiration-date"]').mask("00/0000");
-		});
+		};
+		
+		$(document).ready(dateMask);
 		</script>	
 	
 	</ui:define>

@@ -13,7 +13,7 @@ public enum Departamento {
 	DIA_DOS_NAMORADOS("Dia dos namorados",false),
 	OLIMPIADAS_2016("Olimpíadas 2016",false),
 	ANEIS_DE_FORMATURA("Formatura",false),	
-	NATAL("Natal 2016",true),
+	NATAL("Natal 2016",false),
 	MATERIAL_DE_APOIO("Material de apoio",true);
 	
 	private String descricao;

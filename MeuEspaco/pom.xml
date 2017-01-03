@@ -240,11 +240,11 @@
 	               <configuration>
 	                 <tasks>
 	                   <delete file="${project.build.outputDirectory}/environment.properties"/>
-	                   <copy file="src/main/resources/environment.local.properties"
+	                   <copy file="src/main/resources/environment.properties"
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
 	                         
 	                   <delete file="${project.build.outputDirectory}/config.properties"/>
-	                   <copy file="src/main/resources/config.local.properties"
+	                   <copy file="src/main/resources/config.properties"
 	                         tofile="${project.build.outputDirectory}/config.properties"/>	                         
 	                 </tasks>
 	               </configuration>
@@ -262,7 +262,7 @@
 		        <version>2.4</version>		        
 		        <configuration>
 		          <failOnMissingWebXml>false</failOnMissingWebXml>
-		          <webXml>src/main/webapp/WEB-INF/web.local.xml</webXml>
+		          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
 		        </configuration>		        
 		      </plugin>
 		 	</plugins>
@@ -285,7 +285,7 @@
 	               <configuration>
 	                 <tasks>
 	                   <delete file="${project.build.outputDirectory}/environment.properties"/>
-	                   <copy file="src/main/resources/environment.local.properties"
+	                   <copy file="src/main/resources/environment.test.properties"
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
 	                         
 	                   <delete file="${project.build.outputDirectory}/config.properties"/>
@@ -334,7 +334,7 @@
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
 	                         
 	                   <delete file="${project.build.outputDirectory}/config.properties"/>
-	                   <copy file="src/main/resources/config.properties"
+	                   <copy file="src/main/resources/config.prod.properties"
 	                         tofile="${project.build.outputDirectory}/config.properties"/>	                         
 	                 </tasks>
 	               </configuration>
@@ -352,7 +352,7 @@
 		        <version>2.4</version>		        
 		        <configuration>
 		          <failOnMissingWebXml>false</failOnMissingWebXml>
-		          <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+		          <webXml>src/main/webapp/WEB-INF/web.prod.xml</webXml>
 		        </configuration>		        
 		      </plugin>
 		 	</plugins>

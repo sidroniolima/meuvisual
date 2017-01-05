@@ -4,13 +4,16 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import net.mv.meuespaco.converter.LocalDateDBConverter;
+import net.mv.meuespaco.model.loja.Cliente;
 
 /**
  * Cŕedito de comissão de acordo com os dados do ERP.
@@ -18,15 +21,17 @@ import net.mv.meuespaco.converter.LocalDateDBConverter;
  * @author sidronio
  * @creted 02/01/2017
  */
+@Entity
+@Table(name="credito")
 public class Credito {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(name="codigo_siga")
+	@Column(name="cliente_codigo")
 	@ManyToOne(fetch=FetchType.LAZY)
-	private String codigoSiga;
+	private Cliente cliente;
 	
 	private String nome;
 	private double valor;
@@ -39,11 +44,11 @@ public class Credito {
 	
 	public Credito() {	}
 	
-	public Credito(Long codigo, String codigoSiga, String nome, double valor, String classe, String historio,
+	public Credito(Long codigo, Cliente cliente, String nome, double valor, String classe, String historio,
 			LocalDate baixa) 
 	{
 		this.codigo = codigo;
-		this.codigoSiga = codigoSiga;
+		this.cliente = cliente;
 		this.nome = nome;
 		this.valor = valor;
 		this.classe = ClasseCredito.valueOf(classe);
@@ -68,11 +73,11 @@ public class Credito {
 		this.codigo = codigo;
 	}
 	
-	public String getCodigoSiga() {
-		return codigoSiga;
+	public Cliente getCodigoSiga() {
+		return cliente;
 	}
-	public void setCodigoSiga(String codigoSiga) {
-		this.codigoSiga = codigoSiga;
+	public void setCodigoSiga(Cliente codigoSiga) {
+		this.cliente = codigoSiga;
 	}
 	
 	public String getNome() {
@@ -108,6 +113,31 @@ public class Credito {
 	}
 	public void setBaixa(LocalDate baixa) {
 		this.baixa = baixa;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Credito other = (Credito) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
 	}
 	
 }

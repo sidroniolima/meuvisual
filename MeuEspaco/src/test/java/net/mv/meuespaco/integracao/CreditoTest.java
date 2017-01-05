@@ -8,19 +8,25 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.mv.meuespaco.model.loja.Cliente;
+
 public class CreditoTest {
 
 	private Credito creditoPago;
 	private Credito creditoDbt;
 	private Credito creditoNaoPago;
 	private Credito creditoCdt;
+	private Cliente cliente;
 	
 	@Before
-	public void setUp() {
-		creditoPago = new Credito(1L, "000004", "DANIELA SILVA GODOY", 33.9d, "COM", "", LocalDate.of(2016, 8, 14));
-		creditoNaoPago = new Credito(2L, "000004", "DANIELA SILVA GODOY", 33.9d, "COM", "<20PÇ", LocalDate.of(2016, 8, 14));
-		creditoDbt = new Credito(3L, "000004", "DANIELA SILVA GODOY", 33.9d, "DBT", "", LocalDate.of(2016, 8, 14));
-		creditoCdt = new Credito(4L, "000004", "DANIELA SILVA GODOY", 33.9d, "CDT", "", LocalDate.of(2016, 8, 14));
+	public void setUp() 
+	{
+		cliente = new Cliente(1L, "CLIENTE DONA DO CREDITO");
+		
+		creditoPago = new Credito(1L, cliente, "DANIELA SILVA GODOY", 33.9d, "COM", "", LocalDate.of(2016, 8, 14));
+		creditoNaoPago = new Credito(2L, cliente, "DANIELA SILVA GODOY", 33.9d, "COM", "<20PÇ", LocalDate.of(2016, 8, 14));
+		creditoDbt = new Credito(3L, cliente, "DANIELA SILVA GODOY", 33.9d, "DBT", "", LocalDate.of(2016, 8, 14));
+		creditoCdt = new Credito(4L, cliente, "DANIELA SILVA GODOY", 33.9d, "CDT", "", LocalDate.of(2016, 8, 14));
 	}
 	
 	@Test

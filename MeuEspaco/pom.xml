@@ -240,14 +240,10 @@
 	               <configuration>
 	                 <tasks>
 	                   <delete file="${project.build.outputDirectory}/environment.properties"/>
-	                   <delete file="${project.build.outputDirectory}/environment.prod.properties"/>
-	                   <delete file="${project.build.outputDirectory}/environment.test.properties"/>
 	                   <copy file="src/main/resources/environment.properties"
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
 	                         
-	                   <delete file="${project.build.outputDirectory}/config.properties"/>	                   
-	                   <delete file="${project.build.outputDirectory}/config.prod.properties"/>
-	                   <delete file="${project.build.outputDirectory}/config.test.properties"/>
+	                   <delete file="${project.build.outputDirectory}/config.properties"/>
 	                   <copy file="src/main/resources/config.properties"
 	                         tofile="${project.build.outputDirectory}/config.properties"/>	                         
 	                 </tasks>
@@ -288,18 +284,13 @@
 	               </goals>
 	               <configuration>
 	                 <tasks>
-
 	                   <delete file="${project.build.outputDirectory}/environment.properties"/>
-	                   <delete file="${project.build.outputDirectory}/environment.prod.properties"/>
-	                   <delete file="${project.build.outputDirectory}/environment.test.properties"/>
 	                   <copy file="src/main/resources/environment.test.properties"
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
 	                         
-	                   <delete file="${project.build.outputDirectory}/config.properties"/>	                   
-	                   <delete file="${project.build.outputDirectory}/config.prod.properties"/>
-	                   <delete file="${project.build.outputDirectory}/config.test.properties"/>
-	                   <copy file="src/main/resources/config..test.properties"
-	                         tofile="${project.build.outputDirectory}/config.properties"/>	 	                                         
+	                   <delete file="${project.build.outputDirectory}/config.properties"/>
+	                   <copy file="src/main/resources/config.test.properties"
+	                         tofile="${project.build.outputDirectory}/config.properties"/>	                         
 	                 </tasks>
 	               </configuration>
 	             </execution>
@@ -339,14 +330,10 @@
 	               <configuration>
 	                 <tasks>
 	                   <delete file="${project.build.outputDirectory}/environment.properties"/>
-	                   <delete file="${project.build.outputDirectory}/environment.prod.properties"/>
-	                   <delete file="${project.build.outputDirectory}/environment.test.properties"/>
 	                   <copy file="src/main/resources/environment.prod.properties"
 	                         tofile="${project.build.outputDirectory}/environment.properties"/>
-	                   
-	                   <delete file="${project.build.outputDirectory}/config.properties"/>	                   
-	                   <delete file="${project.build.outputDirectory}/config.prod.properties"/>
-	                   <delete file="${project.build.outputDirectory}/config.test.properties"/>	                         
+	                         
+	                   <delete file="${project.build.outputDirectory}/config.properties"/>
 	                   <copy file="src/main/resources/config.prod.properties"
 	                         tofile="${project.build.outputDirectory}/config.properties"/>	                         
 	                 </tasks>

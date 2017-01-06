@@ -2,6 +2,9 @@ package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -25,29 +28,94 @@ public class ListagemCreditosBean implements Serializable {
 
 	private static final long serialVersionUID = 902226128387000515L;
 
-	private final String [] meses = {"Outubro", "Novembro", "Dezembo", "Janeiro", "Fevereiro", "Março"};
+	private final List<String> meses = Arrays.asList("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+			"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro");
 	
 	@Inject
 	private CreditoService creditoSrvc;
 	
-	private ListagemCreditos listagem;
-	
 	@ClienteLogado
+	@Inject
 	private Cliente clienteLogado;
+
+	private List<String> mesesVisiveis;
+	
+	private String mesSelecionado;
+	private int mesAtual;
+	private int anoAtual;
 	
 	@PostConstruct
 	public void init()
 	{
-		listagem = creditoSrvc.listagemDeCreditoDoClientePorPeriodo(
-						clienteLogado, LocalDate.of(2016, 8, 01), LocalDate.of(2016, 8, 30));
+		this.mesAtual = LocalDate.now().getMonthValue();
+		this.anoAtual = LocalDate.now().getYear();
+		
+		mesSelecionado = meses.get(mesAtual-1);
+		
+		mesesVisiveis = meses
+				.stream()
+				.skip(mesAtual >=6 ? mesAtual-6 : 0)
+				.limit(mesAtual < 6 ? mesAtual : 6)
+				.collect(Collectors.toList());
+		
+		mesesVisiveis.addAll(
+				0,
+				meses
+					.stream()
+					.skip(mesesVisiveis.size() + 6)
+					.collect(Collectors.toList())
+				);
+		
+		this.listagem();
+	}
+	
+	/**
+	 * Retorna a listagem de Creditos para o período,
+	 * do cliente logado.
+	 * 
+	 * @return
+	 */
+	public ListagemCreditos listagem()
+	{
+		if (null == mesSelecionado | mesSelecionado.isEmpty())
+		{
+			return null;
+		}
+		
+		int ano = anoAtual;
+		int mes = meses.indexOf(mesSelecionado);
+		
+		if (++mes > mesAtual)
+		{
+			ano = this.anoAtual - 1;
+		}
+			
+		LocalDate primeiroDia = LocalDate.of(ano, mes, 01);
+		LocalDate ultimoDia = primeiroDia.withDayOfMonth(primeiroDia.lengthOfMonth());
+		
+		System.out.println(primeiroDia + ", " + ultimoDia);
+		
+		ListagemCreditos listCred = creditoSrvc.listagemDeCreditoDoClientePorPeriodo(clienteLogado, primeiroDia, ultimoDia);
+		listCred.getCreditos().stream().peek(c -> System.out.println(c.getNome()));
+		
+		return listCred;
 	}
 
-	public String[] getMeses() {
+	public List<String> getMeses() {
 		return meses;
 	}
 
-	public ListagemCreditos getListagem() {
-		return listagem;
+	public List<String> getMesesVisiveis() {
+		return mesesVisiveis;
+	}
+
+	public String getMesSelecionado() {
+		return mesSelecionado;
+	}
+	public void setMesSelecionado(String mesSelecionado) {
+		System.out.println(mesSelecionado);
+		this.mesSelecionado = mesSelecionado;
+		this.listagem();
 	}
 	
 }

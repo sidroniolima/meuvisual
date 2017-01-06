@@ -5,10 +5,13 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,12 +32,14 @@ public class Credito {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@Column(name="cliente_codigo")
+	@JoinColumn(name="cliente_codigo")
 	@ManyToOne(fetch=FetchType.LAZY)
 	private Cliente cliente;
 	
 	private String nome;
 	private double valor;
+	
+	@Enumerated(EnumType.STRING)
 	private ClasseCredito classe;
 	private String historio;
 	
@@ -63,7 +68,17 @@ public class Credito {
 	 */
 	public boolean isSoma()
 	{
-		return classe.isSoma() && this.historio.isEmpty();
+		return classe.isSoma() && this.isPago();
+	}
+	
+	/**
+	 * Verifica se foi pago.
+	 * 
+	 * @return
+	 */
+	public boolean isPago()
+	{
+		return this.getHistorio().isEmpty();
 	}
 	
 	public Long getCodigo() {

@@ -37,5 +37,14 @@ public class CreditoTest {
 		assertFalse("NÃO eh soma", creditoNaoPago.isSoma());
 		assertFalse("NÃO eh soma", creditoDbt.isSoma());
 	}
+	
+	@Test
+	public void verificaSeFoiPagoOuNao()
+	{
+		assertTrue("Foi pago", creditoPago.isPago());
+		assertFalse("NÃO foi pago", creditoNaoPago.isPago());
+		assertTrue("Foi pago", creditoCdt.isPago());
+		assertTrue("Foi pago", creditoDbt.isPago());
+	}
 
 }

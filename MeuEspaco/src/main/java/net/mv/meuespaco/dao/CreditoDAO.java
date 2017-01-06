@@ -14,5 +14,13 @@ import net.mv.meuespaco.model.loja.Cliente;
  */
 public interface CreditoDAO extends GenericDAO<Credito, Long>
 {
+	/**
+	 * Busca os Creditos do cliente por período.
+	 * 
+	 * @param cliente
+	 * @param inicio
+	 * @param fim
+	 * @return
+	 */
 	public List<Credito> buscaCreditosDoClientePorPeriodo(Cliente cliente, LocalDate inicio, LocalDate fim);
 }

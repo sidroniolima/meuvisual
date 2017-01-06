@@ -2,14 +2,20 @@ package net.mv.meuespaco.dao.hibernate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.DateType;
+
 import net.mv.meuespaco.dao.CreditoDAO;
 import net.mv.meuespaco.integracao.Credito;
 import net.mv.meuespaco.model.loja.Cliente;
+import net.mv.meuespaco.util.UtilDateTimeConverter;
 
 /**
  * Implmentação DAO da classe Credito.
@@ -23,14 +29,23 @@ public class HibernateCreditoDAO extends HibernateGenericDAO<Credito, Long> impl
 
 	private static final long serialVersionUID = -1903122128861538039L;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Credito> buscaCreditosDoClientePorPeriodo(Cliente cliente, LocalDate inicio, LocalDate fim) 
 	{
-		return Arrays.asList(
-				new Credito(1L, "000004", "DANIELA SILVA GODOY", 10.10d, "COM", "", LocalDate.of(2016, 8, 14)),
-				new Credito(2L, "000004", "DANIELA SILVA GODOY", 10.10d, "COM", "<20PÇ", LocalDate.of(2016, 8, 14)),
-				new Credito(3L, "000004", "DANIELA SILVA GODOY", 10.10d, "DBT", "", LocalDate.of(2016, 8, 14)),
-				new Credito(4L, "000004", "DANIELA SILVA GODOY", 10.10d, "CDT", "", LocalDate.of(2016, 8, 14)));
+		Criteria criteria = this.getSession().createCriteria(Credito.class);
+		
+		criteria.add(Restrictions.eq("cliente", cliente));
+		
+		criteria.add(Restrictions.sqlRestriction(
+				"date(baixa) between ? and ?", 
+				new Date[] {UtilDateTimeConverter.toDate(inicio), UtilDateTimeConverter.toDate(fim)},
+				new DateType[] {DateType.INSTANCE, DateType.INSTANCE}));
+		
+		criteria.addOrder(Order.asc("classe"));
+		criteria.addOrder(Order.asc("nome"));
+		
+		return criteria.list();
 	}
 
 }

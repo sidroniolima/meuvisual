@@ -1,6 +1,8 @@
-package net.mv.meuespaco.integracao;
+package net.mv.meuespaco.model.integracao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -26,7 +28,9 @@ import net.mv.meuespaco.model.loja.Cliente;
  */
 @Entity
 @Table(name="credito")
-public class Credito {
+public class Credito implements Serializable {
+
+	private static final long serialVersionUID = 412233745360433873L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -41,7 +45,7 @@ public class Credito {
 	
 	@Enumerated(EnumType.STRING)
 	private ClasseCredito classe;
-	private String historio;
+	private String historico;
 	
 	@Convert(converter=LocalDateDBConverter.class)
 	@Column(columnDefinition="DATE")
@@ -57,7 +61,28 @@ public class Credito {
 		this.nome = nome;
 		this.valor = valor;
 		this.classe = ClasseCredito.valueOf(classe);
-		this.historio = historio;
+		this.historico = historio;
+		this.baixa = baixa;
+	}
+	
+	public Credito(Cliente cliente, String valor, String nome, String classe, String hist, String data) 
+	{
+		this.cliente = cliente;
+		this.valor = Double.valueOf(valor);
+		this.nome = nome;
+		this.classe = ClasseCredito.valueOf(classe);
+		this.historico = hist;
+		this.baixa = LocalDate.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+	}
+	
+	public Credito(Cliente cliente, double valor, String nome, ClasseCredito classe, String historico,
+			LocalDate baixa) 
+	{
+		this.cliente = cliente;
+		this.nome = nome;
+		this.valor = valor;
+		this.classe = classe;
+		this.historico = historico;
 		this.baixa = baixa;
 	}
 
@@ -117,10 +142,10 @@ public class Credito {
 	}
 	
 	public String getHistorio() {
-		return historio;
+		return historico;
 	}
 	public void setHistorio(String historio) {
-		this.historio = historio;
+		this.historico = historio;
 	}
 	
 	public LocalDate getBaixa() {

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.mv.meuespaco.model.integracao.Credito;
 import net.mv.meuespaco.model.loja.Cliente;
 
 public class CreditoTest {

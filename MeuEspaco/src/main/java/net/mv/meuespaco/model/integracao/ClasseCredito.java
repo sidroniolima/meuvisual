@@ -1,4 +1,4 @@
-package net.mv.meuespaco.integracao;
+package net.mv.meuespaco.model.integracao;
 
 /**
  * Classe dos créditos para gerar o valor. 

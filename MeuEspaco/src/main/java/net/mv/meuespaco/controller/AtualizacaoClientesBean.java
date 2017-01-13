@@ -8,7 +8,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jfree.util.Log;
 import org.primefaces.model.UploadedFile;
 
 import net.mv.meuespaco.service.ClienteService;

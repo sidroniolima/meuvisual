@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -204,5 +205,38 @@ public class ParseFromCsv {
 		}
 		
 		return registros;
+	}
+	
+	/**
+	 * Lê o arquivo dado um Path e retorna as linhas como Stream.
+	 * 
+	 * @param path
+	 * @return Stream das linhas do arquivo.
+	 * @throws IOException
+	 */
+	public static Stream<String> leArquivoCsvDoERP(URL url) throws IOException
+	{
+		try (BufferedReader reader = ParseFromCsv.getBufferedReaderFromUrl(url) )
+		{
+		
+		return reader.lines();
+			
+		}
+	}
+	
+	/**
+	 * Retorna o BufferedReader do arquivo pela Url.
+	 * 
+	 * @param url
+	 * @throws IOException 
+	 */
+	public static BufferedReader getBufferedReaderFromUrl(URL url) throws IOException
+	{
+        URLConnection connection = url.openConnection();
+        connection.setReadTimeout(5000);
+		
+        InputStreamReader input = new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+		return new BufferedReader(input);
 	}
 }

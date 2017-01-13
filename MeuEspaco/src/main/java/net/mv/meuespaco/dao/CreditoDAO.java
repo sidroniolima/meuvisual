@@ -3,7 +3,7 @@ package net.mv.meuespaco.dao;
 import java.time.LocalDate;
 import java.util.List;
 
-import net.mv.meuespaco.integracao.Credito;
+import net.mv.meuespaco.model.integracao.Credito;
 import net.mv.meuespaco.model.loja.Cliente;
 
 /**
@@ -23,4 +23,9 @@ public interface CreditoDAO extends GenericDAO<Credito, Long>
 	 * @return
 	 */
 	public List<Credito> buscaCreditosDoClientePorPeriodo(Cliente cliente, LocalDate inicio, LocalDate fim);
+
+	/**
+	 * Remove os registros da tabela.
+	 */
+	public void removerRegistros();
 }

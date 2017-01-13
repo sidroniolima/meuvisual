@@ -8,12 +8,13 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.type.DateType;
 
 import net.mv.meuespaco.dao.CreditoDAO;
-import net.mv.meuespaco.integracao.Credito;
+import net.mv.meuespaco.model.integracao.Credito;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.util.UtilDateTimeConverter;
 
@@ -48,4 +49,10 @@ public class HibernateCreditoDAO extends HibernateGenericDAO<Credito, Long> impl
 		return criteria.list();
 	}
 
+	@Override
+	public void removerRegistros() 
+	{
+		SQLQuery query = this.getSession().createSQLQuery("truncate table credito");
+		query.executeUpdate();
+	}
 }

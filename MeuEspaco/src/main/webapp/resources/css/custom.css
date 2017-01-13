@@ -439,3 +439,8 @@
 .upper-case{
 	text-transform: capitalize;
 }
+
+.form-control minimal-font {
+	font-size: 11px !important;
+	color: green;
+}

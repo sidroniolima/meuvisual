@@ -75,7 +75,6 @@ public class IntegracaoCieloServiceImplTest {
 		
 		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
 		
-		assertEquals("Transação Não autorizada - Cód. 2", new String("2"), resposta.getPayment().getReturnCode());
 		assertTrue("Transação NÃO Autorizada", !resposta.isAutorizado());
 	}
 	
@@ -200,6 +199,20 @@ public class IntegracaoCieloServiceImplTest {
 		
 		Payment cancelamento = integracaoSrvc.cancelaCompra(resposta.paymentId(), new BigDecimal(150));
 		assertTrue("Cancelamento Ok", cancelamento.isCancelamentoEfetuado());
+	}
+	
+	@Test
+	public void deveEfetuarUmaVendaEm2Parcelas() throws CieloException, IntegracaoException
+	{
+		creditCard = new CreditCard("0000000000000001", "Teste Holder", "09/2017", "123", Brand.Visa);
+		payment = new Payment(PaymentType.CreditCard, 15000, 2, creditCard);
+		pagamento = new Pagamento("365547", customer, payment);
+		
+		Pagamento resposta = integracaoSrvc.efetuaPagamento(pagamento);
+		
+		assertEquals("Parcelas", 2, resposta.getPayment().getInstallments());
+		assertEquals("Pagamento Confirmado - Status 2 ", 2, resposta.getPayment().getStatus());
+		assertTrue("Transação Autorizada", resposta.isAutorizado());
 	}
 	
 }

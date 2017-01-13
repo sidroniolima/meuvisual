@@ -98,7 +98,7 @@ public class IntegracaoCieloServiceImpl implements IntegracaoCieloService, Seria
 		
 		String respostaJson = clientResponse.readEntity(String.class);
 		
-		log.info("Resposta Cielo: " + respostaJson);
+		log.info("Resposta Cielo: " + pagamento.getMerchandOrderId());
 		
 		Pagamento resposta;
 		CieloError[] erros;		

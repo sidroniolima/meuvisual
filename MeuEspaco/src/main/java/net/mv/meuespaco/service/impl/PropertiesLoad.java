@@ -1,4 +1,4 @@
-package net.mv.meuespaco.util;
+package net.mv.meuespaco.service.impl;
 
 import java.io.IOException;
 import java.util.Properties;

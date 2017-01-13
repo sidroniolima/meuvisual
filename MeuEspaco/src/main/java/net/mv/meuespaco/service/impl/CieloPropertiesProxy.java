@@ -3,8 +3,6 @@ package net.mv.meuespaco.service.impl;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import net.mv.meuespaco.util.PropertiesLoad;
-
 @Stateless
 public class CieloPropertiesProxy {
 

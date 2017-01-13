@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import net.mv.meuespaco.service.impl.PropertiesLoad;
+
 public class PropertiesLoadTest {
 
 	PropertiesLoad props = new PropertiesLoad();

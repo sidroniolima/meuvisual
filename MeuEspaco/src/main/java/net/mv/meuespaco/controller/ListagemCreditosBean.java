@@ -12,9 +12,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
-import net.mv.meuespaco.integracao.ListagemCreditos;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.integracao.ListagemCreditos;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.CreditoService;
+import net.mv.meuespaco.util.DataDoSistema;
+import net.mv.meuespaco.util.FacesUtil;
 
 /**
  * Controller da listagem de créditos do cliente dos meses.
@@ -41,14 +44,28 @@ public class ListagemCreditosBean implements Serializable {
 	private List<String> mesesVisiveis;
 	
 	private String mesSelecionado;
-	private int mesAtual;
-	private int anoAtual;
 	
+	protected int mesAtual;
+	protected int anoAtual;
+	
+	private DataDoSistema relogio;
+	
+	public ListagemCreditosBean() {	
+		this.relogio = new DataDoSistema();
+	}
+	
+	public ListagemCreditosBean(CreditoService creditoSrvc, Cliente clienteLogado, DataDoSistema relogio) 
+	{
+		this.creditoSrvc = creditoSrvc;
+		this.clienteLogado = clienteLogado;
+		this.relogio = relogio;
+	}
+
 	@PostConstruct
 	public void init()
 	{
-		this.mesAtual = LocalDate.now().getMonthValue();
-		this.anoAtual = LocalDate.now().getYear();
+		this.mesAtual = relogio.hoje().getMonthValue();
+		this.anoAtual = relogio.hoje().getYear();
 		
 		mesSelecionado = meses.get(mesAtual-1);
 		
@@ -58,13 +75,16 @@ public class ListagemCreditosBean implements Serializable {
 				.limit(mesAtual < 6 ? mesAtual : 6)
 				.collect(Collectors.toList());
 		
-		mesesVisiveis.addAll(
-				0,
-				meses
-					.stream()
-					.skip(mesesVisiveis.size() + 6)
-					.collect(Collectors.toList())
-				);
+		if (mesesVisiveis.size() < 6)
+		{
+			mesesVisiveis.addAll(
+					0,
+					meses
+						.stream()
+						.skip(mesesVisiveis.size() + 6)
+						.collect(Collectors.toList())
+					);
+		}
 		
 		this.listagem();
 	}
@@ -77,9 +97,49 @@ public class ListagemCreditosBean implements Serializable {
 	 */
 	public ListagemCreditos listagem()
 	{
-		if (null == mesSelecionado | mesSelecionado.isEmpty())
+		LocalDate primeiroDia;
+		
+		try 
 		{
-			return null;
+			primeiroDia = primeiroDiaDoMesSelecionado();
+			
+			LocalDate ultimoDia = ultimoDiaDoMesSelecionado(primeiroDia);
+			
+			ListagemCreditos listCred = creditoSrvc.listagemDeCreditoDoClientePorPeriodo(clienteLogado, primeiroDia, ultimoDia);
+			
+			return listCred;
+			
+		} catch (RegraDeNegocioException e) 
+		{
+			FacesUtil.addErrorMessage(e.getMessage());
+		}
+		
+		return new ListagemCreditos();
+	}
+
+	/**
+	 * Calcula o último dia do mês selecionado, baseado na 
+	 * criação do primeiro.
+	 * 
+	 * @param primeiroDia
+	 * @return último dia do mês.
+	 */
+	protected LocalDate ultimoDiaDoMesSelecionado(LocalDate primeiroDia) {
+		return primeiroDia.withDayOfMonth(primeiroDia.lengthOfMonth());
+	}
+
+	/**
+	 * Calcula o primeiro dia do mês selecionado.
+	 * 
+	 * @return dia 01 do mês selecionado.
+	 * @throws RegraDeNegocioException 
+	 */
+	protected LocalDate primeiroDiaDoMesSelecionado() throws RegraDeNegocioException 
+	{
+		if (null == mesSelecionado || mesSelecionado.isEmpty())
+		{
+			throw new RegraDeNegocioException("Não é possível listar os créditos pois nenhum mês "
+					+ "foi selecionado. Selecione o mês e tente novamente.");
 		}
 		
 		int ano = anoAtual;
@@ -90,15 +150,7 @@ public class ListagemCreditosBean implements Serializable {
 			ano = this.anoAtual - 1;
 		}
 			
-		LocalDate primeiroDia = LocalDate.of(ano, mes, 01);
-		LocalDate ultimoDia = primeiroDia.withDayOfMonth(primeiroDia.lengthOfMonth());
-		
-		System.out.println(primeiroDia + ", " + ultimoDia);
-		
-		ListagemCreditos listCred = creditoSrvc.listagemDeCreditoDoClientePorPeriodo(clienteLogado, primeiroDia, ultimoDia);
-		listCred.getCreditos().stream().peek(c -> System.out.println(c.getNome()));
-		
-		return listCred;
+		return LocalDate.of(ano, mes, 01);
 	}
 
 	public List<String> getMeses() {
@@ -113,7 +165,6 @@ public class ListagemCreditosBean implements Serializable {
 		return mesSelecionado;
 	}
 	public void setMesSelecionado(String mesSelecionado) {
-		System.out.println(mesSelecionado);
 		this.mesSelecionado = mesSelecionado;
 		this.listagem();
 	}

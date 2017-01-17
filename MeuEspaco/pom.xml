@@ -298,7 +298,7 @@
 	                   <delete file="${project.build.outputDirectory}/config.properties"/>	                   
 	                   <delete file="${project.build.outputDirectory}/config.prod.properties"/>
 	                   <delete file="${project.build.outputDirectory}/config.test.properties"/>
-	                   <copy file="src/main/resources/config..test.properties"
+	                   <copy file="src/main/resources/config.test.properties"
 	                         tofile="${project.build.outputDirectory}/config.properties"/>	 	                                         
 	                 </tasks>
 	               </configuration>

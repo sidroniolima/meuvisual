@@ -68,7 +68,7 @@ public class CupomServiceImpl implements CupomService, Serializable {
 	
 	@Override
 	public Cupom criaCupomGenerico(String codigoCupom) {
-		return new Cupom(codigoCupom, "Cupom genérico", LocalDateTime.now(), new BigDecimal(15));
+		return new Cupom(codigoCupom, "Cupom genérico", LocalDateTime.now(), new BigDecimal(42));
 	}
 
 	@Override

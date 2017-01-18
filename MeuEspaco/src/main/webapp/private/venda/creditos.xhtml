@@ -4,22 +4,25 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-	  template="/public/template_initial.xhtml">
+	  template="/public/template_initial.xhtml"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  xmlns:f="http://java.sun.com/jsf/core">
  
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
-		<ui:include src="/public/top_bar-logged.xhtml"/>
+		<ui:include src="/private/venda/top_bar-venda.xhtml"/>
 	</ui:define>
   
   	<!-- NAV BAR DEFINE -->
 	<ui:define name="nav_bar">
-		<ui:include src="/public/nav_bar-logged.xhtml"/>
+		<ui:include src="/private/venda/nav_bar-venda.xhtml"/>
 	</ui:define>	
 
 	<!-- CONTENT DEFINE -->
 	<ui:define name="page_content">	
-		<ui:include src="/private/common/meu-cadastro-abstract.xhtml"/>
+		<ui:include src="/private/common/creditos-abstract.xhtml"/>
 	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
 	
 	<!-- DEFINE FOOTER -->
 	<ui:define name="footer">
@@ -31,5 +34,6 @@
 	<ui:define name="script">
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
+				
 			
 </ui:composition>

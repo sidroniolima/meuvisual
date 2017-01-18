@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+	<div id="content">
+          <div class="container">
+
+              <div class="col-md-12">
+              
+                  <ul class="breadcrumb">
+                      <li><a href="#">Home</a>
+                      </li>
+                      <li>Meu cadastro</li>
+                  </ul>
+                  
+              </div>
+              
+              <h:form>
+		
+				<div class="col-md-9" id="box-mensagem">
+				    <div class="box">
+				        <p>#{meuCadastroBean.mensagem}</p>
+				        <a class="btn btn-info" href="./creditos.xhtml" title="Cŕeditos de equipe">Créditos</a>
+				    </div>
+				</div>
+				<!-- ./#box-mensagem -->			
+		
+               <div class="col-md-9">
+
+                   <div class="box" id="box-cadastro">                
+
+					<div class="form-group">
+                        
+                          	<label for="input-codigo">Código</label>
+						<h:inputText 
+                           	class="form-control"
+                           	id="input-codigo" 
+                           	value="#{meuCadastroBean.cliente.codigoSiga}"
+                           	readonly="true"/>
+                	</div>
+                	
+                 	<div class="form-group">
+                       
+						<label for="select-status">Status </label>
+						<h:inputText 
+							class="form-control" 
+							id="input-status" 
+							value="#{meuCadastroBean.cliente.status.descricao}"
+							readonly="true"/>				                          	
+                         	
+                   </div>							                 	
+				
+					<div class="form-group">
+                        
+                          <label for="input-nome">Nome </label>
+                          <h:inputText 
+                          	class="form-control" 
+                          	id="input-nome" 
+                          	value="#{meuCadastroBean.cliente.nome}"
+                          	readonly="true"/>			                            	
+            		</div>
+            	
+                  	<div class="form-group">
+                       
+					<label for="select-regiao">Região </label>
+					<h:inputText 
+                          	class="form-control" 
+                          	id="input-regiao" 
+                          	value="#{meuCadastroBean.cliente.regiao.descricao}"
+                          	readonly="true"/>	
+					</div>
+            	
+					<div class="form-group">
+                        
+					<label for="input-cpf">Cpf </label>
+					<h:inputText 
+                          	class="form-control" 
+                          	id="input-cpf" 
+                          	value="#{meuCadastroBean.cliente.cpf}"
+                          	converter="cpfFacesConverter"
+                          	readonly="true"/>						                          	
+                	</div>
+                	
+					<div class="form-group">
+						<label for="input-rg">Rg </label>
+						<h:inputText 
+                           	class="form-control" 
+                           	id="input-rg" 
+                           	value="#{meuCadastroBean.cliente.rg}"
+                           	converter="rgFacesConverter"
+                           	readonly="true"/>
+                	</div>			
+                	
+					<div class="form-group">
+						<label for="input-telefone-fixo">Telefone fixo</label>
+						<h:inputText 
+                           	class="form-control" 
+                           	id="input-telefone-fixo" 
+                           	value="#{meuCadastroBean.cliente.telefoneFixo}"
+                           	readonly="true"/>					                          	
+                	</div>			
+                	
+					<div class="form-group">
+						<label for="input-celular">Celular</label>
+						<h:inputText 
+                           	class="form-control" 
+                           	id="input-celular" 
+                           	value="#{meuCadastroBean.cliente.celular}"
+                           	readonly="true"/>					                          	
+                         	
+                	</div>		
+                	
+					<div class="form-group">
+                        
+						<label for="input-email">Email </label>
+						<h:inputText 
+                           	class="form-control" 
+                           	id="input-email" 
+                           	value="#{meuCadastroBean.cliente.email}"
+                           	readonly="true"/>
+
+	                </div>	
+				</div>
+	            <!-- /.col-box -->
+	                	
+	   			</div>
+	   			<!-- /.col-md-9 -->     
+	   			
+   			</h:form>               
+                  
+          </div>
+          <!-- /.container -->
+	</div>
+	<!-- /#content -->		
+	
+</html>

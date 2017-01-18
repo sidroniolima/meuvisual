@@ -70,6 +70,12 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 	@Override
 	public Venda criaVendaPeloCarrinho(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException 
 	{
+		
+		if (carrinho.isVazio())
+		{
+			throw new RegraDeNegocioException("Mão foi possível criar a venda. É necessário pelo menos um item no carrinho.");
+		}
+		
 		Venda venda = new Venda(cliente);
 		venda.setDescontoVenda(carrinho.getDesconto());
 
@@ -77,9 +83,7 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 			venda.addItem(item.getProduto(), item.getQtd(), item.getGrade());
 		}
 		
-		Venda salva = this.salva(venda);
-		this.estoqueSrvc.movimentaVenda(venda.getItens());
-		return salva;
+		return venda;
 	}
 	
 	@Override
@@ -171,14 +175,21 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 		{
 			throw new RegraDeNegocioException("Infelizmente seu pagamento não foi aprovado. Tente novamente.");
 		}
-		
+				
 		venda.registraPagamento(resposta.paymentId(), resposta.horarioDoPagamento());
 		this.salva(venda);
+		this.estoqueSrvc.movimentaVenda(venda.getItens());
 	}
 	
 	@Override
 	public Pagamento consultaPagamento(Venda venda) throws CieloException, IntegracaoException 
 	{
 		return this.cieloSrvc.consultaPagamento(venda.getPaymentId());
+	}
+
+	@Override
+	public Venda criaVendaDoNada() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

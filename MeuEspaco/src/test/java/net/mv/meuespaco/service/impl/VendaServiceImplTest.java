@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -126,13 +126,23 @@ public class VendaServiceImplTest {
 		assertTrue("Venda criada", vendaPadrao.getStatus().equals(StatusVenda.AGUARDANDO_PAGAMENTO));
 	}
 	
-	@Test
-	public void deveSalvarUmaVenda() throws RegraDeNegocioException 
+	@Test(expected=RegraDeNegocioException.class)
+	public void naoDeveGerarComCarrinhoVazio() throws RegraDeNegocioException 
 	{
-		when(carrinhoFalso.getItens()).thenReturn(Arrays.asList(item1, item2));
-		when(carrinhoFalso.getDesconto()).thenReturn(BigDecimal.ZERO);
+		when(carrinhoFalso.isVazio()).thenReturn(true);
 		
-		vendaSrvc.criaVendaPeloCarrinho(carrinhoFalso, new Cliente(1L, "Cliente 1"));
+		Venda venda = vendaSrvc.criaVendaPeloCarrinho(carrinhoFalso, new Cliente(1L, "Cliente 1"));
+		 
+		assertTrue("Venda criada...", null != venda);
+	}
+	
+	@Test
+	public void deveSalvarUmaVenda() throws RegraDeNegocioException, CieloException, IntegracaoException 
+	{
+		Pagamento pg = Pagamento.parseJson(respostaOk);
+		
+		when(cieloFalso.efetuaPagamento(pg)).thenReturn(pg);
+		vendaSrvc.registraPagamento(vendaPadrao, pg);
 		
 		ArgumentCaptor<Venda> argumento = ArgumentCaptor.forClass(Venda.class);
 		verify(daoFalso).salvar(argumento.capture());
@@ -141,30 +151,18 @@ public class VendaServiceImplTest {
 		
 		verify(daoFalso, atLeastOnce()).salvar(venda);
 		
-		assertEquals("Venda gerada", new BigDecimal(110), venda.valorComDesconto());
-	}
-
-	@Test(expected=RegraDeNegocioException.class)
-	public void naoDeveGerarComCarrinhoVazio() throws RegraDeNegocioException 
-	{
-		when(carrinhoFalso.getItens()).thenReturn(Arrays.asList());
+		assertEquals("Venda gerada", new BigDecimal(90), venda.valorComDesconto());
 		
-		vendaSrvc.criaVendaPeloCarrinho(carrinhoFalso, new Cliente(1L, "Cliente 1"));
-		
-		ArgumentCaptor<Venda> argumento = ArgumentCaptor.forClass(Venda.class);
-		verify(daoFalso).salvar(argumento.capture());
-		
-		Venda venda = argumento.getValue();
-		
-		verify(daoFalso, times(1)).salvar(venda);
+		assertTrue("Verifica se a venda foi registrada.", vendaPadrao.isPaga());
 	}
 	
 	@Test
-	public void deveMovimentarOEstoque() throws RegraDeNegocioException 
+	public void deveMovimentarOEstoque() throws RegraDeNegocioException, CieloException, IntegracaoException 
 	{
-		when(carrinhoFalso.getItens()).thenReturn(Arrays.asList(item1, item2));
+		Pagamento pg = Pagamento.parseJson(respostaOk);
 		
-		vendaSrvc.criaVendaPeloCarrinho(carrinhoFalso, new Cliente(1L, "Cliente 1"));
+		when(cieloFalso.efetuaPagamento(pg)).thenReturn(pg);
+		vendaSrvc.registraPagamento(vendaPadrao, pg);
 		
 		ArgumentCaptor<Venda> argumento = ArgumentCaptor.forClass(Venda.class);
 		verify(daoFalso).salvar(argumento.capture());
@@ -172,6 +170,10 @@ public class VendaServiceImplTest {
 		Venda venda = argumento.getValue();
 		
 		verify(estoqueFalso, times(1)).movimentaVenda(venda.getItens());
+		
+		assertEquals("Venda gerada", new BigDecimal(90), venda.valorComDesconto());
+		
+		assertTrue("Verifica se a venda foi registrada.", vendaPadrao.isPaga());
 	}
 	
 	@Test
@@ -204,15 +206,4 @@ public class VendaServiceImplTest {
 		verify(estoqueFalso, never()).estornaVenda(vendaPadrao.getItens());
 	}
 	
-	@Test
-	public void deveRegistrarPagamento() throws CieloException, IntegracaoException, RegraDeNegocioException
-	{
-		Pagamento pg = Pagamento.parseJson(respostaOk);
-		
-		when(cieloFalso.efetuaPagamento(pg)).thenReturn(pg);
-		vendaSrvc.registraPagamento(vendaPadrao, pg);
-		
-		assertTrue("Verifica se a venda foi registrada.", vendaPadrao.isPaga());
-
-	}
 }

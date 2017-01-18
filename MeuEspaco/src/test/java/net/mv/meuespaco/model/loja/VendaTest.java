@@ -298,4 +298,20 @@ public class VendaTest {
 		assertEquals("Status", StatusVenda.CANCELADA, venda1.getStatus());
 		assertFalse("Horario cancelamento", null == venda1.getHorarioCancelamento());
 	}
+	
+	@Test
+	public void deveGeraroUUID()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertTrue("UUID gerado", null != venda1.getUniqueId().toString());
+		
+		Venda venda2 = new Venda(new Cliente(1L, "Sidronio"));
+		assertTrue("UUID gerado", null != venda2.getUniqueId());
+	}
 }

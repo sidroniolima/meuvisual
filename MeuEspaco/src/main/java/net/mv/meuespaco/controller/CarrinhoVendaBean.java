@@ -12,12 +12,9 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
-import net.mv.meuespaco.model.loja.Cupom;
-import net.mv.meuespaco.model.loja.Venda;
 import net.mv.meuespaco.service.CupomService;
 import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.service.ReservaProdutoService;
-import net.mv.meuespaco.service.VendaService;
 import net.mv.meuespaco.util.FacesUtil;
 
 /**
@@ -36,21 +33,13 @@ public class CarrinhoVendaBean extends CarrinhoAbstractBean implements Serializa
 	private CarrinhoVenda carrinho;
 	
 	@Inject
-	private VendaService vendaSrvc;
-	
-	@Inject
 	@ClienteLogado
 	private Cliente cliente;
 	
 	@Inject
 	private CupomService cupomSrvc;
 	
-	@Inject
-	private PrePagamentoBean prePagamento;
-	
 	private String codigoCupom;
-	
-	private Cupom cupom;
 	
 	public CarrinhoVendaBean() {	}
 	
@@ -63,6 +52,9 @@ public class CarrinhoVendaBean extends CarrinhoAbstractBean implements Serializa
 		carrinho = new CarrinhoVenda();
 	}
 
+	/**
+	 * Busca o cupom digitado e seta o desconto.
+	 */
 	public void buscaCupom()
 	{
 		try {
@@ -76,19 +68,7 @@ public class CarrinhoVendaBean extends CarrinhoAbstractBean implements Serializa
 	@Override
 	public String finalizaCarrinho() 
 	{
-		try 
-		{
-			Venda venda = vendaSrvc.criaVendaPeloCarrinho(carrinho, cliente, cupom);
-			
-			prePagamento.registrarVenda(venda);
-			this.esvazia();
-			return "cielo-api";
-			
-		} catch (RegraDeNegocioException e) {
-			FacesUtil.addErrorMessage(e.getMessage());
-		}
-		
-		return null;
+		return "cielo-api";
 	}
 
 	@Override

@@ -65,7 +65,7 @@ public class CupomServiceImplTest {
 		String codigoCupom = "1980";
 		
 		BigDecimal desconto = cupomSrvc.descontoDoCupom(codigoCupom);
-		assertEquals("Desconto", new BigDecimal(15), desconto);
+		assertEquals("Desconto", new BigDecimal(42), desconto);
 	}
 	
 	@Test(expected=RegraDeNegocioException.class)

@@ -7,6 +7,7 @@ import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,6 +45,9 @@ public class Venda extends EntidadeModel implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@Column(name="unique_id", columnDefinition="VARCHAR(255)")
+	private UUID uniqueId;
 	
 	@ManyToOne
 	@JoinColumn(name="cliente_codigo")
@@ -85,14 +89,17 @@ public class Venda extends EntidadeModel implements Serializable{
 	 * Construtor padrão.
 	 */
 	public Venda() {
+		uniqueId = UUID.randomUUID();
 		itens = new ArrayList<ItemVenda>();
 		status = StatusVenda.AGUARDANDO_PAGAMENTO;
 		this.descontoVenda = BigDecimal.ZERO;
 		this.horarioVenda = LocalDateTime.now();
 	}
 	
-	public Venda(Cliente cliente) {
+	public Venda(Cliente cliente) 
+	{
 		this();
+		System.out.println(uniqueId);
 		this.cliente = cliente;
 	}
 
@@ -277,6 +284,10 @@ public class Venda extends EntidadeModel implements Serializable{
 		this.codigo = codigo;
 	}
 	
+	public UUID getUniqueId() {
+		return uniqueId;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}

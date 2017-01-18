@@ -163,7 +163,7 @@ public abstract class Carrinho {
 	 */
 	public boolean isVazio()
 	{
-		return this.itens.isEmpty();
+		return this.getItens().isEmpty();
 	}
 
 	public List<ItemCarrinho> getItens() {

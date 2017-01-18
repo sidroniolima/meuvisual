@@ -138,5 +138,7 @@ public interface VendaService extends SimpleServiceLayer<Venda, Long> {
 	 * @throws CieloException 
 	 */
 	public Pagamento consultaPagamento(Venda venda) throws CieloException, IntegracaoException;
+
+	public Venda criaVendaDoNada();
 	
 }

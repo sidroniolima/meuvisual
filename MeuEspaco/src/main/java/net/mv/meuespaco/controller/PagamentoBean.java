@@ -2,7 +2,6 @@ package net.mv.meuespaco.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -10,6 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.mv.meuespaco.annotations.CarrinhoVendaBeanAnnotation;
 import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -43,7 +43,12 @@ public class PagamentoBean implements Serializable {
 	private Cliente clienteLogado;
 	
 	@Inject
-	private PrePagamentoBean prePagamento;
+	@CarrinhoVendaBeanAnnotation
+	private CarrinhoAbstractBean carrinhoBean;
+	
+	@Inject
+	@ClienteLogado
+	private Cliente cliente;
 	
 	private Venda venda;
 	private Pagamento pagamento;
@@ -52,11 +57,11 @@ public class PagamentoBean implements Serializable {
 	
 	public PagamentoBean() {	}
 	
-	public PagamentoBean(VendaService vendaSrvc, Cliente clienteLogado, PrePagamentoBean prePagamento) 
+	public PagamentoBean(VendaService vendaSrvc, Cliente clienteLogado, CarrinhoAbstractBean carrinhoBean) 
 	{
 		this.vendaSrvc = vendaSrvc;
 		this.clienteLogado = clienteLogado;
-		this.prePagamento = prePagamento;
+		this.carrinhoBean = carrinhoBean;
 	}
 
 	@PostConstruct
@@ -69,28 +74,13 @@ public class PagamentoBean implements Serializable {
 	    }
 		
 		brands = Brand.values();
-		
-		Optional<Venda> vendaAguardandoPg = Optional.ofNullable(prePagamento.vendaParaPagamento());
-		
-		if (!vendaAguardandoPg.isPresent())
+			
+		try 
 		{
-			this.redirecionaParaIndex();
-			return;
-		}
-		
-		Long codigoVenda = prePagamento.vendaParaPagamento().getCodigo();
-		
-		vendaAguardandoPg = Optional.ofNullable(this.vendaSrvc.buscaCompletaPeloCodigo(codigoVenda));
-		
-		if (vendaAguardandoPg.isPresent())
-		{
-			this.venda = vendaAguardandoPg.get();
-
-			criaPagamento();
-
-		} else
-		{
-			FacesUtil.addErrorMessage("Não foi possível localizar a venda. Acesse-a pelo menu Minhas Compras");
+			this.venda = vendaSrvc.criaVendaPeloCarrinho(carrinhoBean.getCarrinho(), cliente);
+			this.criaPagamento();
+		} catch (RegraDeNegocioException e) {
+			FacesUtil.addErrorMessage("Não foi possível localizar sua compra. " + e.getMessage());
 		}
 		
 	}
@@ -125,7 +115,7 @@ public class PagamentoBean implements Serializable {
 	private void criaPagamento() 
 	{
 		pagamento = new Pagamento(
-				venda.codigoFormatado(), 
+				this.venda.getUniqueId().toString(), 
 				clienteLogado.getNome(), 
 				ValorEmCentavos.toCentavos(venda.valorComDesconto()).intValue());
 	}
@@ -141,14 +131,12 @@ public class PagamentoBean implements Serializable {
 		try 
 		{
 			this.vendaSrvc.registraPagamento(this.venda, this.pagamento);
-
-			prePagamento.removerVenda();
+			carrinhoBean.esvazia();
 			
 			return "pagamento-sucesso";
 			
 		} catch (CieloException | IntegracaoException | RegraDeNegocioException e) 
 		{
-			criaPagamento();
 			FacesUtil.addErrorMessage("Sua compra não foi aprovada. Tente novamente");
 		}
 		

@@ -85,7 +85,22 @@
 									                   	class="alert-danger fade in"/>				                            	
 							                 	</div>
 							            	</div>
-
+							            	
+											<div class="col-sm-8"> 
+												<div class="form-group">
+												
+													<label for="input-installments">Parcela <span class="required">*</span></label>
+													<br/>
+													<h:selectOneMenu
+														id="input-installment"
+														value="#{pagamentoBean.pagamento.payment.installments}">
+														
+														<f:selectItem itemLabel="A vista" itemValue="1"/>
+														<f:selectItem itemLabel="2x" itemValue="2"/>
+														<f:selectItem itemLabel="3x" itemValue="3"/>
+													</h:selectOneMenu>
+												</div>
+											</div>
 							            	
 											<div class="col-sm-8"> 
 												<div class="form-group">

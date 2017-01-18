@@ -99,7 +99,6 @@ public class Venda extends EntidadeModel implements Serializable{
 	public Venda(Cliente cliente) 
 	{
 		this();
-		System.out.println(uniqueId);
 		this.cliente = cliente;
 	}
 

@@ -40,6 +40,8 @@ import net.mv.meuespaco.model.grade.Grade;
 @Table(name="venda")
 public class Venda extends EntidadeModel implements Serializable{
 
+	private static final BigDecimal VALOR_MININO_PARCELAMENTO = new BigDecimal(155.00);
+
 	private static final long serialVersionUID = -668988909071422226L;
 
 	@Id
@@ -274,6 +276,17 @@ public class Venda extends EntidadeModel implements Serializable{
 					+ "Apenas as vendas não pagas ou pagas hoje podem ser canceladas.");
 		}
 		
+	}
+	
+	/**
+	 * Verifica se a venda pode ser parcela analisando o valor bruto e 
+	 * o mínimo exigido.
+	 * 
+	 * @return
+	 */
+	public boolean isParcelavel()
+	{
+		return this.valor().compareTo(VALOR_MININO_PARCELAMENTO) >= 0;
 	}
 	
 	public Long getCodigo() {

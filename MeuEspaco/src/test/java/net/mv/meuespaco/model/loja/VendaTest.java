@@ -18,6 +18,7 @@ import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
 import net.mv.meuespaco.model.grade.GradeTamanho;
+import net.mv.meuespaco.model.grade.GradeUnica;
 import net.mv.meuespaco.model.grade.Tamanho;
 
 public class VendaTest {
@@ -27,6 +28,9 @@ public class VendaTest {
 	
 	private Produto anel;
 	private Grade gradeAnel;
+	
+	private Produto corrente;
+	private Grade gradeCorrente;
 	
 	@Before
 	public void init()
@@ -38,10 +42,15 @@ public class VendaTest {
 		anel = new Produto(2L, "Anel");
 		anel.setCodigoInterno("20894356MV03390");
 		gradeAnel = new GradeTamanho(Tamanho.TAM_18);
+
+		corrente = new Produto(3L, "Corrente");
+		corrente.setCodigoInterno("20784512MV15500");
+		gradeCorrente = new GradeUnica();
 		
 		try {
 			brinco.adicionaGrade(gradeBrinco);
 			anel.adicionaGrade(gradeAnel);
+			corrente.adicionaGrade(gradeCorrente);
 		} catch (RegraDeNegocioException e) {
 			e.printStackTrace();
 		}
@@ -313,5 +322,47 @@ public class VendaTest {
 		
 		Venda venda2 = new Venda(new Cliente(1L, "Sidronio"));
 		assertTrue("UUID gerado", null != venda2.getUniqueId());
+	}
+	
+	@Test
+	public void devePermitirOParcelamento()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(2), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertTrue("Pode ser parcelada", venda1.isParcelavel());
+		
+		Venda venda2 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(corrente, new BigDecimal(1), gradeCorrente)
+				.constroi();
+		assertTrue("Pode ser parcelada pelo valor bruto == 155,00.", venda2.isParcelavel());
+		
+		Venda venda3 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(corrente, new BigDecimal(1), gradeCorrente)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertTrue("Pode ser parcelada por considerar o valor bruto.", venda3.isParcelavel());
+	}
+	
+	@Test
+	public void naoDevePermitirOParcelamento()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertFalse("Não pode ser parcelada", venda1.isParcelavel());
 	}
 }

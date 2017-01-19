@@ -8,6 +8,11 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	template="/public/template_initial.xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.violet.css" id="theme-stylesheet"/>
+	</ui:define>
  
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
@@ -131,25 +136,25 @@
 							                    <div class="flipper">
 							                    
 							                        <div class="front">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                            <a href="../venda/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
 							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="#{produto.buscaFotoPeloIndice(1)}" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                            <a href="../venda/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
 							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                    </div>
 							                </div>
-							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
+							                <a href="../venda/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
 							                    <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                </a>
 							                <div class="text">
-							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
+							                    <h3><a href="../venda/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
 							                    <p class="price">#{produto.codigoInterno}</p>
 							                    <p class="buttons">
-							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
+							                        <a href="../venda/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
 							                    </p>
 							                </div>
 							                <!-- /.text -->

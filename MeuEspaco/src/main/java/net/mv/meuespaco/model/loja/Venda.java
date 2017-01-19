@@ -40,7 +40,7 @@ import net.mv.meuespaco.model.grade.Grade;
 @Table(name="venda")
 public class Venda extends EntidadeModel implements Serializable{
 
-	private static final BigDecimal VALOR_MININO_PARCELAMENTO = new BigDecimal(155.00);
+	private static final BigDecimal VALOR_MININO_PARCELAMENTO = new BigDecimal(150.00);
 
 	private static final long serialVersionUID = -668988909071422226L;
 

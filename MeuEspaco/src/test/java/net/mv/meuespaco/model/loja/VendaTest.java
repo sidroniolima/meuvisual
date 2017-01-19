@@ -44,7 +44,7 @@ public class VendaTest {
 		gradeAnel = new GradeTamanho(Tamanho.TAM_18);
 
 		corrente = new Produto(3L, "Corrente");
-		corrente.setCodigoInterno("20784512MV15500");
+		corrente.setCodigoInterno("20784512MV14900");
 		gradeCorrente = new GradeUnica();
 		
 		try {
@@ -340,13 +340,15 @@ public class VendaTest {
 				.doCliente(new Cliente(1L, "Sidronio"))
 				.noHorario(LocalDateTime.now().minusDays(1))
 				.doProduto(corrente, new BigDecimal(1), gradeCorrente)
+				.doProduto(brinco, BigDecimal.ONE, gradeBrinco)
 				.constroi();
-		assertTrue("Pode ser parcelada pelo valor bruto == 155,00.", venda2.isParcelavel());
+		assertTrue("Pode ser parcelada pelo valor bruto == 150,00.", venda2.isParcelavel());
 		
 		Venda venda3 = new VendaBuilder().comCodigo(1L)
 				.doCliente(new Cliente(1L, "Sidronio"))
 				.noHorario(LocalDateTime.now().minusDays(1))
 				.doProduto(corrente, new BigDecimal(1), gradeCorrente)
+				.doProduto(brinco, BigDecimal.ONE, gradeBrinco)
 				.comDesconto(new BigDecimal(15))
 				.constroi();
 		
@@ -364,5 +366,14 @@ public class VendaTest {
 				.constroi();
 		
 		assertFalse("Não pode ser parcelada", venda1.isParcelavel());
+
+		Venda venda2 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(corrente, new BigDecimal(1), gradeCorrente)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertFalse("Não pode ser parcelada", venda2.isParcelavel());
 	}
 }

@@ -1,15 +1,13 @@
 package net.mv.meuespaco.controller;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.omnifaces.cdi.Param;
 
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.util.IConstants;
@@ -21,12 +19,15 @@ import net.mv.meuespaco.util.Paginator;
  * 
  * @author Sidronio
  * 02/03/2016
+ * 
+ * Alteração em 19/01/2017
+ * @author Sidronio
+ * 
+ * Tornar abstract para diferenciar a pesquisa 
+ * do consignado e venda.
+ * 
  */
-@Named
-@ViewScoped
-public class PesquisaProdutoSiteBean implements Serializable {
-
-	private static final long serialVersionUID = 4326911169519596036L;
+public abstract class PesquisaProdutoAbstractBean {
 
 	@Inject
 	private ProdutoService produtoSrvc;
@@ -54,8 +55,15 @@ public class PesquisaProdutoSiteBean implements Serializable {
 	 * Lista o resultado da pesquisa de forma paginada.
 	 */
 	public void listarComPaginacao() {
-		produtos = produtoSrvc.filtrarProdutosPelaPesquisaDoUsuario(paramPesquisa, paginator);
+		produtos = produtoSrvc.filtrarProdutosPelaPesquisaDoUsuario(paramPesquisa, paginator, this.getFinalidade());
 	}
+	
+	/**
+	 * Finalidade para a pesquisa.
+	 * 
+	 * @return finalidade.
+	 */
+	public abstract Finalidade getFinalidade();
 	
 	/**
 	 * @return the paramPesquisa

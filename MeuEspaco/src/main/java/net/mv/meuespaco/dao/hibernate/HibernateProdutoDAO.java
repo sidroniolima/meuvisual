@@ -227,6 +227,54 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		return criteria.list();
 	}
+	
+	@Override
+	public List<Produto> filtrarPeloCodigoInternoOuPelaDescricao(String pesquisa, Finalidade finalidade, Paginator paginator) {
+		
+		Criteria criteriaSublist = this.getSession().createCriteria(Produto.class);
+		criteriaSublist.setFetchMode("subgrupo", FetchMode.JOIN);
+		
+		criteriaSublist.createAlias("caracteristicas", "carac", JoinType.LEFT_OUTER_JOIN);
+		criteriaSublist.setProjection(Projections.property("codigo"));
+		
+		criteriaSublist.add(Restrictions.eq("ativo", true));
+		
+		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
+		
+		criteriaSublist.add(
+				Restrictions.or(
+						Restrictions.like("descricao", pesquisa, MatchMode.ANYWHERE),
+						Restrictions.like("codigoInterno", pesquisa, MatchMode.ANYWHERE))
+				);
+		
+		criteriaSublist.addOrder(Order.asc("codigoInterno"));
+		
+		List registrosSublist = criteriaSublist.list();
+		
+		paginator.setTotalDeRegistros(registrosSublist.size());
+		
+		if (registrosSublist.isEmpty()) {
+			return null;
+		}
+		
+		int lastResult = registrosSublist.size() <= paginator.getLastResult() ? 
+				registrosSublist.size() : paginator.getLastResult() + 1;
+				
+		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
+		
+		Criteria criteria = getSession().createCriteria(Produto.class);
+		
+		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
+		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
+		
+		criteria.setFetchMode("fotos", FetchMode.JOIN);
+		
+		criteria.add(Restrictions.in("codigo", registrosSublist));
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return criteria.list();
+	}
 
 	@Override
 	public List<Produto> fitrarPelaNavegacao(Departamento dep, Grupo grupo, Subgrupo subgrupo, FiltroListaProduto filtro,

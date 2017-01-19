@@ -22,6 +22,7 @@ import net.mv.meuespaco.dao.ProdutoDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Caracteristica;
 import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
@@ -345,6 +346,13 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 		
 		return this.produtoDAO.filtrarPeloCodigoInternoOuPelaDescricao(
 				pesquisa, paginator);
+	}
+	
+	@Override
+	public List<Produto> filtrarProdutosPelaPesquisaDoUsuario(String pesquisa, Paginator paginator, Finalidade finalidade) {
+		
+		return this.produtoDAO.filtrarPeloCodigoInternoOuPelaDescricao(
+				pesquisa, finalidade, paginator);
 	}
 	
 	@Override

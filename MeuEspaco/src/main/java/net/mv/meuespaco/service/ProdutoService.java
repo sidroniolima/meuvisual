@@ -11,6 +11,7 @@ import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Caracteristica;
 import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
@@ -201,6 +202,16 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 */
 	public Map<Caracteristica, List<String>> listarCaracteristicasPorDepGrupoESubgrupo(Departamento dep, Grupo grupo,
 			Subgrupo subgrupo);
+	
+	/**
+	 * Lista o resultado da pesquisa pelo Código Interno ou Descrição dos produtos.
+	 * 
+	 * @param pesquisa Código Interno ou Descrição.
+	 * @param paginator Paginador.
+	 * @param finalidade Venda ou consignado.
+	 * @return Lista de produtos.
+	 */
+	public List<Produto> filtrarProdutosPelaPesquisaDoUsuario(String pesquisa, Paginator paginator, Finalidade finalidade);
 	
 	/**
 	 * Lista o resultado da pesquisa pelo Código Interno ou Descrição dos produtos.

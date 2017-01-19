@@ -59,14 +59,14 @@
 	                        <div class="panel-body">
 	                            <ul class="nav nav-pills nav-stacked category-menu">
 	                            
-	                            	<ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
+	                            	<ui:repeat var="dep" value="#{navBarVendaBean.departamentos}">
 	                            
 	                                	<li><a href="#">#{dep.descricao}</a>
 		                                    
 		                                    <ul>
 												<ui:repeat 
 			                                   		var="menu" 
-			                                   		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
+			                                   		value="#{navBarVendaBean.criaMenuPorDepartamento(dep)}">
 				                                	<li>
 				                                       	<a 
 				                                       		jsfc="h:outputLink"
@@ -100,12 +100,12 @@
 	                    
 					<div class="col-md-9">
 					    <div class="box">
-					        <h1>Pequisa: #{pesquisaProdutoConsignadoBean.paramPesquisa}</h1>
+					        <h1>Pequisa: #{pesquisaProdutoVendaBean.paramPesquisa}</h1>
 					    </div>
 					    
 					    <h:panelGroup
 							id="panel-sem-registros"
-							rendered="#{pesquisaProdutoConsignadoBean.produtos == null}">
+							rendered="#{pesquisaProdutoVendaBean.produtos == null}">
 							
 							<div class="box">
 								<p>Não há produtos para a pesquisa realizada.</p>
@@ -115,13 +115,13 @@
 					    
 					    <h:panelGroup
 					    	id="panel-produtos"
-					    	rendered="#{pesquisaProdutoConsignadoBean.produtos.size() gt 0}">
+					    	rendered="#{pesquisaProdutoVendaBean.produtos.size() gt 0}">
 					    	
 						    <div class="row products">
 						
 					            <ui:repeat 
 					            	var="produto" 
-					            	value="#{pesquisaProdutoConsignadoBean.produtos}">				
+					            	value="#{pesquisaProdutoVendaBean.produtos}">				
 						
 							        <div class="col-md-4 col-sm-6">
 							            
@@ -177,8 +177,8 @@
 									  <ul class="pagination">
 									    <li>
 									    	<h:commandLink
-									    		actionListener="#{pesquisaProdutoConsignadoBean.paginator.previous()}"
-									    		action="#{pesquisaProdutoConsignadoBean.listarComPaginacao()}" 
+									    		actionListener="#{pesquisaProdutoVendaBean.paginator.previous()}"
+									    		action="#{pesquisaProdutoVendaBean.listarComPaginacao()}" 
 									    		value="«">
 
 							                   	<f:ajax
@@ -188,13 +188,13 @@
 									    
 									    <c:forEach 
 									    	begin="0" 
-									    	end="#{pesquisaProdutoConsignadoBean.paginator.partesVisiveis() - 1}"
+									    	end="#{pesquisaProdutoVendaBean.paginator.partesVisiveis() - 1}"
 									    	var="index">
 									    
 										    <li>
 									    		<h:commandLink
-										    		actionListener="#{pesquisaProdutoConsignadoBean.paginator.goTo(index)}" 
-										    		action="#{pesquisaProdutoConsignadoBean.listarComPaginacao()}"
+										    		actionListener="#{pesquisaProdutoVendaBean.paginator.goTo(index)}" 
+										    		action="#{pesquisaProdutoVendaBean.listarComPaginacao()}"
 										    		value="#{index+1}" >
 										    		
 								                   	<f:ajax
@@ -204,16 +204,16 @@
 									    </c:forEach>
 									    
 										<li class="disabled" 
-											style="#{not pesquisaProdutoConsignadoBean.paginator.particionado ? 'display:none' : ''}">
+											style="#{not pesquisaProdutoVendaBean.paginator.particionado ? 'display:none' : ''}">
 									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
 									    </li>
 									    
 									    <li
-									    	style="#{not pesquisaProdutoConsignadoBean.paginator.particionado ? 'display:none' : ''}">
+									    	style="#{not pesquisaProdutoVendaBean.paginator.particionado ? 'display:none' : ''}">
 									      <h:commandLink
-									    		actionListener="#{pesquisaProdutoConsignadoBean.paginator.goToLast()}" 
-									    		action="#{pesquisaProdutoConsignadoBean.listarComPaginacao()}"
-									    		value="#{pesquisaProdutoConsignadoBean.paginator.partes}">
+									    		actionListener="#{pesquisaProdutoVendaBean.paginator.goToLast()}" 
+									    		action="#{pesquisaProdutoVendaBean.listarComPaginacao()}"
+									    		value="#{pesquisaProdutoVendaBean.paginator.partes}">
 									    		
 							                   	<f:ajax
 							                   		render="panel-produtos"/>   
@@ -222,8 +222,8 @@
 
 									    <li>
 									      <h:commandLink
-									    		actionListener="#{pesquisaProdutoConsignadoBean.paginator.next()}" 
-									    		action="#{pesquisaProdutoConsignadoBean.listarComPaginacao()}"
+									    		actionListener="#{pesquisaProdutoVendaBean.paginator.next()}" 
+									    		action="#{pesquisaProdutoVendaBean.listarComPaginacao()}"
 									    		value="»">
 									    		
 							                   	<f:ajax

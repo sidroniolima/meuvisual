@@ -5,6 +5,7 @@ import java.util.List;
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
@@ -109,5 +110,15 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long>{
 	 * @return quantidade de registros alterados (deve ser 1).
 	 */
 	int atualizaGradeDoProduto(Long codigo, String novoTipo);
+
+	/**
+	 * Lista os produtos que atendam a pesquisa pelo código interno ou descrição.
+	 * 
+	 * @param pesquisa Código interno ou descrição.
+	 * @param paginator define o primeiro resultado e a quantidade de resultados.
+	 * @param finalidade venda ou consignado. 
+	 * @return Lista de produtos que satisfazem a condição da pesquisa.
+	 */
+	List<Produto> filtrarPeloCodigoInternoOuPelaDescricao(String pesquisa, Finalidade finalidade, Paginator paginator);
 
 }

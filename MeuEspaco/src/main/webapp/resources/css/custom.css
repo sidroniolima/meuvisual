@@ -444,3 +444,7 @@
 	font-size: 11px !important;
 	color: green;
 }
+
+span.tab{
+    padding: 0 80px; /* Or desired space*/
+}

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"	  
+	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	
+	<c:set var="root" value="#{request.contextPath}" />
+
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.violet.css" id="theme-stylesheet"/>
+	</ui:define>	
+	  
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/venda/top_bar-venda.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/venda/nav_bar-venda.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+	       <div id="content">
+	           <div class="container">
+	
+	               <div class="col-md-12">
+	
+	                   <ul class="breadcrumb">
+	                       <li><a href="${root}/private/venda/index.xhtml">M.E. Store</a>
+	                       </li>
+	                       <li>Termos e condições de uso</li>
+	                   </ul>
+	
+	
+	                   <div class="row">
+	                       <div class="col-sm-12">
+	                       		<div class="box">
+	
+		                          	<h3>Leia abaixo os termos e condições de uso do site.</h3>                                   
+		                            
+									<p>
+										  O presente Termos têm por objeto regular a utilização do Meu Espaço Store, estabelecendo os direitos e as obrigações dos (das) Clientes.
+									</p>
+										
+									<p>
+										Este documento contém informações legais importantes e indispensáveis à utilização Meu Espaço Store, 
+										sendo, portanto, obrigatória a sua leitura e compreensão por parte do (da) Cliente.
+									</p>
+										
+									<p>
+										
+										A aceitação formal destes Termos se dará no ato da sua compra. Deste modo, ao utilizar quaisquer das 
+										funcionalidades disponibilizadas no Meu Espaço Store, o (a) Cliente declara sua plena, integral e irrestrita 
+										concordância com as condições previstas nestes Termos. Se o(a) Cliente não concordar com os termos e 
+										condições descritos nesse documento, não deve utilizar o Meu Espaço Store. Lembre-se, ainda, que as 
+										disposições contidas nestes Termos podem ser atualizadas a qualquer tempo e a exclusivo critério do Meu 
+										Espaço Store, sendo de responsabilidade do (da) Cliente verificá-los com frequência.
+									</p>
+		                               
+	                               <p>
+										Regras Para Utilização Do Meu Espaço Store <br/><br/>
+										1.
+										 O(A) Cliente poderá escolher peças no Meu Espaço Store até quarta-feira da semana anterior a data 
+										marcada para o seu acerto do mês vigente, para que a peça siga em seu próximo atendimento.
+										
+										<br/><br/>2.
+										 As peças anunciadas no Meu Espaço Store são exclusivas para venda e estarão disponíveis enquanto 
+										durarem em nosso estoque.
+										
+										<br/><br/>3.
+										 Não serão aceitas encomendas e devoluções, salvo defeitos de fabricação.
+										
+										<br/><br/>4.
+										 As peças adquiridas no Meu Espaço Store tem garantia de 2 anos quanto a defeito de fabricação.
+										
+										<br/><br/>5.
+										 A aceitação da compra depende exclusivamente da liberação da empresa de cartão de crédito, eximindo a 
+										Meu Visual da responsabilidade da recusa na venda.
+										
+										<br/><br/>6.
+										 Forma de Pagamento e Desconto:
+										   <br/><span class="tab">6.1 As compras realizadas no Meu Espaço Store terão desconto promocional de 42%.</span>
+										   <br/><span class="tab">6.2 Os pagamentos serão feitos exclusivamente com cartão de crédito, não havendo outra forma de 
+										pagamento disponível no Meu Espaço Store.</span>
+										   <br/><span class="tab">6.3 Compras até R$ 150,00 (cento e cinquenta reais) em 1 (uma) parcela.</span>
+										   <br/><span class="tab">6.4 Compras acima de R$ 150,00 (cento e cinquenta reais) em até 03 (três) parcelas.</span>
+										
+										<br/><br/>7.
+										 O desconto acima citado poderá sofrer alterações a critério da Empresa, sem aviso prévio.
+										
+										<br/><br/>8.
+										 As peças adquiridas no Meu Espaço Store serão entregues aos clientes em mãos através de nossos 
+										representantes, não havendo possibilidade de outra forma de envio.
+										
+										<br/><br/>9.
+										 As peças escolhidas no Meu Espaço Store não alteram a quantidade de escolha no site Meu Espaço, como 
+										também não influenciam nas quantidades de peças vendidas do kit em consignação.
+										
+										<br/><br/>10.
+										 Quando a venda for feita pelo valor bruto (sem desconto), o(a) Cliente receberá os valores referentes aos 
+										descontos 31 (trinta e um) dias após a venda, em seu próximo acerto de consignado, respeitando os 
+										vencimentos das parcelas do cartão na hora da compra.
+										
+										<br/><br/>11.
+										 Caso o(a) Cliente perca o vinculo com a Empresa e a mesma tenha créditos referente a venda no Meu 
+										Espaço Store a receber, continuará recebendo os valores devidos conforme o item 10 deste documento.
+										
+										<br/><br/>12.
+										 Caso o(a) Cliente possua algum débito com a Empresa e a mesma possua créditos a receber, esses valores 
+										serão abatidos para quitar ou diminuir esse débito.	                               
+	                               </p>
+	
+	                               <p class="buttons"><a href="${root}/private/venda/index.xhtml" class="btn btn-primary"><i class="fa fa-home"></i> Volte à página inicial</a>
+	                               </p>
+                               
+                               </div>
+	                       </div>
+	                   </div>
+	
+	
+	               </div>
+	               <!-- /.col-md-9 -->
+	           </div>
+	           <!-- /.container -->
+	       </div>
+	       <!-- /#content -->
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

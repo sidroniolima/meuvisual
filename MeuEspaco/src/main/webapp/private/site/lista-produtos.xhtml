@@ -194,18 +194,18 @@
 							                    
 							                        <div class="front">
 							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
-							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
 							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
-							                                <img src="#{res['image-server']}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                    </div>
 							                </div>
 							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
-							                    <img src="#{res['image-server']}/imagens/meu-espaco/Produto_sem_foto.png" class="img-responsive"/>
+							                    <img src="#{props.serverImageName()}/imagens/meu-espaco/Produto_sem_foto.png" class="img-responsive"/>
 							                </a>
 							                <div class="text">
 							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>

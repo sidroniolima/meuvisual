@@ -33,10 +33,10 @@
                 <div class="col-md-12">
                     <div id="main-slider">
                         <div class="item">
-                           	<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-slider-1.jpg" alt="Meu Espaço" class="img-responsive"/>
+                           	<img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-banner-slider-1.jpg" alt="Meu Espaço" class="img-responsive"/>
                         </div>     
                         <div class="item">
-                           	<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-slider-2.jpg" alt="Meu Espaço" class="img-responsive"/>
+                           	<img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-banner-slider-2.jpg" alt="Meu Espaço" class="img-responsive"/>
                         </div>                                             
                     </div>
                     <!-- /#main-slider -->
@@ -52,7 +52,7 @@
                         <div class="col-sm-4">
                             <div class="box same-height clickable">
 								<a href="../venda/index.xhtml">
-									<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-esquerda.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+									<img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-banner-esquerda.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
 								</a>                                
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         <div class="col-sm-4">
                             <div class="box same-height">
                             	<a href="https://www.facebook.com/meuvisualoficial" target="_blank">
-               						<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-centro.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+               						<img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-banner-centro.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
                					</a>
                				</div>
                         </div>
@@ -68,7 +68,7 @@
                         <div class="col-sm-4">
                             <div class="box same-height clickable">
                             	<a href="./passo-a-passo.xhtml">
-									<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-banner-direita.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+									<img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-banner-direita.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
 								</a>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                 <div class="box">
                     <div class="container">
                         <div class="col-md-12">
-                            <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-novidades-meu-espaco.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
+                            <img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-novidades-meu-espaco.jpg" alt="Novidades Meu Espaço" class="img-responsive"/>
                         </div>
                     </div>
                 </div>
@@ -110,19 +110,19 @@
 	                                    <div class="flipper">
 	                                        <div class="front">
 	                                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}">
-	                                                <img src="#{res['image-server']}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
+	                                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
 	                                            </a>
 	                                        </div>
 	                                        <div class="back">
 	                                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}">
-	                                                <img src="#{res['image-server']}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(2)}" alt="" class="img-responsive"/>
+	                                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(2)}" alt="" class="img-responsive"/>
 	                                            </a>
 	                                        </div>
 	                                    </div>
 	                                </div>
 	                                
 	                                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{item.codigo}" class="invisible">
-	                                    <img src="#{res['image-server']}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
+	                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
 	                                </a>
 	                                
 	                                <div class="text">
@@ -156,22 +156,22 @@
                         <div id="get-inspired" class="owl-carousel owl-theme">
                             <div class="item">
                                 <a href="#">
-                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-1.jpg" class="img-responsive" alt="" />
+                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-inspire-se-1.jpg" class="img-responsive" alt="" />
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-2.jpg" class="img-responsive" alt="" />
+                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-inspire-se-2.jpg" class="img-responsive" alt="" />
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-3.jpg" class="img-responsive" alt="" />
+                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-inspire-se-3.jpg" class="img-responsive" alt="" />
                                 </a>
                             </div>
                             <div class="item">
                                 <a href="#">
-                                    <img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-inspire-se-4.jpg" class="img-responsive" alt="" />
+                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-inspire-se-4.jpg" class="img-responsive" alt="" />
                                 </a>
                             </div>                            
                         </div>
@@ -188,7 +188,7 @@
                     <div class="col-md-12">
                         <p class="lead">
                         	<a href="http://meuvisual.com.br/area-exclusiva/novidades/" target="_blank">
-                        		<img src="#{res['image-server']}/imagens/meu-espaco/site/meu-visual-tendencias-blog.jpg" class="img-responsive" alt="Tendências Meu Visual" />
+                        		<img src="#{props.serverImageName()}/imagens/meu-espaco/site/meu-visual-tendencias-blog.jpg" class="img-responsive" alt="Tendências Meu Visual" />
                         	</a>
                         </p>
                     </div>

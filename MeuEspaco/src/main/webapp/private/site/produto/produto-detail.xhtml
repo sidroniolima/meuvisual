@@ -322,7 +322,7 @@
                         <div class="col-sm-6">
                             <div id="mainImage">
                                 <span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
-                                	<img src="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+                                	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
                                 </span>
                             </div>
 
@@ -409,18 +409,18 @@
 
                             <div class="row" id="thumbs">
                                 <div class="col-xs-4">
-                                    <a href="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="thumb">
-                                        <img src="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+                                    <a href="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="thumb">
+                                        <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
                                     </a>
                                 </div>
                                 <div class="col-xs-4">
-                                    <a href="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(2)}"  class="thumb">
-                                        <img src="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+                                    <a href="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(2)}"  class="thumb">
+                                        <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
                                     </a>
                                 </div>
                                 <div class="col-xs-4">
-                                    <a href="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(3)}"  class="thumb">
-                                        <img src="#{res['image-server']}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(3)}" class="img-responsive" alt="" />
+                                    <a href="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(3)}"  class="thumb">
+                                        <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(3)}" class="img-responsive" alt="" />
                                     </a>
                                 </div>
                             </div>
@@ -469,18 +469,18 @@
 	                                    <div class="flipper">
 	                                        <div class="front">
 	                                            <a href="../produto/produto-detail.xhtml?paramCodigo=#{relac.codigo}">
-	                                            	<img src="#{res['image-server']}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
+	                                            	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
 	                                            </a>
 	                                        </div>
 	                                        <div class="back">
 	                                            <a href="../produto/produto-detail.xhtml?paramCodigo=#{relac.codigo}">
-	                                                <img src="#{res['image-server']}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
+	                                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
 	                                            </a>
 	                                        </div>
 	                                    </div>
 	                                </div>
 	                                <a href="../produto/produto-detail.xhtml?paramCodigo=#{relac.codigo}" class="invisible">
-	                                    <img src="#{res['image-server']}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
+	                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
 	                                </a>
 	                                <div class="text">
 	                                    <h3>#{relac.descricao}</h3>

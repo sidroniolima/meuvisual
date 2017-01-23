@@ -103,27 +103,26 @@
  <PROCESS-ITEM NAME="rules:#*:12" PATH="/*" SHAPE="32,1361,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:12" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="carrinho-venda::#private#site#venda#carrinho.xhtml"
-    NAME="output" PATH="/private/venda/carrinho.xhtml"
-    TARGET="rules:#private#site#venda#carrinho.xhtml"
-    TITLE="carrinho-venda" model-entity="JSFProcessItemOutput"/>
+    ID="carrinho-venda::#private#venda#carrinho.xhtml" NAME="output"
+    PATH="/private/venda/carrinho.xhtml"
+    TARGET="rules:#private#venda#carrinho.xhtml" TITLE="carrinho-venda" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#*:13" PATH="/*" SHAPE="32,1473,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:13" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="cielo-api::#private#site#venda#finaliza-compra.xhtml"
-    NAME="output" PATH="/private/venda/finaliza-compra.xhtml"
-    TARGET="rules:#private#site#venda#finaliza-compra.xhtml"
+    ID="cielo-api::#private#venda#finaliza-compra.xhtml" NAME="output"
+    PATH="/private/venda/finaliza-compra.xhtml"
+    TARGET="rules:#private#venda#finaliza-compra.xhtml"
     TITLE="cielo-api" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#*:14" PATH="/*" SHAPE="32,1585,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:14" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="lista-produtos-venda::#private#site#venda#lista-produtos.xhtml"
+    ID="lista-produtos-venda::#private#venda#lista-produtos.xhtml"
     NAME="output" PATH="/private/venda/lista-produtos.xhtml"
-    TARGET="rules:#private#site#venda#lista-produtos.xhtml"
+    TARGET="rules:#private#venda#lista-produtos.xhtml"
     TITLE="lista-produtos-venda" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
@@ -158,18 +157,18 @@
  <PROCESS-ITEM NAME="rules:#*:15" PATH="/*" SHAPE="32,1697,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:15" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="visualiza-compra::#private#site#venda#visualiza-compra.xhtml"
+    ID="visualiza-compra::#private#venda#visualiza-compra.xhtml"
     NAME="output" PATH="/private/venda/visualiza-compra.xhtml"
-    TARGET="rules:#private#site#venda#visualiza-compra.xhtml"
+    TARGET="rules:#private#venda#visualiza-compra.xhtml"
     TITLE="visualiza-compra" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#*:16" PATH="/*" SHAPE="32,1809,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:16" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="minhas-compras::#private#site#venda#minhas-compras.xhtml"
+    ID="minhas-compras::#private#venda#minhas-compras.xhtml"
     NAME="output" PATH="/private/venda/minhas-compras.xhtml"
-    TARGET="rules:#private#site#venda#minhas-compras.xhtml"
+    TARGET="rules:#private#venda#minhas-compras.xhtml"
     TITLE="minhas-compras" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
@@ -178,9 +177,9 @@
  <PROCESS-ITEM NAME="rules:#*:17" PATH="/*" SHAPE="32,1921,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:17" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT
-    ID="pagamento-sucesso::#private#site#venda#pagamento-sucesso.xhtml"
+    ID="pagamento-sucesso::#private#venda#pagamento-sucesso.xhtml"
     NAME="output" PATH="/private/venda/pagamento-sucesso.xhtml"
-    TARGET="rules:#private#site#venda#pagamento-sucesso.xhtml"
+    TARGET="rules:#private#venda#pagamento-sucesso.xhtml"
     TITLE="pagamento-sucesso" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>

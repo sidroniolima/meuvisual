@@ -75,7 +75,7 @@ public class LoginBean implements Serializable {
 		carrinhoVendaBean.esvazia();
 		userLogged = null;
 		
-		return "/public/register.html?faces-redirect=true";
+		return "/public/register.xhtml?faces-redirect=true";
 	}
 	
 	/**

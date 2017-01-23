@@ -123,7 +123,7 @@
   </servlet-mapping>
   
   <welcome-file-list>
-  	<welcome-file>index-prod.html</welcome-file>
+  	<welcome-file>index.prod.html</welcome-file>
   </welcome-file-list>
   
 </web-app>

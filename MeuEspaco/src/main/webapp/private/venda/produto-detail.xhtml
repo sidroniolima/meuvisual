@@ -11,6 +11,7 @@
 	<ui:define name="css">
 		<!-- theme stylesheet venda -->
    		<h:outputStylesheet library="css" name="style.violet.css" id="theme-stylesheet"/>
+		<h:outputStylesheet library="css" name="zoom.css"/>
 	</ui:define>	
 	
 	<!-- TOP BAR DEFINE -->
@@ -317,7 +318,9 @@
                     <div class="row" id="productMain">
                         <div class="col-sm-6">
                             <div id="mainImage">
-                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailVendaBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+                            	<span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
+                                	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailVendaBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+                                </span>
                             </div>
 
                             <div class="ribbon new">
@@ -486,7 +489,18 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="jquery.zoom.js" />
+		<script>
+			$(document).ready(function(){
+				$('#ex1').zoom({magnify: 1.4});
+			});
+		</script>
+		<script>
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
 	</ui:define>
-	<!-- END OF DEFINE SCRIPT -->			
-			
+	<!-- END OF DEFINE SCRIPT -->
+				
 </ui:composition>

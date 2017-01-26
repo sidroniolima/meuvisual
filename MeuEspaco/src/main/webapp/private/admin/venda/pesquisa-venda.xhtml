@@ -204,6 +204,7 @@
 														   
 														        <h:link
 														        	styleClass="btn btn-info" 
+														        	outcome="visualiza-venda"
 														        	includeViewParams="true">
 														        	
 														        		<f:param
@@ -216,7 +217,7 @@
 														        <h:link
 														        	styleClass="#{not true ? 'btn btn-primary disable' : 'btn btn-primary'}" 
 														        	includeViewParams="true"
-														        	disabled="#{not true}">
+														        	disabled="#{true}">
 														        	
 														        		<f:param
 														        			name="paramCodigo"

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.Permissao;
 import net.mv.meuespaco.model.Regiao;
 import net.mv.meuespaco.model.Semana;
 
@@ -77,4 +78,20 @@ public class ClienteTest {
 		assertEquals("Data final", LocalDate.of(2016, 10, 16), cliente.dataFinalDoCicloAtual());
 	}
 
+	@Test
+	public void deveEfetivarOCadastro()
+	{
+		cliente.setCpf(new Cpf("1234566"));
+		cliente.setCodigoSiga("000111");
+		
+		try 
+		{
+			cliente.efetivaCadastro();
+			
+			assertTrue("Permissões padrão: VENDA e CLIENTE", cliente.temPermissao(Permissao.ROLE_VENDA));
+			
+		} catch (RegraDeNegocioException e) {
+			fail("Deve efetivar sem erro.");
+		}
+	}
 }

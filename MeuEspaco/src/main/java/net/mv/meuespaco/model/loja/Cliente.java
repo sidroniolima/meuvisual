@@ -233,6 +233,7 @@ public class Cliente implements Serializable {
 				this.getEmail());
 		
 		this.usuario.adicionaPermissao(Permissao.ROLE_CLIENTE);
+		this.usuario.adicionaPermissao(Permissao.ROLE_VENDA);
 	}
 	
 	/**
@@ -362,6 +363,17 @@ public class Cliente implements Serializable {
 		}
 		
 		throw new RegraDeNegocioException("Não foi possível identificar a semana atual do cliente.");
+	}
+	
+	/**
+	 * Verifica se um cliente tem uma permissão específica. 
+	 * 
+	 * @param permissao
+	 * @return se tem ou não.
+	 */
+	public boolean temPermissao(Permissao permissao)
+	{
+		return this.getUsuario().getPermissoes().contains(permissao);
 	}
 	
 	/**

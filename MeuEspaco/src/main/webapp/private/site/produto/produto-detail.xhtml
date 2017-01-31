@@ -130,6 +130,49 @@
 	                </h:panelGroup> <!-- /#panel-tamanhos -->
 	                
 					<h:panelGroup 
+                       	id="panel-simbolos-musicais"
+                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'MUSICAL'}">
+	                
+		                <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Musical <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        </div>
+	                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form 
+	                            	id="frm-simbolos"
+	                            	styleClass="form-inline">                        	
+
+			                        <div class="form-group">
+			                        
+			                            <h:selectOneRadio
+			                            	value="#{produtoDetailConsignadoBean.gradeSelecionada.simbolo}"
+			                            	layout="pageDirection"
+			                            	style="padding-left:20px">
+			                            	
+			                            	<f:selectItems
+			                            		value="#{produtoDetailConsignadoBean.simbolosMusicaisDisponiveis}"
+			                            		var="simbolo"
+			                            		itemLabel="&nbsp;&nbsp;&nbsp;#{simbolo}"
+			                            		itemValue="#{simbolo}"/>
+			                            		
+			                            	<f:ajax
+			                            		execute="@this"/>
+			                            	
+			                            </h:selectOneRadio>
+			                        </div>
+			                        
+			            		</h:form> <!-- /#frm-musical -->
+			            
+			            	</div>
+			            	
+	                    </div> <!-- sidebar-menu-musical -->
+	                    
+	                </h:panelGroup> <!-- /#panel-simbolos-musicais -->	                
+	                
+					<h:panelGroup 
                        	id="panel-cores"
                        	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'COR'}">
 	                

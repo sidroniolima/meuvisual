@@ -3,6 +3,7 @@ package net.mv.meuespaco.model.grade;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +28,9 @@ public class GradeTest {
 	Grade gradeLetra1;
 	Grade gradeLetra2;
 	
+	Grade gradeSol;
+	Grade gradeColcheia;
+	
 	Produto produto;
 	
 	@Before
@@ -46,6 +50,8 @@ public class GradeTest {
 		gradeLetra1 = new GradeLetra(9L, null, 'A');
 		gradeLetra2 = new GradeLetra(10L, null, 'Z');
 		
+		gradeSol = new GradeDeMusica(11L, null, "G");
+		gradeColcheia = new GradeDeMusica(12L, null, "Colcheia");
 	}
 	
 	@Test
@@ -279,5 +285,79 @@ public class GradeTest {
 		Grade gradeLetraErrada = new GradeLetra(205L, null, 'a');
 		assertFalse("Grade tem as mesmas caracteristicas", gradeLetra1.temAsMesmasCaracteristicas(gradeLetraErrada));
 		
+		Grade outraGradeColcheia = new GradeDeMusica("Colcheia");
+		assertTrue("Grade tem as mesmas caracteristicas", gradeColcheia.temAsMesmasCaracteristicas(outraGradeColcheia));
+		assertFalse("Grade tem as mesmas caracteristicas", gradeColcheia.temAsMesmasCaracteristicas(gradeSol));
+	}
+	
+	@Test
+	public void deveSelecionarAGrade() throws RegraDeNegocioException {
+		
+		produto = new Produto(1L, "Teste");
+		
+		produto.adicionaGrade(gradeColcheia);
+		
+		Grade gradeSelecionada = new GradeCor(Cor.ESMERALDA);
+		Grade gradeLocalizada = null;
+		
+		boolean achou = false;
+		
+		for (Grade grade : produto.getGrades()) {
+			if (grade.temAsMesmasCaracteristicas(gradeSelecionada)) {
+				achou = !achou;
+				gradeLocalizada = grade;
+			}
+		}
+		
+		assertFalse("Check que não achou a peça.", achou);
+		
+		gradeSelecionada = new GradeDeMusica("Colcheia");
+		achou = false;
+		
+		for (Grade grade : produto.getGrades()) {
+			if (grade.temAsMesmasCaracteristicas(gradeSelecionada)) {
+				achou = !achou;
+				gradeLocalizada = grade;
+			}
+		}
+		
+		assertTrue("Check que achou a peça.", achou);
+		assertEquals("Check do codigo da grade", (int) 12L, gradeLocalizada.getCodigo().intValue());
+	}
+	
+	@Test
+	public void deveValidar()
+	{
+		Grade gradeFa = new GradeDeMusica();
+		
+		try 
+		{
+			gradeFa.valida();
+			fail("Não deve validar.");
+		} catch (RegraDeNegocioException e) 
+		{
+			
+		}
+		
+		gradeFa = new GradeDeMusica("");
+		
+		try 
+		{
+			gradeFa.valida();
+			fail("Não deve validar.");
+		} catch (RegraDeNegocioException e) 
+		{
+			
+		}
+		
+		gradeFa = new GradeDeMusica("Fa");
+		
+		try 
+		{
+			gradeFa.valida();
+		} catch (RegraDeNegocioException e) 
+		{
+			fail("Deve validar.");
+		}
 	}
 }

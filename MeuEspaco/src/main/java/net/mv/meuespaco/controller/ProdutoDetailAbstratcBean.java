@@ -53,6 +53,8 @@ public abstract class ProdutoDetailAbstratcBean implements Serializable {
 	private List<Cor> coresParaOTamanho;
 	
 	private boolean habilitaEscolha;
+
+	private List<String> simbolosMusicaisDisponiveis;
 	
 	public ProdutoDetailAbstratcBean() {	}
 	
@@ -82,6 +84,7 @@ public abstract class ProdutoDetailAbstratcBean implements Serializable {
 				tamanhosDisponiveis = produtoService.tamanhosDisponiveisDoProduto(produto);
 				coresDisponiveis = produtoService.coresDisponiveisDoProduto(produto);
 				letrasDisponiveis = produtoService.letrasDisponiveis(produto);
+				simbolosMusicaisDisponiveis = produtoService.simbolosMusicaisDisponiveis(produto);
 				
 				qtdDoProduto = BigDecimal.ONE;
 				
@@ -237,6 +240,10 @@ public abstract class ProdutoDetailAbstratcBean implements Serializable {
 	 */
 	public List<String> getLetrasDisponiveis() {
 		return letrasDisponiveis;
+	}
+	
+	public List<String> getSimbolosMusicaisDisponiveis() {
+		return simbolosMusicaisDisponiveis;
 	}
 
 	public abstract CarrinhoAbstractBean getCarrinhoBean();

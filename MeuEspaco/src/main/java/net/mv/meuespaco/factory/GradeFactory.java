@@ -4,6 +4,7 @@ import net.mv.meuespaco.model.TipoGrade;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeCor;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
+import net.mv.meuespaco.model.grade.GradeDeMusica;
 import net.mv.meuespaco.model.grade.GradeLetra;
 import net.mv.meuespaco.model.grade.GradeTamanho;
 import net.mv.meuespaco.model.grade.GradeUnica;
@@ -37,6 +38,11 @@ public class GradeFactory {
 		if (tipoGrade.equals(TipoGrade.LETRA)) {
 			return new GradeLetra();
 		}
+		
+		if (tipoGrade.equals(TipoGrade.MUSICAL)) {
+			return new GradeDeMusica();
+		}
+	
 		
 		return null;
 	}

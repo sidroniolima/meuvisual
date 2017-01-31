@@ -276,5 +276,13 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 */
 	public List<Grade> verificaGradesDisponiveis(Produto produto);
 
+	/**
+	 * Lista os símbolos musicais disponíveis para o produto.
+	 * 
+	 * @param produto
+	 * @return
+	 */
+	public List<String> simbolosMusicaisDisponiveis(Produto produto);
+
 
 }

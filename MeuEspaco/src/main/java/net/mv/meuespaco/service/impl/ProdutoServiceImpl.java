@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeComCor;
 import net.mv.meuespaco.model.grade.GradeComLetra;
 import net.mv.meuespaco.model.grade.GradeComTamanho;
+import net.mv.meuespaco.model.grade.GradeMusical;
 import net.mv.meuespaco.model.grade.Tamanho;
 import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.service.GradeService;
@@ -156,7 +158,8 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 		
 		if (produto.getTipoGrade().equals(TipoGrade.TAMANHO)|| 
 				produto.getTipoGrade().equals(TipoGrade.LETRA) || 
-				produto.getTipoGrade().equals(TipoGrade.UNICA))  {
+				produto.getTipoGrade().equals(TipoGrade.UNICA) ||
+				produto.getTipoGrade().equals(TipoGrade.MUSICAL))  {
 			
 			return null;
 		}
@@ -203,7 +206,9 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 		
 		if (produto.getTipoGrade().equals(TipoGrade.COR) || 
 				produto.getTipoGrade().equals(TipoGrade.LETRA) || 
-				produto.getTipoGrade().equals(TipoGrade.UNICA)) {
+				produto.getTipoGrade().equals(TipoGrade.UNICA) ||
+				produto.getTipoGrade().equals(TipoGrade.MUSICAL)) {
+
 			return null;
 		}
 		
@@ -222,17 +227,37 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	}
 	
 	@Override
+	public List<String> simbolosMusicaisDisponiveis(Produto produto) {
+		
+		if (!produto.getTipoGrade().equals(TipoGrade.MUSICAL)) {
+			return null;
+		}
+		
+		List<String> simbolos = new LinkedList<>();
+		
+		simbolos = this.verificaGradesDisponiveis(produto)
+			.stream()
+			.map(g -> ((GradeMusical) g).getSimbolo())
+			.distinct()
+			.collect(Collectors.toList());
+		
+		simbolos.forEach(System.out::println);
+		
+		return simbolos;
+	}
+	
+	@Override
 	public Grade gradeDoProduto(Produto produto, Grade gradeSelecionada) {
 		
 		for (Grade grade : produto.getGrades()) 
 		{
-			if (grade.temAsMesmasCaracteristicas(gradeSelecionada)) {
+			if (grade.temAsMesmasCaracteristicas(gradeSelecionada)) 
+			{
 				return grade;
 			}
 		}
 		
 		return null;
-		
 	}
 	
 	@Override

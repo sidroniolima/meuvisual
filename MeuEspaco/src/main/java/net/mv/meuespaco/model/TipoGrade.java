@@ -6,7 +6,8 @@ public enum TipoGrade {
 	COR("Cor"),
 	COR_E_TAMANHO("Cor e tamanho"), 
 	UNICA("Única"), 
-	LETRA("Letra");
+	LETRA("Letra"), 
+	MUSICAL("Musical");
 	
 	private String descricao;
 	

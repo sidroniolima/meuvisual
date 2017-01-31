@@ -322,6 +322,7 @@
 			                                    <th style="width:150px">Cor</th>
 			                                    <th style="width:100px">Tamanho</th>
 			                                    <th style="width:100px">Letra</th>
+			                                    <th style="width:100px">Símbolo</th>
 			                                    <th style="width:100px">Quantidade em estoque</th>
 			                                </tr>
 			                            </thead>
@@ -346,7 +347,11 @@
 												   
 												   <td>
 												   		<h:outputText value="#{estoque.letra}"/>												   
-												   </td>												   
+												   </td>	
+												   
+												   <td>
+												   		<h:outputText value="#{estoque.simbolo}"/>												   
+												   </td>													   											   
 												   
 												   <td>
 												   		<h:outputText 

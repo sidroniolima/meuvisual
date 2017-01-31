@@ -22,6 +22,7 @@ public class EstoqueDoProdutoConsulta {
 	private String cor;
 	private String tamanho;
 	private String letra;
+	private String simbolo;
 	private BigDecimal qtd;
 	
 	public EstoqueDoProdutoConsulta() {	}
@@ -33,6 +34,7 @@ public class EstoqueDoProdutoConsulta {
 			String cor, 
 			String tamanho, 
 			String letra,
+			String simbolo,
 			BigDecimal qtd) {
 
 		this.codigoProduto = codigoProduto;
@@ -41,6 +43,7 @@ public class EstoqueDoProdutoConsulta {
 		this.cor = cor;
 		this.tamanho = tamanho;
 		this.letra = letra;
+		this.simbolo = simbolo;
 		this.qtd = qtd;
 	}
 
@@ -130,6 +133,13 @@ public class EstoqueDoProdutoConsulta {
 	 */
 	public void setLetra(String letra) {
 		this.letra = letra;
+	}
+	
+	public String getSimbolo() {
+		return simbolo;
+	}
+	public void setSimbolo(String simbolo) {
+		this.simbolo = simbolo;
 	}
 
 	/**

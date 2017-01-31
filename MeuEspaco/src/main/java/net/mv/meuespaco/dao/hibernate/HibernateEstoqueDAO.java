@@ -46,7 +46,8 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			.append("grade.cor as 'cor', ")
 			.append("grade.tamanho as 'tamanho', ")
 			.append("grade.produto_codigo as 'produto', ")
-			.append("grade.letra as 'letra' ")
+			.append("grade.letra as 'letra', ")
+			.append("grade.simbolo as 'simbolo' ")
 
 			.append("FROM  ")
 			.append("produto prod,  ")
@@ -138,6 +139,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			.append("grade.cor as 'cor', ")
 			.append("grade.tamanho as 'tamanho', ")
 			.append("coalesce(grade.letra, ' ') as 'letra', ")			
+			.append("coalesce(grade.simbolo, ' ') as 'simbolo', ")			
 			.append("coalesce( ")
 			.append("	(")
 			.append("		SELECT coalesce(sum(qtd),0.00) FROM movimento ")
@@ -169,7 +171,8 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			.append("grade.tipo_grade, ")
 			.append("grade.tamanho, ")
 			.append("grade.cor, ")
-			.append("grade.letra ")			
+			.append("grade.letra, ")
+			.append("grade.simbolo ")
 			
 			.append("ORDER BY ")
 			.append("alm.descricao, ")

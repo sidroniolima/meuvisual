@@ -23,11 +23,12 @@ public class IndexBean implements Serializable {
 	private List<Produto> destaques;
 	
 	@PostConstruct
-	public void init() 
-	{
+	public void init() {
+		
 		if (null == destaques) {
 			destaques = produtoSrvc.ultimosDezProdutosCadastrados();
 		}
+		
 	}
 
 	/**

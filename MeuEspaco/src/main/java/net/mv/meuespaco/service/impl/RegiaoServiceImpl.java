@@ -49,4 +49,8 @@ public class RegiaoServiceImpl extends SimpleServiceLayerImpl<Regiao, Long> impl
 				Arrays.asList("semana"));
 	}
 
+	@Override
+	public Regiao buscaPeloCodigoInterno(String codigoInterno) {
+		return regiaoDAO.buscarPeloCodigoInterno(codigoInterno);
+	}
 }

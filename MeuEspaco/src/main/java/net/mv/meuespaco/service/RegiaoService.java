@@ -19,4 +19,12 @@ public interface RegiaoService extends SimpleServiceLayer<Regiao, Long>{
 	 */
 	public Regiao buscarPeloCodigoComSemana(Long paramCodigo);
 
+	/**
+	 * Retorna uma região pelo código interno.
+	 * 
+	 * @param string pesquisa
+	 * @return região.
+	 */
+	public Regiao buscaPeloCodigoInterno(String string);
+
 }

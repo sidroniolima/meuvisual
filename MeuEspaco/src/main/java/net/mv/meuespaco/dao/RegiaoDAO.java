@@ -10,4 +10,12 @@ import net.mv.meuespaco.model.Regiao;
  */
 public interface RegiaoDAO extends GenericDAO<Regiao, Long>{
 
+	/**
+	 * Busca uma região pelo código interno.
+	 * 
+	 * @param codigoInterno pesquisa.
+	 * @return região.
+	 */ 
+	Regiao buscarPeloCodigoInterno(String codigoInterno);
+
 }

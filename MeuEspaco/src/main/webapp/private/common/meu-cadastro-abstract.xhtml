@@ -14,7 +14,7 @@
               <div class="col-md-12">
               
                   <ul class="breadcrumb">
-                      <li><a href="#">Home</a>
+                      <li><a href="../index.xhtml">Home</a>
                       </li>
                       <li>Meu cadastro</li>
                   </ul>
@@ -23,15 +23,29 @@
               
               <h:form>
 		
-				<div class="col-md-9" id="box-mensagem">
+				<div class="col-md-12" id="box-mensagem">
 				    <div class="box">
-				        <p>#{meuCadastroBean.mensagem}</p>
-				        <a class="btn btn-info" href="./creditos.xhtml" title="Cŕeditos de equipe">Créditos</a>
+				    	
+				    	<div class="row">
+				    
+							<div class="col-md-12">
+				        		<p>#{meuCadastroBean.mensagem}</p>
+				        	</div>
+				        
+					        <div class="col-md-2">
+					        	<a class="btn btn-info" href="./creditos.xhtml" title="Cŕeditos de equipe">Créditos</a>
+					        </div>
+	
+					        <div class="col-md-2">
+					        	<a class="btn btn-warning" href="./equipe.xhtml" title="Equipe de clientes">Equipe</a>
+					        </div>
+						</div>
+				        
 				    </div>
 				</div>
 				<!-- ./#box-mensagem -->			
 		
-               <div class="col-md-9">
+               <div class="col-md-12">
 
                    <div class="box" id="box-cadastro">                
 

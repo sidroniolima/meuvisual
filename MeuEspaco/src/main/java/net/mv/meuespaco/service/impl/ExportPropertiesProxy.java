@@ -20,14 +20,26 @@ public class ExportPropertiesProxy {
 		return props.getProperty("export-path");
 	}
 	
-	public String getFileNameCreditos()
-	{
-		return props.getProperty("file-name-creditos");
-	}
-	
+	/**
+	 * Retorna o Absolute Path para o arquivo de exportação 
+	 * do ERP de Creditos.
+	 * 
+	 * @return file path.
+	 */
 	public String absolutePathToCreditos()
 	{
-		return this.getExportPath().concat(this.getFileNameCreditos());
+		return this.getExportPath().concat(props.getProperty("file-name-creditos"));
+	}
+	
+	/**
+	 * Retorna o Absolute Path para o arquivo de exportação 
+	 * do ERP de Equipes.
+	 * 
+	 * @return file path.
+	 */
+	public String absolutePathToEquipes()
+	{
+		return this.getExportPath().concat(props.getProperty("file-name-equipes"));
 	}
 	
 }

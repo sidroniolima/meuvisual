@@ -125,7 +125,7 @@ public class CreditoServiceImpl extends SimpleServiceLayerImpl<Credito, Long> im
 	}
 
 	@Override
-	public GenericDAO getDAO() {
+	public GenericDAO<Credito, Long> getDAO() {
 		return this.creditoDAO;
 	}
 

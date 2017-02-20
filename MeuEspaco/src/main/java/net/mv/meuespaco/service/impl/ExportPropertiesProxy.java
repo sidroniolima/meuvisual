@@ -41,5 +41,15 @@ public class ExportPropertiesProxy {
 	{
 		return this.getExportPath().concat(props.getProperty("file-name-equipes"));
 	}
+
+	/**
+	 * Retorna o Absolute Path para o arquivo de exportação 
+	 * do ERP de Clientes.
+	 * 
+	 * @return file path.
+	 */
+	public String absolutePathToClientes() {
+		return this.getExportPath().concat(props.getProperty("file-name-clientes"));
+	}
 	
 }

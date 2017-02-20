@@ -101,11 +101,11 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 	}
 	
 	@Override
-	public void inativaClientesQueNaoEstaoNaListagem(List<Long> codigos) {
+	public void inativaClientesQueNaoEstaoNaListagem(List<String> codigosSiga) {
 		
 		Query query = this.getSession().createQuery(
-				"UPDATE Cliente c set c.status = 'INATIVO' WHERE c.codigo not in :codigos and c.status = 'ATIVO'");
-		query.setParameterList("codigos", codigos);
+				"UPDATE Cliente c set c.status = 'INATIVO' WHERE c.codigoSiga not in :codigosSiga and c.status = 'ATIVO'");
+		query.setParameterList("codigosSiga", codigosSiga);
 		
 		query.executeUpdate();
 	}

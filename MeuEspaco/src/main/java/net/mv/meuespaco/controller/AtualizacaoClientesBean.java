@@ -1,7 +1,7 @@
 package net.mv.meuespaco.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -79,13 +79,18 @@ public class AtualizacaoClientesBean implements Serializable {
 	 */
 	public void atualizaClientesPeloERP() 
 	{
-		List<Long> codigosDosClientesDoERP = clienteSrvc.atualizaInformacoesVindasDoErp();
+		try 
+		{
+			clienteSrvc.atualizaInformacoesVindasDoErp();
+			usuarioSrvc.inativaUsuarios();
+			usuarioSrvc.reativaUsuarios();
+			
+			FacesUtil.addSuccessMessage("Clientes e usuários atualizados com sucesso.");
 		
-		clienteSrvc.inativaClientesQueNaoEstaoEntreOsCodigos(codigosDosClientesDoERP);
-		usuarioSrvc.inativaUsuarios();
-		usuarioSrvc.reativaUsuarios();
-		
-		FacesUtil.addSuccessMessage("Clientes e usuários atualizados com sucesso.");
+		} catch (IOException e) 
+		{
+			FacesUtil.addSuccessMessage("Não foi possível atualizar as informações vindas do Erp.");
+		}
 	}
 	
 	public void atualizaStatus() {

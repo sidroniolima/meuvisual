@@ -1,12 +1,17 @@
 package net.mv.meuespaco.service.impl;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,16 +26,17 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Regiao;
 import net.mv.meuespaco.model.Semana;
 import net.mv.meuespaco.model.Usuario;
+import net.mv.meuespaco.model.integracao.ClientesDoErp;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Cpf;
 import net.mv.meuespaco.model.loja.Documento;
 import net.mv.meuespaco.model.loja.StatusCliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.EscolhaService;
+import net.mv.meuespaco.service.IntegracaoService;
 import net.mv.meuespaco.service.RegiaoService;
 import net.mv.meuespaco.util.Paginator;
 import net.mv.meuespaco.util.ParseFromCsv;
-import net.mv.meuespaco.util.ValoresDoErp;
 
 /**
  * Implementação da camada Service da entidade Cliente.
@@ -43,6 +49,15 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 
 	private static final long serialVersionUID = 5643535166157974287L;
 	
+	private Logger logger = Logger.getLogger(ClienteServiceImpl.class.getSimpleName());
+	
+	private final String msgEfetivacao = "Cliente %s efetivado.";
+	private final String msgClienteNaoCadastrado = "O cliente código %s não está cadastrado no site.";
+	private final String msgRegiaoNaoExite = "A região %s não existe.";
+	private final String msgClienteAtualizado = "Cliente %s atualizado: qtd %s e valor %s.";
+	private final String msgErroAoSalvar = "Não foi possível salvar o cliente %s. %s";
+	private final String msgErroAoEfetivar = "Não foi possível salvar o cliente %s. %s";
+	
 	@Inject
 	private ClienteDAO clienteDAO;
 	
@@ -51,6 +66,9 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	
 	@Inject
 	private RegiaoService regiaoSrvc;
+	
+	@Inject
+	private IntegracaoService integracaoSrvc;
 	
 	@Inject
 	@ClienteLogado
@@ -62,17 +80,26 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 		this.escolhaSrvc = escolhaSrvc;
 		this.clienteLogado = clienteLogado;
 	}
-
-	@Override
-	public void validaInsercao(Cliente cliente) throws RegraDeNegocioException {
-		
-		cliente.valida();
-		
+	
+	public ClienteServiceImpl(ClienteDAO clienteDAO, IntegracaoService integracaoSrvc, 
+			RegiaoService regiaoSrvc, EscolhaService escolhaSrvc, Cliente clienteLogado) 
+	{
+		this.clienteDAO = clienteDAO;
+		this.integracaoSrvc = integracaoSrvc;
+		this.regiaoSrvc = regiaoSrvc;
+		this.escolhaSrvc = escolhaSrvc;
+		this.clienteLogado = clienteLogado;
 	}
 
 	@Override
-	public void validaExclusao(Cliente cliente) throws RegraDeNegocioException {
-		
+	public void validaInsercao(Cliente cliente) throws RegraDeNegocioException 
+	{
+		cliente.valida();
+	}
+
+	@Override
+	public void validaExclusao(Cliente cliente) throws RegraDeNegocioException 
+	{
 		if (this.escolhaSrvc.clientePossuiEscolha(cliente)) {
 			throw new RegraDeNegocioException("O cliente possui escolha(s). "
 					+ "Para excluí-lo é necessário excluir a(s) escolha(s) primeiro.");
@@ -173,7 +200,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	/**
 	 * Retorna a semana do cliente logado.
 	 * 
-	 * @return semana.
+	 * @return semana."Não foi possível a efetivação do cliente %s. %s"
 	 * @throws RegraDeNegocioException 
 	 */
 	@Override
@@ -204,37 +231,17 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
-	public BigDecimal qtdDePecasEscolhidasNoCicloAtual() throws RegraDeNegocioException {
-		
+	public BigDecimal qtdDePecasEscolhidasNoCicloAtual() throws RegraDeNegocioException 
+	{
 		Cliente cliente = this.buscaClientePeloUsuarioLogado();
-		//Semana semana = cliente.getRegiao().getSemana();
-		
-		//BigDecimal qtdDePecasDescontaveis = this.escolhaSrvc.qtdDePecasEscolhidasPorPeriodo(
-		//		cliente, 
-		//		semana.getDataInicial(), 
-		//		semana.getDataFinal());
-		
-		//return qtdDePecasDescontaveis;
 		
 		return this.escolhaSrvc.qtdDePecasEscolhidasDoCicloAtual(cliente);
 	}
 
 	@Override
-	public BigDecimal valorEscolhidoNoCicloAtual() throws RegraDeNegocioException {
-		
+	public BigDecimal valorEscolhidoNoCicloAtual() throws RegraDeNegocioException 
+	{
 		Cliente cliente = this.buscaClientePeloUsuarioLogado();
-		
-		/*Semana semana = cliente.getRegiao().getSemana();
-		
-		Escolha escolha = this.escolhaSrvc
-				.buscaPeloClientePorPeriodo(cliente, semana.getDataInicial(), semana.getDataFinal());
-		
-		if (null == escolha) {
-			return BigDecimal.ZERO;
-		}
-		
-		return escolha.valorDosItensDescontaveis();
-		*/
 		
 		return this.escolhaSrvc.valorDePecasEscolhidasDescontaveisDoCicloAtual(cliente);
 	}
@@ -260,37 +267,75 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
-	public List<Long> atualizaInformacoesVindasDoErp() {
+	public void atualizaInformacoesVindasDoErp() throws MalformedURLException, IOException 
+	{
+		List<ClientesDoErp> registrosErp = this.integracaoSrvc.listaClientesDoErp();
 		
-		List<Long> clientesDoArquivo = new ArrayList<Long>();
+		this.importaClientesDoErp(registrosErp);
 		
-		Map<String, ValoresDoErp> registros = ParseFromCsv.leArquivoDoUpload();
-
-		registros.forEach(
-				(p,v) -> {
-					Cliente cliente = this.buscaPeloCodigoSiga(p);
-					
-					if (null != cliente) {
-						
-						try {
-
-							clientesDoArquivo.add(cliente.getCodigo());
-							cliente.atualizaValoresDoErp(v.getQtdPermitida(), v.getValorPermitido());
-							this.salva(cliente);
-						
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-					}
-				});
-		
-		return clientesDoArquivo;
+		this.inativaClientesQueNaoEstaoEntreOsCodigos(
+				registrosErp.parallelStream()
+					.map(c -> c.getCodigoSiga())
+					.collect(Collectors.toList())
+				);
 	}
 	
 	@Override
-	public Cliente buscaPeloCodigoSiga(String codigoSiga) {
+	public void importaClientesDoErp(List<ClientesDoErp> registrosErp) throws MalformedURLException, IOException
+	{
+		registrosErp.parallelStream().forEach(c -> 
+		{
+			Optional<Cliente> optCliente = Optional.ofNullable(this.buscarClientePeloCpf(new Cpf(c.getCpf())));
+			
+			if (optCliente.isPresent())
+			{
+				Cliente cliente = optCliente.get();
+				
+				if (cliente.isPreCadastro())
+				{
+					Optional<Regiao> optRegiao = Optional.ofNullable(regiaoSrvc.buscaPeloCodigoInterno(c.getCodigoRegiao()));
+					
+					if (optRegiao.isPresent())
+					{
+						try 
+						{
+							cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get());
+							
+							logger.log(Level.INFO, String.format(this.msgEfetivacao, c.getCodigoSiga()));
+							
+						} catch (RegraDeNegocioException e) 
+						{
+							logger.log(Level.SEVERE, 
+									String.format(this.msgErroAoEfetivar, c.getCodigoSiga(), e.getMessage()));
+						}
+					} else
+					{
+						logger.log(Level.WARNING, String.format(this.msgRegiaoNaoExite, c.getCodigoRegiao()));
+					}
+				}
+				
+				cliente.atualizaValoresDoErp(c.getQtd(), c.getValor());	
+				try 
+				{
+					this.salva(cliente);
+					
+					logger.log(Level.INFO, String.format(this.msgClienteAtualizado, c.getCodigoSiga(), c.getQtd(), c.getValor()));
+					
+				} catch (RegraDeNegocioException e) {
+					
+					logger.log(Level.SEVERE, 
+							String.format(this.msgErroAoSalvar, c.getCodigoSiga(), e.getMessage()));
+				}
+			} else
+			{
+				logger.log(Level.INFO, String.format(this.msgClienteNaoCadastrado, c.getCodigoSiga()));
+			}
+		});
+	}
 	
+	@Override
+	public Cliente buscaPeloCodigoSiga(String codigoSiga) 
+	{
 		return this.clienteDAO.buscarPeloCodigoSiga(codigoSiga);
 	}
 
@@ -301,8 +346,8 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	 * @param registros
 	 */
 	@Override
-	public void inativaClientesQueNaoEstaoEntreOsCodigos(List<Long> codigos) {
-		this.clienteDAO.inativaClientesQueNaoEstaoNaListagem(codigos);
+	public void inativaClientesQueNaoEstaoEntreOsCodigos(List<String> codigosSiga) {
+		this.clienteDAO.inativaClientesQueNaoEstaoNaListagem(codigosSiga);
 	}
 	
 	@Override
@@ -438,7 +483,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
-	public GenericDAO getDAO() {
+	public GenericDAO<Cliente, Long> getDAO() {
 		return this.clienteDAO;
 	}
 	

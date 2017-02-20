@@ -94,4 +94,15 @@ public class ClienteTest {
 			fail("Deve efetivar sem erro.");
 		}
 	}
+	
+	@Test
+	public void deveVerificarSeEhPreCadastroOuNao() throws RegraDeNegocioException
+	{
+		Cliente pre = new Cliente();
+		
+		cliente.efetivaCadastro("015308", new Regiao("000001"));
+		
+		assertFalse("Pré-cadastro", cliente.isPreCadastro());
+		assertTrue("Pré-cadastro", pre.isPreCadastro());
+	}
 }

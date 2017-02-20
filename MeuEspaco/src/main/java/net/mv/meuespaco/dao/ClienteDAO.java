@@ -63,9 +63,9 @@ public interface ClienteDAO extends GenericDAO<Cliente, Long> {
 	/**
 	 * Inativa os clientes que não estão na listagem de código.
 	 * 
-	 * @param codigos dos clientes que estão ativos.
+	 * @param codigos siga dos clientes que estão ativos.
 	 */
-	public void inativaClientesQueNaoEstaoNaListagem(List<Long> codigos);
+	public void inativaClientesQueNaoEstaoNaListagem(List<String> codigos);
 	
 	/**
 	 * Filtra os registros de cliente de acordo com o filtro de Cpf, 

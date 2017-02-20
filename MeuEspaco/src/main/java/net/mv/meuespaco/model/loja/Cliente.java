@@ -29,6 +29,10 @@ import net.mv.meuespaco.model.Regiao;
 import net.mv.meuespaco.model.Semana;
 import net.mv.meuespaco.model.Usuario;
 
+/**
+ * @author sidronio
+ *
+ */
 @Entity
 @Table(name="cliente")
 @Vetoed
@@ -115,8 +119,24 @@ public class Cliente implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public Cliente(Long codigo, String nome) {
+	/**
+	 * Cria um Cliente pelo Nome e Cpf.
+	 * 
+	 * @param nome
+	 * @param cpf
+	 */
+	public Cliente(String nome, Cpf cpf) 
+	{
 		this();
+		
+		this.nome = nome;
+		this.cpf = cpf;
+	}
+
+	public Cliente(Long codigo, String nome) 
+	{
+		this();
+		
 		this.codigo = codigo;
 		this.nome = nome;
 	}
@@ -128,7 +148,8 @@ public class Cliente implements Serializable {
 	 * @param nome
 	 * @param codigoSiga
 	 */
-	public Cliente(Long codigo, String nome, String codigoSiga) {
+	public Cliente(Long codigo, String nome, String codigoSiga) 
+	{
 		this();
 		
 		this.codigo = codigo;
@@ -234,6 +255,21 @@ public class Cliente implements Serializable {
 		
 		this.usuario.adicionaPermissao(Permissao.ROLE_CLIENTE);
 		this.usuario.adicionaPermissao(Permissao.ROLE_VENDA);
+	}
+	
+	/**
+	 * Efetiva o cadastro atualizando o código siga e a região.
+	 * 
+	 * @param codigoSiga
+	 * @param codigoRegiao
+	 * @throws RegraDeNegocioException 
+	 */
+	public void efetivaCadastro(String codigoSiga, Regiao regiao) throws RegraDeNegocioException 
+	{
+		this.codigoSiga = codigoSiga;
+		this.regiao = regiao;
+		
+		this.efetivaCadastro();
 	}
 	
 	/**
@@ -363,6 +399,15 @@ public class Cliente implements Serializable {
 		}
 		
 		throw new RegraDeNegocioException("Não foi possível identificar a semana atual do cliente.");
+	}
+	
+	/**
+	 * Verifica se o cliente é um pré-cadastro.
+	 * 
+	 * @return
+	 */
+	public boolean isPreCadastro() {
+		return this.status.equals(StatusCliente.PRE_CADASTRO);
 	}
 	
 	/**

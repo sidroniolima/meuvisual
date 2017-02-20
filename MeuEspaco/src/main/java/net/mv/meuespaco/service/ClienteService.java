@@ -1,6 +1,8 @@
 package net.mv.meuespaco.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.util.List;
 
 import org.primefaces.model.UploadedFile;
@@ -9,6 +11,7 @@ import net.mv.meuespaco.controller.filtro.FiltroCliente;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Semana;
 import net.mv.meuespaco.model.Usuario;
+import net.mv.meuespaco.model.integracao.ClientesDoErp;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Documento;
 import net.mv.meuespaco.util.Paginator;
@@ -130,9 +133,10 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 * Atualiza a quantidade de peças para escolha para cada Cliente 
 	 * ativo e inativa os que não estão na listagem.
 	 * 
-	 * @return códigos dos clientes do arquivo.
+	 * @throws IOException 
+	 * @throws MalformedURLException 
 	 */
-	public List<Long> atualizaInformacoesVindasDoErp();
+	public void atualizaInformacoesVindasDoErp() throws MalformedURLException, IOException;
 	
 	/**
 	 * Lista clientes ativos.
@@ -206,7 +210,7 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 * 
 	 * @param registros
 	 */
-	void inativaClientesQueNaoEstaoEntreOsCodigos(List<Long> codigos);
+	void inativaClientesQueNaoEstaoEntreOsCodigos(List<String> codigos);
 
 	/**
 	 * Efetiva um pré-cadastro, transformando-o em cliente, com 
@@ -243,5 +247,13 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 * @return lista de clientes com paginação.
 	 */
 	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro, Paginator paginator);
+
+	/**
+	 * Importa os clientes vindo do ERP, atualizando os valores e efetivando os 
+	 * pré-cadastros.
+	 * @throws IOException 
+	 * @throws MalformedURLException 
+	 */
+	public void importaClientesDoErp(List<ClientesDoErp> registrosErp) throws MalformedURLException, IOException;
 
 }

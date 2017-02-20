@@ -76,7 +76,7 @@ public class UsuarioServiceImpl extends SimpleServiceLayerImpl<Usuario, Long> im
 	}
 
 	@Override
-	public GenericDAO getDAO() {
+	public GenericDAO<Usuario, Long> getDAO() {
 		return usuarioDAO;
 	}
 

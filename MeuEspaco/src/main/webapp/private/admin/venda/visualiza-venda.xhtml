@@ -183,6 +183,23 @@
 								<div class="col-sm-6"> 
 									<div class="form-group">
 				                        
+			                            <label for="input-desconto">Parcelas</label>
+			                            <h:inputText 
+			                            	class="form-control" 
+			                            	id="input-parcela" 
+			                            	value="#{visualizaVendaBean.pagamento.payment.installments}"
+			                            	readonly="true">
+			                            	
+			                            </h:inputText>				                            	
+				                 	</div>
+				            	</div>
+				            </div>				            
+				            
+							<div class="col-md-12">
+				
+								<div class="col-sm-6"> 
+									<div class="form-group">
+				                        
 			                            <label for="input-desconto">Desconto</label>
 			                            <h:inputText 
 			                            	class="form-control" 
@@ -230,7 +247,7 @@
 		                    <h3>Itens da Venda</h3>
 		                    
 		                    <div class="table-responsive">
-		                        <table class="table table-striped table-advance table-hover">
+		                        <table class="table table-striped table-advance table-hover table-small">
 		                            <thead>
 		                                <tr>
 		                                    <th>Código</th>

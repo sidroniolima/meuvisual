@@ -448,3 +448,9 @@
 span.tab{
     padding: 0 80px; /* Or desired space*/
 }
+
+table.table-small
+{
+	font-family:Verdana,sans-serif; 
+	font-size: 11px !important;
+}

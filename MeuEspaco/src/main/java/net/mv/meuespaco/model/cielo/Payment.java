@@ -1,10 +1,7 @@
 package net.mv.meuespaco.model.cielo;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.gson.annotations.SerializedName;
 
 public class Payment {

@@ -50,6 +50,11 @@ public class Regiao extends EntidadeModel implements Serializable {
 		this.codigo = codigo;
 	}
 
+	public Regiao(String codigoInterno) 
+	{
+		this.codigoInterno = codigoInterno;
+	}
+
 	@Override
 	public void valida() throws RegraDeNegocioException {
 		

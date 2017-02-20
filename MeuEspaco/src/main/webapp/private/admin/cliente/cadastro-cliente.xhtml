@@ -313,7 +313,38 @@
 								                   	class="alert-danger fade in"/>						                          	
 					                          	
 					                        </div>
-					                 	</div>					                 	
+					                 	</div>		
+					                 	
+										<div class="col-sm-6"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-valor-escolha">Valor para escolha <span class="required">*</span></label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-valor-escolha" 
+					                            	value="#{cadastroClienteBean.cliente.valorParaEscolha}"
+					                            	required="true"
+					                            	requiredMessage="É necessário informar o valor.">
+					                            	
+					                            	<f:convertNumber 
+					                            		type="number"
+					                            		minFractionDigits="2"
+					                            		maxFractionDigits="2"/>
+					                            	
+						                        	<f:ajax
+						                          		event="blur"
+						                          		render="m_input-valor-escolha"/>
+					                          	</h:inputText>
+
+								                <h:message 
+								                   	id="m_input-valor-escolha" 
+								                   	for="input-valor-escolha"
+								                   	class="alert-danger fade in"/>						                          	
+					                          	
+					                        </div>
+					                 	</div>							                 	
+					                 				                 	
 						            	
 			                        	<div class="col-sm-12 text-center">                        
 					                        <h:commandButton

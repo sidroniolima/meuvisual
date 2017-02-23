@@ -55,7 +55,28 @@ public class PagamentoBean implements Serializable {
 	
 	private Brand[] brands;
 	
-	public PagamentoBean() {	}
+	public PagamentoBean() 
+	{	
+		/*
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+		
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		
+		System.out.println(request.getRequestURL());
+		
+		if (!request.isSecure())
+		{
+			String urlSafe = request.getRequestURL().toString();
+			urlSafe.replace("http", "https");
+			
+			try {
+				context.redirect(urlSafe);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		*/
+	}
 	
 	public PagamentoBean(VendaService vendaSrvc, Cliente clienteLogado, CarrinhoAbstractBean carrinhoBean) 
 	{

@@ -340,4 +340,65 @@ public class ClienteServiceImplTest {
 		assertTrue("Sem região", null == gabriel.getRegiao());
 		assertTrue("Sem região", null == aldaCristina.getRegiao());	
 	}
+	
+	@Test
+	public void deveImportarClientesDoErp_TrocandoARegiao_Gabriel() throws MalformedURLException, IOException, RegraDeNegocioException
+	{
+		ClienteService clienteSrvc = new ClienteServiceImpl(
+				clienteDAOFalso, integracaoSrvcFalso, regiaoSrvcFalso, escolhaSrvcFalso, cliente);
+
+		Cpf cpfCamila = new Cpf("38393593840");
+		Cpf cpfGrabriel = new Cpf("47273263885");
+		Cpf cpfAlda = new Cpf("45653894877");
+		
+		Cliente camila = new Cliente("CAMILA FRANCINE DE OLIVEIRA", cpfCamila);
+		Cliente gabriel = new Cliente("GABRIEL DA SILVA", cpfGrabriel);
+		Cliente aldaCristina = new Cliente("ALDA CRISTINA DA SILVA SANTOS", cpfAlda);		
+		
+		Regiao macae = new Regiao(1L, "000023");
+		Regiao miracema = new Regiao(2L, "000045");
+		
+		assertTrue("Pré-cadastro", camila.isPreCadastro());
+		assertTrue("Pré-cadastro", gabriel.isPreCadastro());
+		assertTrue("Pré-cadastro", aldaCristina.isPreCadastro());
+		
+		assertTrue("Sem codigo Siga", null == camila.getCodigoSiga());
+		assertTrue("Sem codigo Siga", null == gabriel.getCodigoSiga());
+		assertTrue("Sem codigo Siga", null == aldaCristina.getCodigoSiga());
+		
+		assertTrue("Sem região", null == camila.getRegiao());
+		assertTrue("Sem região", null == gabriel.getRegiao());
+		assertTrue("Sem região", null == aldaCristina.getRegiao());		
+		
+		when(clienteDAOFalso.buscarPeloCpf(cpfCamila)).thenReturn(camila);
+		when(clienteDAOFalso.buscarPeloCpf(cpfGrabriel)).thenReturn(gabriel);
+		when(clienteDAOFalso.buscarPeloCpf(cpfAlda)).thenReturn(aldaCristina);
+			
+		when(integracaoSrvcFalso.listaClientesDoErp()).thenReturn(Arrays.asList(
+				new ClientesDoErp("094619", "CAMILA FRANCINE DE OLIVEIRA", "38393593840", 40, 1800, "000023"),
+				new ClientesDoErp("094620", "GABRIEL DA SILVA", "47273263885", 40, 1800, "000045"),
+				new ClientesDoErp("094621", "ALDA CRISTINA DA SILVA SANTOS", "45653894877", 40, 2400, "000023")				
+				));
+		
+		when(clienteSrvc.buscarClientePeloCpf(cpfCamila)).thenReturn(camila);
+		when(clienteSrvc.buscarClientePeloCpf(cpfGrabriel)).thenReturn(gabriel);
+		when(clienteSrvc.buscarClientePeloCpf(cpfAlda)).thenReturn(aldaCristina);
+		
+		when(regiaoSrvcFalso.buscaPeloCodigoInterno("000023")).thenReturn(macae);
+		when(regiaoSrvcFalso.buscaPeloCodigoInterno("000045")).thenReturn(miracema);
+
+		clienteSrvc.atualizaInformacoesVindasDoErp();
+		
+		assertFalse("Efetivado", camila.isPreCadastro());
+		assertFalse("Efetivado", gabriel.isPreCadastro());
+		assertFalse("Efetivado", aldaCristina.isPreCadastro());
+		
+		assertEquals("Codigo Siga", "094619", camila.getCodigoSiga());
+		assertEquals("Codigo Siga", "094620", gabriel.getCodigoSiga());
+		assertEquals("Codigo Siga", "094621", aldaCristina.getCodigoSiga());
+		
+		assertEquals("Região", macae, camila.getRegiao());
+		assertEquals("Região", miracema, gabriel.getRegiao());
+		assertEquals("Região", macae, aldaCristina.getRegiao());
+	}	
 }

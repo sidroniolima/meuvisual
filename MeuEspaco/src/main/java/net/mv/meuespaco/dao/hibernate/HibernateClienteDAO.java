@@ -57,10 +57,11 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 	}
 	
 	@Override
-	public Cliente buscarPeloCpf(Documento cpf) {
-
+	public Cliente buscarPeloCpf(Documento cpf) 
+	{
 		Criteria query = this.getSession().createCriteria(Cliente.class);
 		query.setFetchMode("usuario", FetchMode.JOIN);
+		query.setFetchMode("regiao", FetchMode.JOIN);
 		
 		query.add(Restrictions.eq("cpf", cpf));
 		

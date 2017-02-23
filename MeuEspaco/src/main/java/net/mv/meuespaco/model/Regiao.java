@@ -50,6 +50,12 @@ public class Regiao extends EntidadeModel implements Serializable {
 		this.codigo = codigo;
 	}
 
+	public Regiao(Long codigo, String codigoInterno) 
+	{
+		this.codigo = codigo;
+		this.codigoInterno = codigoInterno;
+	}
+
 	public Regiao(String codigoInterno) 
 	{
 		this.codigoInterno = codigoInterno;

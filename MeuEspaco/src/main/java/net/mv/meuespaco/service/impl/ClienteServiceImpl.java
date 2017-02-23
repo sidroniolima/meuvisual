@@ -57,6 +57,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	private final String msgClienteAtualizado = "Cliente %s atualizado: qtd %s e valor %s.";
 	private final String msgErroAoSalvar = "Não foi possível salvar o cliente %s. %s";
 	private final String msgErroAoEfetivar = "Não foi possível salvar o cliente %s. %s";
+	private final String msgAtualizacaoDeRegiao = "Autalizada a região %s para a %s do cliente %s.";
 	
 	@Inject
 	private ClienteDAO clienteDAO;
@@ -290,12 +291,14 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 			if (optCliente.isPresent())
 			{
 				Cliente cliente = optCliente.get();
+
+				Optional<Regiao> optRegiao = Optional.ofNullable(regiaoSrvc.buscaPeloCodigoInterno(c.getCodigoRegiao()));
 				
-				if (cliente.isPreCadastro())
+				if (optRegiao.isPresent())
 				{
-					Optional<Regiao> optRegiao = Optional.ofNullable(regiaoSrvc.buscaPeloCodigoInterno(c.getCodigoRegiao()));
+					Regiao regiaoDoErp = optRegiao.get();
 					
-					if (optRegiao.isPresent())
+					if (cliente.isPreCadastro())
 					{
 						try 
 						{
@@ -308,13 +311,23 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 							logger.log(Level.SEVERE, 
 									String.format(this.msgErroAoEfetivar, c.getCodigoSiga(), e.getMessage()));
 						}
-					} else
-					{
-						logger.log(Level.WARNING, String.format(this.msgRegiaoNaoExite, c.getCodigoRegiao()));
 					}
+					
+					if (!regiaoDoErp.equals(cliente.getRegiao()))
+					{
+						logger.log(Level.INFO, String.format(
+								this.msgAtualizacaoDeRegiao, cliente.getRegiao().getCodigoInterno(), regiaoDoErp.getCodigoInterno(), c.getCodigoSiga()));						
+						
+						cliente.setRegiao(regiaoDoErp);
+					}
+					
+				} else
+				{
+					logger.log(Level.WARNING, String.format(this.msgRegiaoNaoExite, c.getCodigoRegiao()));
 				}
 				
 				cliente.atualizaValoresDoErp(c.getQtd(), c.getValor());	
+				
 				try 
 				{
 					this.salva(cliente);

@@ -253,14 +253,27 @@
 														        	styleClass="#{not escolha.podeSerAtendida ? 'btn btn-primary disable' : 'btn btn-primary'}" 
 														        	outcome="atende-escolha.xhtml"
 														        	includeViewParams="true"
-														        	disabled="#{not escolha.podeSerAtendida}">
+														        	rendered="#{escolha.podeSerAtendida}">
 														        	
 														        		<f:param
 														        			name="paramCodigo"
 														        			value="#{escolha.codigo}"/>
 														        			
 																	<i class="icon_check"></i>
-														        </h:link>														        
+														        </h:link>		
+														        
+																<a class="btn btn-primary" 
+																	jsfc="h:commandLink"
+																	type="button"
+																	immediate="true"
+																	rendered="#{not escolha.podeSerAtendida}">
+												                 												        	
+												                   <f:passThroughAttribute name="data-toggle" value="modal" />
+												                   <f:passThroughAttribute name="data-target" value="#myModalAtendimento" />
+												                   <f:ajax/>
+																
+																	<i class="icon_check"></i>
+																</a>												        												        
 														        													   
 																<a class="btn btn-danger" 
 																	jsfc="h:commandLink"
@@ -435,6 +448,29 @@
 		                
 		        	</div>
 		        	<!-- /.row -->
+		        	
+	           		<!-- Modal -->
+					<div class="modal fade" id="myModalAtendimento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+			      	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h5 class="modal-title" id="myModalLabel">
+					        	<strong>Não é possível atender esta escolha.</strong></h5>
+					      </div>
+					      <div class="modal-body">
+					      	<div class="row">
+								<div class="col-md-2">
+									<p align="center"><span style="font-size:32px">:(</span></p>
+								</div>
+								<div class="col-md-10">
+									<p>Para atender os itens e finalizar uma escolha é preciso que ela esteja com status <strong>Enviada</strong>.</p>
+								</div>
+							</div>
+					      </div>			      
+					    </div>
+					  </div>
+					</div> 					        	
                 
                 </h:form> <!-- /#form-pesquisa -->
 

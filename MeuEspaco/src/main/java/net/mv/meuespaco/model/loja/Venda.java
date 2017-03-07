@@ -289,6 +289,78 @@ public class Venda extends EntidadeModel implements Serializable{
 		return this.valor().compareTo(VALOR_MININO_PARCELAMENTO) >= 0;
 	}
 	
+	/**
+	 * Calcula a quantidade de itens atendidos da venda.
+	 * 
+	 * @return
+	 */
+	public BigDecimal qtdAtendida()
+	{
+		return this.itens
+				.stream()
+				.map(ItemVenda::getQtdAtendido)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+	
+	/**
+	 * Calcula o valor atendido da venda.
+	 * 
+	 * @return
+	 */
+	public BigDecimal valorAtendido()
+	{
+		return this.itens
+				.stream()
+				.map(ItemVenda::valorAtendido)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+	
+	/**
+	 * Atende uma Venda alterando seu status para Finalizada 
+	 * ou Parcialmente Finalizada.
+	 */
+	public void finaliza()
+	{
+		if (this.qtdAtendida().equals(this.qtdDeItens()))
+		{
+			this.setStatus(StatusVenda.FINALIZADA);
+		} else
+		{
+			this.setStatus(StatusVenda.PARCIALMENTE_ATENDIDA);	
+		}	
+	}
+	
+	/**
+	 * Verifica se a venda está finalizada.
+	 * 
+	 * @return
+	 */
+	public boolean isFinalizada()
+	{
+		return this.status.equals(StatusVenda.FINALIZADA);
+	}
+	
+	/**
+	 * Verifica se pode finalizar caso o pagamentos esteja confirmado.
+	 * 
+	 * @return pode ou não finalizar.
+	 */
+	public boolean isFinalizavel()
+	{
+		return this.status.equals(StatusVenda.PAGAMENTO_CONFIRMADO) ||
+				this.status.equals(StatusVenda.PARCIALMENTE_ATENDIDA);
+	}
+	
+	/**
+	 * Atende todos os itens de uma só vez.
+	 */
+	public void atendeTodosOsItens()
+	{
+		this.itens
+			.stream()
+			.forEach(ItemVenda::atende);
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}

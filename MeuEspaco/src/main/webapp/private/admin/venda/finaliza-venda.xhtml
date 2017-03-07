@@ -1,0 +1,327 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+            <div class="container">	
+            
+            	<h:form
+            		id="frm-venda">
+            		
+            		<div class="row">
+						<div class="col-md-12">
+		                
+		                    <ul class="breadcrumb">
+		                        <li><a href="#">Home</a>
+		
+		                        <li>
+		                        	<a href="./pesquisa-venda.xhtml">venda</a>
+		                        </li>
+		                        
+		                        </li>
+		                        <li>Separação de itens</li>
+		                    </ul>
+		                    
+		                </div>
+		            </div> <!-- fim row menu -->
+
+	                <div class="row">
+		                <h:panelGroup
+		                	id="panel-alerta"
+		                	rendered="#{not finalizaVendaBean.venda.finalizavel}">
+		                
+							<div class="col-md-9" id="box-mensagem">
+								
+								<h:messages 
+					    	  		id="messages"
+							      	errorClass="alert alert-block alert-danger fade in"
+							      	infoClass="alert alert-block alert-success fade in"
+						     	 	style="padding-left:0px"
+						     	 	globalOnly="true"/>
+							    
+							    <div class="box">
+							        <p>Não é possível atender esta venda.</p>
+							    </div>
+							</div>	         
+		                </h:panelGroup>	
+		            </div> <!-- fim row alerta -->
+		            
+		            <div class="row">       
+	                
+		                <h:panelGroup
+		                	id="panel-venda"
+		                	rendered="#{finalizaVendaBean.venda.finalizavel}">
+		
+			                <div class="col-md-9">
+			                
+			                    <div class="box" id="box-venda">
+			        	
+			        				<h3>Informações da venda</h3>
+			        	
+									<div class="row">
+						                <div class="col-md-12">
+							
+											<div class="col-sm-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-cod">Código</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-cod" 
+						                            	value="#{finalizaVendaBean.venda.codigoFormatado()}"
+						                            	readonly="true"/>				                            	
+							                 	</div>
+							            	</div>
+							            </div>
+							            
+						                <div class="col-md-12">
+							
+											<div class="col-sm-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-codigo-cliente">Código do cliente</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-codigo-cliente" 
+						                            	value="#{finalizaVendaBean.venda.cliente.codigoSiga}"
+						                            	readonly="true"/>				                            	
+							                 	</div>
+							            	</div>
+							            </div>					            
+							            
+						                <div class="col-md-12">
+							
+											<div class="col-sm-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-nome">Nome do cliente</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-nome" 
+						                            	value="#{finalizaVendaBean.venda.cliente.nome}"
+						                            	readonly="true"/>				                            	
+							                 	</div>
+							            	</div>
+							            </div>
+							            
+						                <div class="col-md-12">
+							
+											<div class="col-sm-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-regiao">Região do cliente</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-regiao" 
+						                            	value="#{finalizaVendaBean.venda.cliente.regiao.descricao}"
+						                            	readonly="true"/>				                            	
+							                 	</div>
+							            	</div>
+							            </div>							            
+							            
+						                <div class="col-md-12">
+							
+											<div class="col-sm-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-data">Data</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-data" 
+						                            	value="#{finalizaVendaBean.venda.horarioFinalizacao}"
+						                            	readonly="true">
+						                            	
+						                            	<f:converter
+						                            		converterId="localDateTimeFacesConverter"/>
+						                            </h:inputText>				                            	
+							                 	</div>
+							            	</div>
+							            </div>
+							            
+							            <div class="col-md-12">
+							            
+											<div class="col-sm-6"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-qtd-itens">Qtd de itens</label>
+						                            <h:inputText 
+						                            	class="form-control" 
+						                            	id="input-qtd-intes" 
+						                            	value="#{finalizaVendaBean.venda.qtdDeItens()}"
+						                            	readonly="true">
+						                            	
+						                            	<f:convertNumber
+						                            		type="number"
+						                            		locale="pt_BR"/>
+						                            </h:inputText>				                            	
+							                 	</div>
+							            	</div>
+							            </div>	
+							            		            
+							            
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	action="#{finalizaVendaBean.finaliza()}"
+					                        	value="Finalizar"
+					                        	disabled="#{not finalizaVendaBean.venda.finalizavel}">
+					                        	
+					                        	<f:ajax
+					                        		execute="@this"
+					                        		render="frm-venda"/>
+				                        	</h:commandButton>
+			                        	</div>				            				            		            
+							            
+									</div>											
+									
+								</div>
+								<!-- /.box-venda -->
+							</div>
+						
+					        <div class="col-md-12" id="table">
+					
+					            <div class="box">
+					
+				                    <h3>Itens da venda</h3>
+				                    
+				                    <h:panelGroup
+				                    	id="panel-itens">
+				                    
+					                    <div class="table-responsive">
+					                        <table class="table table-striped table-advance table-hover table-small">
+					                            <thead>
+					                                <tr>
+					                                	<th style="width:30px">
+					                                	
+													   		<a jsfc="h:commandLink"
+													   			action="#{finalizaVendaBean.venda.atendeTodosOsItens()}"
+													   			disabled="#{not finalizaVendaBean.venda.finalizavel}"
+													   			
+													   			class="btn btn-warning">
+													   			
+													        	<f:ajax
+									                        		execute="@this"
+									                        		render="frm-venda:panel-itens"/>
+																
+																<i class="icon_close_alt2"></i>							                        		
+													   		</a>
+					                                	
+					                                		Separar/Cancelar
+					                                	
+					                                	</th>
+					                                	<th style="width:30px">Qtd</th>
+					                                    <th style="width:80px">Código</th>
+					                                    <th style="width:240px; overflow: hidden">Descrição</th>
+					                                    <th style="width:150px">Grade</th>
+					                                    <th style="width:80px">Localização</th>
+					                                </tr>
+					                            </thead>
+					                            
+					                            <tbody>
+					                            
+													<ui:repeat 
+														var="item" 
+													   	value="#{finalizaVendaBean.venda.itens}">		                          
+														<tr>
+															<td>	               
+														   		<a jsfc="h:commandLink"
+														   			action="#{item.atende()}"
+														   			disabled="#{not finalizaVendaBean.venda.finalizavel}"
+														   			class="#{item.atendido ? 'btn btn-warning' : 'btn btn-primary'}"
+														   			rendered="#{not item.atendido}">
+														   																	   			
+														        	<f:ajax
+										                        		execute="@this"
+										                        		render="frm-venda:panel-itens"/>
+										                        	
+										                        	<i class="#{item.atendido ? 'icon_close_alt2' : 'icon_check_alt2'}"></i>
+														   		</a>
+														   		
+														   		<a jsfc="h:commandLink"
+														   			action="#{item.cancelaAtendimento()}"
+														   			disabled="#{not finalizaVendaBean.venda.finalizavel}"
+														   			class="#{item.atendido ? 'btn btn-warning' : 'btn btn-primary'}"
+														   			rendered="#{item.atendido}">
+														   																	   			
+														        	<f:ajax
+										                        		execute="@this"
+										                        		render="frm-venda:panel-itens"/>
+										                        	
+										                        	<i class="#{item.atendido ? 'icon_close_alt2' : 'icon_check_alt2'}"></i>
+														   		</a>														   		
+														   	</td>
+														   	
+														   	<td>
+														   		<h:outputText 
+														   			value="#{item.qtd}">
+														   			
+														   			<f:convertNumber 
+														   				type="number"/>
+														   		</h:outputText>
+														   	</td>												   	
+					                                    	
+															<td>#{item.produto.codigoInterno}</td>
+															<td>#{item.produto.descricao}</td>
+														   	<td>#{item.grade}</td>										   
+														   	<td>#{item.grade.localizacao}</td>
+														</tr>
+													</ui:repeat>		                            
+				
+				                                   </tbody>
+				                               </table>
+				
+				                       	</div>
+				                        <!-- /.table-responsive -->
+				                
+				                	</h:panelGroup> <!-- /.panel-itens -->
+				                	
+			                  	</div> 
+			                  	<!-- /#box -->
+			                  	
+			            	</div>
+			            	<!-- /.cod-md-12 -->
+			            </h:panelGroup>
+			            <!-- /.panel-venda -->
+			    	</div> <!-- fim row dados -->
+	            	
+	            </h:form> <!--  end /frm-venda -->
+		            	
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->		
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

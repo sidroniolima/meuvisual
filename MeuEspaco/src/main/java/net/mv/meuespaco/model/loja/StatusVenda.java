@@ -12,7 +12,8 @@ public enum StatusVenda {
 	PAGAMENTO_CONFIRMADO("Pagamento confirmado"),
 	EM_SEPARACAO("Em separação"),
 	FINALIZADA("Finalizada"), 
-	CANCELADA("Cancelada");
+	CANCELADA("Cancelada"), 
+	PARCIALMENTE_ATENDIDA("Parcialmente Atendida");
 	
 	private String descricao;
 	

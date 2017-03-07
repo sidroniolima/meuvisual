@@ -376,4 +376,82 @@ public class VendaTest {
 		
 		assertFalse("Não pode ser parcelada", venda2.isParcelavel());
 	}
+	
+	@Test
+	public void deveAtenderUmItem()
+	{
+		ItemVenda itemBrinco = new ItemVenda(brinco, BigDecimal.ONE, gradeBrinco);
+		
+		assertTrue("Não atendido.", itemBrinco.getQtdAtendido().equals(BigDecimal.ZERO));
+		
+		itemBrinco.atende();
+		assertTrue("Atendido.", itemBrinco.getQtdAtendido().equals(BigDecimal.ONE));
+	}
+	
+	@Test
+	public void deveAtenderAVenda()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		venda1.getItens().get(0).atende();
+		
+		assertFalse("Venda NÃO finalizada", venda1.isFinalizada());
+		
+		venda1.finaliza();
+		
+		assertTrue("Venda finalizada", venda1.isFinalizada());
+	}
+	
+	@Test
+	public void deveCancelarOAntedimentoDeUmItem()
+	{
+		ItemVenda itemBrinco = new ItemVenda(brinco, BigDecimal.ONE, gradeBrinco);
+		
+		assertFalse("Não atendido.", itemBrinco.isAtendido());
+		
+		itemBrinco.atende();
+		assertTrue("Atendido.", itemBrinco.isAtendido());
+		
+		itemBrinco.cancelaAtendimento();
+		assertFalse("Atendido.", itemBrinco.isAtendido());
+	}
+	
+	@Test
+	public void deveSerPossivelFinalizarOuNao()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		assertFalse("NÃO pode finalizar", venda1.isFinalizavel());
+		
+		venda1.registraPagamento("001", LocalDateTime.now());
+		
+		assertTrue("Pode finalizar", venda1.isFinalizavel());
+	}
+	
+	
+	@Test
+	public void deveAtenderTodosOsItens()
+	{
+		Venda venda1 = new VendaBuilder().comCodigo(1L)
+				.doCliente(new Cliente(1L, "Sidronio"))
+				.noHorario(LocalDateTime.now().minusDays(1))
+				.doProduto(brinco, new BigDecimal(1), gradeBrinco)
+				.doProduto(anel, BigDecimal.TEN, gradeAnel)
+				.comDesconto(new BigDecimal(15))
+				.constroi();
+		
+		venda1.atendeTodosOsItens();
+
+		assertTrue("Atendidos todos os itens.", venda1.qtdAtendida().equals(venda1.qtdDeItens()));
+	}
 }

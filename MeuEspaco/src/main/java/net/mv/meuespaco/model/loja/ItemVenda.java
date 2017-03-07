@@ -39,6 +39,7 @@ public class ItemVenda implements IMovimentavel, Serializable {
 	private Venda venda;
 	
 	private BigDecimal qtd;
+	private BigDecimal qtdAtendido;
 	
 	@Column(name="valor_unitario")
 	private BigDecimal valorUnitario;
@@ -58,6 +59,7 @@ public class ItemVenda implements IMovimentavel, Serializable {
 	 */
 	public ItemVenda() {
 		this.qtd = BigDecimal.ZERO;
+		this.qtdAtendido = BigDecimal.ZERO;
 		this.valorUnitario = BigDecimal.ZERO;
 		this.desconto = BigDecimal.ZERO;
 	}
@@ -108,6 +110,42 @@ public class ItemVenda implements IMovimentavel, Serializable {
 		this.qtd = this.qtd.add(acrescimo);
 	}
 	
+	/**
+	 * Atende um item igualando a quantidade comprada a atendida.
+	 */
+	public void atende()
+	{
+		this.qtdAtendido = this.qtd;
+	}
+	
+	/**
+	 * Zera a quantidade atendida de um item.
+	 */
+	public void cancelaAtendimento()
+	{
+		this.qtdAtendido = BigDecimal.ZERO;
+	}
+	
+	/**
+	 * Calcula o valor atendido.
+	 * 
+	 * @return valor atendido.
+	 */
+	public BigDecimal valorAtendido()
+	{
+		return this.valorUnitario.multiply(this.getQtdAtendido());
+	}
+	
+	/**
+	 * Verifica se um item foi atendido, mesmo que parcialmente.
+	 * 
+	 * @return atendio ou não.
+	 */
+	public boolean isAtendido()
+	{
+		return this.qtdAtendido.compareTo(BigDecimal.ZERO) > 0;
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -129,6 +167,13 @@ public class ItemVenda implements IMovimentavel, Serializable {
 		this.qtd = qtd;
 	}
 	
+	public BigDecimal getQtdAtendido() {
+		return qtdAtendido;
+	}
+	public void setQtdAtendido(BigDecimal qtdAtendido) {
+		this.qtdAtendido = qtdAtendido;
+	}
+
 	public BigDecimal getValorUnitario() {
 		return valorUnitario;
 	}

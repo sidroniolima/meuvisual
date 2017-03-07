@@ -80,9 +80,10 @@ public class HibernateVendaDAO extends HibernateGenericDAO<Venda, Long> implemen
 		Criteria query = this.getSession().createCriteria(Venda.class);
 		
 		query.setFetchMode("cliente", FetchMode.JOIN);
-		
-		query.setFetchMode("grade", FetchMode.JOIN);
+		query.setFetchMode("cliente.regiao", FetchMode.JOIN);
+
 		query.setFetchMode("itens", FetchMode.JOIN);
+		query.setFetchMode("itens.grade", FetchMode.JOIN);		
 		
 		query.setFetchMode("itens.produto", FetchMode.JOIN);
 		query.setFetchMode("itens.produto.subgrupo", FetchMode.JOIN);

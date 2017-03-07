@@ -56,6 +56,16 @@ public class DashboardBean implements Serializable {
 		
 		FacesUtil.addSuccessMessage("Alterações realizadas com sucesso.");
 	}
+	
+	/**
+	 * Retorna a qtde usuários logados.
+	 * 
+	 * @return
+	 */
+	public int qtdUsuariosLogados()
+	{
+		return this.dashSrvc.qtdUsuariosLogados();
+	}
 
 	public boolean isLogin() {
 		return login;

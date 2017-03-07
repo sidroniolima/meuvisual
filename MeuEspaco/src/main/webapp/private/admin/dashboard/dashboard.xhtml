@@ -39,67 +39,83 @@
 	                    
 	                </div>
 	                
-		                <div class="col-md-9">
-		
-		                    <div class="box" id="box-configuracoes">
-		        	
-		        				<h3>Configurações</h3>
-		        	
-					   				<h:messages 
-							    	  	id="messages"
-								      	errorClass="alert alert-block alert-danger fade in"
-								      	infoClass="alert alert-block alert-success fade in"
-							     	 	style="padding-left:0px"
-							     	 	globalOnly="true"/>
-							       	
-									<div class="row">
-						                <div class="col-md-12">
-						                 	
-											<div class="col-sm-12"> 
-												<div class="form-group">
-							                        
-						                            <label for="check-habilitado">Login</label>
-						                            <h:selectBooleanCheckbox
-						                            	id="check-habilitado" 
-						                            	value="#{dashboardBean.login}">
-						                            	<f:ajax/>
-						                            </h:selectBooleanCheckbox>
-							                 	</div>
-							            	</div>		
-							            	
-											<div class="col-sm-12"> 
-												<div class="form-group">
-							                        
-						                            <label for="input-msg">Mensagem</label>
-						                            <h:inputText 
-						                            	pt:type="text" 
-						                            	class="form-control" 
-						                            	id="input-msg" 
-						                            	pt:placeholder="Informe a mensagem para desabilitar o login."
-						                            	value="#{dashboardBean.msg}">
-						                            	
-						                          	</h:inputText>
-						                          	
-						                        </div>
-						                 	</div>									            							                 		
-						                 	
-				                        	<div class="col-sm-12 text-center">                        
-						                        <h:commandButton
-						                        	class="btn btn-primary"
-						                        	value="Configurar"
-						                        	action="#{dashboardBean.atualiza()}">
-						                        	
-						                        	<f:ajax
-						                        		execute="@form"
-						                        		render="@form"/>
-					                        	</h:commandButton>
-				                        	</div>
-						    			</div><!-- /.col-md-12 -->
-				                         
-				                	</div><!-- /.row -->
-						    
-						    </div><!-- /.box-cadastro -->
-						</div><!-- /#col-md-row -->
+	                <div class="col-md-12">
+		               	<h:messages 
+				    	  	id="messages"
+					      	errorClass="alert alert-block alert-danger fade in"
+					      	infoClass="alert alert-block alert-success fade in"
+				     	 	style="padding-left:0px"
+				     	 	globalOnly="true"/>
+
+	                </div>                
+	                
+	                <div class="col-md-9">
+	
+	                    <div class="box" id="box-configuracoes">
+	        	
+	        				<h3>Configurações</h3>
+						       	
+								<div class="row">
+					                <div class="col-md-12">
+					                 	
+										<div class="col-sm-12"> 
+											<div class="form-group">
+						                        
+					                            <label for="check-habilitado">Login</label>
+					                            <h:selectBooleanCheckbox
+					                            	id="check-habilitado" 
+					                            	value="#{dashboardBean.login}">
+					                            	<f:ajax/>
+					                            </h:selectBooleanCheckbox>
+						                 	</div>
+						            	</div>		
+						            	
+										<div class="col-sm-12"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-msg">Mensagem</label>
+					                            <h:inputText 
+					                            	pt:type="text" 
+					                            	class="form-control" 
+					                            	id="input-msg" 
+					                            	pt:placeholder="Informe a mensagem para desabilitar o login."
+					                            	value="#{dashboardBean.msg}">
+					                            	
+					                          	</h:inputText>
+					                          	
+					                        </div>
+					                 	</div>									            							                 		
+					                 	
+			                        	<div class="col-sm-12 text-center">                        
+					                        <h:commandButton
+					                        	class="btn btn-primary"
+					                        	value="Configurar"
+					                        	action="#{dashboardBean.atualiza()}">
+					                        	
+					                        	<f:ajax
+					                        		execute="@form"
+					                        		render="@form"/>
+				                        	</h:commandButton>
+			                        	</div>
+					    			</div><!-- /.col-md-12 -->
+			                         
+			                	</div><!-- /.row -->
+					    
+					    </div><!-- /.box-cadastro -->
+					</div><!-- /#col-md-row -->
+					
+					<div class="col-md-3">
+	                    <div class="box" id="box-configuracoes">
+	        	
+	        				<h3># usuários logados</h3>
+						       	
+								<div class="row">
+					                <div class="col-md-12">
+					                	<p align="center"><span style="font-size: 102px">#{dashboardBean.qtdUsuariosLogados()}</span></p>
+					                </div>
+					            </div>
+					    </div>
+					</div>
 					
 	                <h:panelGroup
 	                	id="panel-logins">	                

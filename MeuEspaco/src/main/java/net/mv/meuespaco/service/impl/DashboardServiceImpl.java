@@ -29,6 +29,12 @@ public class DashboardServiceImpl implements DashboardService, Serializable {
 	}
 	
 	@Override
+	public int qtdUsuariosLogados() 
+	{
+		return logins.size();
+	}
+	
+	@Override
 	public void removeLogin(LoginInfo login) {
 		logins.remove(login);
 	}

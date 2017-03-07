@@ -50,4 +50,5 @@ public interface DashboardService {
 
 	boolean isDesabilitaLogin();
 	
+	public int qtdUsuariosLogados();
 }

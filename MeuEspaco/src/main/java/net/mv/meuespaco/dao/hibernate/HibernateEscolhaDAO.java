@@ -203,6 +203,7 @@ public class HibernateEscolhaDAO extends HibernateGenericDAO<Escolha, Long> impl
 		criteria.setFetchMode("itens.produto.subgrupo.grupo", FetchMode.JOIN);
 		
 		criteria.setFetchMode("cliente", FetchMode.JOIN);
+		criteria.setFetchMode("cliente.regiao", FetchMode.JOIN);
 		
 		criteria.createAlias("itens.grade", "grade", JoinType.LEFT_OUTER_JOIN);
 		

@@ -39,6 +39,8 @@ public class ItemVenda implements IMovimentavel, Serializable {
 	private Venda venda;
 	
 	private BigDecimal qtd;
+	
+	@Column(name="qtd_atendido")
 	private BigDecimal qtdAtendido;
 	
 	@Column(name="valor_unitario")

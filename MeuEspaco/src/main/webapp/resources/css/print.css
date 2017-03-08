@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+   		
+body {
+	margin:0 !important;
+	padding:0 !important;
+	font-family:Verdana,sans-serif; 
+}
+
+.form-group {
+	font-size: 15px !important;
+	margin-bottom: 5px !important;
+}
+
+h3 {
+	font-size: 17px;
+	font-style: oblique;   				
+}   			
+
+table tr td{
+   padding:0px !important;
+}
+
+table {
+	font-family:Verdana,sans-serif; 
+	font-size: 15px !important;
+}

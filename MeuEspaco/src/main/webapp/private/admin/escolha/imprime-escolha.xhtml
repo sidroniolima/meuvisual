@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+	</ui:define>
+	
+
+	<ui:define name="css">
+		<!-- theme stylesheet print -->
+   		<h:outputStylesheet library="css" name="print.css"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+            <div class="container">	
+              			            
+	            <div class="row">       
+                	
+	                <div class="col-md-12">
+	                	        	
+        				<h3>Informações da Escolha</h3>
+        				
+        				<div class="row">
+				
+							<div class="col-sm-6"> 
+								<div class="form-group">
+			                        
+		                            <label for="out-codigo">Código: </label>
+		                            <h:outputText
+		                            	id="out-codigo" 
+		                            	value="#{atendeEscolhaBean.escolha.codigoFormatado()}"/>				                            	
+			                 	</div>
+			            	</div>
+			
+							<div class="col-sm-6"> 
+								<div class="form-group">
+			                        
+		                            <label for="out-codigo-cliente">Código do cliente: </label>
+		                            <h:outputText 
+		                            	id="out-codigo-cliente" 
+		                            	value="#{atendeEscolhaBean.escolha.cliente.codigoSiga}"/>				                            	
+			                 	</div>
+			            	</div>
+			
+							<div class="col-sm-6"> 
+								<div class="form-group">
+			                        
+		                            <label for="out-nome">Nome do cliente: </label>
+		                            <h:outputText  
+		                            	id="out-nome" 
+		                            	value="#{atendeEscolhaBean.escolha.cliente.nome}"/>				                            	
+			                 	</div>
+			            	</div>
+			
+							<div class="col-sm-6"> 
+								<div class="form-group">
+			                        
+		                            <label for="out-regiao">Região do cliente: </label>
+		                            <h:outputText 
+		                            	id="out-regiao" 
+		                            	value="#{atendeEscolhaBean.escolha.cliente.regiao.descricao}"/>				                            	
+			                 	</div>
+			            	</div>	
+			            						            	
+			            </div>									
+							
+					</div>
+				
+			        <div class="col-md-12" id="table">
+			
+	                    <h3>Itens da escolha</h3>
+	                    
+	                    <h:panelGroup
+	                    	id="panel-itens">
+	                    
+		                    <div class="table-responsive">
+		                        <table class="table table-striped">
+		                            <thead>
+		                                <tr>
+		                                	<th style="width:30px">Qtd</th>
+		                                    <th style="width:80px">Código</th>
+		                                    <th style="width:240px; overflow: hidden">Descrição</th>
+		                                    <th style="width:150px">Grade</th>
+		                                    <th style="width:80px">Localização</th>
+		                                </tr>
+		                            </thead>
+		                            
+		                            <tbody>
+		                            
+										<ui:repeat 
+											var="item" 
+										   	value="#{atendeEscolhaBean.escolha.itens}">		                          
+											<tr>													   	
+											   	<td>
+											   		<h:outputText 
+											   			value="#{item.qtd}">
+											   			
+											   			<f:convertNumber 
+											   				type="number"/>
+											   		</h:outputText>
+											   	</td>												   	
+		                                    	
+												<td>#{item.produto.codigoInterno}</td>
+												<td>#{item.produto.descricao}</td>
+											   	<td>#{item.grade}</td>										   
+											   	<td>#{item.grade.localizacao}</td>
+											</tr>
+										</ui:repeat>		                            
+	
+	                                   </tbody>
+	                               </table>
+	
+	                       	</div>
+	                        <!-- /.table-responsive -->
+	                
+	                	</h:panelGroup> <!-- /.panel-itens -->
+		                	
+	            	</div>
+	            	<!-- /.cod-md-12 -->
+
+			    </div> <!-- fim row dados -->
+	            	
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->		
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<script>
+		$('document').ready(function() {
+			window.print();
+		});
+		</script>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->		
+			
+</ui:composition>

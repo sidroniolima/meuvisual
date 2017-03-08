@@ -217,25 +217,20 @@
 													   <td>#{escolha.cliente.regiao.descricao}</td>
 													   
 													   <td style="text-align: right">
-														   <div class="btn-group" >
-														   
-																<h:commandLink 
-																	styleClass="btn btn-warning"
-																	action="#{pesquisaEscolhaBean.geraRelatorio()}"
-																	title="Gerar relatório"
-																	immediate="true"
-																	target="_blank"
-																	disabled="true">
-												                  
-												                   <f:setPropertyActionListener 
-												                  	 	value="#{escolha}" 
-												                  	 	target="#{pesquisaEscolhaBean.escolhaSelecionada}"/>
-												                  	 	
-												                 	<f:ajax disabled="true"/>
-												                 	
-												                 	<i class="icon_printer"></i>
-												                  	 	
-																</h:commandLink>														   
+														   <div class="btn-group" >													  												   
+
+														        <h:link
+														        	styleClass="btn btn-warning" 
+														        	outcome="imprime-escolha"
+														        	includeViewParams="true"
+														        	target="_blank">
+														        	
+														        		<f:param
+														        			name="paramCodigo"
+														        			value="#{escolha.codigo}"/>
+														        			
+																	<i class="icon_printer"></i>
+														        </h:link>
 														   
 														        <h:link
 														        	styleClass="btn btn-info" 

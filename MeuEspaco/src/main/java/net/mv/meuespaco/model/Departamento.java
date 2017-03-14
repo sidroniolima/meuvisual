@@ -9,7 +9,7 @@ public enum Departamento {
 	INFANTIL("Infantil",true),
 	MASCULINO("Masculino",true),
 	FEMININO("Feminino",true),
-	DIA_DAS_MAES("Dia das mães",false),
+	DIA_DAS_MAES("Dia das mães",true),
 	DIA_DOS_NAMORADOS("Dia dos namorados",false),
 	OLIMPIADAS_2016("Olimpíadas 2016",false),
 	ANEIS_DE_FORMATURA("Formatura",false),	

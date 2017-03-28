@@ -2,6 +2,13 @@ package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
@@ -10,16 +17,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.shiro.SecurityUtils;
+import org.primefaces.context.RequestContext;
+
+import com.google.gson.Gson;
 
 import net.mv.meuespaco.annotations.CarrinhoConsignadoBeanAnnotation;
 import net.mv.meuespaco.annotations.CarrinhoVendaBeanAnnotation;
 import net.mv.meuespaco.annotations.UsuarioLogado;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.Message;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.dashboard.LoginInfo;
+import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.DashboardService;
 import net.mv.meuespaco.service.LoginService;
+import net.mv.meuespaco.service.MessageService;
+import net.mv.meuespaco.service.impl.AgendadorServiceImpl;
 import net.mv.meuespaco.util.FacesUtil;
 
 @Named
@@ -27,6 +41,8 @@ import net.mv.meuespaco.util.FacesUtil;
 public class LoginBean implements Serializable {
 
 	private static final long serialVersionUID = -5199376091795031527L;
+	
+	private final Logger log = Logger.getLogger(LoginBean.class.getSimpleName());
 
 	@Inject
 	private LoginService loginSrvc;
@@ -49,9 +65,32 @@ public class LoginBean implements Serializable {
 	private String password;
 	
 	private String mensagemPadrao = "Bem vinda(o), %s. %s";
-
+	
 	@Inject
 	private DashboardService dashSrvc;
+	
+	private Map<String, List<String>> map = new HashMap<String, List<String>>();
+	
+	@Inject
+	private AgendadorServiceImpl scheduler;
+
+	@Inject
+	private MessageService msgService;
+	
+	Optional<Cliente> optClienteLogado;
+
+	private List<Message> messages;
+	private List<Message> priorityMessages;
+	
+	private String mustShowPriorityMessages = "no";
+
+	private String json;
+	
+	public LoginBean() 
+	{
+		messages = new ArrayList<Message>();
+		priorityMessages = new ArrayList<Message>();
+	}
 	
 	@PreDestroy
 	public void onDestroyLogouAndClean() 
@@ -100,6 +139,8 @@ public class LoginBean implements Serializable {
 						userLogged, 
 						LocalDateTime.now(), 
 						SecurityUtils.getSubject()));
+				
+				optClienteLogado = Optional.ofNullable(clienteSrvc.buscaClientePeloUsuarioLogado());
 			}
 			
 			return redirecionaCliente();
@@ -108,7 +149,6 @@ public class LoginBean implements Serializable {
 			FacesUtil.addErrorMessage(String.format("Não foi possível logar no site. %s", e.getMessage()));
 			
 			return "";
-			
 		}
 		
 	}
@@ -160,6 +200,20 @@ public class LoginBean implements Serializable {
 	}
 
 	/**
+	 * Número de mensagens não lidas.
+	 * @return número.
+	 */
+	public int numberOfMessages()
+	{
+		if(null != this.messages)
+		{
+			return this.messages.size();
+		}
+		
+		return 0;
+	}
+	
+	/**
 	 * @return the username
 	 */
 	public String getUsername() {
@@ -194,4 +248,73 @@ public class LoginBean implements Serializable {
 		return userLogged;
 	}
 
+	public void mostraObservers() 
+	{
+		this.map.values().forEach(System.out::println); 
+	}
+
+	public List<Message> getMessages() 
+	{
+		return messages;
+	}
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
+	
+	/**
+	 * Push das mensagens para o usuário logado.
+	 */
+	public void doPull()
+	{
+		if (optClienteLogado.isPresent())
+		{
+			this.messages = msgService.findByUsuarioNaoLidas(optClienteLogado.get().getCodigoSiga());
+			
+			extraiPrioritarias();
+			
+			log.info("Recuperando as mensagens da API Hermes.");
+		} else 
+		{
+			log.warning("Não foi possível identificar o cliente logado para o login " + this.username);
+		}
+	}
+
+	/**
+	 * Extrai as mensagens prioritárias não lidas.
+	 */
+	private void extraiPrioritarias() 
+	{
+		this.priorityMessages.clear();
+		
+		this.priorityMessages = this.messages
+				.stream()
+				.filter(Message::isPrioritaria)
+				.collect(Collectors.toList());
+	
+		this.mustShowPriorityMessages = this.priorityMessages.size() > 0 ? "yes" : "no";
+		
+		RequestContext.getCurrentInstance().execute("countMsg = " + this.numberOfMessages());
+		RequestContext.getCurrentInstance().execute("must = '" + this.mustShowPriorityMessages + "'");
+		RequestContext.getCurrentInstance().execute("list = " + this.getJson());
+		
+		this.priorityMessages.stream().forEach(m -> {
+			this.msgService.read(m);
+		});
+	}
+	
+	public List<Message> getPriorityMessages() 
+	{		
+		return priorityMessages;
+	}
+
+	public String getMustShowPriorityMessages() {
+		return mustShowPriorityMessages;
+	}
+	public void setMustShowPriorityMessages(String mustShowPriorityMessages) {
+		this.mustShowPriorityMessages = mustShowPriorityMessages;
+	}
+	
+	public String getJson() {
+		return new Gson().toJson(this.priorityMessages.stream().map(Message::getMessage).collect(Collectors.toList()));
+	}
 }

@@ -1,9 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://xmlns.jcp.org/jsf/core"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:jl="http://xmlns.jcp.org/jsf/composite/jsflive"
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:o="http://omnifaces.org/ui">
 
 <h:head>
 
@@ -20,7 +24,7 @@
        Meu Espaço - V2.0
     </title>
 
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'/>
 
     <!-- styles -->
     <h:outputStylesheet library="css" name="font-awesome.css" />
@@ -41,9 +45,9 @@
     
     <!-- your stylesheet with modifications -->
     <h:outputStylesheet library="css" name="custom.css"/>
-       		
+           		
     <ui:insert name="css"/>
-    
+       
 </h:head>
 
 <h:body>
@@ -69,18 +73,19 @@
     
     <!-- *** SCRIPTS TO INCLUDE ***
  _________________________________________________________ -->
-    <h:outputScript library="js" name="jquery-1.11.0.min.js" />
-    <h:outputScript library="js" name="bootstrap.min.js" />
+	<h:outputScript library="js" name="jquery-1.11.0.min.js" />
     <h:outputScript library="js" name="jquery.cookie.js" />
     <h:outputScript library="js" name="waypoints.min.js" />
     <h:outputScript library="js" name="modernizr.js" />
     <h:outputScript library="js" name="bootstrap-hover-dropdown.js" />
     <h:outputScript library="js" name="owl.carousel.min.js" />
     <h:outputScript library="js" name="front.js" />
+    <h:outputScript library="js" name="bootstrap.min.js" />    
     
     <ui:insert name="script">
-   	
+
     </ui:insert>
+    
 </h:body>
 
 </html>

@@ -3,10 +3,12 @@ package net.mv.meuespaco.service.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import net.mv.meuespaco.model.dashboard.LoginInfo;
+import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.DashboardService;
 
 @ApplicationScoped
@@ -19,6 +21,15 @@ public class DashboardServiceImpl implements DashboardService, Serializable {
 
 	List<LoginInfo> logins = new ArrayList<LoginInfo>();
 
+	@Override
+	public List<Cliente> getClientesLogados() 
+	{
+		return logins
+				.stream()
+				.map(LoginInfo::getCliente)
+				.collect(Collectors.toList());
+	}
+	
 	@Override
 	public void adicionaLogin(LoginInfo login) 
 	{

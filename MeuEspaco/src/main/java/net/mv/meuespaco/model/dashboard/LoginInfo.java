@@ -3,13 +3,11 @@ package net.mv.meuespaco.model.dashboard;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-import org.apache.log4j.helpers.DateTimeDateFormat;
 import org.apache.shiro.subject.Subject;
 
 import net.mv.meuespaco.model.Usuario;
+import net.mv.meuespaco.model.loja.Cliente;
 
 /**
  * Classe que encapsula informações do login: usuário, data e hora do login e
@@ -26,6 +24,8 @@ public class LoginInfo {
 	private LocalDateTime dataHoraLogout;
 	private Subject subject;
 	
+	private Cliente cliente;
+	
 	public LoginInfo(String sessionId, Usuario usuario, LocalDateTime dataHoraLogin, Subject subject) {
 		this.sessionId = sessionId;
 		this.usuario = usuario;
@@ -41,6 +41,15 @@ public class LoginInfo {
 		this.subject = subject;
 	}
 	
+	public LoginInfo(String sessionId, Usuario usuario, LocalDateTime dataHoraLogin, Subject subject, Cliente cliente) 
+	{
+		this.sessionId = sessionId;
+		this.usuario = usuario;
+		this.dataHoraLogin = dataHoraLogin;
+		this.subject = subject;
+		this.cliente = cliente;
+	}
+
 	public LoginInfo(String sessionId) {
 		this.sessionId = sessionId;
 	}
@@ -80,6 +89,13 @@ public class LoginInfo {
 		this.subject = subject;
 	}
 	
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
 	/**
 	 * Retorna o horário da última operação do usuário.
 	 * 

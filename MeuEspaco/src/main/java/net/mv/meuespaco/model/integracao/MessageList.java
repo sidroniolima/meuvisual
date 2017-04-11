@@ -1,4 +1,4 @@
-package net.mv.meuespaco.model;
+package net.mv.meuespaco.model.integracao;
 
 import java.util.ArrayList;
 

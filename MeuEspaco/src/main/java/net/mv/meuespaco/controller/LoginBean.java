@@ -24,16 +24,16 @@ import com.google.gson.Gson;
 import net.mv.meuespaco.annotations.CarrinhoConsignadoBeanAnnotation;
 import net.mv.meuespaco.annotations.CarrinhoVendaBeanAnnotation;
 import net.mv.meuespaco.annotations.UsuarioLogado;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.model.Message;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.dashboard.LoginInfo;
+import net.mv.meuespaco.model.integracao.Message;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.DashboardService;
 import net.mv.meuespaco.service.LoginService;
 import net.mv.meuespaco.service.MessageService;
-import net.mv.meuespaco.service.impl.AgendadorServiceImpl;
 import net.mv.meuespaco.util.FacesUtil;
 
 @Named
@@ -71,9 +71,6 @@ public class LoginBean implements Serializable {
 	
 	private Map<String, List<String>> map = new HashMap<String, List<String>>();
 	
-	@Inject
-	private AgendadorServiceImpl scheduler;
-
 	@Inject
 	private MessageService msgService;
 	
@@ -133,14 +130,15 @@ public class LoginBean implements Serializable {
 						
 				carrinhoConsignadoBean.criaCarrinho();
 				carrinhoVendaBean.criaCarrinho();
+
+				optClienteLogado = Optional.ofNullable(clienteSrvc.buscaClientePeloUsuarioLogado());
 				
 				dashSrvc.adicionaLogin(new LoginInfo(
 						sessionId, 
 						userLogged, 
 						LocalDateTime.now(), 
-						SecurityUtils.getSubject()));
-				
-				optClienteLogado = Optional.ofNullable(clienteSrvc.buscaClientePeloUsuarioLogado());
+						SecurityUtils.getSubject(),
+						optClienteLogado.get()));
 			}
 			
 			return redirecionaCliente();
@@ -268,11 +266,19 @@ public class LoginBean implements Serializable {
 	{
 		if (optClienteLogado.isPresent())
 		{
-			this.messages = msgService.findByUsuarioNaoLidas(optClienteLogado.get().getCodigoSiga());
+			try 
+			{
+				this.messages = msgService.findByUsuarioNaoLidas(optClienteLogado.get().getCodigoSiga());
+				
+				extraiPrioritarias();
+				
+				log.info("Recuperando as mensagens da API Hermes.");
+				
+			} catch (IntegracaoException e) 
+			{
+				log.warning("Não foi possível recuperar as mensagens não lidas do usuário. " + e.getMessage());
+			}
 			
-			extraiPrioritarias();
-			
-			log.info("Recuperando as mensagens da API Hermes.");
 		} else 
 		{
 			log.warning("Não foi possível identificar o cliente logado para o login " + this.username);
@@ -298,7 +304,13 @@ public class LoginBean implements Serializable {
 		RequestContext.getCurrentInstance().execute("list = " + this.getJson());
 		
 		this.priorityMessages.stream().forEach(m -> {
-			this.msgService.read(m);
+			try 
+			{
+				this.msgService.read(m);
+			} catch (IntegracaoException e) 
+			{
+				log.warning("Não foi possível marcar a mensagem como lida. " + e.getMessage());
+			}
 		});
 	}
 	

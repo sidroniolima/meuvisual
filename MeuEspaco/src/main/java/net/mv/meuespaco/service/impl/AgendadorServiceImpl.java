@@ -1,7 +1,5 @@
 package net.mv.meuespaco.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,9 +8,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
-import net.mv.meuespaco.controller.LoginBean;
 import net.mv.meuespaco.service.EscolhaService;
-import net.mv.meuespaco.service.MessageService;
 
 /**
  * Utilizado para alterar o status das escolhas no tempo 

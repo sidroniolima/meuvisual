@@ -69,11 +69,20 @@ public interface ClienteDAO extends GenericDAO<Cliente, Long> {
 	
 	/**
 	 * Filtra os registros de cliente de acordo com o filtro de Cpf, 
-	 * Nome ou Código Siga.
+	 * Nome ou Código Siga, Regiao ou Semana.
 	 * 
-	 * @param filtro código siga, nome ou cpf.
+	 * @param filtro código siga, nome, cpf, regiao ou semana.
 	 * @param paginator
 	 * @return lista de clientes com paginação.
 	 */
 	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro, Paginator paginator);
+
+	/**
+	 * Filtra os registros de cliente de acordo com o filtro de Cpf, 
+	 * Nome ou Código Siga, Regiao ou Semana. Sem o paginador.
+	 * 
+	 * @param filtro código siga, nome, cpf, regiao ou semana.
+	 * @return lista de clientes sem paginação.
+	 */
+	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro);
 } 

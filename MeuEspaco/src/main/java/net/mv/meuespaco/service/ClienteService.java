@@ -256,4 +256,12 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 */
 	public void importaClientesDoErp(List<ClientesDoErp> registrosErp) throws MalformedURLException, IOException;
 
+	/**
+	 * Filtra os registros de cliente pelo código siga, nome ou cpf.
+	 * 
+	 * @param filtro nome, cpf, ou código siga.
+	 * @return lista de clientes sem paginação.
+	 */
+	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro);
+
 }

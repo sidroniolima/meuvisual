@@ -61,11 +61,13 @@ $(function ()
 
 $(document).click(function(){
      lastUpdate = new Date().getTime();
-     console.log(lastUpdate);
+     mostrouModal = false;
 });
 
 function intervalTimeOut() 
 {
+	minutes = 600000; //1000 (1 second) * 60 (1 minute) * 10 = 600000 10 minutos
+	
    	if (!registrouTimeOut)
 	{
 	   	console.log("Interval de sessão iniciado.");
@@ -74,7 +76,7 @@ function intervalTimeOut()
 
 	   	idIntervalTimeOut = setInterval(function() 
 		{
-			if (new Date().getTime() - lastUpdate > 60000)
+			if (new Date().getTime() - lastUpdate > minutes)
 			{
 				if (mostrouModal)
 				{
@@ -86,7 +88,7 @@ function intervalTimeOut()
 				}						 
 			}
 			
-		}, 60000);
+		}, minutes);
 
 	   	registrouTimeOut = true;
 	}

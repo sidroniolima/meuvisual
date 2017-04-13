@@ -6,6 +6,7 @@ import javax.ws.rs.core.Response;
 
 import net.mv.meuespaco.controller.filtro.FiltroMensagem;
 import net.mv.meuespaco.exception.IntegracaoException;
+import net.mv.meuespaco.model.integracao.CustomPageImpl;
 import net.mv.meuespaco.model.integracao.Message;
 import net.mv.meuespaco.util.Paginator;
 
@@ -41,8 +42,9 @@ public interface MessageService {
 	 * 
 	 * @param messages para serem criadas.
 	 * @return quantidade criada.
+	 * @throws IntegracaoException 
 	 */
-	public int createMessages(List<Message> messages);
+	public int createMessages(List<Message> messages) throws IntegracaoException;
 
 	/**
 	 * Lista Mensagem de acordo com o filtro selecionado de forma 
@@ -53,5 +55,7 @@ public interface MessageService {
 	 * @return lista de mensagens.
 	 */
 	public List<Message> listByFilterPagination(FiltroMensagem filtro, Paginator paginator);
+	
+	public CustomPageImpl<Message> listAllByPagination(int page, int size) throws IntegracaoException;
 
 }

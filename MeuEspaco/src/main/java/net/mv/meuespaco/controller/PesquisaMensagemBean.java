@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,6 +14,7 @@ import net.mv.meuespaco.controller.filtro.FiltroMensagem;
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.Regiao;
 import net.mv.meuespaco.model.Semana;
+import net.mv.meuespaco.model.integracao.CustomPageImpl;
 import net.mv.meuespaco.model.integracao.Message;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.ClienteService;
@@ -48,6 +50,7 @@ public class PesquisaMensagemBean extends PesquisaSingle implements Serializable
 	private List<Semana> semanas;
 	
 	@Override
+	@PostConstruct
 	void init() 
 	{
 		filtro = new FiltroMensagem();
@@ -57,44 +60,75 @@ public class PesquisaMensagemBean extends PesquisaSingle implements Serializable
 	@Override
 	public void excluir() 
 	{
-		
+		if (null != messageSelecionada)
+		{
+			try 
+			{
+				this.messageSrvc.deleteMessage(messageSelecionada.getId());
+				
+				FacesUtil.addSuccessMessage("A mesnagem selecionada foi excluída.");
+				
+				this.mensagens.remove(messageSelecionada);
+				
+				this.listarComPaginacao();
+				
+			} catch (IntegracaoException e) 
+			{			
+				FacesUtil.addErrorMessage("Não foi possível excluir a mensagem. " + e.getMessage());
+			}
+		}
 	}
 
 	@Override
 	public void listarComPaginacao() 
 	{
-		
+	
 		if (filtro.isPreenchido())
 		{
-			Regiao regiaoDoFiltro = null;
-			
-			if (null != filtro.getCodigoRegiao())
+
+			try 
 			{
-				regiaoDoFiltro = this.regiaoSrvc.buscaPeloCodigoInterno(filtro.getCodigoRegiao());
-			}
-			
-			List<String> codigosDosClientes = 
-					clienteSrvc.filtraCliente(new FiltroCliente(filtro.getCodigoCliente(), regiaoDoFiltro, filtro.getSemana()))
-					.stream().map(Cliente::getCodigoSiga).collect(Collectors.toList());
-			
-			try {
-				
 				mensagens = this.messageSrvc.getAll();
 				
-				this.getPaginator().setTotalDeRegistros(mensagens.size());
+				Regiao regiaoDoFiltro = null;
 				
-				mensagens
+				if (null != filtro.getCodigoRegiao())
+				{
+					regiaoDoFiltro = this.regiaoSrvc.buscaPeloCodigoInterno(filtro.getCodigoRegiao());
+				}
+				
+				List<String> codigosDosClientes = 
+						clienteSrvc.filtraPeloModoEspecifico(new FiltroCliente(filtro.getCodigoCliente(), regiaoDoFiltro, filtro.getSemana()))
+						.stream().map(Cliente::getCodigoSiga).collect(Collectors.toList());
+				
+				mensagens = mensagens
 					.stream()
-					.filter(codigosDosClientes::contains)
-					.skip(this.getPaginator().getFirstResult())
-					.limit(this.getPaginator().getQtdPorPagina());
-				
+					.filter(m -> codigosDosClientes.contains(m.getUsuario()))
+					.collect(Collectors.toList());					
+			
 			} catch (IntegracaoException e) 
 			{
-				FacesUtil.addErrorMessage(e.getMessage());
+				FacesUtil.addErrorMessage("Não foi possível listar as mensagens. " + e.getMessage());
 			}
-		
+			
+		} else 
+		{
+			CustomPageImpl<Message> page = null;
+			
+			try 
+			{
+				page = this.messageSrvc.listAllByPagination(this.getPaginator().getPage(), this.getPaginator().getQtdPorPagina());
+				this.getPaginator().setTotalDeRegistros(page.getPage().getTotalElements());
+				this.getPaginator().setTotalPages(page.getPage().getTotalPages());
+				
+				mensagens = page.get_embedded().getMessages();
+			
+			} catch (IntegracaoException e) 
+			{
+				FacesUtil.addErrorMessage("Não foi possível listar as mensagens. " + e.getMessage());
+			}
 		}
+			
 	}
 
 	@Override

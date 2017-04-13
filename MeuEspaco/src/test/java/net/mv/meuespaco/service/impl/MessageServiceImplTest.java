@@ -4,16 +4,48 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.net.ConnectException;
+import java.util.List;
+
+import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.JsonSyntaxException;
+
 import net.mv.meuespaco.exception.IntegracaoException;
+import net.mv.meuespaco.model.integracao.CustomPageImpl;
 import net.mv.meuespaco.model.integracao.Message;
 import net.mv.meuespaco.model.integracao.MessageLevel;
 import net.mv.meuespaco.service.MessageService;
+import net.mv.meuespaco.util.Paginator;
 
 public class MessageServiceImplTest {
 
 	private MessageService messageSrvc;
+	
+	@Before
+	public void deleteAll() throws JsonSyntaxException, ConnectException
+	{
+		List<Message> messages;
+		try 
+		{
+			messages = this.messageSrvc.getAll();
+			messages.stream().mapToLong(Message::getId).forEach(i -> {
+				try 
+				{
+					messageSrvc.deleteMessage(i);
+					
+				} catch (IntegracaoException e) 
+				{
+					System.out.println(e.getMessage());
+				}
+			});
+		
+		} catch (IntegracaoException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+	}
 	
 	public MessageServiceImplTest() 
 	{
@@ -21,9 +53,13 @@ public class MessageServiceImplTest {
 	}
 	
 	@Test
-	public void mustFindByUsuario() throws IntegracaoException 
+	public void mustFindByUsuario() throws JsonSyntaxException, ConnectException
 	{
-		messageSrvc.findByUsuario("000042").stream().forEach(System.out::println);
+		try {
+			messageSrvc.findByUsuario("000042").stream().forEach(System.out::println);
+		} catch (IntegracaoException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	@Test
@@ -43,7 +79,11 @@ public class MessageServiceImplTest {
 	{
 		Message msg1 = new Message("Teste de mensagem", "008741", MessageLevel.NORMAL);
 		
-		System.out.println(messageSrvc.createMessage(msg1));
+		try {
+			System.out.println(messageSrvc.createMessage(msg1));
+		} catch (IntegracaoException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	@Test
@@ -61,14 +101,15 @@ public class MessageServiceImplTest {
 		assertEquals("Message atualizada.", "Teste de atualização.", messageUpdated.getMessage());
 	}
 
-	private Message criaTempMessage() throws IntegracaoException {
+	private Message criaTempMessage() throws IntegracaoException
+	{
 		Message message = new Message("Mensagem original.", "000042", MessageLevel.NORMAL);
 		message = this.messageSrvc.createMessage(message);
 		return message;
 	}
 	
 	@Test
-	public void mustDelete()
+	public void mustDelete() throws IntegracaoException
 	{
 		try 
 		{
@@ -86,6 +127,52 @@ public class MessageServiceImplTest {
 	public void deveGerarErroNaCriacao() throws IntegracaoException
 	{
 		this.messageSrvc.createMessage(null);
+	}
+	
+	@Test
+	public void mustFindAll()
+	{
+		try 
+		{
+			criaTempMessage();
+			
+			List<Message> messages = this.messageSrvc.getAll();
+			
+			assertFalse("Mensagens", messages.isEmpty());
+			
+		} catch (IntegracaoException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void mustListAllByPage()
+	{
+		Paginator paginator = new Paginator(10);
+		
+		try 
+		{
+			
+			CustomPageImpl<Message> page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
+
+			paginator.setTotalDeRegistros(page.getPage().getTotalElements());
+			paginator.setTotalPages(page.getPage().getTotalPages());
+			System.out.println(paginator);
+			
+			page.get_embedded().getMessages().stream().forEach(System.out::println);
+			
+			paginator.nextPage();
+			
+			System.out.println("PAGE: " + paginator.getPage() + "***********************************************");
+			System.out.println(paginator);
+			page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
+			page.get_embedded().getMessages().stream().forEach(System.out::println);
+			
+		} catch (Exception e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
 }

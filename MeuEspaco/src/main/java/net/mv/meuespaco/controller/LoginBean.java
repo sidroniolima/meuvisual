@@ -307,6 +307,7 @@ public class LoginBean implements Serializable {
 			try 
 			{
 				this.msgService.read(m);
+				
 			} catch (IntegracaoException e) 
 			{
 				log.warning("Não foi possível marcar a mensagem como lida. " + e.getMessage());

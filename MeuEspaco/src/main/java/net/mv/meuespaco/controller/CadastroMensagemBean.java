@@ -79,7 +79,7 @@ public class CadastroMensagemBean extends CadastroSingle implements Serializable
 				message = this.msgSrvc.findByCodigo(paramId);
 			} catch (IntegracaoException e) 
 			{
-				FacesUtil.addErrorMessage("Não foi possível localizar a mensagem.");
+				FacesUtil.addErrorMessage("Não foi possível localizar a mensagem. " + e.getMessage());
 			}
 			
 		} else 
@@ -126,9 +126,17 @@ public class CadastroMensagemBean extends CadastroSingle implements Serializable
 		List<Cliente> usuarios = this.criaListaDeUsuarios(escopo);
 		List<Message> messages = this.criaMessages(usuarios);
 		
-		int qtdCriada = this.msgSrvc.createMessages(messages);
-
-		FacesUtil.addSuccessMessage(this.getMensagemDeInclusao(String.valueOf(qtdCriada)));
+		int qtdCriada = 0;
+		
+		try 
+		{
+			qtdCriada = this.msgSrvc.createMessages(messages);
+			FacesUtil.addSuccessMessage(this.getMensagemDeInclusao(String.valueOf(qtdCriada)));
+			
+		} catch (IntegracaoException e) 
+		{
+			FacesUtil.addErrorMessage("Não foi possível gerar as mensagens. " + e.getMessage());
+		}
 	}
 	
 	/**

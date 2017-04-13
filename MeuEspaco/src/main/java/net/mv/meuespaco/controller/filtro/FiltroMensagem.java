@@ -39,11 +39,11 @@ public class FiltroMensagem
 	 */
 	public boolean isPreenchido() 
 	{
-		return this.codigoCliente.isEmpty() || 
-				this.codigoRegiao.isEmpty() ||
-				null == this.semana ||
-				null == this.dataInicial ||
-				null == this.dataFinal;
+		return (null != this.codigoCliente && !this.codigoCliente.isEmpty()) || 
+				(null != this.codigoRegiao && !this.codigoRegiao.isEmpty()) ||
+				null != this.semana ||
+				null != this.dataInicial ||
+				null != this.dataFinal;
 	}
 
 	public String getCodigoRegiao() {

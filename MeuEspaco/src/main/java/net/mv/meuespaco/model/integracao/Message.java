@@ -2,7 +2,6 @@ package net.mv.meuespaco.model.integracao;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -41,24 +40,14 @@ public class Message extends EntidadeModel implements Serializable {
 	private MessageLevel nivel;
 	
 	@XmlAttribute
-	private LocalDateTime horarioCriacao;
+	private boolean lida;
 	
-	@XmlAttribute
-	private LocalDateTime horarioLeitura;
+	private String horarioCriacaoFormatada;
 	
-	public Message() {	}
+	private String horarioLidaFormatada;
 	
-	public Message(Long id, String message, String usuario, MessageLevel nivel, LocalDateTime horarioCriacao,
-			LocalDateTime horarioLeitura) 
-	{
-		this.id = id;
-		this.message = message;
-		this.usuario = usuario;
-		this.nivel = nivel;
-		this.horarioCriacao = horarioCriacao;
-		this.horarioLeitura = horarioLeitura;
-	}
-
+	public Message() {		}
+	
 	public Message(Long id, String message, String usuario, MessageLevel nivel) 
 	{
 		this.id = id;
@@ -138,30 +127,38 @@ public class Message extends EntidadeModel implements Serializable {
 		this.nivel = nivel;
 	}
 	
-	public LocalDateTime getHorarioCriacao() {
-		return horarioCriacao;
+	public String getHorarioCriacaoFormatada() {
+		return horarioCriacaoFormatada;
 	}
-	public void setHorarioCriacao(LocalDateTime horarioCriacao) {
-		this.horarioCriacao = horarioCriacao;
+	public void setHorarioCriacaoFormatada(String horarioCriacaoFormatada) {
+		this.horarioCriacaoFormatada = horarioCriacaoFormatada;
 	}
 
-	public LocalDateTime getHorarioLeitura() {
-		return horarioLeitura;
+	public String getHorarioLidaFormatada() {
+		return horarioLidaFormatada;
 	}
-	public void setHorarioLeitura(LocalDateTime horarioLeitura) {
-		this.horarioLeitura = horarioLeitura;
+	public void setHorarioLidaFormatada(String horarioLidaFormatada) {
+		this.horarioLidaFormatada = horarioLidaFormatada;
+	}
+
+	public boolean isLida() {
+		return lida;
+	}
+	public void setLida(boolean lida) {
+		this.lida = lida;
 	}
 
 	@Override
 	public String toString() 
 	{
-		return "Message \n"+
+		return "Message: \t"+
 				"id=" + id + "\t" + 
 				"usuario=" + usuario + "\t" + 
 				"message=" + message + "\t" +
 				"nivel=" + nivel.getDescricao() +
-				"horario de criação= " + horarioCriacao + 
-				"horario de leitura= " + horarioLeitura;
+				"lida=" + lida +
+				"horario de criação= " + horarioCriacaoFormatada + 
+				"horario de leitura= " + horarioLidaFormatada;
 	}
 	
 	/**
@@ -173,6 +170,11 @@ public class Message extends EntidadeModel implements Serializable {
 	public static Type getSerializedCollectionType()
 	{
 		return new TypeToken<ArrayList<Message>>(){}.getType();
+	}
+	
+	public static Type getSerializedPageType()
+	{
+		return new TypeToken<CustomPageImpl<Message>>(){}.getType();
 	}
 
 }

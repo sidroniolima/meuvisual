@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -33,14 +34,20 @@ import net.mv.meuespaco.util.Paginator;
 @Stateless
 public class MessageServiceImpl implements MessageService 
 {
-	private final String apiUrlForTest = "http://localhost:8090/messages/test/";
-	private final String apiUrl = "http://localhost:8090/messages/";
-	private final String apiUrlAll = "http://localhost:8090/messages/all/";
-	private final String apiUrlByUser = "http://localhost:8090/%s/messages/";
-	private final String apiUrlByUserNews = "http://localhost:8090/%s/messages/news/";
-	private final String apiUrlById = "http://localhost:8090/messages/%s";
-	private final String apiUrlRead = "http://localhost:8090/messages/%s/read";
-	private final String apiUrlAllByPage = "http://localhost:8090/messages?page=%s&size=%s";
+	
+	@Inject
+	private PropertiesLoad props;
+	
+	private final String apiServerPath = props.getProperty("hermes-path");
+	
+	private final String apiUrlForTest = apiServerPath + "/messages/test/";
+	private final String apiUrl = apiServerPath + "/messages/";
+	private final String apiUrlAll = apiServerPath + "/messages/all/";
+	private final String apiUrlByUser = apiServerPath + "/%s/messages/";
+	private final String apiUrlByUserNews = apiServerPath + "/%s/messages/news/";
+	private final String apiUrlById = apiServerPath + "/messages/%s";
+	private final String apiUrlRead = apiServerPath + "/messages/%s/read";
+	private final String apiUrlAllByPage = apiServerPath + "/messages?page=%s&size=%s";
 	
 	private final Logger log = Logger.getLogger(MessageServiceImpl.class.getName());
 	

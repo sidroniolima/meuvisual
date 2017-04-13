@@ -22,6 +22,11 @@ import net.mv.meuespaco.util.FacesUtil;
 @ViewScoped
 public class RegistraPreCadastroBean implements Serializable {
 
+	private static final String MSG_CADASTRO 
+				= "Seu cadastro foi efetuado com sucesso. " + 
+				"O acesso para clientes que pegaram estojo pela primeira vez estará liberado na data do seu ciclo. "
+				+ "Para os demais clientes o acesso estará liberado dentro de 72 horas.";
+
 	private static final long serialVersionUID = -3075594197996152114L;
 
 	@Inject
@@ -46,7 +51,7 @@ public class RegistraPreCadastroBean implements Serializable {
 			clienteSrvc.salvaPreCadastro(preCadastro);
 			
 			FacesUtil.addSuccessMessage(
-					"Seu cadastro foi efetuado com sucesso. Seu acesso será liberado em até 72 horas.");
+					MSG_CADASTRO);
 			
 			preCadastro = new Cliente();
 			

@@ -37,4 +37,5 @@ public class AgendadorServiceImpl {
 		escolhaSrvc.enviaEscolhasJaVencidas();
 		logger.log(Level.INFO, "Escolhas vencidas atualizadas");
 	}
+	
 }

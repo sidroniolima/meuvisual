@@ -3,6 +3,7 @@ package net.mv.meuespaco.service;
 import java.util.List;
 
 import net.mv.meuespaco.model.dashboard.LoginInfo;
+import net.mv.meuespaco.model.loja.Cliente;
 
 /**
  * Serviços relacionados ao Dashboard, criado no início da aplicação. 
@@ -51,4 +52,12 @@ public interface DashboardService {
 	boolean isDesabilitaLogin();
 	
 	public int qtdUsuariosLogados();
+
+	/**
+	 * Retorna a lista de clientes logados de acordo 
+	 * com as informações de login (LoginInfo)
+	 * 
+	 * @return lista de clientes
+	 */
+	public List<Cliente> getClientesLogados();
 }

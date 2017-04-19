@@ -12,6 +12,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import net.mv.meuespaco.controller.filtro.FiltroCliente;
 import net.mv.meuespaco.dao.ClienteDAO;
@@ -129,6 +130,21 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 			criteriaSublist.add(Restrictions.like("nome", filtro.getNome(), MatchMode.ANYWHERE));
 		}
 		
+		if (null != filtro.getRegiao())
+		{
+			criteriaSublist.add(Restrictions.eq("regiao", filtro.getRegiao()));
+		}
+
+		if (null != filtro.getSemana())
+		{
+			criteriaSublist.add(Restrictions.eq("semana", filtro.getSemana()));
+		}
+		
+		if (null != filtro.getStatus())
+		{
+			criteriaSublist.add(Restrictions.eq("status", filtro.getStatus()));
+		}		
+		
 		criteriaSublist.setProjection(Projections.property("codigo"));
 		criteriaSublist.addOrder(Order.asc("codigoSiga"));
 		
@@ -149,6 +165,51 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 		criteria.setFetchMode("regiao", FetchMode.JOIN);
 		
 		criteria.add(Restrictions.in("codigo", registrosSublist));
+		
+		criteria.addOrder(Order.asc("codigoSiga"));
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return criteria.list();
+	}
+	
+	@Override
+	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro) 
+	{
+		Criteria criteria = this.getSession().createCriteria(Cliente.class);
+		
+		criteria.createAlias("regiao", "reg", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("reg.semana", "sem", JoinType.LEFT_OUTER_JOIN);
+		
+		if (null != filtro.getCodigoSiga() && !filtro.getCodigoSiga().isEmpty()) 
+		{
+			criteria.add(Restrictions.eq("codigoSiga", filtro.getCodigoSiga()));
+		}
+		
+		if (null != filtro.getCpf()) 
+		{
+			criteria.add(Restrictions.eq("cpf", filtro.getCpf()));
+		}
+		
+		if (null != filtro.getNome() && !filtro.getNome().isEmpty()) 
+		{
+			criteria.add(Restrictions.like("nome", filtro.getNome(), MatchMode.ANYWHERE));
+		}
+		
+		if (null != filtro.getRegiao())
+		{
+			criteria.add(Restrictions.eq("regiao", filtro.getRegiao()));
+		}
+
+		if (null != filtro.getSemana())
+		{
+			criteria.add(Restrictions.eq("sem.codigo", filtro.getSemana().getCodigo()));
+		}
+		
+		if (null != filtro.getStatus())
+		{
+			criteria.add(Restrictions.eq("status", filtro.getStatus()));
+		}
 		
 		criteria.addOrder(Order.asc("codigoSiga"));
 		

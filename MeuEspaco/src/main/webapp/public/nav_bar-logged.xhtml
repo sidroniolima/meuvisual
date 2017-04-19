@@ -1,211 +1,289 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-    xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:o="http://omnifaces.org/ui">
 	
 	<c:set var="root" value="#{request.contextPath}/" />
 	
 	<body>
 		<!-- *** NAVBAR ***
 	 	_________________________________________________________ -->
-	
-	    <div class="navbar navbar-default yamm" role="navigation" id="navbar">
-	        <div class="container">
-	            <div class="navbar-header">
-	
-	                <a class="navbar-brand home" href="${root}private/site/index.xhtml" data-animate-hover="bounce">
-	                	<img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo.png" alt="Meu Espaço - logo" class="hidden-xs"/>
-	                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo-small.png" alt="Meu Espaço - logo" class="visible-xs"/>
-	                </a>
-	                <div class="navbar-buttons">
-	                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
-	                        <span class="sr-only">Toggle navigation</span>
-	                        <i class="fa fa-align-justify"></i>
-	                    </button>
-	                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
-	                        <span class="sr-only">Toggle search</span>
-	                        <i class="fa fa-search"></i>
-	                    </button>
-	                    <a 
-	                    	class="btn btn-default navbar-toggle" 
-	                    	outcome="carrinho"
-	                    	jsfc="h:link">
-	                    	
-	                        <i class="fa fa-shopping-cart"></i>  
-	                        <span class="hidden-xs">
-	                        
-	                        	<h:outputText value="#{carrinhoConsignadoBean.qtdDeItens}">
-	                        		<f:convertNumber minFractionDigits="0"/>
-	                        	</h:outputText> 
-	                        
-	                        	itens
-	                        
-	                        </span>
-	                    </a>
-	                </div>
-	            </div>
-	            <!--/.navbar-header -->
-	
-	            <div class="navbar-collapse collapse" id="navigation">
-	
-	                <ul class="nav navbar-nav navbar-left">
-	                    
-	                    <ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
-	                    
-		                    <li class="dropdown yamm-fw">
+
+	    <h:form class="navbar-form" role="search" id="frm-nav-bar">	
+	    
+        	<o:commandScript name="pullFromBean" action="#{loginBean.doPull()}"/>
+			
+		    <div class="navbar navbar-default yamm" role="navigation" id="navbar" style="padding-right: 15px">
+		        <div class="container">
+		            <div class="navbar-header">
+		
+		                <a class="navbar-brand home" href="${root}private/site/index.xhtml" data-animate-hover="bounce">
+		                	<img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo_menor.png" alt="Meu Espaço - logo" class="hidden-xs"/>
+		                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo-small.png" alt="Meu Espaço - logo" class="visible-xs"/>
+		                </a>
+		                <div class="navbar-buttons">
+		                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+		                        <span class="sr-only">Toggle navigation</span>
+		                        <i class="fa fa-align-justify"></i>
+		                    </button>
 		                    
-		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">#{dep.descricao} <b class="caret"></b></a>
+		                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+		                        <span class="sr-only">Toggle search</span>
+		                        <i class="fa fa-search"></i>
+		                    </button>
+		                    
+		                    <a 
+		                    	class="btn btn-default navbar-toggle" 
+		                    	outcome="carrinho"
+		                    	jsfc="h:link">
+		                    	
+		                        <i class="fa fa-shopping-cart"></i>  
+		                        <span>
 		                        
-		                        <ul class="dropdown-menu">
-		                            <li>
-		                                <div class="yamm-content">
-		                                    <div class="row">
-		                                    
-		                                        <div class="col-sm-3">
-		                                            <div class="banner">
-														<img src="#{props.serverImageName()}/imagens/meu-espaco/site/banner-do-menu-2.jpg" alt="Meu Espaço - banner 2" class="img-responsive"/>
-		                                            </div>
-		                                        </div>		                                    
-		                                    
-		                                    	<ui:repeat 
-		                                    		var="menu" 
-		                                    		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
-		                                    		
-				                                        <div class="col-md-3">
-				                                            <h5>
-						                                       	<a 
-						                                       		jsfc="h:outputLink"
-						                                       		value="#{root}private/site/lista-produtos.xhtml">
-						                                       		
-						                                       		<h:outputText value="#{menu.descricao}" />
-						                                       		
-						                                       		<f:param
-						                                       			name="paramDep"
-						                                       			value="#{dep}"/>
-						                                       		
-						                                       		<f:param
-						                                       			name="paramGrupo"
-						                                       			value="#{menu.codigo}"/>
-						                                       	</a>	
-				                                            </h5>
-				                                            <ul>	
-				                                            	<ui:repeat 
-				                                            		var="submenu" 
-				                                            		value="#{menu.subgrupos.toArray()}">
-																	<li>
-								                                       	<a 
-								                                       		jsfc="h:outputLink"
-								                                       		value="#{root}private/site/lista-produtos.xhtml">
-								                                       		
-								                                       		<h:outputText value="#{submenu.descricao}" />
-								                                       		
-								                                       		<f:param
-								                                       			name="paramDep"
-								                                       			value="#{dep}"/>
-								                                       		
-								                                       		<f:param
-								                                       			name="paramSubgrupo"
-								                                       			value="#{submenu.codigo}"/>
-								                                       	</a>	
-								                                 	</li>	
-								                            	</ui:repeat>
-								                            	<!-- /#ui:repeat subgrupos -->                                                
-				                                            </ul>
-				                                        </div>                                    		
-		                                    		
-		                                    	</ui:repeat>
-												<!-- /#ui:repeat grupos -->
-		                                                
-		                                    </div>
-		                                </div>
-		                                <!-- /.yamm-content -->
-		                            </li>
-		                        </ul>
-		                    </li>
-		                </ui:repeat>
-		                <!-- /#ui-repeat departamentos -->
-	
-	                </ul>
-	
-	            </div>
-	            <!--/.nav-collapse -->
-	
-	            <div class="navbar-buttons">
-	
-	                <div class="navbar-collapse collapse right" id="basket-overview">
-	                    <a 
-	                    	jsfc="h:link"
-	                    	outcome="carrinho"
-	                    	class="btn btn-primary navbar-btn">
-	                    	
-	                    	<i class="fa fa-shopping-cart"></i>
-	                    	<span class="hidden-xs">
-	                        
-	                        	<h:outputText value="#{carrinhoConsignadoBean.qtdDeItens}">
-	                        		<f:convertNumber minFractionDigits="0"/>
-	                        	</h:outputText> 
-	                        	itens
-	                        
-	                        </span>
-	                     </a>
-	                </div>
-	                <!--/.nav-collapse -->
-	
-	                <div class="navbar-collapse collapse right" id="search-not-mobile">
-	                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
-	                        <span class="sr-only">Toggle search</span>
-	                        <i class="fa fa-search"></i>
-	                    </button>
-	                </div>
-	
-	            </div>
-	
-	            <div class="collapse clearfix" id="search">
-	
-	                <h:form class="navbar-form" role="search">
-	                    
-	                    <div class="input-group">
-	                      
-	                        <h:inputText 
-	                        	type="text" 
-	                        	class="form-control" 
-	                        	pt:placeholder="Preencha e clique no botão ao lado."
-	                        	value="#{navBarConsignadoBean.pesquisa}"
-	                        	onkeypress="if (event.keyCode == 13) { return false;}">
-	                        	
-							    <f:ajax 
-							    	event="change" 
-							    	listener="#{navBarConsignadoBean.pesquisar()}"
-							    	execute="@form"/>	                        	
-	                        </h:inputText>
-	                        
-	                        <span class="input-group-btn">
-	
-						        <h:commandLink
-						        	id="btn-pesquisar"
-						        	styleClass="btn btn-primary"
-						        	action="#{navBarConsignadoBean.pesquisar()}">
-						        	
-									<i class="fa fa-search"></i>
-						        </h:commandLink>	
-	
-			    			</span>
-	                    </div>
-	                </h:form>
-	
-	            </div>
-	            <!--/.nav-collapse -->
-	
-	        </div>
-	        <!-- /.container -->
-	    </div>
-	    <!-- /#navbar -->
-	
-	    <!-- *** NAVBAR END *** -->
+		                        	<h:outputText style="font-size: 10px" value="#{carrinhoConsignadoBean.qtdDeItens}">
+		                        		<f:convertNumber minFractionDigits="0"/>
+		                        	</h:outputText>
+		                        </span>
+		                    </a>
+
+		                    <a 
+		                    	class="btn btn-default navbar-toggle" 
+		                    	outcome="minhas-mensagens"
+		                    	jsfc="h:link">
+		                    	
+		                        <i class="#{loginBean.numberOfMessages() > 0 ? 'fa fa-comments-o' : 'fa fa-comments'}"></i> 
+		                    	<span>
+			 	                    <h:outputText style="font-size: 10px" value="#{loginBean.numberOfMessages()}" class="txt_count">
+			 	                    </h:outputText>		                        
+		                        </span>
+		                    </a>
+		                    
+		                </div>
+		            </div>
+		            <!--/.navbar-header -->
+		
+		            <div class="navbar-collapse collapse" id="navigation">
+		
+		                <ul class="nav navbar-nav navbar-left">
+		                    
+		                    <ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
+		                    
+			                    <li class="dropdown yamm-fw">
+			                    
+			                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">#{dep.descricao} <b class="caret"></b></a>
+			                        
+			                        <ul class="dropdown-menu">
+			                            <li>
+			                                <div class="yamm-content">
+			                                    <div class="row">
+			                                    
+			                                        <div class="col-sm-3">
+			                                            <div class="banner">
+															<img src="#{props.serverImageName()}/imagens/meu-espaco/site/banner-do-menu-2.jpg" alt="Meu Espaço - banner 2" class="img-responsive"/>
+			                                            </div>
+			                                        </div>		                                    
+			                                    
+			                                    	<ui:repeat 
+			                                    		var="menu" 
+			                                    		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
+			                                    		
+					                                        <div class="col-md-3">
+					                                            <h5>
+							                                       	<a 
+							                                       		jsfc="h:outputLink"
+							                                       		value="#{root}private/site/lista-produtos.xhtml">
+							                                       		
+							                                       		<h:outputText value="#{menu.descricao}" />
+							                                       		
+							                                       		<f:param
+							                                       			name="paramDep"
+							                                       			value="#{dep}"/>
+							                                       		
+							                                       		<f:param
+							                                       			name="paramGrupo"
+							                                       			value="#{menu.codigo}"/>
+							                                       	</a>	
+					                                            </h5>
+					                                            <ul>	
+					                                            	<ui:repeat 
+					                                            		var="submenu" 
+					                                            		value="#{menu.subgrupos.toArray()}">
+																		<li>
+									                                       	<a 
+									                                       		jsfc="h:outputLink"
+									                                       		value="#{root}private/site/lista-produtos.xhtml">
+									                                       		
+									                                       		<h:outputText value="#{submenu.descricao}" />
+									                                       		
+									                                       		<f:param
+									                                       			name="paramDep"
+									                                       			value="#{dep}"/>
+									                                       		
+									                                       		<f:param
+									                                       			name="paramSubgrupo"
+									                                       			value="#{submenu.codigo}"/>
+									                                       	</a>	
+									                                 	</li>	
+									                            	</ui:repeat>
+									                            	<!-- /#ui:repeat subgrupos -->                                                
+					                                            </ul>
+					                                        </div>                                    		
+			                                    		
+			                                    	</ui:repeat>
+													<!-- /#ui:repeat grupos -->
+			                                                
+			                                    </div>
+			                                </div>
+			                                <!-- /.yamm-content -->
+			                            </li>
+			                        </ul>
+			                    </li>
+			                </ui:repeat>
+			                <!-- /#ui-repeat departamentos -->
+		
+		                </ul>
+		
+		            </div>
+		            <!--/.nav-collapse -->
+		
+		            <div class="navbar-buttons">
+				
+		                <div class="navbar-collapse collapse right" id="search-not-mobile">
+		                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
+		                        <span class="hidden-xs"></span>
+		                        <i class="fa fa-search"></i>
+		                    </button>
+		                </div>
+		                
+		                <div class="navbar-collapse collapse right" id="basket-overview">
+		                    <a 
+		                    	jsfc="h:link"
+		                    	outcome="carrinho"
+		                    	class="btn btn-primary navbar-btn">
+		                    	
+		                    	<i class="fa fa-shopping-cart"></i>
+		                    	<span id="messages_counter">
+		                        
+		                        	<h:outputText value="#{carrinhoConsignadoBean.qtdDeItens}">
+		                        		<f:convertNumber minFractionDigits="0"/>
+		                        	</h:outputText> 
+		                        </span>
+		                     </a>
+		                </div>
+		                
+		                <div class="navbar-collapse collapse right" id="messages">
+		                    <a 
+		                    	jsfc="h:link"
+		                    	outcome="minhas-mensagens"
+		                    	class="btn btn-primary navbar-btn">
+		                    	
+		                    	<i class="#{loginBean.numberOfMessages() > 0 ? 'fa fa-comments-o' : 'fa fa-comments'}"></i>
+		                    	<span>
+			 	                    <h:outputText value="#{loginBean.numberOfMessages()}" class="txt_count">
+			 	                    </h:outputText>		                        
+			 	                </span>
+		                     </a>
+		                </div>	                
+		            </div>
+		
+		            <div class="collapse clearfix" id="search">
+		
+		                    <div class="input-group">
+		                      
+		                        <h:inputText 
+		                        	type="text" 
+		                        	class="form-control" 
+		                        	pt:placeholder="Preencha e clique no botão ao lado."
+		                        	value="#{navBarConsignadoBean.pesquisa}"
+		                        	onkeypress="if (event.keyCode == 13) { return false;}">
+		                        	
+								    <f:ajax 
+								    	event="change" 
+								    	listener="#{navBarConsignadoBean.pesquisar()}"
+								    	execute="@form"/>	                        	
+		                        </h:inputText>
+		                        
+		                        <span class="input-group-btn">
+		
+							        <h:commandLink
+							        	id="btn-pesquisar"
+							        	styleClass="btn btn-primary"
+							        	action="#{navBarConsignadoBean.pesquisar()}">
+							        	
+										<i class="fa fa-search"></i>
+							        </h:commandLink>	
+		
+				    			</span>
+		                    </div>
+		            </div>
+		            <!--/.nav-collapse -->
+		
+		        </div>
+		        <!-- /.container -->
+		    </div>
+		    <!-- /#navbar -->
+		
+	      	<!-- Modal -->
+			<div class="modal fade" id="myModalMsgs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+	      	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h5 class="modal-title" id="myModalLabel">
+			        	<strong>Atenção! Você tem mensagem(ns) urgente(s).</strong></h5>
+			      </div>
+			      <div class="modal-body" id="modalBody">
+					
+			      </div>			      
+			    </div>
+			  </div>
+			</div> 		
+			
+		    <o:commandScript name="logout" action="#{loginBean.logout()}"></o:commandScript>
+		    
+		    <!-- Modal de Timeout de sessão-->
+			<div class="modal fade" id="myModalTimeout" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+		     	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h5 class="modal-title" id="myModalLabel">
+			        	<strong>Atenção! Você ainda está escolhendo?</strong></h5>
+			      </div>
+			      <div class="modal-body" id="modalBody">
+			      	<div class="row">
+						<div class="col-md-3">
+							<p align="center"><span style="font-size:32px"><i class="fa fa-question"></i></span></p>
+						</div>
+						<div class="col-md-9">
+							<p>Parece que você não está mais mexendo no site. Caso não esteja, seu acesso será encerrado. E para
+								continuar clique no botão abaixo.</p>
+						</div>
+					</div>
+			      </div>			      
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-dismiss="modal">Continuar</button>
+			      </div>	      
+			    </div>
+			  </div>
+			</div> 	
+			
+		</h:form>
+		
+		<h:outputScript library="js" name="jquery-1.11.0.min.js" />
+		<h:outputScript library="js" name="bootstrap.min.js" />  
+		<h:outputScript library="js" name="intervals.js" />
+		
+		<script>
+
+
+		</script>
 	</body>
+	
 </html>

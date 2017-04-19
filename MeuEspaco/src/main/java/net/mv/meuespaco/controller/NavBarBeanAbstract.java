@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -38,9 +39,8 @@ public abstract class NavBarBeanAbstract implements Serializable {
 		if (null == departamentos) {
 			departamentos = Departamento.getAtivos();
 		}
-		
 	}
-
+	
 	/**
 	 * Cria os menus pela lista de subgrupos com grupo  
 	 * do departamento de acordo com a finalidade.

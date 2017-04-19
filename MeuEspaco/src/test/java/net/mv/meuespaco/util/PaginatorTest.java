@@ -268,4 +268,30 @@ public class PaginatorTest {
 		assertEquals("Check do firs result", 0, paginator.getFirstResult());
 		assertEquals("Check do firs last", 20, paginator.getLastResult());
 	}
+	
+	@Test
+	public void deveCriarComDadosDoPage()
+	{
+		paginator = new Paginator(10);
+		
+		assertEquals("Page.", 0, paginator.getPage());
+		assertEquals("Total de Pages.", 0, paginator.getTotalPages());
+	}
+	
+	@Test
+	public void deveGoToPage()
+	{
+		paginator = new Paginator(10);
+		
+		paginator.setTotalDeRegistros(100);
+		paginator.setTotalPages(10);
+		
+		assertEquals("Page.", 0, paginator.getPage());
+		assertEquals("Total de Pages.", 10, paginator.getTotalPages());
+		
+		paginator.goToPage(10);
+		
+		assertEquals("Page.", 10, paginator.getPage());
+		assertEquals("Total de Pages.", 10, paginator.getTotalPages());		
+	}
 }

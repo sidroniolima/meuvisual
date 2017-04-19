@@ -1,7 +1,6 @@
 package net.mv.meuespaco.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -21,5 +20,11 @@ public class PropertiesLoadTest {
 	public void deveCarregarUmaPropriedade() 
 	{
 		assertEquals("Carregou property environment.", "local", props.getProperty("environment"));
+	}
+	
+	@Test
+	public void deveCarregarOPathHermes()
+	{
+		assertTrue("Carregou path Hermes.", props.getProperty("hermes-path").contains("hermes-1.0"));
 	}
 }

@@ -1,0 +1,378 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	  template="/public/template_initial.xhtml"
+      xmlns:p="http://primefaces.org/ui">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+
+        	<div class="container">
+        	
+	        	<div class="row">
+	
+			        <div class="col-md-12">
+			            <ul class="breadcrumb">
+			                <li>
+			                	<a href="#">Home</a>
+			                </li>
+			                <li>
+			                	<a href="./pesquisa-mensagem.xhtml">Mensagem</a>
+			                </li>
+			                <li>
+			                	Cadastro
+			                </li>				                
+			            </ul>
+			        </div>
+			 	</div>
+			 	<!-- /.row -->  
+			 	
+			 	<h:form id="frm-mensagem" onkeypress="if (event.keyCode == 13) { return false; }"> 	
+
+					<div class="row">
+		                <div class="col-md-12">
+		
+		                    <div class="box" id="box-cadastro">
+		        	
+		        				<h3>Cadastro de Mensagem</h3>
+		        	
+					   				<h:messages 
+							    	  	id="messages"
+								      	errorClass="alert alert-block alert-danger fade in"
+								      	infoClass="alert alert-block alert-success fade in"
+							     	 	style="padding-left:0px"
+							     	 	globalOnly="true"/>
+							 </div>
+					    </div><!-- /.box-cadastro -->
+					</div><!-- /#col-md-row -->
+	
+					<div class="row">
+		                <div class="col-md-12">
+		                	<div class="box">
+		                	
+		                		<h4>Escopo da mensagem</h4>
+		                		
+		                		<div class="row">
+		                		
+									<div class="col-md-1"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-escopo-cliente">Código</label>
+				                            <h:inputText 
+				                            	style="font-size:10px !important"
+				                            	pt:type="text" 
+				                            	class="form-control" 
+				                            	id="input-escopo-cliente" 
+				                            	pt:placeholder="Código do cliente"
+				                            	value="#{cadastroMensagemBean.escopo.codigoCliente}"
+				                            	valueChangeListener="#{cadastroMensagemBean.selecionaClienteListener}">
+				                            
+											<f:ajax 
+						                        event="blur" 
+						                        render="input-escopo-cliente-nome" />
+										</h:inputText>
+				                        </div>
+				                 	</div>
+
+									<div class="col-md-2"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-escopo-cliente-nome">Nome</label>
+				                            <h:inputText 
+				                            	style="font-size:10px !important"
+				                            	pt:type="text" 
+				                            	class="form-control" 
+				                            	id="input-escopo-cliente-nome" 
+				                            	pt:placeholder="Código do cliente"
+				                            	value="#{cadastroMensagemBean.escopo.cliente.nome}"
+				                            	readonly="true">
+										</h:inputText>
+				                        </div>
+				                 	</div>				                 	
+				                 	
+									<div class="col-md-1"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-escopo-regiao">Região</label>
+				                            <h:inputText 
+				                            	style="font-size:10px !important"
+				                            	pt:type="text" 
+				                            	class="form-control" 
+				                            	id="input-escopo-regiao" 
+				                            	pt:placeholder="Região"
+				                            	value="#{cadastroMensagemBean.escopo.codigoRegiao}"
+				                            	valueChangeListener="#{cadastroMensagemBean.selecionaRegiaoListener}">
+				                            
+											<f:ajax 
+						                        event="blur" 
+						                        render="m_input-escopo-regiao input-escopo-regiao-des" />
+										</h:inputText>
+				                        </div>
+				                 	</div>	
+				                 	
+									<div class="col-md-3">
+										<div class="form-group">
+					                        
+				                            <label for="input-escopo-regiao-des">Descrição</label>
+				                            <h:inputText 
+				                            	pt:type="text" 
+				                            	class="form-control" 
+				                            	id="input-escopo-regiao-des" 
+				                            	pt:placeholder="Descrição da região"
+				                            	value="#{cadastroMensagemBean.escopo.regiao.descricao}"
+				                            	readonly="true">
+				                            
+										</h:inputText>
+				                        </div>
+				                 	</div>						                 						                 	
+	
+									<div class="col-md-3"> 
+										<div class="form-group">
+					                        
+		                            	<label for="select-escopo-semana">Semana</label>
+			                          	<h:selectOneMenu 
+			                          		styleClass="form-control"
+			                          		value="#{cadastroMensagemBean.escopo.semana}"
+			                          		id="select-escopo-semana">
+			                          		
+			                          		<f:selectItem 
+			                          			itemLabel="Selecione uma semana"
+			                          			noSelectionOption="true"/>
+			                          			
+			                          		<f:selectItems
+			                          			value="#{cadastroMensagemBean.semanas}"
+			                          			var="week"
+			                          			itemLabel="#{week.descricao}"
+			                          			itemValue="#{week}"/>
+			                          		
+			                          		<f:ajax
+			                          			event="change"
+			                          			render="m_select-escopo-semana"/>
+			                          	</h:selectOneMenu>  
+	
+						                <h:message 
+						                   	id="m_select-escopo-semana" 
+						                   	for="select-escopo-semana"
+						                   	class="alert-danger fade in"/>	
+				                        </div>
+				                 	</div>
+				                 	
+									<div class="col-md-2"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-escopo-ativos">Usuários Logados</label>
+				                            <h:selectBooleanCheckbox 
+				                            	label="input-escopo-ativos"
+				                            	class="form-control" 
+				                            	id="input-escopo-ativos" 
+				                            	value="#{cadastroMensagemBean.escopo.usuariosLogados}">
+				                            
+											<f:ajax 
+						                        event="blur" 
+						                        render="m_input-escopo-ativos" />
+										</h:selectBooleanCheckbox>
+				                        </div>
+				                 	</div>		
+				                 	
+				                 	<div align="right" style="margin-right: 20px">
+					                 	<h:commandButton
+					                 		class="btn btn-primary" 
+					                 		action="#{cadastroMensagemBean.defineEscopo()}" 
+					                 		value="Definir escopo">
+					                 		
+					                 		<p:ajax
+					                 			execute="@form"
+					                 			update="frm-mensagem"
+					                 			oncomplete="scrollPanelMessages()"/>
+					                 	</h:commandButton>
+					                 </div>
+					                 
+		                		</div>
+		                		
+		                	</div>
+		                	<!-- box -->
+		                </div>
+		                <!-- col-md-12 box -->
+		            </div>
+		            <!-- row box -->
+		            
+		            <h:panelGroup
+						id="panel-mensagem"
+						rendered="#{cadastroMensagemBean.escopo.definido}">
+					
+						<div class="row">
+		                	<div class="col-md-12">
+		                		<div class="box">
+		                	
+		                			<h4>Escopo da mensagem</h4>
+									
+									<div class="row">
+						                <div class="col-md-12">
+							
+											<h:inputHidden
+							            		value="#{cadastroMensagemBean.message.id}"/>
+		
+											<div class="col-md-8 col-sm-12"> 
+												<div class="form-group">
+							                        
+						                            <label for="input-descricao">Mensagem</label>
+						                            <h:inputTextarea 
+						                            	pt:type="textArea" 
+						                            	class="form-control" 
+						                            	id="input-descricao" 
+						                            	pt:placeholder="Informe o corpo da mensagem"
+						                            	value="#{cadastroMensagemBean.message.message}"
+						                            	required="true"
+						                            	requiredMessage="É necessário informar o corpo da mensagem."
+						                            	onkeypress="if (event.keyCode == 13) { this.onchange(); return false; }">
+						                            	
+						                            	<f:ajax 
+									                        event="blur" 
+									                        render="m_input-descricao" />
+									                        	
+									              	</h:inputTextarea>
+									                    
+									                <h:message 
+									                   	id="m_input-descricao" 
+									                   	for="input-descricao"
+									                   	class="alert-danger fade in"/>				                            	
+							                 	</div>
+							            	</div>
+							            	
+											<div class="col-md-8 col-sm-12">    
+						                        <div class="form-group">
+						                        
+						                            <label for="select-familia">Nível <span class="required">*</span></label>
+						                          	<h:selectOneMenu 
+						                          		styleClass="form-control"
+						                          		value="#{cadastroMensagemBean.message.nivel}"
+						                          		id="select-nivel"
+						                          		required="true"
+						                          		requiredMessage="Informe o nível da mensagem.">
+						                          		
+						                          		<f:selectItem 
+						                          			itemLabel="Selecione o nível da mensagem"
+						                          			noSelectionOption="true"/>
+						                          			
+						                          		<f:selectItems
+						                          			value="#{cadastroMensagemBean.niveis}"
+						                          			var="lvl"
+						                          			itemLabel="#{lvl.descricao}"
+						                          			itemValue="#{lvl}"/>
+						                          		
+						                          		<f:ajax
+						                          			event="change"
+						                          			render="m_select-nivel"/>
+						                          	</h:selectOneMenu>  
+		
+									                <h:message 
+									                   	id="m_select-nivel" 
+									                   	for="select-nivel"
+									                   	class="alert-danger fade in"/>				                          	
+						                          	
+						                        </div>
+						                    </div>								            	
+				                        	<div class="col-sm-12 text-center">                        
+						                        <h:commandButton
+						                        	class="btn btn-primary"
+						                        	action="#{cadastroMensagemBean.salvar()}"
+						                        	value="Salvar">
+						                        	
+						                        	<p:ajax
+						                        		execute="@form"
+						                        		update="frm-mensagem"
+						                        		onstart="toggleModal()"
+						                        		oncomplete="toggleModal(); scrollMessages()"/>
+					                        	</h:commandButton>
+				                        	</div>
+						    			</div><!-- /.col-md-12 -->
+				                         
+				                	</div><!-- /.row -->
+
+								</div> <!-- col box -->
+							</div><!-- cod-md-12 -->
+						</div> <!-- /.row -->
+
+					</h:panelGroup>
+		            <!-- panel-mensagem -->
+		    	
+		    	</h:form>
+		    	
+			</div><!-- /.container -->
+    	
+    	</div> 
+		<!-- /#content -->
+		
+	    <!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title" id="myModalLabel">Espere por favor, executando a criação das mensagens.</h4>
+		      </div>
+		      <div class="modal-body">
+					<div class="progress">
+					  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+					  </div>
+					</div>
+		      </div>
+		      <div class="modal-footer">
+		        Esta caixa fechará automaticamente quando finalizada a criação.
+		      </div>				      
+		    </div>
+		  </div>
+		</div> 			
+		
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<script>
+			function toggleModal()
+			{
+				$('#myModal').modal('toggle');
+			}
+			
+			function scrollMessages() {
+			    var posicaoBreadcrumb = $('.breadcrumb').offset().top;
+
+			    $('html,body').animate(
+			    {
+			        scrollTop: posicaoBreadcrumb + "px"
+			    }, 1000);
+			}	
+
+			function scrollPanelMessages() {
+			    var posicaoPanelMessages = $('#frm-mensagem\\:panel-mensagem').offset().top;
+
+			    $('html,body').animate(
+			    {
+			        scrollTop: posicaoPanelMessages + "px"
+			    }, 1000);
+			}						
+		
+		</script>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

@@ -451,6 +451,16 @@ span.tab{
 
 table.table-small
 {
-	font-family:Verdana,sans-serif; 
-	font-size: 11px !important;
+	font-size: 12px !important;
 }
+
+table tr .msg-lida
+{
+	font-style: oblique;
+}
+
+table tr .msg-nao-lida
+{
+	font-style: normal;
+}
+

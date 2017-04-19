@@ -496,6 +496,11 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
+	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro) {
+		return this.clienteDAO.filtraPeloModoEspecifico(filtro);
+	}
+	
+	@Override
 	public GenericDAO<Cliente, Long> getDAO() {
 		return this.clienteDAO;
 	}

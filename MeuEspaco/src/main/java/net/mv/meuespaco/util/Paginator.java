@@ -14,6 +14,10 @@ public class Paginator {
 	
 	private boolean habilitado = true;
 	private int lastResult;
+	private int page = 0;
+	private int totalPages = 0;
+	
+	public Paginator() {	}
 	
 	public Paginator(int qtdPorPagina) {
 		this.qtdPorPagina = qtdPorPagina;
@@ -134,6 +138,43 @@ public class Paginator {
 		this.goTo(this.getPartes()-1);
 	}
 	
+	public void nextPage()
+	{
+		if (!this.isLastPage())
+		{
+			this.page++;
+		}
+	}
+	
+	private boolean isLastPage() 
+	{
+		return this.page == this.totalPages;
+	}
+	
+	private boolean isFirstPage()
+	{
+		return this.page == 0;
+	}
+	
+	public void previousPage()
+	{
+		if (!this.isFirstPage())
+			this.page--;	
+	}
+
+	public void goToPage(int pageNumber)
+	{
+		if (pageNumber >= 0 && pageNumber <= this.totalPages)
+		{
+			this.page = pageNumber;
+		}
+	}
+	
+	public void goToLastPage()
+	{
+		this.page = this.totalPages;
+	}
+	
 	/**
 	 * Verifica se o paginator deve ser particionado.
 	 * 
@@ -163,6 +204,20 @@ public class Paginator {
 		}
 		this.totalDeRegistros = totalDeRegistros;
 	}
+	
+	public int getPage() {
+		return this.page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	
+	public int getTotalPages() {
+		return totalPages;
+	}
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
 
 	/**
 	 * @return the habilitado
@@ -170,12 +225,25 @@ public class Paginator {
 	public boolean isHabilitado() {
 		return habilitado;
 	}
+	
+	/**
+	 * Seta as informações da Page.
+	 * 
+	 * @param totalElements
+	 * @param totalPages
+	 */
+	public void setPaged(int totalElements, int totalPages) 
+	{
+		this.totalDeRegistros = totalElements;
+		this.totalPages = totalPages;
+	}
 
 	@Override
 	public String toString() {
 		return "Paginator [getLastResult()=" + getLastResult()
 				+ ", getFirstResult()=" + getFirstResult()
-				+ ", getQtdPorPagina()=" + getQtdPorPagina() + "]";
+				+ ", getQtdPorPagina()=" + getQtdPorPagina()
+				+ ", page = " + getPage() + " ]";
 	}
 
 }

@@ -1,7 +1,6 @@
 package net.mv.meuespaco.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -9,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.junit.Test;
 
 import net.mv.meuespaco.model.loja.Cliente;
 
@@ -59,16 +56,4 @@ public class ParseFromCsvTest {
 		
 	}
 	
-	@Test
-	public void deveLerOArquivoDaPastaDeIntegracao() {
-		
-		registros = ParseFromCsv.leArquivoDoUpload();
-		
-		if (registros.isEmpty()) {
-			fail("Não foi possível ler o arquivo.");
-		}
-		
-		assertFalse("Número correto de registros.", registros.isEmpty());
-		
-	}
 }

@@ -55,6 +55,8 @@ public class PesquisaMensagemBean extends PesquisaSingle implements Serializable
 	{
 		filtro = new FiltroMensagem();
 		semanas = semanaSrvc.buscaTodas();
+		
+		this.listarComPaginacao();
 	}
 
 	@Override
@@ -82,7 +84,6 @@ public class PesquisaMensagemBean extends PesquisaSingle implements Serializable
 	@Override
 	public void listarComPaginacao() 
 	{
-	
 		if (filtro.isPreenchido())
 		{
 
@@ -117,11 +118,14 @@ public class PesquisaMensagemBean extends PesquisaSingle implements Serializable
 			
 			try 
 			{
+				System.out.println(this.getPaginator());
 				page = this.messageSrvc.listAllByPagination(this.getPaginator().getPage(), this.getPaginator().getQtdPorPagina());
-				this.getPaginator().setTotalDeRegistros(page.getPage().getTotalElements());
-				this.getPaginator().setTotalPages(page.getPage().getTotalPages());
 				
-				mensagens = page.get_embedded().getMessages();
+				this.getPaginator().setTotalDeRegistros(page.getTotalElements());
+				this.getPaginator().setTotalPages(page.getTotalPages());
+				
+				mensagens = page.getContent();
+				mensagens.stream().forEach(System.out::println);
 			
 			} catch (IntegracaoException e) 
 			{

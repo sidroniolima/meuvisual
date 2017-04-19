@@ -453,3 +453,14 @@ table.table-small
 {
 	font-size: 12px !important;
 }
+
+table tr .msg-lida
+{
+	font-style: oblique;
+}
+
+table tr .msg-nao-lida
+{
+	font-style: normal;
+}
+

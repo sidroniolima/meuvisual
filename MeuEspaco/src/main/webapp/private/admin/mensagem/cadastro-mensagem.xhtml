@@ -226,21 +226,7 @@
 											<h:inputHidden
 							            		value="#{cadastroMensagemBean.message.id}"/>
 		
-											<div class="col-sm-8"> 
-												<div class="form-group">
-							                        
-						                            <label for="input-codigo">Código</label>
-						                            <h:inputText 
-						                            	pt:type="text" 
-						                            	class="form-control" 
-						                            	id="input-codigo" 
-						                            	pt:placeholder="Código"
-						                            	value="#{cadastroMensagemBean.message.codigoFormatado()}"
-						                            	readonly="true"/>
-						                        </div>
-						                 	</div>
-											
-											<div class="col-sm-8"> 
+											<div class="col-md-8 col-sm-12"> 
 												<div class="form-group">
 							                        
 						                            <label for="input-descricao">Mensagem</label>
@@ -252,7 +238,7 @@
 						                            	value="#{cadastroMensagemBean.message.message}"
 						                            	required="true"
 						                            	requiredMessage="É necessário informar o corpo da mensagem."
-						                            	onkeypress="if (event.keyCode == 13) { this.onchange(); return false; }">>
+						                            	onkeypress="if (event.keyCode == 13) { this.onchange(); return false; }">
 						                            	
 						                            	<f:ajax 
 									                        event="blur" 
@@ -267,7 +253,7 @@
 							                 	</div>
 							            	</div>
 							            	
-											<div class="col-sm-8">    
+											<div class="col-md-8 col-sm-12">    
 						                        <div class="form-group">
 						                        
 						                            <label for="select-familia">Nível <span class="required">*</span></label>

@@ -19,7 +19,7 @@
 	    
         	<o:commandScript name="pullFromBean" action="#{loginBean.doPull()}"/>
 			
-		    <div class="navbar navbar-default yamm" role="navigation" id="navbar">
+		    <div class="navbar navbar-default yamm" role="navigation" id="navbar" style="padding-right: 15px">
 		        <div class="container">
 		            <div class="navbar-header">
 		
@@ -43,25 +43,27 @@
 		                    	outcome="carrinho"
 		                    	jsfc="h:link">
 		                    	
-		                        <i class="fa fa-comment"></i>  
-		                        <span class="hidden-xs">
-	
-		                        </span>
-		                    </a>
-		                    	                             
-		                    <a 
-		                    	class="btn btn-default navbar-toggle" 
-		                    	outcome="carrinho"
-		                    	jsfc="h:link">
-		                    	
 		                        <i class="fa fa-shopping-cart"></i>  
-		                        <span class="hidden-xs">
+		                        <span>
 		                        
-		                        	<h:outputText value="#{carrinhoConsignadoBean.qtdDeItens}">
+		                        	<h:outputText style="font-size: 10px" value="#{carrinhoConsignadoBean.qtdDeItens}">
 		                        		<f:convertNumber minFractionDigits="0"/>
 		                        	</h:outputText>
 		                        </span>
 		                    </a>
+
+		                    <a 
+		                    	class="btn btn-default navbar-toggle" 
+		                    	outcome="minhas-mensagens"
+		                    	jsfc="h:link">
+		                    	
+		                        <i class="#{loginBean.numberOfMessages() > 0 ? 'fa fa-comments-o' : 'fa fa-comments'}"></i> 
+		                    	<span>
+			 	                    <h:outputText style="font-size: 10px" value="#{loginBean.numberOfMessages()}" class="txt_count">
+			 	                    </h:outputText>		                        
+		                        </span>
+		                    </a>
+		                    
 		                </div>
 		            </div>
 		            <!--/.navbar-header -->
@@ -154,7 +156,7 @@
 				
 		                <div class="navbar-collapse collapse right" id="search-not-mobile">
 		                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
-		                        <span class="hidden-xs">&nbsp;</span>
+		                        <span class="hidden-xs"></span>
 		                        <i class="fa fa-search"></i>
 		                    </button>
 		                </div>
@@ -166,7 +168,7 @@
 		                    	class="btn btn-primary navbar-btn">
 		                    	
 		                    	<i class="fa fa-shopping-cart"></i>
-		                    	<span id="messages_counter" class="hidden-xs">
+		                    	<span id="messages_counter">
 		                        
 		                        	<h:outputText value="#{carrinhoConsignadoBean.qtdDeItens}">
 		                        		<f:convertNumber minFractionDigits="0"/>
@@ -178,12 +180,12 @@
 		                <div class="navbar-collapse collapse right" id="messages">
 		                    <a 
 		                    	jsfc="h:link"
-		                    	outcome="#"
+		                    	outcome="minhas-mensagens"
 		                    	class="btn btn-primary navbar-btn">
 		                    	
-		                    	<i class="fa fa-comment"></i>
-		                    	<span class="hidden-xs">
-			 	                    <h:outputText value="#{loginBean.numberOfMessages()}" id="txt_count">
+		                    	<i class="#{loginBean.numberOfMessages() > 0 ? 'fa fa-comments-o' : 'fa fa-comments'}"></i>
+		                    	<span>
+			 	                    <h:outputText value="#{loginBean.numberOfMessages()}" class="txt_count">
 			 	                    </h:outputText>		                        
 			 	                </span>
 		                     </a>

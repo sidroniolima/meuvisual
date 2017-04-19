@@ -1,12 +1,15 @@
 package net.mv.meuespaco.service.impl;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Properties;
 
 import javax.ejb.Singleton;
 
 @Singleton
-public class PropertiesLoad {
+public class PropertiesLoad implements Serializable {
+
+	private static final long serialVersionUID = -6319760600855727710L;
 
 	private final String filePath = "environment.properties";
 	
@@ -17,7 +20,7 @@ public class PropertiesLoad {
 		try {
 			props = new Properties();
 			props.load(getClass().getClassLoader().getResourceAsStream(filePath));
-			
+
 		} catch (IOException e) 
 		{
 			e.printStackTrace();

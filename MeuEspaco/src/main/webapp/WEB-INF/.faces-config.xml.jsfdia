@@ -197,4 +197,16 @@
   PATH="/private/venda/lista-produtos.xhtml" SHAPE="240,1601,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#private#venda#index.xhtml"
   PATH="/private/venda/index.xhtml" SHAPE="240,1265,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:18" PATH="/*" SHAPE="32,2033,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:18" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="minhas-mensagens::#private#site#cliente#minhas-mensagens.xhtml"
+    NAME="output" PATH="/private/site/cliente/minhas-mensagens.xhtml"
+    TARGET="rules:#private#site#cliente#minhas-mensagens.xhtml"
+    TITLE="minhas-mensagens" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#site#cliente#minhas-mensagens.xhtml"
+  PATH="/private/site/cliente/minhas-mensagens.xhtml"
+  SHAPE="240,2049,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

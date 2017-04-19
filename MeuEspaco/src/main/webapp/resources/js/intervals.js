@@ -17,7 +17,7 @@ function registraCronometro()
 	cronometroId = setInterval(() => {
 		pullFromBean();				
 		
-		$('#frm-nav-bar\\:txt_count').text(countMsg);
+		$('.txt_count').text(countMsg);
 	
 		if (must == 'yes')
 		{
@@ -26,14 +26,14 @@ function registraCronometro()
 			list.map(function(msg) 
 			{
 				row = '<div class="row">' + 			      				      	
-								'<div class="col-md-2">' +
+							'<div class="col-md-2 col-xs-2">' +
 								'	<p align="center"><span style="font-size:32px"><i class="fa fa-exclamation"></i></span></p>' +
-								'</div>' +
-								'<div class="col-md-10">' +				
+							'</div>' +
+							'<div class="col-md-10 col-xs-10">' +				
 								'	<p>' + msg + '</p>' +
-								'</div>' + 
-								'</div>' +
-								'<hr/>';
+							'</div>' + 
+						'</div>' +
+						'<hr/>';
 
 				modalBody.append(row);
 				
@@ -49,7 +49,7 @@ function registraCronometro()
 $("#myModalMsgs").on("hide.bs.modal", function () 
 {
 	pullFromBean();
-	$('#frm-nav-bar\\:txt_count').text(countMsg);
+	$('.txt_count').text(countMsg);
 	registraCronometro();
 });
 

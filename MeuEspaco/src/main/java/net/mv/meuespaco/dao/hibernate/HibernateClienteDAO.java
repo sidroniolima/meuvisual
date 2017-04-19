@@ -12,6 +12,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 
 import net.mv.meuespaco.controller.filtro.FiltroCliente;
 import net.mv.meuespaco.dao.ClienteDAO;
@@ -176,9 +177,9 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro) 
 	{
 		Criteria criteria = this.getSession().createCriteria(Cliente.class);
-		criteria.setFetchMode("regiao", FetchMode.JOIN);
 		
-		criteria.createAlias("regiao.semana", "semana");
+		criteria.createAlias("regiao", "reg", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("reg.semana", "sem", JoinType.LEFT_OUTER_JOIN);
 		
 		if (null != filtro.getCodigoSiga() && !filtro.getCodigoSiga().isEmpty()) 
 		{
@@ -202,7 +203,7 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 
 		if (null != filtro.getSemana())
 		{
-			criteria.add(Restrictions.eq("semana", filtro.getSemana()));
+			criteria.add(Restrictions.eq("sem.codigo", filtro.getSemana().getCodigo()));
 		}
 		
 		if (null != filtro.getStatus())

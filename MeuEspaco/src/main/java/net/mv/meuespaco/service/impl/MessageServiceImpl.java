@@ -1,5 +1,6 @@
 package net.mv.meuespaco.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,24 +33,31 @@ import net.mv.meuespaco.util.Paginator;
  * @created 20/03/2017
  */
 @Stateless
-public class MessageServiceImpl implements MessageService 
+public class MessageServiceImpl implements MessageService, Serializable
 {
+	private static final long serialVersionUID = 6409256827647594418L;
+
+	private final Logger log = Logger.getLogger(MessageServiceImpl.class.getName());
 	
 	@Inject
 	private PropertiesLoad props;
 	
-	private final String apiServerPath = props.getProperty("hermes-path");
+	private String apiUrlForTest = "/test/";
+	private String apiUrl = "/messages/";
+	private String apiUrlAll = "/messages/all/";
+	private String apiUrlByUser = "/%s/messages/all/";
+	private String apiUrlByUserNews = "/%s/messages/news/";
+	private String apiUrlById = "/messages/%s";
+	private String apiUrlRead = "/messages/%s/read";
+	private String apiUrlAllByPage = "/messages/?page=%s&size=%s";
+	private String apiUrlByUserByPage = "/%s/messages/?page=%s&size=%s&sort=horarioCriacao,desc";
 	
-	private final String apiUrlForTest = apiServerPath + "/messages/test/";
-	private final String apiUrl = apiServerPath + "/messages/";
-	private final String apiUrlAll = apiServerPath + "/messages/all/";
-	private final String apiUrlByUser = apiServerPath + "/%s/messages/";
-	private final String apiUrlByUserNews = apiServerPath + "/%s/messages/news/";
-	private final String apiUrlById = apiServerPath + "/messages/%s";
-	private final String apiUrlRead = apiServerPath + "/messages/%s/read";
-	private final String apiUrlAllByPage = apiServerPath + "/messages?page=%s&size=%s";
+	public MessageServiceImpl() 	{	}
 	
-	private final Logger log = Logger.getLogger(MessageServiceImpl.class.getName());
+	public MessageServiceImpl(PropertiesLoad props) 
+	{
+		this.props = props;
+	}
 	
 	@Override
 	public int createMessages(List<Message> messages) throws IntegracaoException
@@ -77,7 +85,7 @@ public class MessageServiceImpl implements MessageService
 	@Override
 	public List<Message> findByUsuario(String usuario) throws IntegracaoException 
 	{
-		String urlFormed = String.format(apiUrlByUser, usuario);
+		String urlFormed = String.format(this.makeUrl(apiUrlByUser), usuario);
 		
 		List<Message> messages = 
 				new Gson().fromJson(this.get(urlFormed).readEntity(String.class), Message.getSerializedCollectionType());
@@ -103,12 +111,20 @@ public class MessageServiceImpl implements MessageService
 		
 		return new Gson().fromJson(this.update(url, message).readEntity(String.class), Message.class);
 	}
+	
+	@Override
+	public Message read(Long codigo) throws IntegracaoException 
+	{
+		return this.read(this.findByCodigo(codigo));
+	}
 
 	@Override
 	public List<Message> getAll() throws IntegracaoException 
 	{
+		String urlFormed = String.format(this.apiUrlAll);
+		
 		return new Gson()
-				.fromJson(this.get(this.apiUrlAll)
+				.fromJson(this.get(urlFormed)
 						.readEntity(String.class), Message.getSerializedCollectionType());
 	}
 	
@@ -126,12 +142,14 @@ public class MessageServiceImpl implements MessageService
 		
 		try 
 		{	
+			String url = this.makeUrl(apiUrl);
+			
 			clientResponse = getRestClient()
-				.target(apiUrl)
+				.target(url)
 				.request(MediaType.APPLICATION_JSON)
 				.header("Authorization", "Basic " + Base64.encodeBase64String("admin:pass$".getBytes()))
 				.post(Entity.entity(new Gson().toJson(message), MediaType.APPLICATION_JSON_TYPE));
-		
+			
 			verificaResposta(clientResponse);
 			
 			return new Gson().fromJson(clientResponse.readEntity(String.class), Message.class);
@@ -171,9 +189,9 @@ public class MessageServiceImpl implements MessageService
 	@Override
 	public Message updateMessage(Message message) throws IntegracaoException
 	{
-		String url = String.format(this.apiUrlById, message.getId());
-		
-		return new Gson().fromJson(this.update(url, message).readEntity(String.class), Message.class);
+		return new Gson().fromJson(
+				this.update(String.format(this.apiUrlById, message.getId()), message)
+				.readEntity(String.class), Message.class);
 	}
 	
 	@Override
@@ -184,7 +202,7 @@ public class MessageServiceImpl implements MessageService
 		try 
 		{		
 			response = getRestClient()
-				.target(String.format(apiUrlById, id.toString()))
+				.target(String.format(this.makeUrl(apiUrlById), id.toString()))
 				.request(MediaType.APPLICATION_JSON)
 				.header("Authorization", "Basic " + Base64.encodeBase64String("admin:pass$".getBytes()))
 				.delete();
@@ -211,11 +229,25 @@ public class MessageServiceImpl implements MessageService
 	{
 		Response clientResponse = this.get(String.format(apiUrlAllByPage, page, size));
 		
+		String response = clientResponse.readEntity(String.class);
+				
 		CustomPageImpl<Message> resultPage 
-			= new Gson().fromJson(clientResponse.readEntity(String.class), Message.getSerializedPageType());
+			= new Gson().fromJson(response, Message.getSerializedPageType());
 		
 		return resultPage;
 	}	
+	
+	@Override
+	public CustomPageImpl<Message> listByUsuarioByPagination(String usuario, int page, int size) throws IntegracaoException 
+	{
+		String url = String.format(apiUrlByUserByPage, usuario, page, size);
+		
+		Response clientResponse  = this.get(url);
+		
+		CustomPageImpl<Message> resultPage = new Gson().fromJson(clientResponse.readEntity(String.class), Message.getSerializedPageType());
+		
+		return resultPage;
+	}
 	
 	private ResteasyClient getRestClient() 
 	{
@@ -230,10 +262,12 @@ public class MessageServiceImpl implements MessageService
 	{
 		Response response = null;
 		
+		String urlMaked = this.makeUrl(url);
+
 		try 
 		{
 			response = this.getRestClient()
-					.target(url)
+					.target(urlMaked)
 					.request(MediaType.APPLICATION_JSON)
 					.header("Authorization", "Basic " + Base64.encodeBase64String("admin:pass$".getBytes()))
 					.get(Response.class);
@@ -257,7 +291,7 @@ public class MessageServiceImpl implements MessageService
 		{
 		
 			response = this.getRestClient()
-					.target(url)
+					.target(this.makeUrl(url))
 					.request(MediaType.APPLICATION_JSON)
 					.header("Authorization", "Basic " + Base64.encodeBase64String("admin:pass$".getBytes()))
 					.put(Entity.entity(new Gson().toJson(message), MediaType.APPLICATION_JSON_TYPE));
@@ -288,4 +322,17 @@ public class MessageServiceImpl implements MessageService
 		}
 		
 	}
+	
+	/**
+	 * Make the complete Url with the server path and 
+	 * the resource.
+	 * 
+	 * @param lastUrl
+	 * @return
+	 */
+	private String makeUrl(String resource) 
+	{
+		return this.props.getProperty("hermes-path").concat(resource);
+	}
+
 }

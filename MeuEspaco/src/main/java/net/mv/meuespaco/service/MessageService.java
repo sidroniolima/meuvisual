@@ -58,4 +58,22 @@ public interface MessageService {
 	
 	public CustomPageImpl<Message> listAllByPagination(int page, int size) throws IntegracaoException;
 
+	/**
+	 * Lista as mensagens do usuário de forma paginada.
+	 * 
+	 * @param clienteLogado
+	 * @param page
+	 * @param size
+	 * @return
+	 * @throws IntegracaoException 
+	 */
+	public CustomPageImpl<Message> listByUsuarioByPagination(String usuario, int page, int size) throws IntegracaoException;
+
+	/**
+	 * Lê uma mensagem pelo seu código.
+	 * @param codigo da mensagem.
+	 * @throws IntegracaoException 
+	 */
+	public Message read(Long codigo) throws IntegracaoException;
+
 }

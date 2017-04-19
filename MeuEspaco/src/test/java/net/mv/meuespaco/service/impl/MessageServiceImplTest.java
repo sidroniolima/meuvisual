@@ -7,7 +7,10 @@ import static org.junit.Assert.assertTrue;
 import java.net.ConnectException;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gson.JsonSyntaxException;
@@ -22,8 +25,23 @@ import net.mv.meuespaco.util.Paginator;
 public class MessageServiceImplTest {
 
 	private MessageService messageSrvc;
+	private PropertiesLoad props = new PropertiesLoad();
+	
+	public MessageServiceImplTest() 
+	{
+		this.messageSrvc = new MessageServiceImpl(props);
+	}
+	
+	private void createMessages() throws IntegracaoException, JsonSyntaxException, ConnectException 
+	{
+		for (int i=0;i<30;i++)
+		{
+			this.messageSrvc.createMessage(new Message("Teste de mensagem automática.", "000042", MessageLevel.NORMAL));
+		}
+	}
 	
 	@Before
+	@After
 	public void deleteAll() throws JsonSyntaxException, ConnectException
 	{
 		List<Message> messages;
@@ -45,11 +63,6 @@ public class MessageServiceImplTest {
 		{
 			System.out.println(e.getMessage());
 		}
-	}
-	
-	public MessageServiceImplTest() 
-	{
-		this.messageSrvc = new MessageServiceImpl();
 	}
 	
 	@Test
@@ -152,21 +165,79 @@ public class MessageServiceImplTest {
 		
 		try 
 		{
+			CustomPageImpl<Message> page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
+			assertTrue("Conteúdo recuperado.", null != page.getContent());
+			
+		} catch (Exception e) 
+		{
+			System.out.println(e.getMessage());
+		}
+	}
+			
+	
+	@Test
+	public void mustListAllByPageAndDoPaginator()
+	{
+		Paginator paginator = new Paginator(10);
+		
+		try 
+		{
+			createMessages();
+			
+			System.out.println("PAGE: " + paginator.getPage() + "***********************************************");
 			
 			CustomPageImpl<Message> page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
 
-			paginator.setTotalDeRegistros(page.getPage().getTotalElements());
-			paginator.setTotalPages(page.getPage().getTotalPages());
-			System.out.println(paginator);
+			paginator.setTotalDeRegistros(page.getTotalElements());
+			paginator.setTotalPages(page.getTotalPages());
 			
-			page.get_embedded().getMessages().stream().forEach(System.out::println);
+			page.getContent().stream().forEach(System.out::println);
+			/*
+			paginator.nextPage();
+			
+			System.out.println("PAGE: " + paginator.getPage() + "***********************************************");
+			
+			page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
+			paginator.setPaged(page.getTotalElements(), page.getTotalPages());
+			page.getContent().stream().forEach(System.out::println);
+			*/
+			paginator.goToPage(0);
+			
+			System.out.println("PAGE: " + paginator.getPage() + "***********************************************");
+			
+			page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
+			paginator.setPaged(page.getTotalElements(), page.getTotalPages());
+			page.getContent().stream().forEach(System.out::println);
+			
+		} catch (Exception e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	@Test
+	public void mustListByUsarioByPage()
+	{
+		Paginator paginator = new Paginator(10);
+		
+		try 
+		{
+			createMessages();
+			
+			CustomPageImpl<Message> page = this.messageSrvc.listByUsuarioByPagination("000042", paginator.getPage(), paginator.getQtdPorPagina());
+
+			paginator.setTotalDeRegistros(page.getTotalElements());
+			paginator.setTotalPages(page.getTotalPages());
+			
+			page.getContent().stream().forEach(System.out::println);
 			
 			paginator.nextPage();
 			
 			System.out.println("PAGE: " + paginator.getPage() + "***********************************************");
-			System.out.println(paginator);
+
 			page = this.messageSrvc.listAllByPagination(paginator.getPage(), paginator.getQtdPorPagina());
-			page.get_embedded().getMessages().stream().forEach(System.out::println);
+			page.getContent().stream().forEach(System.out::println);
 			
 		} catch (Exception e) 
 		{

@@ -225,6 +225,18 @@ public class Paginator {
 	public boolean isHabilitado() {
 		return habilitado;
 	}
+	
+	/**
+	 * Seta as informações da Page.
+	 * 
+	 * @param totalElements
+	 * @param totalPages
+	 */
+	public void setPaged(int totalElements, int totalPages) 
+	{
+		this.totalDeRegistros = totalElements;
+		this.totalPages = totalPages;
+	}
 
 	@Override
 	public String toString() {

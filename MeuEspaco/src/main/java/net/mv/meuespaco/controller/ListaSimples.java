@@ -14,11 +14,6 @@ import net.mv.meuespaco.util.Paginator;
 public abstract class ListaSimples {
 	
 	/**
-	 * Filtro de pesquisa genérico utilizado no controller.
-	 */
-	private FiltroDePesquisa filtro;
-
-	/**
 	 * Paginador utilizado na navegação dos registros de modo Lazy.
 	 */
 	private Paginator paginator = new Paginator(IConstants.QTD_PADRAO_REGISTROS_POR_PAGINA);
@@ -42,11 +37,5 @@ public abstract class ListaSimples {
 		return paginator;
 	}
 
-	public FiltroDePesquisa getFiltro() {
-		return filtro;
-	}
-	public void setFiltro(FiltroDePesquisa filtro) {
-		this.filtro = filtro;
-	}
-	
+	public abstract FiltroDePesquisa getFiltro();
 }

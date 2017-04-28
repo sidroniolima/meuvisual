@@ -2,7 +2,6 @@ package net.mv.meuespaco.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;

@@ -85,7 +85,8 @@ public class CreditoServiceImpl extends SimpleServiceLayerImpl<Credito, Long> im
 	 * Remove os registros da tabela de crédito para 
 	 * evitar a duplição e manter os dados atualizados.
 	 */
-	private void removeRegistros() {
+	private void removeRegistros() 
+	{
 		this.creditoDAO.removerRegistros();
 	}
 

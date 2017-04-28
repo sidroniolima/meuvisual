@@ -19,10 +19,6 @@ import net.mv.meuespaco.util.Paginator;
  * @author Sidronio
  * 08/01/2016
  */
-/**
- * @author sidronio
- *
- */
 public interface EscolhaService extends SimpleServiceLayer<Escolha, Long> {
 
 	/**

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
+import net.mv.meuespaco.controller.filtro.FiltroDePesquisa;
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.cielo.CieloException;
@@ -96,5 +97,10 @@ public class ListaComprasDoClienteBean extends ListaSimples implements Serializa
 		this.vendaSelecionada = vendaSelecionada;
 	}
 	
+	@Override
+	public FiltroDePesquisa getFiltro() 
+	{
+		return null;
+	}
 }
 

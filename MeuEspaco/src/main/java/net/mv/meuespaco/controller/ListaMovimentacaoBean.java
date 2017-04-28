@@ -8,6 +8,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.mv.meuespaco.controller.filtro.FiltroDePesquisa;
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaMovimento;
 import net.mv.meuespaco.model.estoque.Movimento;
 import net.mv.meuespaco.model.estoque.OrigemMovimento;
@@ -28,13 +29,16 @@ public class ListaMovimentacaoBean extends ListaSimples implements Serializable{
 	private TipoMovimento[] tipos;
 	private OrigemMovimento[] origens;
 	
+	private FiltroPesquisaMovimento filtro;
+	
 	@Override
 	@PostConstruct
-	public void init() {
+	public void init() 
+	{
+		filtro = new FiltroPesquisaMovimento();
+		
 		tipos = TipoMovimento.values();
 		origens = OrigemMovimento.values();
-		
-		this.setFiltro(new FiltroPesquisaMovimento());
 	}
 
 	@Override
@@ -54,5 +58,11 @@ public class ListaMovimentacaoBean extends ListaSimples implements Serializable{
 
 	public List<Movimento> getMovimentos() {
 		return movimentos;
+	}
+	
+	@Override
+	public FiltroDePesquisa getFiltro() 
+	{
+		return this.filtro;
 	}
 }

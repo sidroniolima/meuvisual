@@ -8,6 +8,7 @@ import javax.inject.Named;
 import org.omnifaces.util.Faces;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
+import net.mv.meuespaco.controller.filtro.FiltroDePesquisa;
 import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.integracao.CustomPageImpl;
 import net.mv.meuespaco.model.integracao.Message;
@@ -84,4 +85,9 @@ public class ListaMensagensBean extends ListaSimples
 		return page;
 	}
 	
+	@Override
+	public FiltroDePesquisa getFiltro() 
+	{
+		return null;
+	}
 }

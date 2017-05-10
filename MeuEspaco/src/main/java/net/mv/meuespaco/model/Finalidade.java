@@ -3,7 +3,8 @@ package net.mv.meuespaco.model;
 public enum Finalidade {
 
 	VENDA("Venda"),
-	CONSIGNADO("Consignado");
+	CONSIGNADO("Consignado"),
+	BRINDE("Brinde");
 	
 	private String descricao;
 

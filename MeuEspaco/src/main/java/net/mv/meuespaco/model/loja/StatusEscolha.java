@@ -6,7 +6,8 @@ public enum StatusEscolha {
 	ENVIADA("Enviada"),
 	EM_SEPARACAO("Em separação"),
 	ATENDIDA("Atendido"), 
-	FINALIZADA("Finalizada");
+	FINALIZADA("Finalizada"),
+	NOVA("Nova");
 
 	private String descricao;
 	

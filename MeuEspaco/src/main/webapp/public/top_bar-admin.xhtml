@@ -9,19 +9,27 @@
 		_________________________________________________________ -->
 	    <div id="top">
 	        <div class="container">
-	            <div class="col-md-6 offer" data-animate="fadeInDown">
-	                <a href="#{root}private/site/index.xhtml" class="btn btn-success btn-sm" data-animate-hover="shake">site</a>
-	            </div>
-	            <div class="col-md-6" data-animate="fadeInDown">
-	                <h:form>
-
-	                	<ul class="menu">
-	                    	<li>
-	                    		<h:commandLink action="#{loginBean.logout()}"> Log Out</h:commandLink>
-	                    	</li>
-	                    </ul>
-	            	</h:form>
-	            </div>
+	        	<div class="row">
+		        	<div class="col-md-6 col-xs-6" data-animate="fadeInDown">
+						<a href="#{root}private/site/index.xhtml" style="text-decoration: none" title="Meu Espaço">
+							<i class="fa fa-shopping-basket fa-2x icon-top-bar green" aria-hidden="true"></i> 
+						</a>
+					</div>
+			        
+			        <div class="col-md-6 col-xs-6 right" data-animate="fadeInDown">
+		                <h:form>
+	
+		                	<ul class="menu">
+		                    	<li>
+		                    		<h:commandLink action="#{loginBean.logout()}">
+		                    			<i class="fa fa-sign-out fa-2x" aria-hidden="true">
+		                    			</i>
+		                    		</h:commandLink>
+		                    	</li>
+		                    </ul>
+		            	</h:form>
+		            </div>
+		    	</div>
 	        </div>
 	    </div>
 	

@@ -18,10 +18,17 @@
 					
 					<h:panelGroup
 						rendered="#{loginBean.userLogged.admin}">
-						<a href="#{root}private/admin/dashboard/dashboard.xhtml" class="btn btn-success btn-sm" data-animate-hover="shake">PA</a>
+						<a href="#{root}private/admin/dashboard/dashboard.xhtml" style="text-decoration: none" title="Painel administrativo">
+							<i class="fa fa-cogs fa-2x icon-top-bar blue" aria-hidden="true"></i>
+						</a>
 					</h:panelGroup>
-					<a href="#{root}private/venda/index.xhtml?faces-redirect=true" class="btn btn-success btn-sm" data-animate-hover="shake">M.E. Store</a>
-	                <a href="#">#{loginBean.mensagemInicial}</a>
+					<a href="#{root}private/venda/index.xhtml?faces-redirect=true" style="text-decoration: none" title="M.E. Store">
+						<i class="fa fa-shopping-bag fa-2x icon-top-bar violet" aria-hidden="true"></i> 
+					</a>									
+					<a href="#{root}private/venda/index.xhtml?faces-redirect=true" style="text-decoration: none" title="Área de brindes">
+						<i class="fa fa-gift fa-2x icon-top-bar yellow" aria-hidden="true" ></i>
+					</a>									
+	                #{loginBean.mensagemInicial}
 	            </div>
 	            
 	            <h:panelGroup
@@ -33,9 +40,6 @@
 	                <h:form>
 
 	                	<ul class="menu">
-	                    	<li>
-	                    		<h:commandLink action="#{loginBean.logout()}"> Sair</h:commandLink>
-	                    	</li>
 	                    
 		                    <li><a href="${root}private/site/cliente/meu-cadastro.xhtml">Minhas informações</a>
 		                    </li>
@@ -43,7 +47,12 @@
 		                    </li>
 		                    <li><a href="http://meuvisual.com.br/atendimento/" target="_blank">Atendimento</a>
 		                    </li>
-	                   
+	                    	<li>
+	                    		<h:commandLink action="#{loginBean.logout()}" title="Sair" style="text-decoration: none">
+	                    			<i class="fa fa-sign-out" aria-hidden="true">
+	                    			</i>		
+	                    		</h:commandLink>
+	                    	</li>	                   
 	                	</ul>
 	                 </h:form>
 	            </div>

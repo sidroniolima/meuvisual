@@ -29,7 +29,7 @@ public interface PontuacaoService extends SimpleServiceLayer<Pontuacao, Long>
 	 * 
 	 * @return pontos acumulados.
 	 */
-	public long pontosAcumuladosDoClienteLogado();
+	public Long pontosAcumuladosDoClienteLogado();
 	
 	/**
 	 * Importa a pontuação do arquivo gerado do ERP.

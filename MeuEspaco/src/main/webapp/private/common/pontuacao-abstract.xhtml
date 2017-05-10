@@ -8,6 +8,7 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:f="http://java.sun.com/jsf/core">
 
+<body>
 	<div id="content">
 	    <div class="container">
 	
@@ -24,19 +25,19 @@
          <h:form
               	id="frm-creditos">
 		
-			<div class="col-md-12" id="box-mensagem">	
+				<div class="col-md-9">
+					<div class="box" style="height: 156px">
+						<h4>Lista de pontos ganhos no acerto, venda direta, bônus de equipe, aniversário e aniversário de cadastro.</h4>
+					</div>			
+				</div>
+				
+				<div class="col-md-3">				    
+				    <div class="box">
+				        <h4># saldo de pontos</h4>
+				        <h1>#{pontuacaoDoClienteBean.pontosAcumuladosDoCliente()}</h1>
+				    </div>
+				</div>
 
-				<div class="box left col-md-9" style="height: 156px">
-					<h4>Lista de pontos ganhos no acerto, venda direta, bônus de equipe, aniversário e aniversário de cadastro.</h4>
-				</div>			
-				    
-			    <div class="box right col-md-3" >
-			        <h4># saldo de pontos</h4>
-			        <h1>#{pontuacaoDoClienteBean.pontosAcumuladosDoCliente()}</h1>
-			    </div>
-
-			</div>
-			<!-- ./#box-mensagem -->						
 		
 			<div class="col-md-12" style="padding-bottom:150px">
 				    
@@ -181,5 +182,5 @@
 
 </div>
 <!-- /#content -->		
-	
+</body>	
 </html>

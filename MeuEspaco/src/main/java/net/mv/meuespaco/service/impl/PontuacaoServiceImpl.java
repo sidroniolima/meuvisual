@@ -75,9 +75,12 @@ public class PontuacaoServiceImpl extends SimpleServiceLayerImpl<Pontuacao, Long
 	}
 
 	@Override
-	public long pontosAcumuladosDoClienteLogado() 
+	public Long pontosAcumuladosDoClienteLogado() 
 	{
-		return this.pontoDAO.buscarSomaDosPontosAcumuladosPeloCodigoCliente(this.clienteLogado.getCodigoSiga());
+		Long pontos = this.pontoDAO
+				.buscarSomaDosPontosAcumuladosPeloCodigoCliente(this.clienteLogado.getCodigoSiga());
+		
+		return null == pontos ? 0L : pontos;
 	}
 
 	@Override

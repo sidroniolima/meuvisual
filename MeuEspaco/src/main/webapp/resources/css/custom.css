@@ -464,3 +464,39 @@ table tr .msg-nao-lida
 	font-style: normal;
 }
 
+.icon-top-bar
+{
+	padding-right: 03px;
+}
+
+.a-no-style
+{
+	text-decoration: none;
+}
+
+i:hover.green
+{
+	color: #6eb752;
+}
+
+i:hover.violet
+{
+	color: #bd6db1;
+}
+
+i:hover.yellow
+{
+	color: yellow;
+}
+
+i:hover.blue
+{
+	color: #4993e4;
+}
+
+#brinde-input-search
+{
+	border-radius: 25px !important;
+	font-size: 12px !important;
+	font-weight: bold; !important;
+}

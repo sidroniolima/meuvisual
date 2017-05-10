@@ -10,9 +10,9 @@ import javax.inject.Inject;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.GrupoDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.model.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.GrupoService;
 
 /**
@@ -40,7 +40,7 @@ public class GrupoServiceImpl extends SimpleServiceLayerImpl<Grupo, Long> implem
 	}
 
 	@Override
-	public GenericDAO getDAO() {
+	public GenericDAO<Grupo, Long> getDAO() {
 		return grupoDAO;
 	}
 

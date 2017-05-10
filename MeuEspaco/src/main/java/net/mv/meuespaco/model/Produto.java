@@ -39,6 +39,7 @@ import org.hibernate.annotations.FetchMode;
 import net.mv.meuespaco.converter.LocalDateDBConverter;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.grade.Grade;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.IConstants;
 
 @Entity
@@ -81,8 +82,8 @@ public class Produto extends EntidadeModel implements Serializable {
 	@Column(name="tipo_grade")
 	private TipoGrade tipoGrade;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(name="departamento")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="departamento_codigo")
 	private Departamento departamento;
 	
 	@Enumerated(EnumType.STRING)

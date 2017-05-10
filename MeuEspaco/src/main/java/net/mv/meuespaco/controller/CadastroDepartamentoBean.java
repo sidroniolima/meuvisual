@@ -1,7 +1,9 @@
 package net.mv.meuespaco.controller;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -14,7 +16,9 @@ import net.mv.meuespaco.util.FacesUtil;
 
 @Named
 @ViewScoped
-public class CadastroDepartamentoBean extends CadastroSingle {
+public class CadastroDepartamentoBean extends CadastroSingle implements Serializable 
+{
+	private static final long serialVersionUID = -1099161602716440530L;
 
 	@Inject
 	private DepartamentoService depService;

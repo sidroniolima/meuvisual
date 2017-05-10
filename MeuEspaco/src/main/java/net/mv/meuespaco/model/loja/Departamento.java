@@ -53,7 +53,7 @@ public class Departamento extends EntidadeModel {
 	
 	@Override
 	public void valida() throws RegraDeNegocioException {
-		if (null == descricao || descricao.isEmpty()) {
+		if (null != descricao && descricao.isEmpty()) {
 			throw new RegraDeNegocioException("A descrição do departamento é necessária.");
 		}
 	}

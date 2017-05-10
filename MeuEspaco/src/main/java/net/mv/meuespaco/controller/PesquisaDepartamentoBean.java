@@ -1,9 +1,11 @@
 package net.mv.meuespaco.controller;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.faces.bean.ViewScoped;
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,7 +24,9 @@ import net.mv.meuespaco.util.FacesUtil;
  */
 @Named
 @ViewScoped
-public class PesquisaDepartamentoBean extends PesquisaSingle {
+public class PesquisaDepartamentoBean extends PesquisaSingle implements Serializable 
+{
+	private static final long serialVersionUID = -7765564837779395208L;
 
 	@Inject
 	private DepartamentoService depSrvc;
@@ -31,6 +35,7 @@ public class PesquisaDepartamentoBean extends PesquisaSingle {
 	private Departamento depSelecionado;
 	
 	@Override
+	@PostConstruct
 	public void init() {
 		
 		if (null == departamentos) {

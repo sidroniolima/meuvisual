@@ -9,7 +9,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 
 import net.mv.meuespaco.dao.GrupoDAO;
-import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 

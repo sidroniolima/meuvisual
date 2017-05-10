@@ -92,8 +92,8 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 						if (propriedade.equals("nome") || propriedade.equals("descricao")) {
 							
 							criteria.add(Restrictions.ilike(propriedade, valor.toString(), MatchMode.ANYWHERE));
-						} else {
-						
+						} else 
+						{
 							criteria.add(Restrictions.eq(propriedade, valor));
 						}
 					}
@@ -101,7 +101,7 @@ public class HibernateGenericDAO<T, ID extends Serializable> implements GenericD
 				} catch (IllegalAccessException | InvocationTargetException
 						| NoSuchMethodException e) {
 					
-					throw new RuntimeException("Propriedade n�o encontrada");
+					throw new RuntimeException("Propriedade não encontrada");
 				}
 			}
 			

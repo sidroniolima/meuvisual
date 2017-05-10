@@ -10,7 +10,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import net.mv.meuespaco.dao.SubgrupoDAO;
-import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Subgrupo;
 

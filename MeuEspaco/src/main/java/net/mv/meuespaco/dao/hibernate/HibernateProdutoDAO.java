@@ -18,11 +18,11 @@ import org.hibernate.sql.JoinType;
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.dao.ProdutoDAO;
-import net.mv.meuespaco.model.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.Paginator;
 
 /**
@@ -49,6 +49,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 	public List<Produto> fitrarPeloDepartamentoEGrupo(Departamento dep, Grupo grupo, int first, int qtd) {
 		
 		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		
+		criteria.setFetchMode("departamento", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo.grupo", FetchMode.JOIN);
 		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
@@ -76,6 +78,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 	public List<Produto> fitrarPeloDepartamentoESubgrupo(Departamento dep, Subgrupo subgrupo, int first, int qtd) {
 		
 		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		
+		criteria.setFetchMode("departamento", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
 		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
 		
@@ -124,6 +128,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 
 		Criteria criteria = getSession().createCriteria(Produto.class);
 		
+		criteria.setFetchMode("departamento", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo.grupo", FetchMode.JOIN);
 		
@@ -281,6 +286,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 			Paginator paginator) {
 
 		Criteria criteriaSublist = this.getSession().createCriteria(Produto.class);
+		criteriaSublist.setFetchMode("departamento", FetchMode.JOIN);
 		criteriaSublist.setFetchMode("subgrupo", FetchMode.JOIN);
 		criteriaSublist.setFetchMode("subgrupo.grupo", FetchMode.JOIN);
 		criteriaSublist.createAlias("subgrupo", "sub");

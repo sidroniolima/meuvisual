@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Subgrupo;
 import net.mv.meuespaco.model.consulta.Menu;
+import net.mv.meuespaco.service.DepartamentoService;
 import net.mv.meuespaco.service.GrupoService;
 
 /**
@@ -29,7 +29,10 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	@Inject
 	private GrupoService grupoSrvc;
 	
-	private Departamento[] departamentos;
+	@Inject
+	private DepartamentoService depSrvc;
+	
+	private List<Departamento> departamentos;
 	
 	private String pesquisa;
 	
@@ -37,7 +40,8 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	public void init() {
 		
 		if (null == departamentos) {
-			departamentos = Departamento.getAtivos();
+			//departamentos = Departamento.getAtivos();
+			departamentos = depSrvc.listaAtivos();
 		}
 	}
 	
@@ -49,13 +53,15 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	 * @return Lista de subgrupos com grupos.
 	 */
 	public abstract List<Grupo> criaMenuPorDepartamento(Departamento dep);	
+	
 	/**
 	 * Criação do menu estático.
 	 * 
 	 * @param dep
 	 * @return Menu estático.
 	 */
-	public Map<Grupo, Set<Subgrupo>> montaMenuPeloDepartamento(Departamento dep) {
+	public Map<Grupo, Set<Subgrupo>> montaMenuPeloDepartamento(Departamento dep) 
+	{/*
 		List<Grupo> gruposComSubgrupos = grupoSrvc.listaGruposPorDepartamento(dep);
 		
 		Menu menu = new Menu();
@@ -65,6 +71,9 @@ public abstract class NavBarBeanAbstract implements Serializable {
 		}
 		
 		return menu.getMenus().get(dep);
+		*/
+		
+		return null;
 	}
 	
 	/**
@@ -96,7 +105,7 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	/**
 	 * @return
 	 */
-	public Departamento[] getDepartamentos() {
+	public List<Departamento> getDepartamentos() {
 		return departamentos;
 	}
 

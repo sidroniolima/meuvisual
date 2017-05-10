@@ -22,7 +22,6 @@ import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.ProdutoDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Caracteristica;
-import net.mv.meuespaco.model.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
@@ -35,6 +34,7 @@ import net.mv.meuespaco.model.grade.GradeComLetra;
 import net.mv.meuespaco.model.grade.GradeComTamanho;
 import net.mv.meuespaco.model.grade.GradeMusical;
 import net.mv.meuespaco.model.grade.Tamanho;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.service.GradeService;
 import net.mv.meuespaco.service.ProdutoService;
@@ -77,7 +77,7 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	}
 
 	@Override
-	public GenericDAO getDAO() {
+	public GenericDAO<Produto,Long> getDAO() {
 		return produtoDAO;
 	}
 
@@ -86,6 +86,7 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 		
 		return produtoDAO.buscarPeloCodigoComRelacionamento(paramCodigo, 
 				Arrays.asList(
+						"departamento",
 						"subgrupo",
 						"subgrupo.grupo",
 						"subgrupo.grupo.familia",

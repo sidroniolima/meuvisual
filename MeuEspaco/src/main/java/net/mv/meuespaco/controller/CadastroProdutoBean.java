@@ -15,7 +15,6 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.factory.GradeFactory;
 import net.mv.meuespaco.model.Caracteristica;
 import net.mv.meuespaco.model.Composicao;
-import net.mv.meuespaco.model.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
@@ -25,6 +24,8 @@ import net.mv.meuespaco.model.Unidade;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.Tamanho;
+import net.mv.meuespaco.model.loja.Departamento;
+import net.mv.meuespaco.service.DepartamentoService;
 import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.service.SubgrupoService;
 import net.mv.meuespaco.util.FacesUtil;
@@ -41,6 +42,9 @@ public class CadastroProdutoBean extends CadastroMasterDetail implements Seriali
 	@Inject
 	private SubgrupoService subgrupoService;
 	
+	@Inject
+	private DepartamentoService depSrvc;
+	
 	private Produto produto;
 	
 	private Grade grade;
@@ -53,7 +57,6 @@ public class CadastroProdutoBean extends CadastroMasterDetail implements Seriali
 	
 	private Tamanho[] tamanhos;
 	private Cor[] cores;
-	private Departamento[] departamentos;
 	private TipoProduto[] tiposProdutos;
 	private Composicao[] composicoes;
 	private Unidade[] unidades;
@@ -65,6 +68,7 @@ public class CadastroProdutoBean extends CadastroMasterDetail implements Seriali
 	private String valorCaracteristica;
 	
 	private List<Subgrupo> subgrupos;
+	private List<Departamento> departamentos;
 	
 	@PostConstruct
 	@Override
@@ -82,7 +86,7 @@ public class CadastroProdutoBean extends CadastroMasterDetail implements Seriali
 		tiposGrades = TipoGrade.values();
 		tamanhos = Tamanho.values();
 		cores = Cor.values();
-		departamentos = Departamento.values();
+		
 		tiposProdutos = TipoProduto.values();
 		composicoes = Composicao.values();
 		unidades = Unidade.values();
@@ -91,6 +95,7 @@ public class CadastroProdutoBean extends CadastroMasterDetail implements Seriali
 		caracteristicas = Caracteristica.values();
 		
 		subgrupos = subgrupoService.buscaTodosComGrupoEFamilia();
+		departamentos = depSrvc.buscaTodas();
 	}
 
 	@Override
@@ -308,7 +313,7 @@ public class CadastroProdutoBean extends CadastroMasterDetail implements Seriali
 	/**
 	 * @return the departamentos
 	 */
-	public Departamento[] getDepartamentos() {
+	public List<Departamento> getDepartamentos() {
 		return departamentos;
 	}
 

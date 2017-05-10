@@ -2,7 +2,7 @@ package net.mv.meuespaco.dao;
 
 import java.util.List;
 
-import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 

@@ -128,8 +128,8 @@ public class PesquisaProdutoBean extends PesquisaSingle implements Serializable 
 			produtos = produtoService.listarComPaginacao(
 					this.getPaginator(), 
 					Arrays.asList("codigoInterno"), 
-					Arrays.asList("subgrupo", "subgrupo.grupo", "grupo.familia", "grades"), 
-					Arrays.asList("subgrupo", "subgrupo.grupo", "subgrupo.grupo.familia"));
+					Arrays.asList("departamento", "subgrupo", "subgrupo.grupo", "grupo.familia", "grades"), 
+					Arrays.asList("departamento", "subgrupo", "subgrupo.grupo", "subgrupo.grupo.familia"));
 		}
 	}
 	

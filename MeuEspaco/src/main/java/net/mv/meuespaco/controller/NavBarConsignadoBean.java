@@ -6,7 +6,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
-import net.mv.meuespaco.model.Departamento;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Grupo;
 
 /**
@@ -28,7 +28,8 @@ public class NavBarConsignadoBean extends NavBarBeanAbstract implements Serializ
 	 * @param dep Departamento atual.
 	 * @return Lista de subgrupos com grupos.
 	 */
-	public List<Grupo> criaMenuPorDepartamento(Departamento dep) {
+	public List<Grupo> criaMenuPorDepartamento(Departamento dep) 
+	{
 		return super.getGrupoSrvc().listaGruposPorDepartamentoParaConsignado(dep);
 	}
 	

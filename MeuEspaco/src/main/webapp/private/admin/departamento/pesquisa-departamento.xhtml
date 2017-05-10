@@ -68,7 +68,7 @@
 				                                <tr>
 				                                    <th>Código</th>
 				                                    <th style="width:350px">Descrição</th>
-				                                    <th style="width:300px">Família</th>
+				                                    <th style="width:50px">Ativo</th>
 				                                    <th style="text-align: right">Controle</th>
 				                                </tr>
 				                            </thead>
@@ -77,12 +77,11 @@
 				                            
 												<ui:repeat 
 													var="departamento" 
-												   	value="#{pesquisadepartamentoBean.departamentos}">		                          
+												   	value="#{pesquisaDepartamentoBean.departamentos}">		                          
 													<tr>
 													   <td>#{departamento.codigoFormatado()}</td>
 													   <td>#{departamento.descricao}</td>
-													   
-													   <td style="width:300px">#{departamento.familia.descricao}</td>
+													   <td>#{departamento.ativo ? "Sim" : "Não"}</td>
 													   
 													   <td style="text-align: right">
 														   <div class="btn-group" >
@@ -105,7 +104,7 @@
 												                  
 												                   <f:setPropertyActionListener 
 												                  	 	value="#{departamento}" 
-												                  	 	target="#{pesquisadepartamentoBean.depSelecionado}"/>
+												                  	 	target="#{pesquisaDepartamentoBean.depSelecionado}"/>
 												                   												        	
 												                   <f:passThroughAttribute name="data-toggle" value="modal" />
 												                   <f:passThroughAttribute name="data-target" value="#myModal" />
@@ -159,7 +158,7 @@
 								                		<a  type="submit"
 								                			class="btn btn-warning btn-sm"
 								                			jsfc="h:commandLink"
-								                			action="#{pesquisadepartamentoBean.excluir()}">
+								                			action="#{pesquisaDepartamentoBean.excluir()}">
 								                			Sim
 														
 															<f:passThroughAttribute name="data-dismiss" value="modal" />

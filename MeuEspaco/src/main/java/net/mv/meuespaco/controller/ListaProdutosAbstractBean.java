@@ -14,10 +14,11 @@ import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Caracteristica;
 import net.mv.meuespaco.model.Composicao;
-import net.mv.meuespaco.model.Departamento;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.loja.Departamento;
+import net.mv.meuespaco.service.DepartamentoService;
 import net.mv.meuespaco.service.GrupoService;
 import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.service.SubgrupoService;
@@ -46,8 +47,11 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	@Inject
 	private SubgrupoService subgrupoService;
 	
+	@Inject 
+	private DepartamentoService depSrvc;
+	
 	@Inject @Param
-	private String paramDep;
+	private Long paramDep;
 	
 	@Inject @Param
 	private Long paramGrupo;
@@ -126,13 +130,14 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	 * @param paramSubgrupo
 	 * @throws RegraDeNegocioException 
 	 */
-	private void preencheInformacoesDeNavegacao(String paramDep, Long paramGrupo, Long paramSubgrupo) throws RegraDeNegocioException {
+	private void preencheInformacoesDeNavegacao(Long paramDep, Long paramGrupo, Long paramSubgrupo) throws RegraDeNegocioException {
 		
 		if (null != paramDep) {
 			
 			try
 			{
-				dep = Departamento.valueOf(paramDep);
+				dep = depSrvc.buscaPeloCodigo(paramDep);
+				
 			} catch (IllegalArgumentException ex)
 			{
 				throw new RegraDeNegocioException("Não foi possível listar produtos para o Departamento selecionado.");

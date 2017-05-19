@@ -9,10 +9,10 @@
     xmlns:f="http://java.sun.com/jsf/core">
 
 	<c:set var="root" value="#{request.contextPath}/" />
-	<head>
+	<h:head>
 	    <!-- Stylesheet of slider -->
     	<h:outputStylesheet library="css" name="bootstrap-slider.min.css"/>
-	</head>
+	</h:head>
 	<body>
 		<!-- *** NAVBAR ***
 	 	_________________________________________________________ -->
@@ -59,16 +59,43 @@
 	           		
 	           			<ul class="nav navbar-form">
 						    <li class="input-group col-md-6">
-						      <input type="text" class="form-control" id="brinde-input-search" placeholder="Digite o nome de um brinde ou grupo"/>
+								<input type="text" 
+									class="form-control input-search" 
+									id="brinde-input-search" 
+									pt:placeholder="O que você gostaria?"
+									jsfc="h:inputText"
+									value="#{navBarBrindeBean.pesquisa}"
+								    onkeypress="if (event.keyCode == 13) { return false;}">
+		                        	
+								    <f:ajax 
+								    	event="blur" 
+								    	execute="@form"/>
+								</input>
+									
 						      <span class="input-group-btn">
-						        <a class="btn"><i class="fa fa-search"></i></a>
+							        <h:commandLink
+							        	
+							        	id="btn-pesquisar"
+							        	styleClass="btn"
+							        	action="#{navBarBrindeBean.urlPesquisaDescritiva()}">
+							        	
+										<i class="fa fa-search"></i>
+							        </h:commandLink>							      
 						      </span>
+						      
 						    </li><!-- /input-group -->
 						    <li class="input-group col-md-5">
-								<b>De 500</b> 
-								<input id="ex2" type="text" class="span2" value="" 
-									data-slider-min="500" data-slider-max="8000" data-slider-step="100" data-slider-value="[2000,6000]"/> 
-								<b>a 8000</b>
+								<b>De <span id="min">2000</span></b> 
+								<input 
+									id="ex2" 
+									type="text" 
+									class="span2" 
+									value=""
+									data-slider-min="500" 
+									data-slider-max="8000" 
+									data-slider-step="100" 
+									data-slider-value="[2000,6000]"/> 
+								<b>a <span id="max">6000</span></b>
 						    </li><!-- /input-group -->						    
 						</ul>
 				    
@@ -111,8 +138,18 @@
 		<h:outputScript library="js" name="bootstrap-slider.min.js" />
 		<script> 
 			
-			$("#ex2").slider({});
+			var mySlider = $("#ex2").slider({});
+			var min = 0;
+			var max = 0;
+			
+			mySlider.on("slide", function(sliderValue) {
+				$('#min').text(sliderValue.value[0]);
+				$('#max').text(sliderValue.value[1]);			
+			});			
 
+			mySlider.on("slideStop", function(sliderValue) {
+				
+			});			
 		</script>
 	</body>
 </html>

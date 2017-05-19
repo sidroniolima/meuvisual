@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/brinde/nav_bar-brinde.xhtml"/>
+	</ui:define>	
+	
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+        <div id="content">
+            <div class="container">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="./index.xhtml">Home</a>
+                        </li>
+                        <li>Listagem de brindes da pesquisa
+                        </li>
+                    </ul>
+
+                </div>
+                
+                <h:form
+                	id="frm-listagem">
+                
+	                <div class="col-md-12">
+	                	
+	                	<h:messages 
+				    	  	id="messages"
+					      	errorClass="alert alert-block alert-danger fade in"
+				     	 	style="padding-left:0px"
+				     	 	globalOnly="true"/>   
+				    </div>
+	                
+	                <div class="col-md-3">
+	                    <!-- *** MENUS AND FILTERS ***
+	 _________________________________________________________ -->
+	                    <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Categorias</h3>
+	                        </div>
+	
+	                        <div class="panel-body">
+	                            <ul class="nav nav-pills nav-stacked category-menu">
+	                            
+	                            	<!-- lista de subgrupos de brindes -->
+	                            </ul>
+	
+	                        </div>
+	                    </div>
+	                    
+	                </div> <!-- /.col-md 3 -->
+	                    
+					<div class="col-md-9">
+					    <div class="box">
+					        <h1>Pequisa: #{pesquisaBrindeBean.pesquisa}</h1>
+					    </div>
+					    
+					    <h:panelGroup
+							id="panel-sem-registros"
+							rendered="#{pesquisaBrindeBean.brindes == null}">
+							
+							<div class="box">
+								<p>Não há brindes para a pesquisa realizada.</p>
+							</div>
+								
+						</h:panelGroup>
+					    
+					    <h:panelGroup
+					    	id="panel-produtos"
+					    	rendered="#{pesquisaBrindeBean.brindes.size() gt 0}">
+					    	
+						    <div class="row products">
+						
+					            <ui:repeat 
+					            	var="produto" 
+					            	value="#{pesquisaBrindeBean.brindes}">				
+						
+							        <div class="col-md-4 col-sm-6">
+							            
+							            <div class="product">
+							                <div class="flip-container">
+							                    
+							                    <div class="flipper">
+							                    
+							                        <div class="front">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}">
+							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{brinde.buscaFotoPeloIndice(1)}" class="img-responsive" alt="#{brinde.buscaFotoPeloIndice(1)}" />
+							                            </a>
+							                        </div>
+							                        <div class="back">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}">
+							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{brinde.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+							                            </a>
+							                        </div>
+							                    </div>
+							                </div>
+							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}" class="invisible">
+							                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{brinde.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+							                </a>
+							                <div class="text">
+							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}">#{brinde.descricao}</a></h3>
+							                    <p class="price">#{brinde.codigoInterno}</p>
+							                    <p class="buttons">
+							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}" class="btn btn-default">Detalhes</a>
+							                    </p>
+							                </div>
+							                <!-- /.text -->
+							            </div>
+							            <!-- /.product -->
+							            
+							        </div>
+							        <!-- /.col-md-4 -->
+						        </ui:repeat>
+						    </div>
+						    <!-- /.products -->
+						
+						</h:panelGroup>
+						<!-- /#panel-produtos -->
+						
+						<h:panelGroup
+							id="panel-load-more">
+						    
+						    <div class="pages">
+						    
+				                <div class="col-md-12" id="paginator">
+				                
+									<nav style="text-align:center">
+						     				
+									  <ul class="pagination">
+									    <li>
+									    	<h:commandLink
+									    		actionListener="#{pesquisaBrindeBean.paginator.previous()}"
+									    		action="#{pesquisaBrindeBean.listarComPaginacao()}" 
+									    		value="«">
+
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+									    
+									    <c:forEach 
+									    	begin="0" 
+									    	end="#{pesquisaBrindeBean.paginator.partesVisiveis() - 1}"
+									    	var="index">
+									    
+										    <li>
+									    		<h:commandLink
+										    		actionListener="#{pesquisaBrindeBean.paginator.goTo(index)}" 
+										    		action="#{pesquisaBrindeBean.listarComPaginacao()}"
+										    		value="#{index+1}" >
+										    		
+								                   	<f:ajax
+								                   		render="panel-produtos"/>   
+										    	</h:commandLink>
+										    </li>
+									    </c:forEach>
+									    
+										<li class="disabled" 
+											style="#{not pesquisaBrindeBean.paginator.particionado ? 'display:none' : ''}">
+									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
+									    </li>
+									    
+									    <li
+									    	style="#{not pesquisaBrindeBean.paginator.particionado ? 'display:none' : ''}">
+									      <h:commandLink
+									    		actionListener="#{pesquisaBrindeBean.paginator.goToLast()}" 
+									    		action="#{pesquisaBrindeBean.listarComPaginacao()}"
+									    		value="#{pesquisaBrindeBean.paginator.partes}">
+									    		
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+
+									    <li>
+									      <h:commandLink
+									    		actionListener="#{pesquisaBrindeBean.paginator.next()}" 
+									    		action="#{pesquisaBrindeBean.listarComPaginacao()}"
+									    		value="»">
+									    		
+							                   	<f:ajax
+							                   		render="panel-produtos"/>   
+									    	</h:commandLink>
+									    </li>
+									  </ul>
+									</nav>		                
+				                
+				                </div> <!-- /#paginator -->
+				                
+						    </div>
+							    
+						</h:panelGroup>
+						<!-- /#panel-load-more -->							
+						
+					</div>
+					<!-- /.col-md-9 -->	
+					
+				</h:form> <!-- /.frm-listagem -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->	
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

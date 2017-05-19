@@ -1,6 +1,7 @@
 package net.mv.meuespaco.dao.hibernate;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -32,7 +33,8 @@ import net.mv.meuespaco.util.Paginator;
  * 17/11/2015
  */
 @Stateless
-public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> implements ProdutoDAO, Serializable{
+public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> implements ProdutoDAO, Serializable
+{
 
 	private static final long serialVersionUID = 5349700629000674111L;
 	
@@ -362,6 +364,114 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		query.setParameter("novo_tipo", novoTipo);
 		
 		return query.executeUpdate();
+	}
+
+	@Override
+	public List<Produto> filtrarProdutosPorFinalidadeEDescricoes(String pesquisa, Finalidade finalidade, Paginator paginator) 
+	{
+		Criteria criteriaSublist = this.getSession().createCriteria(Produto.class);
+		
+		criteriaSublist.setProjection(Projections.property("codigo"));
+		
+		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
+		criteriaSublist.add(Restrictions.like("codigoInterno", pesquisa, MatchMode.ANYWHERE));
+		criteriaSublist.add(Restrictions.like("descricao", pesquisa, MatchMode.ANYWHERE));
+
+		criteriaSublist.addOrder(Order.asc("descricao"));
+		
+		List registrosSublist = criteriaSublist.list();
+		
+		paginator.setTotalDeRegistros(registrosSublist.size());
+		
+		if (registrosSublist.isEmpty())
+		{
+			return null;
+		}
+		
+		int lastResult = registrosSublist.size() <= paginator.getLastResult() ? 
+				registrosSublist.size() : paginator.getLastResult() + 1;
+		
+		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
+		
+		return criaCriteriaSubgrupoCaracteristicasEFotos(registrosSublist);
+	}
+
+	@Override
+	public List<Produto> filtrarProdutosPorFinalidadeEValor(Finalidade finalidade, BigDecimal min, BigDecimal max, Paginator paginator) 
+	{
+		Criteria criteriaSublist = this.getSession().createCriteria(Produto.class);
+		
+		criteriaSublist.setProjection(Projections.property("codigo"));
+		
+		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
+		criteriaSublist.add(Restrictions.between("valor", min, max));
+
+		criteriaSublist.addOrder(Order.asc("descricao"));
+		
+		List registrosSublist = criteriaSublist.list();
+		
+		paginator.setTotalDeRegistros(registrosSublist.size());
+		
+		if (registrosSublist.isEmpty())
+		{
+			return null;
+		}
+		
+		int lastResult = registrosSublist.size() <= paginator.getLastResult() ? 
+				registrosSublist.size() : paginator.getLastResult() + 1;
+		
+		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
+		
+		return criaCriteriaSubgrupoCaracteristicasEFotos(registrosSublist);
+	}
+
+	@Override
+	public List<Produto> filtrarProdutosPorFinalidadeESubgrupo(Finalidade finalidade, Subgrupo subgrupo, Paginator paginator) 
+	{
+		Criteria criteriaSublist = this.getSession().createCriteria(Produto.class);
+		
+		criteriaSublist.setProjection(Projections.property("codigo"));
+		
+		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
+		criteriaSublist.add(Restrictions.eq("subgrupo", subgrupo));
+
+		criteriaSublist.addOrder(Order.asc("descricao"));
+		
+		List registrosSublist = criteriaSublist.list();
+		
+		paginator.setTotalDeRegistros(registrosSublist.size());
+		
+		if (registrosSublist.isEmpty())
+		{
+			return null;
+		}
+		
+		int lastResult = registrosSublist.size() <= paginator.getLastResult() ? 
+				registrosSublist.size() : paginator.getLastResult() + 1;
+		
+		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
+		
+		return criaCriteriaSubgrupoCaracteristicasEFotos(registrosSublist);
+	}
+	
+	/**
+	 * Cria criteria com Join do Subgrupo, Características e Fotos pelos  
+	 * códigos da subquery.
+	 * @param registrosSublist
+	 * @return lista de produtos com Joins dos códigos passados.
+	 */
+	private List<Produto> criaCriteriaSubgrupoCaracteristicasEFotos(List<Long> codigos) 
+	{
+		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
+		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
+		criteria.setFetchMode("fotos", FetchMode.JOIN);
+		
+		criteria.add(Restrictions.in("codigo", codigos));
+		
+		criteria.addOrder(Order.asc("descricao"));
+		
+		return criteria.list();
 	}
 	
 }

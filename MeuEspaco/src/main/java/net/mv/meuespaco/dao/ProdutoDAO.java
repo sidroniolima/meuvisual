@@ -1,5 +1,6 @@
 package net.mv.meuespaco.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
@@ -121,4 +122,32 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long>{
 	 */
 	List<Produto> filtrarPeloCodigoInternoOuPelaDescricao(String pesquisa, Finalidade finalidade, Paginator paginator);
 
+	/**
+	 * Lista os produtos de acordo com a finalidade filtrando os campos descritivos: 
+	 * descrição, detalhes e código.
+	 * 
+	 * @param pesquisa termo da pesquisa
+	 * @param finalidade do produto.
+	 * @return lista de produtos.
+	 */
+	List<Produto> filtrarProdutosPorFinalidadeEDescricoes(String pesquisa, Finalidade finalidade, Paginator paginator);
+	
+	/**
+	 * Lista os produtos por finalidade e faixa de valor, mínimo e máximo.
+	 * 
+	 * @param finalidade opção de finalidade do produto.
+	 * @param min valor mínimo.
+	 * @param max valor máximo.
+	 * @return lista de produtos.
+	 */
+	List<Produto> filtrarProdutosPorFinalidadeEValor(Finalidade finalidade, BigDecimal min, BigDecimal max, Paginator paginator);
+	
+	/**
+	 * Lista os produtos por finalidade e subgrupo.
+	 * 
+	 * @param finalidade opção de finalidade do produto.
+	 * @param subgrupo opção do subgrupo.
+	 * @return lista de produtos.
+	 */
+	List<Produto> filtrarProdutosPorFinalidadeESubgrupo(Finalidade finalidade, Subgrupo subgrupo, Paginator paginator);
 }

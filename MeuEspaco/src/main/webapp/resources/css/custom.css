@@ -494,9 +494,9 @@ i:hover.blue
 	color: #4993e4;
 }
 
-#brinde-input-search
+input.input-search
 {
 	border-radius: 25px !important;
 	font-size: 12px !important;
-	font-weight: bold; !important;
+	font-weight: bold !important;
 }

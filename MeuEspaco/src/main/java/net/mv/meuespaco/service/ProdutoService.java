@@ -1,6 +1,7 @@
 package net.mv.meuespaco.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -284,5 +285,29 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 */
 	public List<String> simbolosMusicaisDisponiveis(Produto produto);
 
-
+	/**
+	 * Filtra os produtos de finalidade Brinde que tiverem a descrição, 
+	 * detalhes ou código de acordo com o termo da pesquisa.
+	 * 
+	 * @param pesquisa termo da pesquisa
+	 * @return lista de produtos que atendem a pesquisa.
+	 */
+	public List<Produto> pesquisaDiversa(String pesquisa, Finalidade finalidade, Paginator paginator);
+	
+	/**
+	 * Filtra os produtos pelo valor mínimo e máximo.
+	 * 
+	 * @param min valor mínimo
+	 * @param max valor máximo
+	 * @return produtos que atendem o filtro de valor.
+	 */
+	public List<Produto> filtraPeloValor(BigDecimal min, BigDecimal max, Finalidade finalidade, Paginator paginator);
+	
+	/**
+	 * Lista os produtos pelo subgrupo.
+	 * 
+	 * @param subgrupo opção selecionada.
+	 * @return brindes do subgrupo.
+	 */
+	public List<Produto> listaPeloSubgrupo(Subgrupo subgrupo, Finalidade finalidade, Paginator paginator);
 }

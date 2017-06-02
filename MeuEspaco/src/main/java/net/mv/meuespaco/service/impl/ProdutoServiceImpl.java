@@ -432,4 +432,22 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 		
 		return gradesDisponiveis;
 	}
+	
+	@Override
+	public List<Produto> pesquisaDiversa(String pesquisa, Finalidade finalidade,Paginator paginator) 
+	{
+		return this.produtoDAO.filtrarProdutosPorFinalidadeEDescricoes(pesquisa, finalidade, paginator);
+	}
+
+	@Override
+	public List<Produto> filtraPeloValor(BigDecimal min, BigDecimal max, Finalidade finalidade,Paginator paginator) 
+	{
+		return this.produtoDAO.filtrarProdutosPorFinalidadeEValor(finalidade, min, max, paginator);
+	}
+
+	@Override
+	public List<Produto> listaPeloSubgrupo(Subgrupo subgrupo, Finalidade finalidade,Paginator paginator) 
+	{
+		return this.produtoDAO.filtrarProdutosPorFinalidadeESubgrupo(finalidade, subgrupo, paginator);
+	}	
 }

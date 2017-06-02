@@ -136,6 +136,9 @@ public class Produto extends EntidadeModel implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Finalidade finalidade;
 
+	@Column
+	private BigDecimal valor;
+	
 	/**
 	 * Construtor padrão.
 	 */
@@ -439,6 +442,15 @@ public class Produto extends EntidadeModel implements Serializable {
 		return new BigDecimal(valor).divide(new BigDecimal(100));
 	}
 	
+	public BigDecimal getValor() 
+	{
+		return valor;
+	}
+	public void setValor(BigDecimal valor) 
+	{
+		this.valor = valor;
+	}
+
 	/**
 	 * @return the codigo
 	 */

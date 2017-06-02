@@ -116,6 +116,32 @@
 					                        </div>
 										</div>		
 										
+					                    <div class="col-sm-8">    
+					                        <div class="form-group">
+					                        
+					                            <label for="input-valor">Valor <span class="required">*</span></label>
+					                            <h:inputText
+					                            	class="form-control" 
+					                            	id="input-valor" 
+					                            	pt:placeholder="Valor"
+					                            	value="#{cadastroProdutoBean.produto.valor}"
+					                            	required="true"
+					                            	requiredMessage="O valor é indispensável.">
+					                            	
+					                            	<f:ajax 
+								                        event="blur" 
+								                        render="m_input-valor" />
+								                        	
+								              	</h:inputText>
+								                    
+								                <h:message 
+								                   	id="m_input-valor" 
+								                   	for="input-valor"
+								                   	class="alert-danger fade in"/>
+					                            	
+					                        </div>
+										</div>												
+										
 										<div class="col-sm-8">    
 					                        <div class="form-group">
 					                        

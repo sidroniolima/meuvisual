@@ -36,5 +36,12 @@ public interface IMovimentavel {
 	 */
 	public Grade getGrade();
 	
+	/**
+	 * Informa o valor do item.
+	 * 
+	 * @return valor
+	 */
+	public BigDecimal valorTotal();
+	
 }
 

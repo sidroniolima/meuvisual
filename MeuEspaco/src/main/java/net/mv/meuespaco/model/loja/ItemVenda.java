@@ -93,6 +93,12 @@ public class ItemVenda implements IMovimentavel, Serializable {
 		return qtd.multiply(valorUnitario).subtract(desconto); 
 	}
 	
+	@Override
+	public BigDecimal valorTotal() 
+	{
+		return this.total();
+	}
+	
 	/**
 	 * Verifica se um item é igual ao outro
 	 * considerando o produto e a grade.

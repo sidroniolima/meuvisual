@@ -209,4 +209,35 @@
  <PROCESS-ITEM NAME="rules:#private#site#cliente#minhas-mensagens.xhtml"
   PATH="/private/site/cliente/minhas-mensagens.xhtml"
   SHAPE="240,2049,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:19" PATH="/*" SHAPE="32,2145,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:19" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index-brinde::#private#brinde#index.xhtml"
+    NAME="output" PATH="/private/brinde/index.xhtml"
+    TARGET="rules:#private#brinde#index.xhtml" TITLE="index-brinde" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#brinde#index.xhtml"
+  PATH="/private/brinde/index.xhtml" SHAPE="240,2161,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:20" PATH="/*" SHAPE="32,2257,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:20" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="carrinho-brinde::#private#brinde#carrinho.xhtml" NAME="output"
+    PATH="/private/brinde/carrinho.xhtml"
+    TARGET="rules:#private#brinde#carrinho.xhtml"
+    TITLE="carrinho-brinde" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#brinde#carrinho.xhtml"
+  PATH="/private/brinde/carrinho.xhtml" SHAPE="240,2273,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#*:21" PATH="/*" SHAPE="32,2369,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:21" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="visualiza-resgate-cliente::#private#brinde#visualiza-resgate.xhtml"
+    NAME="output" PATH="/private/brinde/visualiza-resgate.xhtml"
+    TARGET="rules:#private#brinde#visualiza-resgate.xhtml"
+    TITLE="visualiza-resgate-cliente" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#private#brinde#visualiza-resgate.xhtml"
+  PATH="/private/brinde/visualiza-resgate.xhtml" SHAPE="240,2385,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

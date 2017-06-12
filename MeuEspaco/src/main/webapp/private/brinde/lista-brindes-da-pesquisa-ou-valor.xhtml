@@ -21,6 +21,7 @@
 	<ui:define name="css">
 		<!-- theme stylesheet venda -->
    		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+   		<h:outputStylesheet library="css" name="custom.css" id="theme-custom"/>
 	</ui:define>
  
 	<!-- TOP BAR DEFINE -->
@@ -131,7 +132,18 @@
 							                </a>
 							                <div class="text">
 							                    <h3><a href="./brinde-detail.xhtml?paramCodigo=#{brinde.codigo}">#{brinde.descricao}</a></h3>
-							                    <p class="price">#{brinde.codigoInterno}</p>
+							                    
+							                    <p class="price">
+							                    	<span class="valor-star">
+							                    		<i class="fa fa-star 2x"/>
+							                    			<h:outputText value="&nbsp;#{brinde.valor}">
+							                    				<f:convertNumber 
+							                    					type="number"
+							                    					maxFractionDigits="0"/>
+							                    			</h:outputText>
+							                    	</span>
+							                    </p>
+							                    
 							                    <p class="buttons">
 							                        <a href="./brinde-detail.xhtml?paramCodigo=#{brinde.codigo}" class="btn btn-default">Detalhes</a>
 							                    </p>

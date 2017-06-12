@@ -71,12 +71,13 @@
 		                            </p>
 		                            
 		                            <div class="table-responsive">
-		                                <table class="table">
+		                                <table class="table table-small table table-striped">
 		                                        <tr>
 		                                        	<th>Imagem</th>
 		                                        	<th colspan="1">Código</th>
 		                                            <th colspan="1">Descrição</th>
 		                                            <th>Quantidade</th>
+		                                            <th>Estrelas</th>
 		                                            <th colspan="1">Grade</th>
 		                                            <th></th>
 		                                        </tr>
@@ -95,6 +96,12 @@
 			                                            <td>#{item.produto.descricao}</td>
 			                                            <td>
 			                                            	<h:outputText value="#{item.qtd}">
+			                                            		<f:convertNumber
+			                                            			minFractionDigits="0"/>
+			                                            	</h:outputText>
+			                                            </td>
+			                                            <td>
+			                                            	<h:outputText value="#{item.valorTotal()}">
 			                                            		<f:convertNumber
 			                                            			minFractionDigits="0"/>
 			                                            	</h:outputText>
@@ -141,7 +148,7 @@
 		                            <div class="box-footer">
 		                                <div class="pull-left">
 		                                    <a jsfc="h:link"
-		                                    	outcome="lista-produtos" 
+		                                    	outcome="./lista-brindes-da-pesquisa-ou-valor.xhtml" 
 		                                    	class="btn btn-default">
 		                                    	<i class="fa fa-chevron-left">
 		                                    	</i> mais brindes...

@@ -624,3 +624,8 @@ label .small
 {
 	font-size: 11px !important;
 }
+
+.valor-star
+{
+	padding-right: 10px;
+}

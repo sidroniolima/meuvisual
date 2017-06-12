@@ -393,7 +393,16 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
 		
-		return criaCriteriaSubgrupoCaracteristicasEFotos(registrosSublist);
+		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
+		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
+		criteria.setFetchMode("fotos", FetchMode.JOIN);
+		
+		criteria.add(Restrictions.in("codigo", registrosSublist));
+		
+		criteria.addOrder(Order.asc("descricao"));
+		
+		return criteria.list();
 	}
 
 	@Override
@@ -406,7 +415,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
 		criteriaSublist.add(Restrictions.between("valor", min, max));
 
-		criteriaSublist.addOrder(Order.asc("descricao"));
+		criteriaSublist.addOrder(Order.asc("valor"));
 		
 		List registrosSublist = criteriaSublist.list();
 		
@@ -421,8 +430,17 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 				registrosSublist.size() : paginator.getLastResult() + 1;
 		
 		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
+			
+		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
+		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
+		criteria.setFetchMode("fotos", FetchMode.JOIN);
 		
-		return criaCriteriaSubgrupoCaracteristicasEFotos(registrosSublist);
+		criteria.add(Restrictions.in("codigo", registrosSublist));
+		
+		criteria.addOrder(Order.asc("valor"));
+		
+		return criteria.list();
 	}
 
 	@Override
@@ -451,23 +469,12 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
 		
-		return criaCriteriaSubgrupoCaracteristicasEFotos(registrosSublist);
-	}
-	
-	/**
-	 * Cria criteria com Join do Subgrupo, Características e Fotos pelos  
-	 * códigos da subquery.
-	 * @param registrosSublist
-	 * @return lista de produtos com Joins dos códigos passados.
-	 */
-	private List<Produto> criaCriteriaSubgrupoCaracteristicasEFotos(List<Long> codigos) 
-	{
 		Criteria criteria = this.getSession().createCriteria(Produto.class);
 		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
 		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
 		criteria.setFetchMode("fotos", FetchMode.JOIN);
 		
-		criteria.add(Restrictions.in("codigo", codigos));
+		criteria.add(Restrictions.in("codigo", registrosSublist));
 		
 		criteria.addOrder(Order.asc("descricao"));
 		

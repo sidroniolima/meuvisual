@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:o="http://omnifaces.org/ui">
+
+	<c:set var="root" value="#{request.contextPath}/private/brinde" />
+	<h:head>
+	    <!-- Stylesheet of slider -->
+    	<h:outputStylesheet library="css" name="bootstrap-slider.min.css"/>
+    	<h:outputStylesheet library="css" name="custom.css"/>
+	</h:head>
+	<body>
+		<!-- *** NAVBAR ***
+	 	_________________________________________________________ -->
+	<h:form class="navbar-form" role="search" id="frm-nav-bar">
+	
+	    <div class="navbar navbar-default yamm" role="navigation" id="navbar">
+	        <div class="container">
+	            <div class="navbar-header">
+	
+	                <a class="navbar-brand home" href="${root}/index.xhtml" data-animate-hover="bounce">
+	                	<img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo.png" alt="Meu Espaço - logo" class="hidden-xs"/>
+	                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo-small.png" alt="Meu Espaço - logo" class="visible-xs"/>
+	                </a>
+	                <div class="navbar-buttons">
+	                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+	                        <span class="sr-only">Toggle navigation</span>
+	                        <i class="fa fa-align-justify"></i>
+	                    </button>
+	                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+	                        <span class="sr-only">Toggle search</span>
+	                        <i class="fa fa-search"></i>
+	                    </button>
+	                    <a 
+	                    	class="btn btn-default navbar-toggle" 
+	                    	outcome="carrinho-venda"
+	                    	jsfc="h:link">
+	                    	
+	                        <i class="fa fa-shopping-cart"></i>  
+	                        <span class="hidden-xs">
+	                        
+	                        	<h:outputText value="#{carrinhoVendaBean.qtdDeItens}">
+	                        		<f:convertNumber minFractionDigits="0"/>
+	                        	</h:outputText> 
+	                        
+	                        	itens
+	                        
+	                        </span>
+	                    </a>
+	                </div>
+	            </div>
+	            <!--/.navbar-header -->
+				
+				<div class="navbar-collapse collapse" id="navigation">
+		
+	                <ul class="nav navbar-nav navbar-left">
+	                    
+	                    <li class="dropdown">
+	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Como funciona?</a>
+	                    </li>		                    
+	                    <li class="dropdown">
+	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Ganhe estrelas</a>
+	                    </li>
+						<li class="dropdown">
+	                        <a href="${root}/lista-brindes-da-pesquisa-ou-valor.xhtml" data-hover="dropdown">
+	                        	Troque suas estrelas
+	                        </a>
+	                    </li>
+	                    
+						<li class="active">
+	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">
+	                        	Seu saldo atual: 
+	                        	<h:outputText value="${navBarBrindeBean.saldo()}">
+	                        		<f:convertNumber type="number"/>
+	                        	</h:outputText>
+	                        	<i class="fa fa-star"></i>
+	                        </a>
+	                    </li>	                    
+	                </ul>
+		
+	            </div>
+	            <!--/.nav-collapse -->
+			           		
+				<div class="navbar-buttons">
+	                <div class="navbar-collapse collapse right">
+		                    <a 
+		                    	jsfc="h:link"
+		                    	outcome="carrinho-venda"
+		                    	class="btn btn-primary navbar-btn da-esquerda">
+		                    	
+		                    	<i class="fa fa-shopping-cart"></i>
+		                    	<span class="hidden-xs">
+		                        
+		                        	<h:outputText value="#{carrinhoBrindeBean.qtdDeItens}">
+		                        		<f:convertNumber minFractionDigits="0"/>
+		                        	</h:outputText> 
+		                        
+		                        </span>
+		                     </a>
+		        	</div>
+				</div>			                
+	            <!--/.nav-collapse -->
+	        </div>
+	        <!-- /.container -->
+	    </div>
+	    <!-- /#navbar -->
+	
+	    <!-- *** NAVBAR END *** -->
+	</h:form>
+		<h:outputScript library="js" name="jquery-1.11.0.min.js" />
+		<h:outputScript library="js" name="bootstrap.min.js" />  		
+	</body>
+</html>

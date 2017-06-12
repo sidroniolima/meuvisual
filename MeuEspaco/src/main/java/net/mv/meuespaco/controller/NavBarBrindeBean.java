@@ -3,7 +3,12 @@ package net.mv.meuespaco.controller;
 import java.io.Serializable;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.omnifaces.util.Faces;
+
+import net.mv.meuespaco.service.PontuacaoService;
 
 /**
  * Controller do NavBar dos Brindes.
@@ -17,11 +22,14 @@ public class NavBarBrindeBean implements Serializable
 {
 	private static final long serialVersionUID = 1718570606292967713L;
 
-	private final String url = "/private/brinde/lista-brindes-da-pesquisa-ou-valor.xhtml"; 
+	private final String url = "/private/brinde/lista-brindes-da-pesquisa-ou-valor.xhtml";
+	
+	@Inject
+	private PontuacaoService pontuacaoSrvc;
 	
 	private String pesquisa;
-	private String min;
-	private String max;
+	private String min = "2000";
+	private String max = "6000";
 	
 	/**
 	 * Cria a url da pesquisa pelos campos descritivos.
@@ -38,7 +46,26 @@ public class NavBarBrindeBean implements Serializable
 	 */
 	public String urlPesquisaPorValor()
 	{
-		return this.url.concat(String.format("?min=%&max=%", min, max)).concat("&faces-redirect=true");
+		min = Faces.getRequestParameter("min");
+		max = Faces.getRequestParameter("max");
+		
+		if (min.isEmpty() || max.isEmpty())
+		{
+			min = "2000";
+			max = "6000";
+		}
+			
+		return this.url.concat(String.format("?min=%s&max=%s", min, max)).concat("&faces-redirect=true");
+	}
+	
+	/**
+	 * Retorna o saldo dos pontos do cliente.
+	 * 
+	 * @return saldo da pontuação.
+	 */
+	public Long saldo()
+	{
+		return this.pontuacaoSrvc.pontosAcumuladosDoClienteLogado();
 	}
 
 	public String getPesquisa() {

@@ -48,7 +48,8 @@ public class ItemCarrinho implements IMovimentavel {
 		
 		if (null != produto) {
 			this.valorUnitario = 
-					produto.valor().setScale(2, RoundingMode.HALF_UP);
+					produto.getValor();
+			//TODO: passar o valor por parâmetro.
 		} else
 		{
 			valorUnitario = BigDecimal.ZERO;

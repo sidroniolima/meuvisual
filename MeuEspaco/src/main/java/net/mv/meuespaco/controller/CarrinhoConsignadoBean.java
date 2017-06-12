@@ -7,9 +7,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.CarrinhoConsignadoBeanAnnotation;
-import net.mv.meuespaco.annotations.UsuarioLogado;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoConsignado;
 import net.mv.meuespaco.service.CarrinhoService;
@@ -33,10 +31,6 @@ public class CarrinhoConsignadoBean extends CarrinhoAbstractBean implements Seri
 
 	@Inject
 	private CarrinhoService carrinhoSrvc;
-	
-	@Inject
-	@UsuarioLogado
-	private Usuario usuarioLogado;
 	
 	@Inject
 	private ClienteService clienteSrvc;
@@ -76,7 +70,7 @@ public class CarrinhoConsignadoBean extends CarrinhoAbstractBean implements Seri
 	public String finalizaCarrinho() {
 		
 		try {
-			carrinhoSrvc.finalizaEscolha(carrinho, usuarioLogado);
+			carrinhoSrvc.finalizaEscolha(carrinho, this.getClienteLogado());
 			carrinho.atualizaSaldos();
 			this.esvazia();
 			

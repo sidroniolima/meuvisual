@@ -147,4 +147,9 @@ public class CarrinhoConsignado extends Carrinho {
 		this.valorPermitido = this.calculaSaldoDeValor();
 	}
 
+	@Override
+	public void adicionaItem(ItemCarrinho item, BigDecimal saldo) throws RegraDeNegocioException 
+	{
+		this.add(item);
+	}
 }

@@ -10,6 +10,7 @@ import net.mv.meuespaco.model.Subgrupo;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.loja.Carrinho;
+import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ItemCarrinho;
 
 /**
@@ -65,10 +66,10 @@ public interface CarrinhoService {
 	 * para o cliente.
 	 * 
 	 * @param carrinho do cliente.
-	 * @param usuario Usuário logado.
+	 * @param cliente logado.
 	 * @throws RegraDeNegocioException 
 	 */
-	public void finalizaEscolha(Carrinho carrinho, Usuario usuario) throws RegraDeNegocioException;
+	public void finalizaEscolha(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException;
 	
 	/**
 	 * Calcula a quantidade de itens do carrinho.

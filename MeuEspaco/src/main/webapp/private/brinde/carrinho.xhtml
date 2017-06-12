@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	
+	<c:set var="root" value="#{request.contextPath}/" />      
+ 
+ 	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+		<ui:define name="nav_bar">
+		  	<h:panelGroup
+  				id="panel-nav-bar">
+					<ui:include src="/private/brinde/nav_bar-brinde-index.xhtml"/>
+			</h:panelGroup>
+		</ui:define>	
+
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+	
+		<div id="content">
+            <div class="container">
+            
+            	<h:form id="frm-carrinho">
+
+                	<div class="col-md-12">
+                	    <ul class="breadcrumb">
+                	        <li><a href="index-brinde">Home</a>
+                	        </li>
+                	        <li>Carrinho de brindes</li>
+                	    </ul>
+                	</div>
+                
+                	<h:panelGroup
+	                	id="panel-itens">
+
+		                <div class="col-md-9" id="basket">
+		
+		                    <div class="box">
+		
+					   				<h:messages 
+							      		id="messages"
+							      		errorClass="alert alert-block alert-danger fade in"
+							      		infoClass="alert alert-success fade in"
+							      		style="padding-left:0px;"/>		                          
+		
+		                            <h1>Carrinho para seus brindes</h1>
+		                            
+		                            <p class="text-muted">Você tem 
+		                            	<b><h:outputText value="#{carrinhoBrindeBean.qtdDeItens}">
+		                            	
+		                            		<f:convertNumber 
+		                            			minFractionDigits="0"/>
+		                            			
+		                            	</h:outputText></b>  
+		                            	item(s) no carrinho.
+		                            </p>
+		                            
+		                            <div class="table-responsive">
+		                                <table class="table">
+		                                        <tr>
+		                                        	<th>Imagem</th>
+		                                        	<th colspan="1">Código</th>
+		                                            <th colspan="1">Descrição</th>
+		                                            <th>Quantidade</th>
+		                                            <th colspan="1">Grade</th>
+		                                            <th></th>
+		                                        </tr>
+		                                    
+		                                    <tbody>
+		                                    	<ui:repeat 
+		                                    		var="item" 
+		                                    		value="#{carrinhoBrindeBean.carrinho.itens}">
+			                                        <tr>
+			                                        	<td>
+			                                        		<div class="thumbnail">
+																<img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.produto.buscaFotoPeloIndice(1)}"/>
+															</div>
+			                                        	</td>
+			                                        	<td>#{item.produto.codigoInterno}</td>
+			                                            <td>#{item.produto.descricao}</td>
+			                                            <td>
+			                                            	<h:outputText value="#{item.qtd}">
+			                                            		<f:convertNumber
+			                                            			minFractionDigits="0"/>
+			                                            	</h:outputText>
+			                                            </td>
+			                                            <td>#{item.grade.toString()}</td>
+			                                            <td>
+			                                            	<a jsfc="h:commandLink"
+			                                            		type="button"
+			                                            		immediate="true">
+			                                            		
+			                                            		<f:setPropertyActionListener 
+			                                            			value="#{item}" 
+			                                            			target="#{carrinhoBrindeBean.itemSelecionado}"/>
+			                                            			
+											                   <f:passThroughAttribute name="data-toggle" value="modal" />
+											                   <f:passThroughAttribute name="data-target" value="#myModal" />
+											                   <f:ajax/>
+																	
+			                                            		<i class="fa fa-trash-o"></i>
+			                                            	</a>
+			                                            </td>
+			                                        </tr>
+			                                	</ui:repeat>
+			                                	
+		                                    </tbody>
+		                                    <tfoot>
+		                                        <tr>
+		                                            <th colspan="5">Total</th>
+		                                            <th colspan="2">
+		                                            	<h:outputText value="#{carrinhoBrindeBean.qtdDeItens}">
+		                            	
+		                            						<f:convertNumber 
+		                            							minFractionDigits="0"/>
+		                            			
+		                            					</h:outputText>
+		                            				</th>
+		                                        </tr>
+		                                    </tfoot>
+		                                </table>
+		
+		                            </div>
+		                            <!-- /.table-responsive -->
+		                            
+		                            <div class="box-footer">
+		                                <div class="pull-left">
+		                                    <a jsfc="h:link"
+		                                    	outcome="lista-produtos" 
+		                                    	class="btn btn-default">
+		                                    	<i class="fa fa-chevron-left">
+		                                    	</i> mais brindes...
+		                                    </a>
+		                                </div>
+		                                <div class="pull-right">
+		                                	
+		                                    <a 
+		                                    	href="#"
+		                                    	jsfc="h:commandLink"
+		                                    	action="#{carrinhoBrindeBean.esvazia()}"
+		                                    	class="btn btn-default">
+		                                    	
+		                                    	<f:ajax
+		                                    		execute="@form"
+		                                    		render=":frm-carrinho:panel-itens :frm-carrinho:panel-summary"/>
+		                                    		
+		                                    	<i class="fa fa-refresh"></i> 
+		                                    	Esvaziar carrinho
+		                                    	
+		                                    </a>
+		                                    
+		                                    <a 
+		                                    	jsfc="h:commandLink"
+		                                    	action="#{carrinhoBrindeBean.finalizaCarrinho()}"
+		                                    	class="btn btn-primary">
+		                                    	
+		                                    	<f:ajax
+		                                    		execute="@form"
+		                                    		render="@all"/>
+		                                    		
+		                                    	<i class="fa fa-refresh"></i> 
+		                                    	Resgatar...
+		                                    	
+		                                    </a>                                    
+			                                    
+		                                </div>
+		                            </div>                            
+		
+									<div class="row" id="modal-exclusao">
+						            	
+						            	<div class="col-md-12">
+						                            
+											<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+										    	<div class="modal-dialog modal-md">
+										        	<div class="modal-content">
+										            	<h:form id="myForm">
+										                	<div class="modal-header">
+										                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+										                    	<h4 class="modal-title">Confirmação de exclusão</h4>
+										                	</div>
+										                	<div class="modal-body">
+										                		<h:panelGroup 
+											                		layout="block" 
+											                		id="panelDescricao">
+											                	
+											                		Deseja realmente excluir o item selecionado?
+											                		<div 
+								                						style="text-align:right"
+								                						id="btns-confirm">
+												                	
+												                		<a  type="submit"
+												                			class="btn btn-warning btn-sm"
+												                			jsfc="h:commandLink"
+												                			action="#{carrinhoBrindeBean.removeItem()}">
+												                			Sim
+																		
+																			<f:passThroughAttribute name="data-dismiss" value="modal" />
+																			<f:ajax
+														               			execute="@this"
+														               			render=":frm-carrinho:panel-itens :frm-carrinho:panel-summary"/>
+																		</a>
+											                		
+											                			<button 
+											                				id="close"
+											                				type="submit" 
+											                				class="btn btn-info btn-sm">Não</button>
+											                		</div>
+											                		<!-- /.btns-confirm -->
+											                		
+										                		</h:panelGroup>
+										                	</div>
+										
+										            	</h:form>
+										        	</div>
+										    	</div>
+											</div>	
+						                        
+						                </div>
+						                <!-- /.col-md-12 -->
+						         	
+						         	</div>
+						         	<!-- /.row modal-exclusao-->	                            
+		
+		                    </div>
+		                    <!-- /.box -->
+		
+		                </div>
+		                <!-- /.col-md-9 -->
+		            
+		            </h:panelGroup>
+		            <!-- /#panel-itens -->
+	                
+	                <h:panelGroup
+	                	id="panel-summary">
+	
+		                <div class="col-md-3">
+		                    <div class="box" id="order-summary">
+		                        <div class="box-header">
+		                            <h3>Sumário do carrinho</h3>
+		                        </div>
+		                        <p class="text-muted">Abaixo, os detalhes do resgate.</p>
+		
+		                        <div class="table-responsive" id="table-summary">
+		                            <table class="table">
+		                                <tbody>
+		                                
+		                                	<ui:repeat 
+												var="entry" 
+												value="#{carrinhoBrindeBean.carrinho.resumo.entrySet().toArray()}">
+			                                    <tr>
+			                                        <td>#{entry.key.descricao}</td>
+			                                        <th>#{entry.value}</th>
+			                                    </tr>
+		                                    </ui:repeat>
+		                                    
+		                                    <tr class="total">
+		                                        <td>Quantidade</td>
+		                                        <th>
+		                                        
+		                                        	<h:outputText value="#{carrinhoBrindeBean.carrinho.qtdDeItens()}">
+		                                        	
+		                                        		<f:convertNumber
+		                                        			locale="pt_BR"
+		                                        			minFractionDigits="0"/>
+		                                        	</h:outputText>
+		                                        	
+		                                        </th>
+		                                    </tr>
+		                                    
+		                                    <tr class="total">
+		                                        <td>Estrelas</td>
+		                                        <th>
+		                                        
+		                                        	<h:outputText value="#{carrinhoBrindeBean.carrinho.valorDosItens()}">
+		                                        	
+		                                        		<f:convertNumber
+		                                        			locale="pt_BR"
+		                                        			minFractionDigits="0"/>
+		                                        	</h:outputText>
+		                                        	
+		                                        </th>
+		                                    </tr>		                                    
+		                                    
+		                                    <tr>
+		                                        <td>Saldo</td>
+		                                        <th>
+		                                        
+		                                        	<h:outputText value="#{carrinhoBrindeBean.saldoDePontos()}">
+		                                        	
+		                                        		<f:convertNumber
+		                                        			locale="pt_BR"
+		                                        			minFractionDigits="0"/>
+		                                        	</h:outputText>
+		                                        	
+		                                        </th>	
+		                                	</tr>	                                    
+		                                </tbody>
+		                            </table>
+		                        </div>
+		
+		                    </div>
+		
+		                </div>
+		                <!-- /.col-md-3 -->
+		        	</h:panelGroup>
+		        	<!-- /#panel-summary -->
+		        	
+	        	</h:form>
+	        	<!-- /#frm-carrinho -->	   		        	
+	        
+            </div>
+            <!-- /.container -->
+	            
+        </div>
+        <!-- /#content -->	
+	
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

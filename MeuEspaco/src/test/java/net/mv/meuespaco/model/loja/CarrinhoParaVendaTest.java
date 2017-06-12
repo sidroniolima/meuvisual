@@ -43,6 +43,7 @@ public class CarrinhoParaVendaTest {
 		
 		anel = new Produto(1L, "Anel diverso");
 		anel.setCodigoInterno("21497698SF06890");
+		anel.setValor(new BigDecimal(68.90));
 		anel.adicionaGrade(corETamanho);
 		Subgrupo subAnel = new Subgrupo();
 		subAnel.setGrupo(grupoAnel);
@@ -50,6 +51,7 @@ public class CarrinhoParaVendaTest {
 		
 		brinco = new Produto(2L, "Brinco diverso");
 		brinco.setCodigoInterno("21629419MV01490");
+		brinco.setValor(new BigDecimal(14.90));
 		brinco.adicionaGrade(cor);
 		Subgrupo subBrinco = new Subgrupo();
 		subBrinco.setGrupo(grupoBrinco);

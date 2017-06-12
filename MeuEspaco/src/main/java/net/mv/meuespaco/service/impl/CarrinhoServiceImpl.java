@@ -133,17 +133,14 @@ public class CarrinhoServiceImpl implements CarrinhoService, Serializable {
 	@Override
 	public void finalizaEscolha(Usuario usuario) throws RegraDeNegocioException {
 
-		//pedidoSrvc.criaEscolhaPeloCarrinho(this.getCarrinho(), clienteSrvc.buscaClientePeloUsuario(usuario));
-		
 		pedidoSrvc.criaEscolhaPeloCarrinho(this.getCarrinho(), clienteLogado);
 		this.esvazia();
 	}
 	
 	@Override
-	public void finalizaEscolha(Carrinho carrinho, Usuario usuario) throws RegraDeNegocioException {
-
-		pedidoSrvc.criaEscolhaPeloCarrinho(carrinho, clienteLogado);
-		
+	public void finalizaEscolha(Carrinho carrinho, Cliente cliente) throws RegraDeNegocioException 
+	{
+		pedidoSrvc.criaEscolhaPeloCarrinho(carrinho, cliente);
 	}
 
 	@Override

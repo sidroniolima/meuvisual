@@ -46,6 +46,7 @@ public class CarrinhoAbstractBeanTest {
 		sub.setGrupo(grupo);
 		
 		produto = new Produto(1L, "Teste", "21457812MV01990");
+		produto.setValor(new BigDecimal(19.90));
 		produto.setSubgrupo(sub);
 	}
 	

@@ -42,6 +42,16 @@ public abstract class Carrinho {
 	public abstract void adicionaItem(ItemCarrinho item) throws RegraDeNegocioException; 
 	
 	/**
+	 * Adiciona um item ao carrinho validando-o, passando o saldo e verificando
+	 * a quantidade.
+	 * 
+	 * @param item
+	 * @param saldo disponível para o cliente.
+	 * @throws RegraDeNegocioException
+	 */
+	public abstract void adicionaItem(ItemCarrinho item, BigDecimal saldo) throws RegraDeNegocioException; 
+	
+	/**
 	 * Calcula a quantidade de itens.
 	 * 
 	 * @return qtd de itens.

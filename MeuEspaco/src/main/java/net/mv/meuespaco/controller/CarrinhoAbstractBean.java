@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.loja.Carrinho;
+import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ItemCarrinho;
 import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.service.ReservaProdutoService;
@@ -30,7 +32,11 @@ public abstract class CarrinhoAbstractBean implements Serializable {
 	
 	@Inject
 	protected EstoqueService estoqueSrvc;
-	
+
+	@Inject
+	@ClienteLogado
+	private Cliente clienteLogado;	
+			
 	protected ItemCarrinho itemSelecionado;
 	
 	public CarrinhoAbstractBean() {	}
@@ -195,5 +201,13 @@ public abstract class CarrinhoAbstractBean implements Serializable {
 	public void setItemSelecionado(ItemCarrinho itemSelecionado) {
 		this.itemSelecionado = itemSelecionado;
 	}
-	
+
+	/**
+	 * Retorna o cliente logado.
+	 * @return
+	 */
+	public Cliente getClienteLogado() 
+	{
+		return clienteLogado;
+	}
 }

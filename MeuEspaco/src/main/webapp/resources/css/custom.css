@@ -500,3 +500,127 @@ input.input-search
 	font-size: 12px !important;
 	font-weight: bold !important;
 }
+
+.col-brinde
+{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	text-align: center;
+	margin-bottom: 8%;
+	padding: 0px;
+}
+
+.col-brinde.grande
+{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	text-align: center;
+	margin-bottom: 8%;
+	padding: 42px;
+}
+
+.col-brinde.eletro
+{
+	background-color: #4e9a06;	
+}
+
+.col-brinde.peca
+{
+	background-color: #e9b96e;
+}
+
+.col-brinde.game
+{
+	background-color: #ce5c00;	
+}
+
+.col-brinde.casa
+{
+	background-color: #ef2929;
+}
+
+.da-esquerda {
+	padding: 0;
+	font-size: 13px !important;
+	font-weight: bold !important;
+	margin-right: 5px;
+}
+
+.da-direita {
+	padding: 0;
+  	font-size: 13px !important;
+  	font-weight: bold !important;
+}
+
+#slider-min, #slider-max {
+	font-size: 12px !important;
+	font-weight: bold !important;
+}
+
+.brinde-banner
+{
+	background: url("https://meuvisualsemijoias.com//imagens/meu-espaco/site/brinde/brinde-index-banner.jpg") center center no-repeat;
+	background-size: cover;
+	width: 1170px;
+	height: 500px;
+	padding-top: 60px;
+}
+
+.inline-banner {
+	margin-left: 150px;
+	display: inline-block;
+	border-radius: 40px;
+}
+
+.slider-handle.custom {
+	background: transparent none;
+	/* You can customize the handle and set a background image */
+}
+
+/* Or display content like unicode characters or fontawesome icons */
+.slider-handle.custom::before {
+	line-height: 20px;
+	font-size: 20px;
+	content: '\2605'; /*unicode star character*/
+	color: #726204;
+}
+
+.modal-header.blue
+{
+	background-color: #4993e4;
+	color: #fff;
+}
+
+#row-index-info
+{
+	margin-top: 6%;
+	margin-left: 10px;
+}
+
+.panel-heading.big.blue
+{
+	background-color: #4993e4;
+	color: #555555;
+	font-size: 1.5rem;
+	font-style: bold;
+}
+
+.panel-heading.big.gold
+{
+	background-color: #CDA500;
+	color: #555555;
+	font-size: 1.5rem;
+	font-style: bold;
+}
+
+.form-control.input-small
+{
+	font-size: 11px !important;
+}
+
+label .small
+{
+	font-size: 11px !important;
+}

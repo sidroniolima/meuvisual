@@ -7,7 +7,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	template="/public/template_initial.xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+	  	  
+	<!-- META DEFINE -->
+	<ui:define name="meta">
+	   	<meta http-equiv="cache-control" content="max-age=0" />
+	    <meta http-equiv="cache-control" content="no-cache" />
+	    <meta http-equiv="expires" content="0" />
+	    <meta http-equiv="pragma" content="no-cache" />
+	</ui:define>
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+	</ui:define>
  
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
@@ -18,11 +32,10 @@
 	<ui:define name="nav_bar">
 		<ui:include src="/private/brinde/nav_bar-brinde.xhtml"/>
 	</ui:define>	
-	
+
 	<!-- CONTENT DEFINE -->
 	<ui:define name="page_content">	
-
-        <div id="content">
+		<div id="content">
             <div class="container">
 
                 <div class="col-md-12">
@@ -37,6 +50,10 @@
                 
                 <h:form
                 	id="frm-listagem">
+
+					<o:commandScript name="urlPesquisaPorValor" 
+						action="${pesquisaBrindeBean.filtraBrindesPorValor()}"
+						render="@form"/>                	
                 
 	                <div class="col-md-12">
 	                	
@@ -48,8 +65,7 @@
 				    </div>
 	                
 	                <div class="col-md-3">
-	                    <!-- *** MENUS AND FILTERS ***
-	 _________________________________________________________ -->
+	                    <!-- *** MENUS AND FILTERS ***	 _________________________________________________________ -->
 	                    <div class="panel panel-default sidebar-menu">
 	
 	                        <div class="panel-heading">
@@ -57,30 +73,29 @@
 	                        </div>
 	
 	                        <div class="panel-body">
-	                            <ul class="nav nav-pills nav-stacked category-menu">
-	                            
-	                            	<!-- lista de subgrupos de brindes -->
-	                            </ul>
-	
+	                        	<div class="col-md-6">
+		                            	<div class="col-brinde eletro">
+		                            		<i class="fa fa-coffee fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                            	<div class="col-brinde peca">
+		                            		<i class="fa fa-gift fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                         </div>   	
+                        		<div class="col-md-6">
+		                            	<div class="col-brinde casa">
+		                            		<i class="fa fa-camera-retro fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                            	<div class="col-brinde game">
+		                            		<i class="fa fa-gamepad fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                         </div>   			                         
+  			                         	                            
 	                        </div>
 	                    </div>
 	                    
 	                </div> <!-- /.col-md 3 -->
 	                    
 					<div class="col-md-9">
-					    <div class="box">
-					        <h1>Pequisa: #{pesquisaBrindeBean.pesquisa}</h1>
-					    </div>
-					    
-					    <h:panelGroup
-							id="panel-sem-registros"
-							rendered="#{pesquisaBrindeBean.brindes == null}">
-							
-							<div class="box">
-								<p>Não há brindes para a pesquisa realizada.</p>
-							</div>
-								
-						</h:panelGroup>
 					    
 					    <h:panelGroup
 					    	id="panel-produtos"
@@ -89,7 +104,7 @@
 						    <div class="row products">
 						
 					            <ui:repeat 
-					            	var="produto" 
+					            	var="brinde" 
 					            	value="#{pesquisaBrindeBean.brindes}">				
 						
 							        <div class="col-md-4 col-sm-6">
@@ -100,25 +115,25 @@
 							                    <div class="flipper">
 							                    
 							                        <div class="front">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}">
+							                            <a href="./brinde-detail.xhtml?paramCodigo=#{brinde.codigo}">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{brinde.buscaFotoPeloIndice(1)}" class="img-responsive" alt="#{brinde.buscaFotoPeloIndice(1)}" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}">
+							                            <a href="./brinde-detail.xhtml?paramCodigo=#{brinde.codigo}">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{brinde.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                    </div>
 							                </div>
-							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}" class="invisible">
+							                <a href="../brinde/brinde-detail.xhtml?paramCodigo=#{brinde.codigo}" class="invisible">
 							                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{brinde.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                </a>
 							                <div class="text">
-							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}">#{brinde.descricao}</a></h3>
+							                    <h3><a href="./brinde-detail.xhtml?paramCodigo=#{brinde.codigo}">#{brinde.descricao}</a></h3>
 							                    <p class="price">#{brinde.codigoInterno}</p>
 							                    <p class="buttons">
-							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{brinde.codigo}" class="btn btn-default">Detalhes</a>
+							                        <a href="./brinde-detail.xhtml?paramCodigo=#{brinde.codigo}" class="btn btn-default">Detalhes</a>
 							                    </p>
 							                </div>
 							                <!-- /.text -->
@@ -134,80 +149,6 @@
 						</h:panelGroup>
 						<!-- /#panel-produtos -->
 						
-						<h:panelGroup
-							id="panel-load-more">
-						    
-						    <div class="pages">
-						    
-				                <div class="col-md-12" id="paginator">
-				                
-									<nav style="text-align:center">
-						     				
-									  <ul class="pagination">
-									    <li>
-									    	<h:commandLink
-									    		actionListener="#{pesquisaBrindeBean.paginator.previous()}"
-									    		action="#{pesquisaBrindeBean.listarComPaginacao()}" 
-									    		value="«">
-
-							                   	<f:ajax
-							                   		render="panel-produtos"/>   
-									    	</h:commandLink>
-									    </li>
-									    
-									    <c:forEach 
-									    	begin="0" 
-									    	end="#{pesquisaBrindeBean.paginator.partesVisiveis() - 1}"
-									    	var="index">
-									    
-										    <li>
-									    		<h:commandLink
-										    		actionListener="#{pesquisaBrindeBean.paginator.goTo(index)}" 
-										    		action="#{pesquisaBrindeBean.listarComPaginacao()}"
-										    		value="#{index+1}" >
-										    		
-								                   	<f:ajax
-								                   		render="panel-produtos"/>   
-										    	</h:commandLink>
-										    </li>
-									    </c:forEach>
-									    
-										<li class="disabled" 
-											style="#{not pesquisaBrindeBean.paginator.particionado ? 'display:none' : ''}">
-									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
-									    </li>
-									    
-									    <li
-									    	style="#{not pesquisaBrindeBean.paginator.particionado ? 'display:none' : ''}">
-									      <h:commandLink
-									    		actionListener="#{pesquisaBrindeBean.paginator.goToLast()}" 
-									    		action="#{pesquisaBrindeBean.listarComPaginacao()}"
-									    		value="#{pesquisaBrindeBean.paginator.partes}">
-									    		
-							                   	<f:ajax
-							                   		render="panel-produtos"/>   
-									    	</h:commandLink>
-									    </li>
-
-									    <li>
-									      <h:commandLink
-									    		actionListener="#{pesquisaBrindeBean.paginator.next()}" 
-									    		action="#{pesquisaBrindeBean.listarComPaginacao()}"
-									    		value="»">
-									    		
-							                   	<f:ajax
-							                   		render="panel-produtos"/>   
-									    	</h:commandLink>
-									    </li>
-									  </ul>
-									</nav>		                
-				                
-				                </div> <!-- /#paginator -->
-				                
-						    </div>
-							    
-						</h:panelGroup>
-						<!-- /#panel-load-more -->							
 						
 					</div>
 					<!-- /.col-md-9 -->	
@@ -218,7 +159,6 @@
             <!-- /.container -->
         </div>
         <!-- /#content -->	
-	
 	</ui:define>
 	<!-- END OF DEFINE CONTENT -->
 	
@@ -230,6 +170,21 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<script> 
+			
+			var mySlider = $("#ex2").slider({});
+			var min = 0;
+			var max = 0;
+			
+			mySlider.on("slide", function(sliderValue) {
+				$('#min').text(sliderValue.value[0]);
+				$('#max').text(sliderValue.value[1]);			
+			});			
+
+			mySlider.on("slideStop", function(sliderValue) {
+				urlPesquisaPorValor({ min : sliderValue.value[0], max : sliderValue.value[1]});
+			});			
+		</script>	
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

@@ -10,9 +10,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.Param;
+import org.omnifaces.util.Faces;
 
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Produto;
-import net.mv.meuespaco.service.BrindeService;
+import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.util.IConstants;
 import net.mv.meuespaco.util.Paginator;
 
@@ -29,7 +31,7 @@ public class PesquisaBrindeBean implements Serializable
 	private static final long serialVersionUID = 5036262398331477893L;
 	
 	@Inject
-	private BrindeService brindeSrvc;
+	private ProdutoService brindeSrvc;
 	
 	private List<Produto> brindes;
 	
@@ -39,10 +41,10 @@ public class PesquisaBrindeBean implements Serializable
 	private String pesquisa;
 	
 	@Inject @Param
-	private String min;
+	private String min = "2000";
 	
 	@Inject @Param
-	private String max;
+	private String max = "6000";
 	
 	public PesquisaBrindeBean() 
 	{
@@ -52,18 +54,31 @@ public class PesquisaBrindeBean implements Serializable
 	@PostConstruct
 	public void init()
 	{
-		System.out.println(String.format("Pesquisa: %s, Min: %s, Max: %s", pesquisa, min, max));
 		if (null != pesquisa)
 		{
-			brindes = this.brindeSrvc.pesquisaDiversa(pesquisa, this.getPaginator());
+			brindes = this.brindeSrvc.pesquisaDiversa(pesquisa, Finalidade.BRINDE, this.getPaginator());
 			return;
 		}
 		
 		if (null != min && null != max)
 		{
-			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), this.getPaginator());
+			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());
 			return;
 		}
+	}
+	
+	public void filtraBrindesPorValor()
+	{
+		min = Faces.getRequestParameter("min");
+		max = Faces.getRequestParameter("max");
+		
+		if (min.isEmpty() || max.isEmpty())
+		{
+			min = "2000";
+			max = "6000";
+		}
+
+		brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());
 	}
 	
 	public Paginator getPaginator() 

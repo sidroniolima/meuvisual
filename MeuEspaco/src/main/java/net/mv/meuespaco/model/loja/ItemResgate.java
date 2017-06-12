@@ -112,7 +112,7 @@ public class ItemResgate extends EntidadeModel implements IMovimentavel, ItemCal
 			throw new RegraDeNegocioException("O brinde deve ter sua grade.");
 		}
 		
-		if (qtd.equals(BigDecimal.ZERO))
+		if (qtd.compareTo(BigDecimal.ZERO) <= 0)
 		{
 			throw new RegraDeNegocioException("A quantidade deve ser maior que zero.");
 		}

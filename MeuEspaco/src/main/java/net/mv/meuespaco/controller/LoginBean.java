@@ -21,6 +21,7 @@ import org.primefaces.context.RequestContext;
 
 import com.google.gson.Gson;
 
+import net.mv.meuespaco.annotations.CarrinhoBrindeBeanAnnotation;
 import net.mv.meuespaco.annotations.CarrinhoConsignadoBeanAnnotation;
 import net.mv.meuespaco.annotations.CarrinhoVendaBeanAnnotation;
 import net.mv.meuespaco.annotations.UsuarioLogado;
@@ -57,6 +58,10 @@ public class LoginBean implements Serializable {
 	@Inject
 	@CarrinhoVendaBeanAnnotation
 	private CarrinhoVendaBean carrinhoVendaBean;
+	
+	@Inject
+	@CarrinhoBrindeBeanAnnotation
+	private CarrinhoBrindeBean carrinhoBrindeBean;
 	
 	private Usuario userLogged;
 	private String sessionId;
@@ -99,6 +104,7 @@ public class LoginBean implements Serializable {
 			loginSrvc.logoutAutomatico(userLogged);
 			carrinhoConsignadoBean.esvazia();
 			carrinhoVendaBean.esvazia();
+			carrinhoBrindeBean.esvazia();
 		}
 	}
 	
@@ -109,6 +115,7 @@ public class LoginBean implements Serializable {
 		loginSrvc.logoutManual(userLogged);
 		carrinhoConsignadoBean.esvazia();
 		carrinhoVendaBean.esvazia();
+		carrinhoBrindeBean.esvazia();
 		userLogged = null;
 		
 		return "/public/register.xhtml?faces-redirect=true";
@@ -130,6 +137,7 @@ public class LoginBean implements Serializable {
 						
 				carrinhoConsignadoBean.criaCarrinho();
 				carrinhoVendaBean.criaCarrinho();
+				carrinhoBrindeBean.criaCarrinho();
 
 				optClienteLogado = Optional.ofNullable(clienteSrvc.buscaClientePeloUsuarioLogado());
 				

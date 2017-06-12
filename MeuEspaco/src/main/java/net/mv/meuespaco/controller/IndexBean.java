@@ -28,7 +28,6 @@ public class IndexBean implements Serializable {
 		if (null == destaques) {
 			destaques = produtoSrvc.ultimosDezProdutosCadastrados();
 		}
-		
 	}
 
 	/**

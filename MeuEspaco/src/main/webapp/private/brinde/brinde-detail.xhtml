@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	
+	<c:set var="root" value="#{request.contextPath}/" />
+
+	<ui:define name="css">
+		<h:outputStylesheet library="css" name="zoom.css"/>
+		<h:outputStylesheet library="css" name="style.blue.css"/>
+	</ui:define>
+
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/brinde/nav_bar-brinde-index.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+        <div id="content">
+            <div class="container">
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="#{root}/private/brinde/index.xhtml">Home</a>
+                        </li>
+                        <li><a href="#">#{produtoDetailBrindeBean.produto.subgrupo.descricao}</a>
+                        </li>
+                        <li>#{produtoDetailBrindeBean.produto.descricao}</li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-12">
+                	
+                	<h:messages 
+			    	  	id="messages"
+				      	errorClass="alert alert-block alert-danger fade in"
+			     	 	style="padding-left:0px"
+			     	 	globalOnly="true"/>   
+			    </div>
+                
+                <div class="col-md-3">
+                    <!-- *** MENUS AND FILTERS ***_________________________________________________________ -->
+					<h:panelGroup 
+                       	id="panel-letras"
+                       	rendered="#{produtoDetailBrindeBean.produto.tipoGrade == 'LETRA'}">
+
+                    	<div class="panel panel-default sidebar-menu">
+
+                       		<div class="panel-heading">
+                            	<h3 class="panel-title">Letras <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+                        	</div>
+                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form id="frm-letra">
+	                            
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailBrindeBean.gradeSelecionada.letra}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailBrindeBean.letrasDisponiveis}"
+                                           		var="letra"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{letra}"
+                                           		itemValue="#{letra}"/>
+                                           		
+			                            	<f:ajax
+			                            		execute="@this"/>                                           		
+                                           
+                                    	</h:selectOneRadio>
+	                                </div>
+	
+	                            </h:form> <!-- /#frm-letra -->
+	
+	                        </div>
+	                        
+	                	</div> <!-- sidebar-menu-letras -->
+	                </h:panelGroup> <!-- /#panel-letras -->                    
+                    
+                    <h:panelGroup 
+                       	id="panel-tamanhos"
+                       	rendered="#{produtoDetailBrindeBean.produto.tipoGrade == 'TAMANHO'}">
+
+                    	<div class="panel panel-default sidebar-menu">
+
+                       		<div class="panel-heading">
+                            	<h3 class="panel-title">Tamanhos <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+                        	</div>
+                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form id="frm-tamanho">
+	                            
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailBrindeBean.gradeSelecionada.tamanho}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailBrindeBean.tamanhosDisponiveis}"
+                                           		var="tam"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{tam.descricao}"
+                                           		itemValue="#{tam}"/>
+                                           		
+			                            	<f:ajax
+			                            		execute="@this"/>                                           		
+                                           
+                                    	</h:selectOneRadio>
+	                                </div>
+	
+	                            </h:form> <!-- /#frm-tamanho -->
+	
+	                        </div>
+	                        
+	                	</div> <!-- sidebar-menu-tamanho -->
+	                </h:panelGroup> <!-- /#panel-tamanhos -->
+	                
+					<h:panelGroup 
+                       	id="panel-simbolos-musicais"
+                       	rendered="#{produtoDetailBrindeBean.produto.tipoGrade == 'MUSICAL'}">
+	                
+		                <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Musical <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        </div>
+	                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form 
+	                            	id="frm-simbolos"
+	                            	styleClass="form-inline">                        	
+
+			                        <div class="form-group">
+			                        
+			                            <h:selectOneRadio
+			                            	value="#{produtoDetailBrindeBean.gradeSelecionada.simbolo}"
+			                            	layout="pageDirection"
+			                            	style="padding-left:20px">
+			                            	
+			                            	<f:selectItems
+			                            		value="#{produtoDetailBrindeBean.simbolosMusicaisDisponiveis}"
+			                            		var="simbolo"
+			                            		itemLabel="&nbsp;&nbsp;&nbsp;#{simbolo}"
+			                            		itemValue="#{simbolo}"/>
+			                            		
+			                            	<f:ajax
+			                            		execute="@this"/>
+			                            	
+			                            </h:selectOneRadio>
+			                        </div>
+			                        
+			            		</h:form> <!-- /#frm-musical -->
+			            
+			            	</div>
+			            	
+	                    </div> <!-- sidebar-menu-musical -->
+	                    
+	                </h:panelGroup> <!-- /#panel-simbolos-musicais -->	                
+	                
+					<h:panelGroup 
+                       	id="panel-cores"
+                       	rendered="#{produtoDetailBrindeBean.produto.tipoGrade == 'COR'}">
+	                
+		                <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Cores <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        </div>
+	                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form 
+	                            	id="frm-cores"
+	                            	styleClass="form-inline">                        	
+
+			                        <div class="form-group">
+			                        
+			                            <h:selectOneRadio
+			                            	value="#{produtoDetailBrindeBean.gradeSelecionada.cor}"
+			                            	layout="pageDirection"
+			                            	style="padding-left:20px">
+			                            	
+			                            	<f:selectItems
+			                            		value="#{produtoDetailBrindeBean.coresDisponiveis}"
+			                            		var="cor"
+			                            		itemLabel="&nbsp;&nbsp;&nbsp;#{cor.descricao}"
+			                            		itemValue="#{cor}"/>
+			                            		
+			                            	<f:ajax
+			                            		execute="@this"/>
+			                            	
+			                            </h:selectOneRadio>
+			                        </div>
+			                        
+			                        <div class="form-group" style="margin-left:15px; margin-top:0px;">
+					            		<ui:repeat var="cor" value="#{produtoDetailBrindeBean.coresDisponiveis}">
+					            			<div class="square cor-${cor.codigoHtml}"/>
+					            			<div style="padding-top: 10px"/>
+					            		</ui:repeat>	
+					            	</div>		                        
+			            
+			            		</h:form> <!-- /#frm-cores -->
+			            
+			            	</div>
+			            	
+	                    </div> <!-- sidebar-menu-cor -->
+	                    
+	                </h:panelGroup> <!-- /#panel-cores -->
+                    
+                    <h:panelGroup 
+                        id="panel-gr-completa"
+                        rendered="#{produtoDetailBrindeBean.produto.tipoGrade == 'COR_E_TAMANHO'}">
+                        	
+                        <h:form 
+                        	id="frm-gr-completa-tamanho"
+                        	styleClass="form-inline">
+	                
+		                	<div class="panel panel-default sidebar-menu">
+	
+	                        	<div class="panel-heading">
+	                        	    <h3 class="panel-title">Tamanho <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        	</div>	                
+	
+	                        	<div class="panel-body">
+	                            
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailBrindeBean.gradeSelecionada.tamanho}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px"
+                                           	valueChangeListener="#{produtoDetailBrindeBean.filtroDeCoresPorTamanho}">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailBrindeBean.tamanhosDisponiveis}"
+                                           		var="tamanho"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{tamanho.descricao}"
+                                           		itemValue="#{tamanho}"/>
+                                           		
+			                            	<f:ajax
+			                            		render=":frm-gr-completa-tamanho"/>                                           		
+                                           
+                                    	</h:selectOneRadio>
+	                                </div>
+	                                
+	                        	</div>
+							</div> <!-- /.sidebar-menu tamanho -->
+								
+							<div class="panel panel-default sidebar-menu">
+
+		                        <div class="panel-heading">
+		                            <h3 class="panel-title">Cores <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+		                        </div>	 
+		                        
+		                        <div class="panel-body">
+	                                
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailBrindeBean.gradeSelecionada.cor}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px"
+                                           	id="select-radio-cor-gr-completa">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailBrindeBean.coresParaOTamanho}"
+                                           		var="cor"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{cor.descricao}"
+                                           		itemValue="#{cor}"/>
+                                           		
+                                           	<f:ajax
+                                           		execute="@this"
+                                           		immediate="true"/>
+                                           		
+                                    	</h:selectOneRadio>
+	                                </div>	   
+	                                
+			                        <div class="form-group" style="margin-left:15px; margin-top:0px;">
+					            		<ui:repeat var="cor" value="#{produtoDetailBrindeBean.coresParaOTamanho}">
+						            		<div class="square cor-${cor.codigoHtml}"/>
+											<div style="padding-top: 10px"/>						            		
+					            		</ui:repeat>	
+					            	</div>		                                     
+	                        
+	                        	</div>
+	                        	
+	                        </div> <!-- /.sidebar-meny cores -->  
+	                        
+		                </h:form> <!-- /#frm-tamanho-gr-completa --> 
+		            </h:panelGroup> <!-- /#panel-gr-completa -->     
+		            
+                    <!-- *** MENUS AND FILTERS ***	 _________________________________________________________ -->
+                    <div class="panel panel-default sidebar-menu">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Categorias</h3>
+                        </div>
+
+                        <div class="panel-body">
+                        	<div class="col-md-6">
+	                            	<div class="col-brinde eletro">
+	                            		<i class="fa fa-coffee fa-5x" aria-hidden="true"></i>
+	                            	</div>
+	                            	<div class="col-brinde peca">
+	                            		<i class="fa fa-gift fa-5x" aria-hidden="true"></i>
+	                            	</div>
+	                         </div>   	
+                       		<div class="col-md-6">
+	                            	<div class="col-brinde casa">
+	                            		<i class="fa fa-camera-retro fa-5x" aria-hidden="true"></i>
+	                            	</div>
+	                            	<div class="col-brinde game">
+	                            		<i class="fa fa-gamepad fa-5x" aria-hidden="true"></i>
+	                            	</div>
+	                         </div>   			                         
+ 			                         	                            
+                        </div>
+                    </div>		            
+
+                    <!-- *** MENUS AND FILTERS END *** -->
+
+                </div>
+
+                <div class="col-md-9">
+                
+                    <div class="row" id="productMain">
+                        <div class="col-sm-6">
+                            <div id="mainImage">
+                                <span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
+                                	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+                                </span>
+                            </div>
+
+                            <div class="ribbon new">
+                                <div class="theribbon">Nova</div>
+                                <div class="ribbon-background"></div>
+                            </div>
+                            <!-- /.ribbon -->
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="box">
+                                <h1 class="text-center">#{produtoDetailBrindeBean.produto.descricao}</h1>
+                                
+                                <h:panelGroup
+                                	rendered="#{not produtoDetailBrindeBean.produto.descontavel}">
+                                	
+                                	<div class="alert alert-danger" role="alert">
+									  <b>Atenção!</b> Este brinde não poderá ser devolvido.
+									</div>
+                                </h:panelGroup>
+                                
+                                <p class="goToDescription">
+                                	<a href="#details" class="scroll-to">Deslize até os detalhes do brinde</a>
+                                </p>
+                                
+                                <p class="price"><span><i class="fa fa-star 2x"/></span> #{produtoDetailBrindeBean.produto.valor}</p>
+
+                                <p class="text-center buttons">
+                                    
+                                    <h:form id="frm-control">
+                                    
+                                    	<div class="form-group">
+	                                    	
+	                                    	<div class="col-sm-3">
+	                                    		<h:inputText
+	                                    			id="qtd-do-produto"
+	                                    			pt:type="number"
+	                                    			pt:min="1"
+	                                    			class="form-control"
+	                                    			value="#{produtoDetailBrindeBean.qtdDoProduto}"
+	                                    			pt:max="99">                                			
+	                                    			
+	                                    			<f:ajax/>
+	                                    			
+	                                    			<f:convertNumber 
+	                                    				type="number"
+	                                    				minIntegerDigits="1"
+	                                    				maxIntegerDigits="2"
+	                                    				integerOnly="true"/>
+	                                    				
+	                                    			
+	                                    		</h:inputText>
+	                                    	</div>	
+		                                    <a 
+		                                    	href="#"
+		                                    	jsfc="h:commandLink" 
+		                                    	class="btn btn-primary"
+		                                    	action="#{produtoDetailBrindeBean.addToChart()}"
+		                                    	disabled="#{not produtoDetailBrindeBean.habilitaEscolha}">
+		                                    	
+		                                    	<f:ajax
+		                                    		execute="@this"
+		                                    		render="@form"/>
+		                                    	
+		                                    	<i class="fa fa-shopping-cart"></i> Carrinho
+		                                    </a>
+		                                    	 
+		                                </div>
+		                                
+		                                <div class="form-group">
+		                                    <h:messages 
+									    	  	id="messages"
+										      	errorClass="alert alert-block alert-danger fade in"
+									     	 	style="padding-left:0px"
+									     	 	globalOnly="true"/>
+								     	 </div>
+	                        	
+	                        	</h:form> <!-- /#frm-control -->
+	                        	
+	                        	</p>
+
+                            </div>
+
+                            <div class="row" id="thumbs">
+                                <div class="col-xs-4">
+                                    <a href="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(1)}" class="thumb">
+                                        <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(2)}"  class="thumb">
+                                        <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+                                    </a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <a href="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(3)}"  class="thumb">
+                                        <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailBrindeBean.produto.buscaFotoPeloIndice(3)}" class="img-responsive" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="box" id="details">
+                        <p>
+                            <h4>Detalhes do produto</h4>
+                            <p>#{produtoDetailBrindeBean.produto.detalhes}</p>
+                           
+                            <h4>Cuidados com o material</h4>
+                            <p>#{produtoDetailBrindeBean.produto.cuidados}</p>
+
+                            <blockquote>
+                                <p><em><p>#{produtoDetailBrindeBean.produto.marketing}</p></em>
+                                </p>
+                            </blockquote>
+
+                            <hr/>
+                            <div class="social">
+                                <h4>Compartilhe com seus amigos</h4>
+                                <p>
+                                    <a href="#" class="external facebook" data-animate-hover="pulse"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" class="email" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
+                                </p>
+                            </div>
+                    	</p>
+                    </div>
+
+                    <div class="row same-height-row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="box same-height">
+                                <h3>Brindes relacionados</h3>
+                            </div>
+                        </div>
+                        
+                        <ui:repeat 
+                        	var="relac" 
+                        	value="#{produtoDetailBrindeBean.produto.produtosRelacionados.toArray()}">
+
+	                        <div class="col-md-3 col-sm-6">
+	                            <div class="product same-height">
+	                                <div class="flip-container">
+	                                    <div class="flipper">
+	                                        <div class="front">
+	                                            <a href="../produto/produto-detail.xhtml?paramCodigo=#{relac.codigo}">
+	                                            	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
+	                                            </a>
+	                                        </div>
+	                                        <div class="back">
+	                                            <a href="../produto/produto-detail.xhtml?paramCodigo=#{relac.codigo}">
+	                                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
+	                                            </a>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <a href="../produto/produto-detail.xhtml?paramCodigo=#{relac.codigo}" class="invisible">
+	                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{relac.buscaFotoPeloIndice(1)}" alt="" class="img-responsive" library="img"/>
+	                                </a>
+	                                <div class="text">
+	                                    <h3>#{relac.descricao}</h3>
+	                                    <p class="price">#{relac.codigoInterno}</p>
+	                                </div>
+	                            </div>
+	                            <!-- /.product -->
+	                        </div>
+	                	
+	                	</ui:repeat>
+
+                    </div>
+
+                </div>
+                <!-- /.col-md-9 -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->	
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<h:outputScript library="js" name="jquery.zoom.js" />
+		<script>
+			$(document).ready(function(){
+				$('#ex1').zoom({magnify: 1.4});
+			});
+		</script>
+		<script>
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
+		</script>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

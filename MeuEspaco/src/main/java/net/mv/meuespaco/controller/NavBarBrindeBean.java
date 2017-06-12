@@ -8,7 +8,7 @@ import javax.inject.Named;
 
 import org.omnifaces.util.Faces;
 
-import net.mv.meuespaco.service.PontuacaoService;
+import net.mv.meuespaco.annotations.CarrinhoBrindeBeanAnnotation;
 
 /**
  * Controller do NavBar dos Brindes.
@@ -25,7 +25,8 @@ public class NavBarBrindeBean implements Serializable
 	private final String url = "/private/brinde/lista-brindes-da-pesquisa-ou-valor.xhtml";
 	
 	@Inject
-	private PontuacaoService pontuacaoSrvc;
+	@CarrinhoBrindeBeanAnnotation
+	private CarrinhoBrindeBean carrinhoBrinde;
 	
 	private String pesquisa;
 	private String min = "2000";
@@ -65,7 +66,7 @@ public class NavBarBrindeBean implements Serializable
 	 */
 	public Long saldo()
 	{
-		return this.pontuacaoSrvc.pontosAcumuladosDoClienteLogado();
+		return (long) this.carrinhoBrinde.saldoDePontos();
 	}
 
 	public String getPesquisa() {

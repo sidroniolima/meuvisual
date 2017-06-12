@@ -12,6 +12,7 @@ import javax.inject.Named;
 import org.omnifaces.cdi.Param;
 import org.omnifaces.util.Faces;
 
+import net.mv.meuespaco.annotations.CarrinhoBrindeBeanAnnotation;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.service.ProdutoService;
@@ -46,6 +47,10 @@ public class PesquisaBrindeBean implements Serializable
 	@Inject @Param
 	private String max = "6000";
 	
+	@Inject
+	@CarrinhoBrindeBeanAnnotation
+	private CarrinhoBrindeBean carrinhoBean;
+	
 	public PesquisaBrindeBean() 
 	{
 		paginator = new Paginator(IConstants.QTD_DE_PRODUTOS_POR_PAGINA);
@@ -54,6 +59,11 @@ public class PesquisaBrindeBean implements Serializable
 	@PostConstruct
 	public void init()
 	{
+		if (this.naoTemParametro())
+		{
+			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(200), new BigDecimal(carrinhoBean.saldoDePontos()), Finalidade.BRINDE, this.getPaginator());
+		}
+		
 		if (null != pesquisa)
 		{
 			brindes = this.brindeSrvc.pesquisaDiversa(pesquisa, Finalidade.BRINDE, this.getPaginator());
@@ -67,6 +77,18 @@ public class PesquisaBrindeBean implements Serializable
 		}
 	}
 	
+	/**
+	 * Verifica se não exite parâmetro na inicialização do Bean.
+	 * Utilizado para exibir a listagem default de acordo com 
+	 * o saldo do cliente. 
+	 * 
+	 * @return
+	 */
+	private boolean naoTemParametro() 
+	{
+		return (null == pesquisa && null == min && null == max);
+	}
+
 	public void filtraBrindesPorValor()
 	{
 		min = Faces.getRequestParameter("min");

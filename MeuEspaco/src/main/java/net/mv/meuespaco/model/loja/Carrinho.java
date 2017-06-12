@@ -65,7 +65,8 @@ public abstract class Carrinho {
 	 * 
 	 * @return valor dos itens.
 	 */
-	public BigDecimal valorDosItens() {
+	public BigDecimal valorDosItens() 
+	{
 		return this.getItens()
 				.stream()
 				.map(i -> i.valorTotal())

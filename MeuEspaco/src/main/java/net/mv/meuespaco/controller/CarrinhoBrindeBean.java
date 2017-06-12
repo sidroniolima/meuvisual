@@ -88,11 +88,11 @@ public class CarrinhoBrindeBean extends CarrinhoAbstractBean implements Serializ
 	 * descontando os itens do carrinho.
 	 * @return
 	 */
-	public int saldoDePontos() 
+	public long saldoDePontos() 
 	{
 		BigDecimal saldo = new BigDecimal(pontosSrvc.pontosAcumuladosDoClienteLogado())
 				.subtract(this.getCarrinho().valorDosItens());
 		
-		return saldo.intValue();
+		return saldo.longValue();
 	}
 }

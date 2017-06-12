@@ -54,15 +54,19 @@ public class CarrinhoTest {
 		
 		anelDourado = new Produto(1L, "Anel Dourado");
 		anelDourado.setCodigoInterno("20884456MV03490");
+		anelDourado.setValor(new BigDecimal(34.9));
 		
 		brincoPendurado = new Produto(2L, "Brinco Pendurado");
 		brincoPendurado.setCodigoInterno("20884499MV10090");
+		brincoPendurado.setValor(new BigDecimal(100.9));
 		
 		correnteMasculina = new Produto(3L, "Corrente Masculina");
 		correnteMasculina.setCodigoInterno("21345622MV99090");
+		correnteMasculina.setValor(new BigDecimal(990.9));
 		
 		embalagem = new Produto(4L, "Embalagem");
 		embalagem.setCodigoInterno("22994567MV00060");
+		embalagem.setValor(new BigDecimal(.6));
 		
 		anelDourado.setSubgrupo(subDescontavel);
 		brincoPendurado.setSubgrupo(subDescontavel);
@@ -131,9 +135,11 @@ public class CarrinhoTest {
 		
 		Produto novaCorrenteMasculina = new Produto(3L, "Corrente Masculina");
 		novaCorrenteMasculina.setCodigoInterno("21345622MV09090");
+		novaCorrenteMasculina.setValor(new BigDecimal(90.90));
 		
 		Produto novaEmbalagem = new Produto(4L, "Embalagem");
 		novaEmbalagem.setCodigoInterno("22994567MV00060");
+		novaEmbalagem.setValor(new BigDecimal(.6));
 		
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
 		novaEmbalagem.setSubgrupo(subNaoDescontavel);
@@ -170,6 +176,7 @@ public class CarrinhoTest {
 		Produto novaCorrenteMasculina = new Produto(3L, "Corrente Masculina");
 		novaCorrenteMasculina.setCodigoInterno("21345622MV99090");
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
+		novaCorrenteMasculina.setValor(new BigDecimal(990.9));
 		
 		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), new GradeCor(Cor.AMARELO));
 		
@@ -196,6 +203,7 @@ public class CarrinhoTest {
 		
 		Produto novaCorrenteMasculina = new Produto(3L, "Corrente Masculina");
 		novaCorrenteMasculina.setCodigoInterno("21345622MV10090");
+		novaCorrenteMasculina.setValor(new BigDecimal(100.9));
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
 		
 		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(1), new GradeCor(Cor.AMARELO));
@@ -245,6 +253,7 @@ public class CarrinhoTest {
 		Produto novaCorrenteMasculina = new Produto(6L, "Corrente Masculina");
 		novaCorrenteMasculina.setCodigoInterno("21345622MV99090");
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
+		novaCorrenteMasculina.setValor(new BigDecimal(990.9));
 		
 		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), new GradeCor(Cor.AMARELO));
 		
@@ -261,6 +270,7 @@ public class CarrinhoTest {
 		Produto novoAnel = new Produto(7L, "Anel Masculina");
 		novoAnel.setCodigoInterno("21345622MV57240");
 		novoAnel.setSubgrupo(subDescontavel);
+		novoAnel.setValor(new BigDecimal(572.40));
 		
 		ItemCarrinho novoItemAnel = new ItemCarrinho(novoAnel, new BigDecimal(1), new GradeCor(Cor.AMARELO));
 		

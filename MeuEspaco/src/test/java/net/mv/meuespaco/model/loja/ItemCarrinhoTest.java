@@ -19,7 +19,6 @@ import net.mv.meuespaco.model.grade.GradeCor;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
 import net.mv.meuespaco.model.grade.GradeUnica;
 import net.mv.meuespaco.model.grade.Tamanho;
-import net.mv.meuespaco.model.loja.ItemCarrinho;
 
 public class ItemCarrinhoTest {
 	
@@ -47,15 +46,19 @@ public class ItemCarrinhoTest {
 		
 		anelDourado = new Produto(1L, "Anel Dourado");
 		anelDourado.setCodigoInterno("20884456MV03490");
+		anelDourado.setValor(new BigDecimal(34.9));
 		
 		brincoPendurado = new Produto(2L, "Brinco Pendurado");
 		brincoPendurado.setCodigoInterno("20884499MV10090");
+		brincoPendurado.setValor(new BigDecimal(100.9));
 		
 		correnteMasculina = new Produto(3L, "Corrente Masculina");
 		correnteMasculina.setCodigoInterno("21345622MV99090");
+		correnteMasculina.setValor(new BigDecimal(990.9));
 		
 		embalagem = new Produto(4L, "Embalagem");
 		embalagem.setCodigoInterno("22994567MV00060");
+		embalagem.setValor(new BigDecimal(.6));
 		
 		anelDourado.setSubgrupo(subDescontavel);
 		brincoPendurado.setSubgrupo(subDescontavel);
@@ -71,17 +74,17 @@ public class ItemCarrinhoTest {
 	public void deveRetornarOValorUnitario() {
 		
 		assertEquals("Check do valor do anel.", 
-				new BigDecimal(34.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(0).getValorUnitario());
+				new BigDecimal(34.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(0).getValorUnitario().setScale(2, RoundingMode.HALF_UP));
 		
 		assertEquals("Check do valor do brinco.", 
-				new BigDecimal(100.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(1).getValorUnitario());
+				new BigDecimal(100.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(1).getValorUnitario().setScale(2, RoundingMode.HALF_UP));
 		
 		assertEquals("Check do valor da corrente", 
-				new BigDecimal(990.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(2).getValorUnitario());
+				new BigDecimal(990.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(2).getValorUnitario().setScale(2, RoundingMode.HALF_UP));
 		
 		itensCarrinho.add(new ItemCarrinho(embalagem, BigDecimal.ONE, new GradeUnica()));
 		assertEquals("Check do valor da embalagem", 
-				new BigDecimal(0.60).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(3).getValorUnitario());
+				new BigDecimal(0.60).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(3).getValorUnitario().setScale(2, RoundingMode.HALF_UP));
 	}
 	
 	@Test

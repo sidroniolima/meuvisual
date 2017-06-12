@@ -449,5 +449,11 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	public List<Produto> listaPeloSubgrupo(Subgrupo subgrupo, Finalidade finalidade,Paginator paginator) 
 	{
 		return this.produtoDAO.filtrarProdutosPorFinalidadeESubgrupo(finalidade, subgrupo, paginator);
-	}	
+	}
+	
+	@Override
+	public List<Produto> listaBrindesEmDestaque(int numero) 
+	{
+		return this.produtoDAO.listarNProdutosMaisVendidosPorFinalidade(Finalidade.BRINDE, numero);
+	}
 }

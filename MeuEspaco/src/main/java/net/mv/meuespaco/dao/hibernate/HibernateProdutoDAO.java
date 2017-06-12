@@ -474,4 +474,25 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		return criteria.list();
 	}
 	
+	@Override
+	public List<Produto> listarNProdutosMaisVendidosPorFinalidade(Finalidade finalidade, int numero) 
+	{
+		Criteria subCriteria = this.getSession().createCriteria(Produto.class);
+		subCriteria.setProjection(Projections.property("codigo"));
+		subCriteria.add(Restrictions.eq("ativo", true));
+		subCriteria.add(Restrictions.eq("finalidade", finalidade));
+		
+		subCriteria.addOrder(Order.desc("dataDeCadastro"));
+		subCriteria.addOrder(Order.desc("codigo"));
+		subCriteria.setMaxResults(numero);
+		
+		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		criteria.setFetchMode("fotos", FetchMode.JOIN);
+		criteria.add(Restrictions.in("codigo", subCriteria.list()));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		
+		return criteria.list();	
+	}
+	
 }

@@ -150,4 +150,13 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long>{
 	 * @return lista de produtos.
 	 */
 	List<Produto> filtrarProdutosPorFinalidadeESubgrupo(Finalidade finalidade, Subgrupo subgrupo, Paginator paginator);
+
+	/**
+	 * Lista N produtos mais vendidos por finalidade.
+	 * 
+	 * @param finalidade do produto.
+	 * @param numero quantidade de registros.
+	 * @return
+	 */
+	List<Produto> listarNProdutosMaisVendidosPorFinalidade(Finalidade finalidade, int numero);
 }

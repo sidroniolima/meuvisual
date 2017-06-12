@@ -310,4 +310,13 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 * @return brindes do subgrupo.
 	 */
 	public List<Produto> listaPeloSubgrupo(Subgrupo subgrupo, Finalidade finalidade, Paginator paginator);
+	
+	/**
+	 * Lista os brindes em destaque de acordo com a quantidade 
+	 * solicitada.
+	 * 
+	 * @param numero
+	 * @return n brindes em destaque.
+	 */
+	public List<Produto> listaBrindesEmDestaque(int numero);
 }

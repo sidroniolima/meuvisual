@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+	  	  
+	<!-- META DEFINE -->
+	<ui:define name="meta">
+	   	<meta http-equiv="cache-control" content="max-age=0" />
+	    <meta http-equiv="cache-control" content="no-cache" />
+	    <meta http-equiv="expires" content="0" />
+	    <meta http-equiv="pragma" content="no-cache" />
+	</ui:define>
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+   		<h:outputStylesheet library="css" name="custom.css"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/brinde/nav_bar-brinde-index.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+		<div id="content">
+            <div class="container">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li><a href="./index.xhtml">Home</a>
+                        </li>
+                        <li>Visualização de resgate
+                        </li>
+                    </ul>
+
+                </div>
+                
+                <h:form
+                	id="frm-listagem">
+
+	                <div class="col-md-3">
+	                    <!-- *** MENUS AND FILTERS ***	 _________________________________________________________ -->
+	                    <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Categorias</h3>
+	                        </div>
+	
+	                        <div class="panel-body">
+	                        	<div class="col-md-6">
+		                            	<div class="col-brinde eletro">
+		                            		<i class="fa fa-coffee fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                            	<div class="col-brinde peca">
+		                            		<i class="fa fa-gift fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                         </div>   	
+                        		<div class="col-md-6">
+		                            	<div class="col-brinde casa">
+		                            		<i class="fa fa-camera-retro fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                            	<div class="col-brinde game">
+		                            		<i class="fa fa-gamepad fa-5x" aria-hidden="true"></i>
+		                            	</div>
+		                         </div>   			                         
+  			                         	                            
+	                        </div>
+	                    </div>
+	                    
+	                </div> <!-- /.col-md 3 -->
+
+        			<div class="col-md-9">
+		                <div class="box" id="box-resgate">
+		                
+		                	<h3>Visualização de Escolha</h3>
+						
+							<div class="row">
+								<div class="col-md-9">
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-cod-interno" class="small">Código do resgate</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-cod" 
+				                            	value="${visualizaResgateClienteBean.resgate.codigoFormatado()}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>
+					            	<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-data" class="small">Data</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-data" 
+				                            	value="#{visualizaResgateClienteBean.resgate.horario}"
+				                            	readonly="true">
+				                            	<f:converter
+				                            		converterId="localDateTimeFacesConverter"/>
+							              	</h:outputText>
+					                 	</div>		
+					                 </div>
+			
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-qtd" class="small">Quantidade de itens</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-qtd" 
+				                            	value="#{visualizaResgateClienteBean.resgate.qtdDeItens()}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		 
+					                 
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-saldo-anterior" class="small">Saldo anterior</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-saldo-anterior" 
+				                            	value="#{visualizaResgateClienteBean.resgate.saldoAnterior}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		 
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-valor" class="small">Estrelas utilizadas</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-valor" 
+				                            	value="#{visualizaResgateClienteBean.resgate.valor()}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		  
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-saldo-posterior" class="small">Saldo posterior</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-saldo-posterior" 
+				                            	value="#{visualizaResgateClienteBean.resgate.saldoPosterior}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		
+															
+								</div>
+							</div>
+						</div>
+						<!-- box -->
+					</div>
+					<div class="col-md-3"></div>
+					<div class="col-md-9" id="basket">
+						<div class="box">
+							                    
+							<h3>Lista de brindes</h3>
+							
+							<div class="table-responsive">
+			                     <table class="table table-stripe table-small">
+			                             <tr>
+			                             	<th></th>
+			                             	<th colspan="1">Código</th>
+			                                 <th colspan="1">Descrição</th>
+			                                 <th>Quantidade</th>
+			                                 <th colspan="1">Grade</th>
+			                                 <th></th>
+			                             </tr>
+			                         
+			                         <tbody>
+			                         	<ui:repeat 
+			                         		var="item" 
+			                         		value="#{visualizaResgateClienteBean.resgate.brindes}">
+			                              <tr>
+			                              	<td>
+			                              		<div class="thumbnail">
+													<img src="#{props.serverImageName()}/imagens/meu-espaco/#{visualizaResgateClienteBean.buscaFoto(item.produto.codigo)}"/>
+												</div>
+			                              	</td>
+			                              	<td>#{item.produto.codigoInterno}</td>
+			                                  <td>#{item.produto.descricao}</td>
+			                                  <td>
+			                                  	<h:outputText value="#{item.qtd}">
+			                                  		<f:convertNumber
+			                                  			minFractionDigits="0"/>
+			                                  	</h:outputText>
+			                                  </td>
+			                                  <td>#{item.grade.toString()}</td>
+			                              </tr>
+			                      	</ui:repeat>
+			                      	
+			                         </tbody>
+			                         <tfoot>
+			                             <tr>
+			                                 <th colspan="5">Total</th>
+			                                 <th colspan="2">
+			                                 	<h:outputText value="#{visualizaResgateClienteBean.resgate.qtdDeItens()}">
+			                 	
+			                 						<f:convertNumber 
+			                 							minFractionDigits="0"/>
+			                 			
+			                 					</h:outputText>
+			                 				</th>
+			                             </tr>
+			                         </tfoot>
+			                     </table>
+			
+			                 </div>
+			                 <!-- /.table-responsive -->
+							
+						</div>
+						<!-- /.box -->	
+					</div>
+					<!-- /.col-md-9 basket -->	
+				</h:form> <!-- /.frm-listagem -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

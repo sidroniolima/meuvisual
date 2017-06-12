@@ -59,8 +59,11 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 	private List<ItemResgate> brindes;
 	
 	@Convert(converter=LocalDateTimeDBConverter.class)
-	@Column(columnDefinition="DATE")	
+	@Column(columnDefinition="DATETIME")	
 	private LocalDateTime horario;
+	
+	private Long saldoAnterior;
+	private Long saldoPosterior;
 	
 	public ResgateBrinde() 
 	{
@@ -68,6 +71,9 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 		this.status = StatusEscolha.NOVA;
 		
 		brindes = new ArrayList<ItemResgate>();
+		
+		this.saldoAnterior = 0L;
+		this.saldoPosterior = 0L;
 	}
 	
 	public ResgateBrinde(Cliente cliente) 
@@ -76,7 +82,13 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 		this.cliente = cliente;
 	}
 
-
+	public ResgateBrinde(Cliente cliente, Long saldoAtual) 
+	{
+		this();
+		this.cliente = cliente;
+		this.saldoAnterior = saldoAtual;
+		this.saldoPosterior = saldoAtual;
+	}
 
 	@Override
 	public void valida() throws RegraDeNegocioException 
@@ -121,6 +133,9 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 		itemResgate.valida();
 		
 		this.brindes.add(itemResgate);
+		
+		this.saldoPosterior -= itemResgate.valorTotal().longValue();
+
 	}
 
 	/**
@@ -148,7 +163,7 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 					.map(ItemResgate::getQtd)
 					.reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
-
+	
 	@Override
 	public Long getCodigo() 
 	{
@@ -185,6 +200,20 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 	
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+
+	public Long getSaldoAnterior() {
+		return saldoAnterior;
+	}
+	public void setSaldoAnterior(Long saldoAnterior) {
+		this.saldoAnterior = saldoAnterior;
+	}
+
+	public Long getSaldoPosterior() {
+		return saldoPosterior;
+	}
+	public void setSaldoPosterior(Long saldoPosterior) {
+		this.saldoPosterior = saldoPosterior;
 	}
 
 	@Override

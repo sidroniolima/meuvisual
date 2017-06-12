@@ -129,4 +129,33 @@ public class ResgateBrindeTest {
 		
 		assertEquals("Valor do resgate.", resgate.qtdDeItens(), new BigDecimal(3));		
 	}
+	
+	@Test
+	public void deveCalcularOSaldoAnterior() throws RegraDeNegocioException
+	{
+		resgate = new ResgateBrinde(new Cliente(), 1000L);
+		
+		when(brindeFalso.valor()).thenReturn(new BigDecimal(2.50));
+		when(outroBrindeFalso.valor()).thenReturn(new BigDecimal(1.75));
+		
+		resgate.adicionaBrinde(brindeFalso, new BigDecimal(2), brindeFalso.valor(), gradeFalsa);			
+		resgate.adicionaBrinde(outroBrindeFalso, BigDecimal.ONE, outroBrindeFalso.valor(), gradeFalsa);
+		
+		assertTrue("Saldo Anterior.", resgate.getSaldoAnterior().equals(1000L));
+	}
+	
+	@Test
+	public void deveCalcularOSaldoPosterior() throws RegraDeNegocioException
+	{
+		resgate = new ResgateBrinde(new Cliente(), 1000L);
+		
+		when(brindeFalso.valor()).thenReturn(new BigDecimal(200));
+		when(outroBrindeFalso.valor()).thenReturn(new BigDecimal(330));
+		
+		resgate.adicionaBrinde(brindeFalso, new BigDecimal(2), brindeFalso.valor(), gradeFalsa);			
+		resgate.adicionaBrinde(outroBrindeFalso, BigDecimal.ONE, outroBrindeFalso.valor(), gradeFalsa);
+		
+		assertEquals("Saldo Posterior.", resgate.getSaldoPosterior().longValue(), 270, 0.00);
+	}
+
 }

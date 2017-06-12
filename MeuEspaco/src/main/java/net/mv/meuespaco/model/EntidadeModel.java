@@ -1,6 +1,7 @@
 package net.mv.meuespaco.model;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.util.Encryptor;
 
 /**
  * Abstração das entidades do modelo com métodos padrão.
@@ -40,4 +41,14 @@ public abstract class EntidadeModel {
 	 */
 	public abstract Long getCodigo();
 
+
+	/**
+	 * Criptografa o código formatado.
+	 * 
+	 * @return código encriptografado.
+	 */
+	public String codigoEncoded()
+	{
+		return Encryptor.encrypt(this.codigoFormatado());
+	}
 }

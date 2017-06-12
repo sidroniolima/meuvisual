@@ -158,6 +158,34 @@
    <redirect/>
   </navigation-case>
  </navigation-rule> 
+
+ <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>index-brinde</from-outcome>
+   <to-view-id>/private/brinde/index.xhtml</to-view-id>
+   <redirect include-view-params="true"/>
+  </navigation-case>
+ </navigation-rule> 
+
+ <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>carrinho-brinde</from-outcome>
+   <to-view-id>/private/brinde/carrinho.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ 
+  <navigation-rule>
+  <from-view-id>/*</from-view-id>
+  <navigation-case>
+   <from-outcome>visualiza-resgate-cliente</from-outcome>
+   <to-view-id>/private/brinde/visualiza-resgate.xhtml</to-view-id>
+   <redirect include-view-params="true"/>
+  </navigation-case>
+ </navigation-rule> 
+ 
  
  <faces-config-extension>
   <facelets-processing>

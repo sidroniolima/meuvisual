@@ -2,6 +2,7 @@ package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,14 +24,21 @@ public class NavBarBrindeBean implements Serializable
 	private static final long serialVersionUID = 1718570606292967713L;
 
 	private final String url = "/private/brinde/lista-brindes-da-pesquisa-ou-valor.xhtml";
+	private final int MIN = 200; 
 	
 	@Inject
 	@CarrinhoBrindeBeanAnnotation
 	private CarrinhoBrindeBean carrinhoBrinde;
 	
 	private String pesquisa;
-	private String min = "2000";
-	private String max = "6000";
+	private String min;
+	private String max;
+	
+	@PostConstruct
+	public void init()
+	{
+		this.definiValoresDefault();
+	}
 	
 	/**
 	 * Cria a url da pesquisa pelos campos descritivos.
@@ -38,6 +46,15 @@ public class NavBarBrindeBean implements Serializable
 	public String urlPesquisaDescritiva()
 	{
 		return this.url.concat("?pesquisa=" + pesquisa).concat("&faces-redirect=true");
+	}
+	
+	/**
+	 * Defini os valores para min e max, default.
+	 */
+	private void definiValoresDefault() 
+	{
+		min = String.valueOf(MIN);
+		max = String.valueOf(carrinhoBrinde.saldoDePontos());
 	}
 	
 	/**
@@ -52,8 +69,7 @@ public class NavBarBrindeBean implements Serializable
 		
 		if (min.isEmpty() || max.isEmpty())
 		{
-			min = "2000";
-			max = "6000";
+			this.definiValoresDefault();
 		}
 			
 		return this.url.concat(String.format("?min=%s&max=%s", min, max)).concat("&faces-redirect=true");

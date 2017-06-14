@@ -493,11 +493,15 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		subCriteria.addOrder(Order.desc("codigo"));
 		subCriteria.setMaxResults(numero);
 		
+		List<Produto> subResult = subCriteria.list();
+		System.out.println(subResult);
+		if (subResult.isEmpty())
+			return subResult;
+		
 		Criteria criteria = this.getSession().createCriteria(Produto.class);
 		criteria.setFetchMode("fotos", FetchMode.JOIN);
 		criteria.add(Restrictions.in("codigo", subCriteria.list()));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		
 		
 		return criteria.list();	
 	}

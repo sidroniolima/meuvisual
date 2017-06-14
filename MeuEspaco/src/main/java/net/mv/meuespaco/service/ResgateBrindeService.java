@@ -45,4 +45,11 @@ public interface ResgateBrindeService extends SimpleServiceLayer<ResgateBrinde, 
 	 * @return
 	 */
 	public ResgateBrinde buscarCompletaPeloCodigo(Long codigo);
+
+	/**
+	 * Soma o total de pontos do cliente para cálculo de saldo.
+	 *  
+	 * @return total de pontos de resgates.
+	 */
+	public Long totalDePontosResgatadosDoClienteLogado();
 }

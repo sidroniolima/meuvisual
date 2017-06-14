@@ -46,4 +46,19 @@ public interface PontuacaoService extends SimpleServiceLayer<Pontuacao, Long>
 	 * @return lista de registros ordenados e paginados.
 	 */
 	public List<Pontuacao> filtraPeloModoEspecifico(FiltroPontuacao filtro, Paginator paginator);
+	
+	/**
+	 * Calcula o saldo de pontos do cliente logado pelo total 
+	 * acumulado menos seus resgates.
+	 * 
+	 * @return
+	 */
+	public Long saldoDePontosDoClienteLogado();
+	
+	/**
+	 * Calcula os pontos resgatados do cliente.
+	 * 
+	 * @return
+	 */
+	public Long pontosResgatadosDoClienteLogado();
 }

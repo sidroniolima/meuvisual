@@ -24,6 +24,7 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.integracao.Pontuacao;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.PontuacaoService;
+import net.mv.meuespaco.service.ResgateBrindeService;
 import net.mv.meuespaco.util.Paginator;
 import net.mv.meuespaco.util.ParseFromCsv;
 
@@ -42,6 +43,9 @@ public class PontuacaoServiceImpl extends SimpleServiceLayerImpl<Pontuacao, Long
 
 	@Inject
 	private PontuacaoDAO pontoDAO;
+	
+	@Inject
+	private ResgateBrindeService resgateSrvc;
 	
 	@Inject
 	private PropertiesLoad props;
@@ -168,6 +172,21 @@ public class PontuacaoServiceImpl extends SimpleServiceLayerImpl<Pontuacao, Long
 	public List<Pontuacao> filtraPeloModoEspecifico(FiltroPontuacao filtro, Paginator paginator) 
 	{
 		return this.pontoDAO.filtrarPeloModoEspecifico(filtro, paginator);
+	}
+	
+	@Override
+	public Long saldoDePontosDoClienteLogado() 
+	{
+		Long pontosAcumulados = this.pontosAcumuladosDoClienteLogado();
+		Long pontosResgatados = this.pontosResgatadosDoClienteLogado();
+		
+		return pontosAcumulados - pontosResgatados;
+	}
+	
+	@Override
+	public Long pontosResgatadosDoClienteLogado() 
+	{
+		return this.resgateSrvc.totalDePontosResgatadosDoClienteLogado();
 	}
 	
 	@Override

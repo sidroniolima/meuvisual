@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.ResgateBrindeDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -25,6 +26,10 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 {
 	@Inject
 	private ResgateBrindeDAO resgateDAO;
+	
+	@Inject
+	@ClienteLogado
+	private Cliente clienteLogado;
 
 	@Override
 	public ResgateBrinde salva(ResgateBrinde entidade) throws RegraDeNegocioException 
@@ -93,5 +98,11 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	{
 		return this.resgateDAO
 				.buscarPeloCodigoComRelacionamento(codigo, Arrays.asList("brindes","brindes.produto","brindes.grade"));
+	}
+	
+	@Override
+	public Long totalDePontosResgatadosDoClienteLogado() 
+	{
+		return this.resgateDAO.buscarPontosResgatadosDoCliente(this.clienteLogado);
 	}
 }

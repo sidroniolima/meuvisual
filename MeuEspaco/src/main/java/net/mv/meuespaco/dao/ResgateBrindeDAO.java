@@ -23,4 +23,12 @@ public interface ResgateBrindeDAO extends GenericDAO<ResgateBrinde, Long>
 	 */
 	List<ResgateBrinde> listarUltimosResgatesPorCliente(Cliente cliente, int num);
 
+	/**
+	 * Soma os pontos utilizados em resgates do cliente.
+	 * 
+	 * @param cliente para pesquisa
+	 * @return total de pontos.
+	 */
+	Long buscarPontosResgatadosDoCliente(Cliente cliente);
+
 }

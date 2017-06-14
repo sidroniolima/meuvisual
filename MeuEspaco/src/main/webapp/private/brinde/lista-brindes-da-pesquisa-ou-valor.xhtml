@@ -136,10 +136,11 @@
 							                    <p class="price">
 							                    	<span class="valor-star">
 							                    		<i class="fa fa-star 2x"/>
-							                    			<h:outputText value="&nbsp;#{brinde.valor}">
+							                    			<h:outputText value="&nbsp;#{brinde.valor.intValue()}">
 							                    				<f:convertNumber 
 							                    					type="number"
-							                    					maxFractionDigits="0"/>
+							                    					maxFractionDigits="0"
+							                    					minFractionDigits="0"/>
 							                    			</h:outputText>
 							                    	</span>
 							                    </p>

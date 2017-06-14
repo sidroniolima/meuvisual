@@ -79,7 +79,14 @@
 			                                
 			                                <div class="text">
 			                                    <h5><a href="./brinde-detail.xhtml?paramCodigo=#{item.codigo}">#{item.descricao}</a></h5>
-			                                    <h6><span class="valor-star"><i class="fa fa-star 2x"/></span>#{item.valor}</h6>
+			                                    <h6><span class="valor-star"><i class="fa fa-star 2x"/></span>
+					                    			<h:outputText value="&nbsp;#{item.valor.intValue()}">
+					                    				<f:convertNumber 
+					                    					type="number"
+					                    					maxFractionDigits="0"
+					                    					minFractionDigits="0"/>
+					                    			</h:outputText>
+			                                    </h6>
 			                                </div>
 			                                <!-- /.text -->
 			                            </div>

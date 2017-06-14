@@ -55,7 +55,7 @@ public class CarrinhoBrindeBean extends CarrinhoAbstractBean implements Serializ
 				resgateSrvc.criaResgateDeCarrinho(
 						this.carrinho.getItens(), 
 						this.getClienteLogado(), 
-						this.pontosSrvc.pontosAcumuladosDoClienteLogado());
+						this.pontosSrvc.saldoDePontosDoClienteLogado());
 		
 		ResgateBrinde resgateSalvo;
 		
@@ -90,7 +90,7 @@ public class CarrinhoBrindeBean extends CarrinhoAbstractBean implements Serializ
 	 */
 	public long saldoDePontos() 
 	{
-		BigDecimal saldo = new BigDecimal(pontosSrvc.pontosAcumuladosDoClienteLogado())
+		BigDecimal saldo = new BigDecimal(pontosSrvc.saldoDePontosDoClienteLogado())
 				.subtract(this.getCarrinho().valorDosItens());
 		
 		return saldo.longValue();

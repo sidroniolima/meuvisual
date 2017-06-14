@@ -31,6 +31,8 @@ public class PesquisaBrindeBean implements Serializable
 {
 	private static final long serialVersionUID = 5036262398331477893L;
 	
+	private final int MIN = 200; 
+	
 	@Inject
 	private ProdutoService brindeSrvc;
 	
@@ -42,14 +44,14 @@ public class PesquisaBrindeBean implements Serializable
 	private String pesquisa;
 	
 	@Inject @Param
-	private String min = "2000";
+	private String min;
 	
 	@Inject @Param
-	private String max = "6000";
+	private String max;
 	
 	@Inject
 	@CarrinhoBrindeBeanAnnotation
-	private CarrinhoBrindeBean carrinhoBean;
+	private CarrinhoBrindeBean carrinhoBrinde;
 	
 	public PesquisaBrindeBean() 
 	{
@@ -61,7 +63,7 @@ public class PesquisaBrindeBean implements Serializable
 	{
 		if (this.naoTemParametro())
 		{
-			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(200), new BigDecimal(carrinhoBean.saldoDePontos()), Finalidade.BRINDE, this.getPaginator());
+			definiValoresDefault();
 		}
 		
 		if (null != pesquisa)
@@ -75,6 +77,15 @@ public class PesquisaBrindeBean implements Serializable
 			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());
 			return;
 		}
+	}
+
+	/**
+	 * Defini os valores para min e max, default.
+	 */
+	private void definiValoresDefault() 
+	{
+		min = String.valueOf(MIN);
+		max = String.valueOf(carrinhoBrinde.saldoDePontos());
 	}
 	
 	/**
@@ -96,8 +107,7 @@ public class PesquisaBrindeBean implements Serializable
 		
 		if (min.isEmpty() || max.isEmpty())
 		{
-			min = "2000";
-			max = "6000";
+			this.definiValoresDefault();
 		}
 
 		brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());

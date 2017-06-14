@@ -51,7 +51,27 @@ public class ListaPontuacaoDoClienteBean extends ListaSimples implements Seriali
 	{
 		return this.pontoSrvc.pontosAcumuladosDoClienteLogado();
 	}
+	
+	/**
+	 * Retorna os pontos já resgatados do cliente.
+	 * 
+	 * @return soma dos pontos resgatados.
+	 */
+	public long pontosResgatadosDoCliente()
+	{
+		return this.pontoSrvc.pontosResgatadosDoClienteLogado();
+	}
 
+	/**
+	 * Retorna o saldo de pontos do cliente.
+	 * 
+	 * @return saldo dos pontos.
+	 */
+	public long saldoDePontosDoCliente()
+	{
+		return this.pontoSrvc.pontosResgatadosDoClienteLogado();
+	}	
+	
 	public List<Pontuacao> getPontuacao() {
 		return pontuacao;
 	}

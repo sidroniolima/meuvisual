@@ -31,12 +31,66 @@
 					</div>			
 				</div>
 				
-				<div class="col-md-3">				    
-				    <div class="box">
-				        <h4># saldo de pontos</h4>
-				        <h1>#{pontuacaoDoClienteBean.pontosAcumuladosDoCliente()}</h1>
-				    </div>
-				</div>
+                <div class="col-md-5">
+                    <div class="box" id="order-summary">
+                        <div class="box-header">
+                            <h3>Sumário de pontos</h3>
+                        </div>
+                        <p class="text-muted">Abaixo, os detalhes do resgate.</p>
+
+                        <div class="table-responsive" id="table-summary">
+                            <table class="table">
+                                <tbody>
+                                
+                                    <tr class="total">
+                                        <td>Pontos acumulados</td>
+                                        <th>
+                                        
+                                        	<h:outputText value="#{pontuacaoDoClienteBean.pontosAcumuladosDoCliente()}">
+                                        	
+                                        		<f:convertNumber
+                                        			locale="pt_BR"
+                                        			minFractionDigits="0"/>
+                                        	</h:outputText>
+                                        	
+                                        </th>
+                                    </tr>
+                                    
+                                    <tr class="total">
+                                        <td>pontos já resgatados</td>
+                                        <th>
+                                        
+                                        	<h:outputText value="#{pontuacaoDoClienteBean.pontosResgatadosDoCliente()}">
+                                        	
+                                        		<f:convertNumber
+                                        			locale="pt_BR"
+                                        			minFractionDigits="0"/>
+                                        	</h:outputText>
+                                        	
+                                        </th>
+                                    </tr>		                                    
+                                    
+                                    <tr>
+                                        <td>saldo</td>
+                                        <th>
+                                        
+                                        	<h:outputText value="#{pontuacaoDoClienteBean.saldoDePontosDoCliente()}">
+                                        	
+                                        		<f:convertNumber
+                                        			locale="pt_BR"
+                                        			minFractionDigits="0"/>
+                                        	</h:outputText>
+                                        	
+                                        </th>	
+                                	</tr>	                                    
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.col-md-3 -->
 
 		
 			<div class="col-md-12" style="padding-bottom:150px">

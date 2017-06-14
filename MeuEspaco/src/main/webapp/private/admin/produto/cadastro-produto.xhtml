@@ -128,6 +128,10 @@
 					                            	required="true"
 					                            	requiredMessage="O valor é indispensável.">
 					                            	
+					                            	<f:convertNumber 
+					                            		type="number"
+					                            		minFractionDigits="0"/>
+					                            	
 					                            	<f:ajax 
 								                        event="blur" 
 								                        render="m_input-valor" />

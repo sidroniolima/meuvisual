@@ -280,8 +280,6 @@ public class LoginBean implements Serializable {
 				
 				extraiPrioritarias();
 				
-				log.info("Recuperando as mensagens da API Hermes.");
-				
 			} catch (IntegracaoException e) 
 			{
 				log.warning("Não foi possível recuperar as mensagens não lidas do usuário. " + e.getMessage());

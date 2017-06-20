@@ -263,5 +263,32 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 * @return lista de clientes sem paginação.
 	 */
 	public List<Cliente> filtraPeloModoEspecifico(FiltroCliente filtro);
+	
+	/**
+	 * Verifica se o ciclo do cliente está aberto e lança uma exceção 
+	 * caso não esteja. Impedindo que o cliente faça a escolha de peças 
+	 * no módulo consignado ou na área de brindes.
+	 * 
+	 * @throws RegraDeNegocioException
+	 */
+	public void verificaCicloAberto() throws RegraDeNegocioException;
 
+	/**
+	 * Verifica se a quantidade permitida para que o cliente faça a escolha de 
+	 * peças consignadas. Cálculo feito com o valor do ciclo atual e os itens 
+	 * já escolhidos neste período. Lança uma exceção caso não aja saldo positivo.
+	 * 
+	 * @throws RegraDeNegocioException
+	 */
+	public void verificaQtdPermitidaDoConsignado() throws RegraDeNegocioException;
+	
+	/**
+	 * Verifica se o valor permitido para que o cliente faça a escolha de 
+	 * peças consignadas. Cálculo feito com o valor do ciclo atual e os itens 
+	 * já escolhidos neste período. Lança uma exceção caso não aja saldo positivo.
+	 * 
+	 * @throws RegraDeNegocioException
+	 */
+	public void verificaValorDisponivelParaConsignado() throws RegraDeNegocioException;
+	
 }

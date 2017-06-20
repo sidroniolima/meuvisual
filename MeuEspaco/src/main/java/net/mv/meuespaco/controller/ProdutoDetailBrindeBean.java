@@ -7,9 +7,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.mv.meuespaco.annotations.CarrinhoBrindeBeanAnnotation;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.PontuacaoService;
 import net.mv.meuespaco.service.ProdutoService;
+import net.mv.meuespaco.util.FacesUtil;
 
 /**
  * Visualição dos detalhes do brinde com acesso às características e
@@ -42,7 +44,15 @@ public class ProdutoDetailBrindeBean extends ProdutoDetailAbstratcBean implement
 	@Override
 	void verificaDisponibilidadeDeEscolha() 
 	{
-		this.habilitaEscolha(true);
+		try 
+		{
+			this.getClienteSrvc().verificaCicloAberto();
+			this.habilitaEscolha(true);
+			
+		} catch (RegraDeNegocioException e) 
+		{
+			FacesUtil.addErrorMessage(String.format("Não será possível a escolha. %s", e.getMessage()));
+		}
 	}
 
 	@Override

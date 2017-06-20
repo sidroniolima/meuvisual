@@ -74,7 +74,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	@Inject
 	@ClienteLogado
 	private Cliente clienteLogado;
-
+	
 	public ClienteServiceImpl() {	}
 	
 	public ClienteServiceImpl(EscolhaService escolhaSrvc, Cliente clienteLogado) {
@@ -156,35 +156,25 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
-	public Cliente buscaClientePeloUsuarioLogado() {
-		
-		//Usuario usuario = loginBean.getUserLogged();
-		
-		//return this.clienteDAO.buscaClientePeloUsuario(usuario);
+	public Cliente buscaClientePeloUsuarioLogado() 
+	{
 		return clienteLogado;
 	}
 	
 	@Override
 	public void verificaSeOUsuarioLogadoPodeEscolher() throws RegraDeNegocioException {
 
-		Semana semana = this.getSemanaDoClienteLogado();
-
-		if (!semana.isCicloAberto()) {
-			
-			throw new RegraDeNegocioException(
-					String.format("Não há ciclo aberto. O próximo será aberto em %s dia(s) em %s .", 
-							semana.diasAteOProximoCiclo(),
-							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
-		} 
+		verificaCicloAberto(); 
 		
-		if (this.qtdDisponivelParaEscolha() <= 0) 
-		{
-			throw new RegraDeNegocioException(
-					String.format("Você já escolheu todas as peças disponíveis para este ciclo. "
-							+ "O próximo será aberto em %s dia(s) em %s .", 
-							semana.diasAteOProximoCiclo(),
-							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
-		}
+		verificaQtdPermitidaDoConsignado();
+		
+		verificaValorDisponivelParaConsignado();
+	}
+
+	@Override
+	public void verificaValorDisponivelParaConsignado() throws RegraDeNegocioException 
+	{
+		Semana semana = this.getSemanaDoClienteLogado();
 		
 		if (this.valorDisponivelParaEscolha().compareTo(BigDecimal.ZERO) <= 0)
 		{
@@ -195,7 +185,35 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 		
 		}
+	}
+
+	@Override
+	public void verificaQtdPermitidaDoConsignado() throws RegraDeNegocioException 
+	{
+		Semana semana = this.getSemanaDoClienteLogado();
 		
+		if (this.qtdDisponivelParaEscolha() <= 0) 
+		{
+			throw new RegraDeNegocioException(
+					String.format("Você já escolheu todas as peças disponíveis para este ciclo. "
+							+ "O próximo será aberto em %s dia(s) em %s .", 
+							semana.diasAteOProximoCiclo(),
+							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+		}
+	}
+
+	@Override
+	public void verificaCicloAberto() throws RegraDeNegocioException 
+	{
+		Semana semana = this.getSemanaDoClienteLogado();
+		
+		if (!semana.isCicloAberto()) {
+			
+			throw new RegraDeNegocioException(
+					String.format("Não há ciclo aberto. O próximo será aberto em %s dia(s) em %s .", 
+							semana.diasAteOProximoCiclo(),
+							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+		}
 	}
 	
 	/**

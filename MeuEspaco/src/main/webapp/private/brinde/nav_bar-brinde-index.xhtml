@@ -9,7 +9,6 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:o="http://omnifaces.org/ui">
 
-	<c:set var="root" value="#{request.contextPath}/private/brinde" />
 	<h:head>
 	    <!-- Stylesheet of slider -->
     	<h:outputStylesheet library="css" name="bootstrap-slider.min.css"/>
@@ -24,7 +23,7 @@
 	        <div class="container">
 	            <div class="navbar-header">
 	
-	                <a class="navbar-brand home" href="${root}/index.xhtml" data-animate-hover="bounce">
+	                <a class="navbar-brand home" href="./index.xhtml" data-animate-hover="bounce">
 	                	<img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo.png" alt="Meu Espaço - logo" class="hidden-xs"/>
 	                    <img src="#{props.serverImageName()}/imagens/meu-espaco/site/logo-small.png" alt="Meu Espaço - logo" class="visible-xs"/>
 	                </a>
@@ -62,13 +61,13 @@
 	                <ul class="nav navbar-nav navbar-left">
 	                    
 	                    <li class="dropdown">
-	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Como funciona?</a>
+	                        <a href="./como-funciona.xhtml" data-hover="dropdown">Como funciona?</a>
 	                    </li>		                    
 	                    <li class="dropdown">
-	                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">Ganhe estrelas</a>
+	                        <a href="./ganhe-estrelas.xhtml" class="dropdown-toggle" data-hover="dropdown">Ganhe estrelas</a>
 	                    </li>
 						<li class="dropdown">
-	                        <a href="${root}/lista-brindes-da-pesquisa-ou-valor.xhtml" data-hover="dropdown">
+	                        <a href="./lista-brindes-da-pesquisa-ou-valor.xhtml" data-hover="dropdown">
 	                        	Troque suas estrelas
 	                        </a>
 	                    </li>

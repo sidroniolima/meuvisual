@@ -94,19 +94,19 @@
 								      
 								    </li><!-- /input-group -->
 								    <li class="input-group">
-										<span id="slider-min">2000</span> 
+										<span id="slider-min">0</span> 
 										<input 
 											id="ex2" 
 											type="text" 
 											class="span2" 
 											value=""
 											data-slider-min="0" 
-											data-slider-max="50000" 
-											data-slider-step="100" 
-											data-slider-value="[${navBarBrindeBean.min},${navBarBrindeBean.max}]"
-											data-slider-tooltip="hide"
+											data-slider-max="80000" 
+											data-slider-step="1000" 
+											data-slider-value="2000"
+											data-slider-tooltip="show"
 											data-slider-handle="custom"/> 
-										<span id="slider-max">6000</span>
+										<span id="slider-max">80.000</span>
 								    </li><!-- /input-group -->			            	
 										    
 								</ul>
@@ -165,13 +165,6 @@
 		<script> 
 			
 			var mySlider = $("#ex2").slider({});
-			var min = 0;
-			var max = 0;
-			
-			mySlider.on("slide", function(sliderValue) {
-				$('#slider-min').text(sliderValue.value[0]);
-				$('#slider-max').text(sliderValue.value[1]);			
-			});			
 	
 		</script>			
 	</body>

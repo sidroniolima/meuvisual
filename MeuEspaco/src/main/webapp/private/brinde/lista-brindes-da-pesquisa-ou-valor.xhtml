@@ -41,7 +41,7 @@
 
                 <div class="col-md-12">
                     <ul class="breadcrumb">
-                        <li><a href="./index.xhtml">Home</a>
+                        <li><a href="./index_destaques.xhtml">Home</a>
                         </li>
                         <li>Listagem de brindes da pesquisa
                         </li>
@@ -64,9 +64,8 @@
 				     	 	style="padding-left:0px"
 				     	 	globalOnly="true"/>   
 				    </div>
-	                
+	                <!-- 
 	                <div class="col-md-3">
-	                    <!-- *** MENUS AND FILTERS ***	 _________________________________________________________ -->
 	                    <div class="panel panel-default sidebar-menu">
 	
 	                        <div class="panel-heading">
@@ -94,9 +93,11 @@
 	                        </div>
 	                    </div>
 	                    
-	                </div> <!-- /.col-md 3 -->
+	                </div> 
+	                 -->
+	                <!-- /.col-md 3 -->
 	                    
-					<div class="col-md-9">
+					<div class="col-md-12">
 					    
 					    <h:panelGroup
 					    	id="panel-produtos"
@@ -108,7 +109,7 @@
 					            	var="brinde" 
 					            	value="#{pesquisaBrindeBean.brindes}">				
 						
-							        <div class="col-md-4 col-sm-6">
+							        <div class="col-md-3 col-sm-6">
 							            
 							            <div class="product">
 							                <div class="flip-container">
@@ -186,16 +187,9 @@
 		<script> 
 			
 			var mySlider = $("#ex2").slider({});
-			var min = 0;
-			var max = 0;
 			
-			mySlider.on("slide", function(sliderValue) {
-				$('#min').text(sliderValue.value[0]);
-				$('#max').text(sliderValue.value[1]);			
-			});			
-
 			mySlider.on("slideStop", function(sliderValue) {
-				urlPesquisaPorValor({ min : sliderValue.value[0], max : sliderValue.value[1]});
+				urlPesquisaPorValor({ min : sliderValue.value, max : sliderValue.value});
 			});			
 		</script>	
 	</ui:define>

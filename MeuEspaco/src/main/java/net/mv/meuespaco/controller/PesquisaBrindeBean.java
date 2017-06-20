@@ -31,7 +31,8 @@ public class PesquisaBrindeBean implements Serializable
 {
 	private static final long serialVersionUID = 5036262398331477893L;
 	
-	private final int MIN = 200; 
+	private final int MIN = 0;
+	private final int MAX = 2000; 
 	
 	@Inject
 	private ProdutoService brindeSrvc;
@@ -74,7 +75,7 @@ public class PesquisaBrindeBean implements Serializable
 		
 		if (null != min && null != max)
 		{
-			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());
+			brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(MIN), new BigDecimal(MAX), Finalidade.BRINDE, this.getPaginator());
 			return;
 		}
 	}
@@ -110,7 +111,7 @@ public class PesquisaBrindeBean implements Serializable
 			this.definiValoresDefault();
 		}
 
-		brindes = this.brindeSrvc.filtraPeloValor(new BigDecimal(min), new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());
+		brindes = this.brindeSrvc.filtraPeloValor(BigDecimal.ZERO, new BigDecimal(max), Finalidade.BRINDE, this.getPaginator());
 	}
 	
 	public Paginator getPaginator() 

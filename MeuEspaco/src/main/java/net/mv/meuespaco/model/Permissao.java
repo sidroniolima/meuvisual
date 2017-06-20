@@ -15,7 +15,8 @@ public enum Permissao {
 	ROLE_USER("Usuário"),
 	ROLE_ADMIN("Administrador"),
 	ROLE_CLIENTE("Cliente"),
-	ROLE_VENDA("Venda");
+	ROLE_VENDA("Venda"),
+	ROLE_BRINDE("Brinde");
 	
 	private String descricao;
 

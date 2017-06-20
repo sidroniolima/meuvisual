@@ -374,8 +374,9 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteriaSublist.setProjection(Projections.property("codigo"));
 		
 		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
-		criteriaSublist.add(Restrictions.like("codigoInterno", pesquisa, MatchMode.ANYWHERE));
-		criteriaSublist.add(Restrictions.like("descricao", pesquisa, MatchMode.ANYWHERE));
+		criteriaSublist.add(Restrictions.or(
+					Restrictions.like("codigoInterno", pesquisa, MatchMode.ANYWHERE),
+					Restrictions.like("descricao", pesquisa, MatchMode.ANYWHERE)));
 
 		criteriaSublist.addOrder(Order.asc("descricao"));
 		
@@ -416,7 +417,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
 		criteriaSublist.add(Restrictions.between("valor", min, max));
 
-		criteriaSublist.addOrder(Order.asc("valor"));
+		criteriaSublist.addOrder(Order.desc("valor"));
 		
 		List registrosSublist = criteriaSublist.list();
 		
@@ -439,7 +440,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		criteria.add(Restrictions.in("codigo", registrosSublist));
 		
-		criteria.addOrder(Order.asc("valor"));
+		criteria.addOrder(Order.desc("valor"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		return criteria.list();

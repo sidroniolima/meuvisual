@@ -80,7 +80,7 @@
 			                                <div class="text">
 			                                    <h5><a href="./brinde-detail.xhtml?paramCodigo=#{item.codigo}">#{item.descricao}</a></h5>
 			                                    <h6><span class="valor-star"><i class="fa fa-star 2x"/></span>
-					                    			<h:outputText value="&nbsp;#{item.valor.intValue()}">
+					                    			<h:outputText value="${item.valor}">
 					                    				<f:convertNumber 
 					                    					type="number"
 					                    					maxFractionDigits="0"

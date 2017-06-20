@@ -372,7 +372,14 @@
                                 	<a href="#details" class="scroll-to">Deslize até os detalhes do brinde</a>
                                 </p>
                                 
-                                <p class="price"><span><i class="fa fa-star 2x"/></span> #{produtoDetailBrindeBean.produto.valor}</p>
+                                <p class="price"><span><i class="fa fa-star 2x"/></span> 
+                                	<h:outputText value="${produtoDetailBrindeBean.produto.valor}">
+                                		<f:convertNumber
+                                			type="number"
+                                			minFractionDigits="0"
+                                			maxFractionDigits="0"/>
+                                	</h:outputText>
+                                </p>
 
                                 <p class="text-center buttons">
                                     

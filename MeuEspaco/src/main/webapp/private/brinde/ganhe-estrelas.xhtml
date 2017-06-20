@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+	  	  
+	<!-- META DEFINE -->
+	<ui:define name="meta">
+	   	<meta http-equiv="cache-control" content="max-age=0" />
+	    <meta http-equiv="cache-control" content="no-cache" />
+	    <meta http-equiv="expires" content="0" />
+	    <meta http-equiv="pragma" content="no-cache" />
+	</ui:define>
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+   		<h:outputStylesheet library="css" name="custom.css"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/brinde/nav_bar-brinde-index.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+		<div id="content">
+            <div class="container">
+	            
+	            <div class="row">
+					<div class="col-md-12">
+	                
+	                    <ul class="breadcrumb">
+	                        <li><a href="./index.xhtml">Home</a>
+	                        </li>
+	                        <li>Ganhe estrelas!</li>
+	                    </ul>
+	                    
+	                </div>
+				</div>	
+				
+	            <div class="row">
+	            	
+	            	<div class="col-md-12">
+	            		<div class="box">
+	            	
+	            			<h3><i class="fa fa-star 10x afastada"/>Campanha Meu Sucesso</h3>
+	            		</div>
+	            		
+	            		<div class="box">
+	            			<p>As Estrelas geradas no Programa Fidelidade Meu Visual podem ser trocadas por diversos produtos
+							e serviços, como material de apoio, eletrodomésticos, entre outros.</p>
+														
+							<p>O Programa Fidelidade Meu Visual, consiste na troca de Estrelas acumuladas, por produtos e/ou
+							serviços pré-estabelecidos no Catálogo de Prêmios, disponível na Área Programa Fidelidade Meu
+							Visual, dentro do site Meu Espaço.</p>
+							
+							<p>Para participar do Programa Fidelidade Meu Visual, o (a) Participante deverá estar ativo (a) e não
+							poderá estar em débito com a Empresa.</p>
+
+							<p>O (A) Participante estará qualificado a ganhar Estrelas nas seguintes situações:</p>
+
+							<ul>
+								<li>Acerto de contas: a cada R$1,00* (um real) pago em acerto e venda direta,
+								será creditado 01 (uma) Estrela;</li>
+								<li>Indicações: a cada R$1,00(um real) pago por seu indicado,
+								será creditado 0,5 (meia) Estrela;</li>
+								<li>Aniversário: no mês do Seu Aniversário,
+								será creditado 400 (quatrocentas) Estrelas;</li>
+								<li>Aniversário de Cadastro: no mês do Seu Aniversário de Cadastro,
+								será creditado 400 (quatrocentas) Estrelas.</li>
+							</ul>
+							
+							<p>*Só serão computadas Estrelas referente a acertos em vendas com mais de 20 peças vendidas.
+							Vendas abaixo serão descartadas e não poderão ser computadas.</p>							
+														
+	            		</div>
+	            	</div>
+				</div>							
+	          	
+			</div>
+			<!-- CONTAINER -->				
+       	</div>
+       	<!-- CONTENT -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header blue">
+		    	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h5 class="modal-title" id="myModalLabel">
+		        	<strong>Parabéns!!!</strong></h5>
+		      </div>
+		      <div class="modal-body" id="modalBody">
+			      	<div class="row">
+						<div class="col-md-3 col-xs-3">
+							<p align="center"><span style="font-size:32px"><i class="fa fa-exclamation"></i></span></p>
+						</div>
+						<div class="col-md-9 col-xs-9">
+							<p><h:outputText value="${brindeIndexBean.messageFormatada}" /></p>
+						</div>
+					</div>		      
+		      </div>			      
+		    </div>
+		  </div>
+		</div> 		
+     	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<h:outputScript library="js" name="/owl-carousel/owl.carousel.min.js"/>	
+		<script>
+			$(function() 
+			{
+				if (${brindeIndexBean.showMessage})
+				{
+					$('#myModal').modal('show');
+				}
+				
+			});
+			
+			$('.owl-carousel').owlCarousel({
+			    loop:true,
+			    margin:10,
+			    nav:false,
+			    items: 2,
+			    responsive:{
+			        0:{
+			            items:1
+			        },
+			        600:{
+			            items:2
+			        },
+			        1000:{
+			            items:2
+			        }
+			    }
+			})
+		</script>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

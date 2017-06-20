@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+	  	  
+	<!-- META DEFINE -->
+	<ui:define name="meta">
+	   	<meta http-equiv="cache-control" content="max-age=0" />
+	    <meta http-equiv="cache-control" content="no-cache" />
+	    <meta http-equiv="expires" content="0" />
+	    <meta http-equiv="pragma" content="no-cache" />
+	</ui:define>
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+   		<h:outputStylesheet library="css" name="custom.css"/>
+   		<h:outputStylesheet library="css" name="/owl-carousel/owl.carousel.min.css"/>
+   		<h:outputStylesheet library="css" name="/owl-carousel/owl.theme.default.min.css"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/brinde/nav_bar-brinde-index.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+		<div id="content">
+            <div class="container">
+	            
+	            <div class="row">
+	            	
+	            	<div class="col-md-12 hidden-xs hidden-sm">
+	            		<img src="#{props.serverImageName()}/imagens/meu-espaco/site/brinde/brinde-index-banner-grande-min.jpg" alt="Meu Espaço" class="img-responsive"/>
+	            	</div>
+	            	
+	            	<div class="col-md-12 visible-xs-block">
+	            		<img src="#{props.serverImageName()}/imagens/meu-espaco/site/brinde/brinde-index-banner-mobile-min.jpg" alt="Meu Espaço" class="img-responsive"/>
+	            	</div>
+
+				</div>
+	          	
+	          	<div class="row" id="row-index-info">
+	          	
+	          		<div class="col-md-6" style="padding-bottom: 10%">
+						<div class="panel panel-default">
+						  <!-- Default panel contents -->
+						  <div class="panel-heading big blue">
+						  	<h3 class="panel-title">Seus últimos resgates</h3>
+						  </div>
+						
+						  <!-- Table -->
+						  <div class="table-responsive">
+							  <table class="table table-striped table-advance table-hover table-small">
+							  	<tr>
+								  	<th>Data</th>
+								  	<th>Saldo anterior</th>
+								  	<th># itens</th>
+								  	<th><i class="fa fa-star"></i> estrelas</th>
+								  	<th>Saldo posterior</th>
+								  	<th></th>
+								</tr>
+							  	
+							  	<c:forEach	var="resgate" items="${brindeIndexBean.ultimosResgates}">
+							  		<tr>
+							  			<td>
+							  				<h:outputText value="${resgate.horario}">
+							  					<f:converter converterId="localDateTimeFacesConverter"/>
+							  				</h:outputText>				  				
+							  			</td>
+							  			<td>
+							  				<h:outputText value="${resgate.saldoAnterior}">
+							  					<f:convertNumber type="number" maxFractionDigits="0"/>
+							  				</h:outputText>	
+							  			</td>
+							  			<td>
+							  				<h:outputText value="${resgate.qtdDeItens()}">
+							  					<f:convertNumber type="number" maxFractionDigits="0"/>
+							  				</h:outputText>	
+							  			</td>
+							  			<td>
+							  				<h:outputText value="${resgate.valor()}">
+							  					<f:convertNumber type="number" maxFractionDigits="0"/>
+							  				</h:outputText>	
+							  			</td>		
+							  			<td>		
+						  					<h:outputText value="${resgate.saldoPosterior}">
+						  						<f:convertNumber type="number" maxFractionDigits="0"/>
+						  					</h:outputText>
+						  				</td>	
+						  				<td>
+									        <a href="./visualiza-resgate.xhtml?faces-redirect=true&amp;param-codigo=${resgate.codigoEncoded()}">
+									        	<i class="fa fa-external-link-square"></i>
+									        </a>
+									        	  					
+						  				</td>
+							  		</tr>
+							  	</c:forEach>
+							  </table>
+							
+							</div>
+							<!-- div table -->
+						</div>	          		
+	          		</div>
+					
+					<h:panelGroup rendered="false">
+						<div class="col-md-6" >	          		
+		          		
+		                    <!-- *** MENUS AND FILTERS ***	 _________________________________________________________ -->
+		                    <div class="panel panel-default">
+		
+		                        <div class="panel-heading big blue">
+		                            <h3 class="panel-title">Categorias</h3>
+		                        </div>
+		
+		                        <div class="panel-body">
+		                        	<div class="col-md-6">
+			                            	<div class="col-brinde grande eletro">
+			                            		<i class="fa fa-coffee fa-5x" aria-hidden="true" ></i>
+			                            	</div>
+			                            	<div class="col-brinde grande peca">
+			                            		<i class="fa fa-gift fa-5x" aria-hidden="true"></i>
+			                            	</div>
+			                         </div>   	
+		                       		<div class="col-md-6">
+			                            	<div class="col-brinde grande casa">
+			                            		<i class="fa fa-camera-retro fa-5x" aria-hidden="true"></i>
+			                            	</div>
+			                            	<div class="col-brinde grande game">
+			                            		<i class="fa fa-gamepad fa-5x" aria-hidden="true"></i>
+			                            	</div>
+			                         </div>   			                         
+		 			                         	                            
+		                        </div>
+		                    </div>		            
+		
+		                    <!-- *** MENUS AND FILTERS END *** -->	 
+		                </div>
+		            </h:panelGroup>
+
+	               	<h:panelGroup >
+					<div class="col-md-6">
+						<div class="panel panel-default">
+							<!-- Default panel contents -->
+							<div class="panel-heading big gold">
+								Produtos recém incluídos
+							</div>
+
+							<div class="owl-carousel owl-theme">
+	
+		                        <ui:repeat 
+		                        	var="item" 
+		                        	value="#{indexBean.destaques}">
+			                        
+			                        <div class="item">
+			                            <div class="product">
+			                                <div class="flip-container">
+			                                    
+			                                    <div class="flipper">
+			                                        <div class="front">
+			                                            <a href="./brinde-detail.xhtml?paramCodigo=#{item.codigo}">
+			                                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
+			                                            </a>
+			                                        </div>
+			                                        <div class="back">
+			                                            <a href="./brinde-detail.xhtml?paramCodigo=#{item.codigo}">
+			                                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(2)}" alt="" class="img-responsive"/>
+			                                            </a>
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                                
+			                                <a href="./brinde-detail.xhtml?paramCodigo=#{item.codigo}" class="invisible">
+			                                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{item.buscaFotoPeloIndice(1)}" alt="" class="img-responsive"/>
+			                                </a>
+			                                
+			                                <div class="text">
+			                                    <h5><a href="./brinde-detail.xhtml?paramCodigo=#{item.codigo}">#{item.descricao}</a></h5>
+			                                    <h6>#{item.codigoInterno}</h6>
+			                                </div>
+			                                <!-- /.text -->
+			                            </div>
+			                            <!-- /.product -->
+			                        </div>
+			                
+			                	</ui:repeat>	
+							</div> 
+							<!-- carousel -->
+						</div>
+						<!-- panel -->
+					</div>
+					<!-- col-md-6 panel -->
+					</h:panelGroup>
+	
+				</div>
+			</div>
+			<!-- CONTAINER -->				
+       	</div>
+       	<!-- CONTENT -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header blue">
+		    	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h5 class="modal-title" id="myModalLabel">
+		        	<strong>Parabéns!!!</strong></h5>
+		      </div>
+		      <div class="modal-body" id="modalBody">
+			      	<div class="row">
+						<div class="col-md-3 col-xs-3">
+							<p align="center"><span style="font-size:32px"><i class="fa fa-exclamation"></i></span></p>
+						</div>
+						<div class="col-md-9 col-xs-9">
+							<p><h:outputText value="${brindeIndexBean.messageFormatada}" /></p>
+						</div>
+					</div>		      
+		      </div>			      
+		    </div>
+		  </div>
+		</div> 		
+     	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<h:outputScript library="js" name="/owl-carousel/owl.carousel.min.js"/>	
+		<script>
+			$(function() 
+			{
+				if (${brindeIndexBean.showMessage})
+				{
+					$('#myModal').modal('show');
+				}
+				
+			});
+			
+			$('.owl-carousel').owlCarousel({
+			    loop:true,
+			    margin:10,
+			    nav:false,
+			    items: 2,
+			    responsive:{
+			        0:{
+			            items:1
+			        },
+			        600:{
+			            items:2
+			        },
+			        1000:{
+			            items:2
+			        }
+			    }
+			})
+		</script>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

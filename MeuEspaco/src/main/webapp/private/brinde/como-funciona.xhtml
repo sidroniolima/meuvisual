@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/public/template_initial.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+	  	  
+	<!-- META DEFINE -->
+	<ui:define name="meta">
+	   	<meta http-equiv="cache-control" content="max-age=0" />
+	    <meta http-equiv="cache-control" content="no-cache" />
+	    <meta http-equiv="expires" content="0" />
+	    <meta http-equiv="pragma" content="no-cache" />
+	</ui:define>
+	
+	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="style.blue.css" id="theme-stylesheet"/>
+   		<h:outputStylesheet library="css" name="custom.css"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/private/brinde/top_bar-brinde.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/private/brinde/nav_bar-brinde-index.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+		<div id="content">
+            <div class="container">
+	            
+	            <div class="row">
+					<div class="col-md-12">
+	                
+	                    <ul class="breadcrumb">
+	                        <li><a href="./index.xhtml">Home</a>
+	                        </li>
+	                        <li>Como funciona?</li>
+	                    </ul>
+	                    
+	                </div>
+				</div>	
+				
+	            <div class="row">
+	            	
+	            	<div class="col-md-12">
+	            		<div class="box">
+	            	
+	            			<h3><i class="fa fa-star 10x afastada"/>Regulamento de campanha Meu Sucesso</h3>
+	            		</div>
+	            		
+	            		<div class="box">
+	            			<p>O Programa Fidelidade Meu Visual objetiva Recompensar e Valorizar Você, Cliente, pelo relacionamento
+							mantido conosco e por seu empenho nas vendas.</p>
+
+							<blockquote><h4><i class="fa fa-star 4x afastada"/>Definições</h4></blockquote>
+							
+							<p>1. Prêmio: é qualquer produto e/ou serviço resgatado com Estrelas pelo Participante.</p>
+							<p>2. Catálogo de Prêmios: são representados pelos produtos e/ou serviços, disponíveis para Resgate no site Meu
+							Visual.</p>
+							<p>3. Central de Relacionamento: é o canal através do qual o Participante pode contatar a Meu Visual para receber
+							informações e esclarecer dúvidas sobre o Programa Fidelidade Meu Visual, sendo eles: 0800-282-0107, Chat e
+							Whatsapp (22) 99807-5638, no horário de Segunda a Quinta-Feira das 08:00h às 18:00h e na Sexta-Feira das
+							08:00h às 11:00h.</p>
+							<p>4. Participante: Cliente Meu Visual apto a participar do Programa Fidelidade Meu Visual.</p>
+							<p>5. Estrelas: unidades de medida utilizadas pela Meu Visual para contabilizar o Acúmulo e o Resgate dos prêmios
+							oferecidos.</p>
+							<p>6. Programa Fidelidade Meu Visual: programa de fidelidade desenvolvido e administrado pela Meu Visual, que visa
+							conceder ao Participante a troca das Estrelas por ele acumuladas por produtos e/ou serviços disponibilizados pela
+							Meu Visual.</p>
+							<p>7. Resgate: é o ato de trocar as Estrelas acumuladas por Prêmios efetuado pelo Cliente.</p>
+							<p>8. Site Meu Espaço: endereço eletrônico www.meuvisual.com.br e suas derivações.</p>
+								
+							<br/>
+							<blockquote><h4><i class="fa fa-star 4x afastada"/>Programa fidelidade</h4></blockquote>
+							
+							<p>As Estrelas geradas no Programa Fidelidade Meu Visual podem ser trocadas por diversos produtos e serviços,
+							como material de apoio, eletrodomésticos, entre outros.</p>
+							
+							<p>O Programa Fidelidade Meu Visual, consiste na troca de Estrelas acumuladas, por produtos e/ou serviços pré-
+							estabelecidos no Catálogo de Prêmios, disponível na Área Programa Fidelidade Meu Visual, dentro do site Meu
+							Espaço.</p>
+							
+							<p>Para participar do Programa Fidelidade Meu Visual, o(a) Participante deverá estar ativo(a) e não poderá estar em
+							débito com a Empresa.</p>
+							
+							<p>O saldo de Estrelas será disponibilizado ao Participante no Site Meu Espaço, na Área Programa Fidelidade Meu
+							Visual.</p>
+							
+							<p>As Estrelas referentes a acertos, serão creditadas 15 dias após o acerto de contas do(da) Participante.</p>
+							
+							<p>As Estrelas de Aniversário serão creditadas no mês de seu Aniversário e Aniversário de cadastro.</p>
+							
+							<p>As Estrelas de Indicações serão creditadas em até 5 dias após a liberação do valor do bônus de equipe.</p>
+							
+							<p>Não serão contados como Estrelas os valores pagos sobre juros referentes a atraso no acerto de contas ou cheques
+							fora do prazo concedido pela Empresa.</p>
+							
+							<p>As Estrelas não possuem valor monetário, não sendo possível sua conversão em dinheiro.</p>
+							<p>*Só serão computadas Estrelas referentes a acertos em vendas com mais de 20 peças vendidas. Vendas inferiores
+							serão descartadas e não poderão ser computadas.</p>							
+								
+							<br/>
+							<blockquote><h4><i class="fa fa-star 4x afastada"/>Resgate de estrelas</h4></blockquote>
+							
+							<p>O Resgate de Estrelas exige que o (a) Participante esteja em dia com a Empresa e que tenha saldo suficiente para
+							trocar as Estrelas pelo prêmio desejado.</p>
+							
+							<p>O Resgate de Estrelas só poderá ser feito dentro do Ciclo de escolha do(da) Participante.</p>
+							
+							<p>O Resgate de Estrelas se dará exclusivamente no site Meu Espaço, na Área Reservada para a Campanha, não
+							havendo outro canal disponível para troca.</p>
+							
+							<p>Caso o Participante fique mais de 2 (dois) meses sem vender, este perderá o saldo de Estrelas acumulado.Cada Resgate realizado deverá contabilizar as Estrelas acumuladas por um(a) único(a) Participante, sendo
+							expressamente vedada a soma de Estrelas de diferentes Participantes para realização de um único Resgate.</p>
+							
+							<p>Não serão admitidas alterações e/ou cancelamentos do Resgate após a efetivação da troca das Estrelas.</p>
+							
+							<p>No ato do Resgate as Estrelas acumuladas serão abatidas automaticamente do saldo de Estrelas ativas para uso
+							naquele momento.</p>
+							
+							<p>O prazo de entrega do Prêmio é contado a partir da aprovação efetiva pela Meu Visual, tendo como prazo até 40
+							dias para verificar as informações necessárias, a partir deste prazo, o(a) Participante receberá seu prêmio na data
+							marcada para o seu próximo acerto de contas.</p>
+							
+							<p>O Prêmio será entregue em mãos, por nossos Representantes, no dia marcado para o acerto de contas do(da)
+							Participante.</p>
+							
+							<p>Caso não seja possível entregar o Prêmio devido a informações incorretas por parte do(a) Participante, por sua
+							ausência no momento da entrega ou quaisquer outras razões que inviabilizem a entrega, o(a) Participante terá 60
+							(sessenta) dias após a data estipulada para entrega do Prêmio para entrar em contato com a Central de
+							Relacionamento Meu Visual e solicitar o reenvio do mesmo, após esse prazo, o(a) Participante perderá o direito ao
+							Prêmio.</p>		
+							
+							<br/>
+							<blockquote><h4><i class="fa fa-star 4x afastada"/>Resgate de estrelas</h4></blockquote>
+							
+							<p>A Meu Visual poderá, a qualquer momento, alterar os Prêmios, alterar as quantidades disponíveis, excluir itens
+							ou incluir novos itens ao Catálogo de Prêmios do Programa Fidelidade Meu Visual sem aviso prévio.</p>
+							
+							<p>As imagens disponibilizadas no Catálogo de Prêmios terão caráter meramente ilustrativo, podendo ser os
+							mesmos ilustrados ou similares.</p>
+							
+							<p><strong>*PRÊMIO - SERVIÇOS RECARGA DE CELULAR</strong></p>
+							
+							<p>Pode ser oferecido no Catálogo de Prêmios a opção de Resgate de Estrelas por serviços como recargas de créditos
+							para celular em diversas operadoras de telecomunicações disponíveis no Brasil, a qual pode ser solicitada pelo Participante 
+							no canal disponível para resgates, observadas as seguintes condições:</p>
+							
+							<p>*O(A) Participante declara ter pleno conhecimento do contrato de prestação de serviços firmado com a
+							operadora responsável pelo número de telefone celular ao qual o crédito será realizado;</p>
+							
+							<p>*O(A) Participante é exclusivamente responsável pela seleção da operadora adequada, bem como digitação do
+							número de telefone celular exato para recarga, acompanhado de seus códigos regionais (DDD) específicos para
+							identificação;</p>
+							
+							<p>*O(A) Participante declara, ainda, ter conhecimento e concordância de que a recarga de créditos só será efetivada
+							se a situação da linha perante a operadora estiver regular;</p>
+							
+							<p>A informação dos valores de crédito disponíveis assim como respectivos prazos de utilização por operadora
+							poderão ser consultados pelo (a) Participante, antes da conclusão do resgate, na Área Programa Fidelidade Meu
+							Visual, dentro do site Meu Espaço.</p>
+							
+							<p>O respectivo valor solicitado será creditado no número de telefone/operadora indicado em até 5 (cinco) dias
+							úteis após solicitação de resgate, desde que os dados informados estejam corretos.</p>
+							
+							<p>A Meu Visual não se responsabiliza por resgates perdidos em razão de escolha de operadora errada ou digitação
+							de número de telefone celular equivocado, incompleto ou insuficiente para a ocorrência da efetiva recarga de
+							créditos por parte da operadora.</p>
+							
+							<p>A confirmação de crédito no número de telefone celular indicado é responsabilidade do (a)Participante.</p>											
+
+							<br/>
+							<blockquote><h4><i class="fa fa-star 4x afastada"/>Programa fidelidade</h4></blockquote>
+							
+							<p>A Meu Visual reserva-se o direito de encerrar o programa a qualquer tempo, com a respectiva comunicação da
+							data de encerramento a seus Participantes, com antecedência mínima de 50 (cinquenta) dias, para que todos os
+							(as) Participante sejam avisados (as) e possam resgatar seus prêmios.</p>
+							
+							<p>Após o encerramento, todas as Estrelas adquiridas e não utilizadas no Programa Fidelidade Meu Visual perderão
+							a validade.</p>
+								
+	            		</div>
+	            	</div>
+				</div>							
+	          	
+			</div>
+			<!-- CONTAINER -->				
+       	</div>
+       	<!-- CONTENT -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header blue">
+		    	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h5 class="modal-title" id="myModalLabel">
+		        	<strong>Parabéns!!!</strong></h5>
+		      </div>
+		      <div class="modal-body" id="modalBody">
+			      	<div class="row">
+						<div class="col-md-3 col-xs-3">
+							<p align="center"><span style="font-size:32px"><i class="fa fa-exclamation"></i></span></p>
+						</div>
+						<div class="col-md-9 col-xs-9">
+							<p><h:outputText value="${brindeIndexBean.messageFormatada}" /></p>
+						</div>
+					</div>		      
+		      </div>			      
+		    </div>
+		  </div>
+		</div> 		
+     	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<h:outputScript library="js" name="/owl-carousel/owl.carousel.min.js"/>	
+		<script>
+			$(function() 
+			{
+				if (${brindeIndexBean.showMessage})
+				{
+					$('#myModal').modal('show');
+				}
+				
+			});
+			
+			$('.owl-carousel').owlCarousel({
+			    loop:true,
+			    margin:10,
+			    nav:false,
+			    items: 2,
+			    responsive:{
+			        0:{
+			            items:1
+			        },
+			        600:{
+			            items:2
+			        },
+			        1000:{
+			            items:2
+			        }
+			    }
+			})
+		</script>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

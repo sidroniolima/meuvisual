@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
- 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
  <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
@@ -51,7 +49,7 @@
    <redirect/>
   </navigation-case>
  </navigation-rule>
-  <navigation-rule>
+ <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>index-venda</from-outcome>
@@ -131,8 +129,7 @@
    <redirect include-view-params="false"/>
   </navigation-case>
  </navigation-rule>
- 
-  <navigation-rule>
+ <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>minhas-compras</from-outcome>
@@ -140,34 +137,30 @@
    <redirect/>
   </navigation-case>
  </navigation-rule>
- 
-  <navigation-rule>
+ <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>pagamento-sucesso</from-outcome>
    <to-view-id>/private/venda/pagamento-sucesso.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
- </navigation-rule> 
-
-  <navigation-rule>
+ </navigation-rule>
+ <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>minhas-mensagens</from-outcome>
    <to-view-id>/private/site/cliente/minhas-mensagens.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
- </navigation-rule> 
-
+ </navigation-rule>
  <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>index-brinde</from-outcome>
-   <to-view-id>/private/brinde/index.xhtml</to-view-id>
+   <to-view-id>/private/brinde/index_destaques.xhtml</to-view-id>
    <redirect include-view-params="true"/>
   </navigation-case>
- </navigation-rule> 
-
+ </navigation-rule>
  <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
@@ -176,26 +169,22 @@
    <redirect/>
   </navigation-case>
  </navigation-rule>
- 
-  <navigation-rule>
+ <navigation-rule>
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>visualiza-resgate-cliente</from-outcome>
    <to-view-id>/private/brinde/visualiza-resgate.xhtml</to-view-id>
    <redirect include-view-params="true"/>
   </navigation-case>
- </navigation-rule> 
- 
- 
+ </navigation-rule>
  <faces-config-extension>
   <facelets-processing>
    <file-extension>.xhtml</file-extension>
    <process-as>xhtml</process-as>
   </facelets-processing>
  </faces-config-extension>
- 
+ <application/>
  <factory>
   <exception-handler-factory>net.mv.meuespaco.util.ViewExpiredExceptionExceptionHandlerFactory</exception-handler-factory>
  </factory>
-
 </faces-config>

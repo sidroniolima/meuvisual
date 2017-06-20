@@ -211,13 +211,15 @@
   SHAPE="240,2049,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#*:19" PATH="/*" SHAPE="32,2145,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:19" NAME="item" PATH="/*" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="index-brinde::#private#brinde#index.xhtml"
-    NAME="output" PATH="/private/brinde/index.xhtml"
-    TARGET="rules:#private#brinde#index.xhtml" TITLE="index-brinde" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="index-brinde::#private#brinde#index_destaques.xhtml"
+    NAME="output" PATH="/private/brinde/index_destaques.xhtml"
+    TARGET="rules:#private#brinde#index_destaques.xhtml"
+    TITLE="index-brinde" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
- <PROCESS-ITEM NAME="rules:#private#brinde#index.xhtml"
-  PATH="/private/brinde/index.xhtml" SHAPE="240,2161,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#private#brinde#index_destaques.xhtml"
+  PATH="/private/brinde/index_destaques.xhtml" SHAPE="240,2161,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#*:20" PATH="/*" SHAPE="32,2257,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#*:20" NAME="item" PATH="/*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT

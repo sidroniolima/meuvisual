@@ -70,8 +70,6 @@ function intervalTimeOut()
 	
    	if (!registrouTimeOut)
 	{
-	   	console.log("Interval de sessão iniciado.");
-
 	   	mostrouModal = false;	   	
 
 	   	idIntervalTimeOut = setInterval(function() 

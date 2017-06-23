@@ -27,8 +27,11 @@
 						<a href="#{root}private/site/index.xhtml" style="text-decoration: none" title="Meu Espaço">
 							<i class="fa fa-shopping-basket fa-2x icon-top-bar green" aria-hidden="true"></i> 
 						</a>					
-					</h:panelGroup>						            
-	                <a href="#">#{loginBean.mensagemInicial}</a>
+					</h:panelGroup>						
+					<a href="#{root}private/brinde/index.xhtml?faces-redirect=true" style="text-decoration: none" title="Meu Sucesso">
+						<i class="fa fa-gift fa-2x icon-top-bar yellow" aria-hidden="true" ></i>
+					</a>									
+	                #{loginBean.mensagemInicial}
 	            </div>
 	            
 	            <h:panelGroup

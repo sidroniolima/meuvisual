@@ -8,6 +8,11 @@
 	  template="/public/template_initial.xhtml"
 	  xmlns:c="http://java.sun.com/jsp/jstl/core">
  
+ 	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="custom.css" id="theme-custom"/>
+	</ui:define>
+ 
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
 		<ui:include src="/public/top_bar-admin.xhtml"/>
@@ -168,7 +173,15 @@
 		                  	
 		            	</div>
 		            	<!-- /.cod-md-12 filtro-->	 	
-				
+						
+						<div class="col-md-12">
+		   				<h:messages 
+				      		id="messages-middle"
+				      		errorClass="alert alert-block alert-danger fade in"
+				      		infoClass="alert alert-success fade in"
+				      		style="padding-left:0px;"/>	
+						</div>
+						
 				        <div class="col-md-12" id="table">
 				
 				            <div class="box">
@@ -338,7 +351,8 @@
 															<f:passThroughAttribute name="data-dismiss" value="modal" />
 															<f:ajax
 										               			execute="@this"
-										               			render="form-pesquisa"/>
+										               			render="@all"
+										               			onevent="eventSpinnerHandler"/>
 														</a>
 							                		
 							                			<button 
@@ -361,6 +375,14 @@
 		         	
 		         	</div>
 		         	<!-- /.row -->
+		         	
+					<div class="col-md-12">
+	   				<h:messages 
+			      		id="messages-bottom"
+			      		errorClass="alert alert-block alert-danger fade in"
+			      		infoClass="alert alert-success fade in"
+			      		style="padding-left:0px;"/>	
+					</div>		         	
 		         	
 		         	<div class="row">
 		                
@@ -465,7 +487,21 @@
 					      </div>			      
 					    </div>
 					  </div>
-					</div> 					        	
+					</div> 
+										        						
+					<!-- Modal Spinner -->
+					<div class="modal fade bd-example-modal-sm modal-spinner" id="modal-spinner" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-sm modal-spinner-dialog">
+					    <div class="modal-content" >
+					      <div class="modal-body" id="modalBody">
+							<div class="spinner">
+								<p align="center"><i class="fa fa-spinner fa-spin fa-4x"></i></p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Spinner -->
                 
                 </h:form> <!-- /#form-pesquisa -->
 
@@ -484,7 +520,7 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="spinner-handler.js"/>
 	</ui:define>
-	<!-- END OF DEFINE SCRIPT -->			
 			
 </ui:composition>

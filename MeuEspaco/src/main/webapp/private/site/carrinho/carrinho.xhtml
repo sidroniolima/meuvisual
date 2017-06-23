@@ -10,6 +10,11 @@
 	
 	<c:set var="root" value="#{request.contextPath}/" />      
  
+ 	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="custom.css" id="theme-custom"/>
+	</ui:define>
+ 
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
 		<ui:include src="/public/top_bar-logged.xhtml"/>
@@ -30,8 +35,8 @@
 		<div id="content">
             <div class="container">
             
-            	<h:form id="frm-carrinho">
-
+            	<h:form id="frm-carrinho" onsubmit="alert('submitting');">
+            	
                 	<div class="col-md-12">
                 	    <ul class="breadcrumb">
                 	        <li><a href="index-cliente">Home</a>
@@ -177,12 +182,14 @@
 		                                    
 		                                    <a 
 		                                    	jsfc="h:commandLink"
-		                                    	action="#{carrinhoConsignadoBean.finalizaCarrinho()}"
-		                                    	class="btn btn-primary">
+		                                    	class="btn btn-primary"
+		                                    	id="btn-finaliza"
+		                                    	action="#{carrinhoConsignadoBean.finalizaCarrinho()}">
 		                                    	
 		                                    	<f:ajax
 		                                    		execute="@form"
-		                                    		render="@all"/>
+		                                    		render="@form"
+		                                    		onevent="eventSpinnerHandler"/>
 		                                    		
 		                                    	<i class="fa fa-refresh"></i> 
 		                                    	Gerar Escolha
@@ -191,6 +198,30 @@
 			                                    
 		                                </div>
 		                            </div>                            
+
+									<!-- Modal de finalização de carrinho-->
+									<div class="modal fade" id="modal-finaliza" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+									  <div class="modal-dialog" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									    	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									        <h5 class="modal-title" id="modal-label">
+									        	<strong>Parabéns! Você gerou sua escolha com sucesso.</strong></h5>
+									      </div>
+									      <div class="modal-body" id="modalBody">
+									      	<div class="row">
+												<div class="col-md-3 col-xs-3">
+													<p align="center"><span style="font-size:32px"><i class="fa fa-exclamation"></i></span></p>
+												</div>
+												<div class="col-md-9 col-xs-9">
+													<p>Aguarde enquanto processamos sua escolha e lembre-se: se não utilizou a quantidade e/ou valor 
+													disponível, poderá voltar dentro do período do seu ciclo para escolher mais peças.</p>
+												</div>
+											</div>
+									      </div>			      
+									    </div>
+									  </div>
+									</div>  
 		
 									<div class="row" id="modal-exclusao">
 						            	
@@ -241,7 +272,7 @@
 										    	</div>
 											</div>	
 						                        
-						                </div>
+						                </div>				
 						                <!-- /.col-md-12 -->
 						         	
 						         	</div>
@@ -286,7 +317,7 @@
 		                                        	<h:outputText value="#{carrinhoConsignadoBean.qtdDeItens}">
 		                                        	
 		                                        		<f:convertNumber
-		                                        			locale="pt_BR"
+															locale="pt_BR"
 		                                        			minFractionDigits="0"/>
 		                                        	</h:outputText>
 		                                        	
@@ -369,7 +400,45 @@
 		                </div>
 		                <!-- /.col-md-3 -->
 		        	</h:panelGroup>
-		        	<!-- /#panel-summary-values -->		        	
+		        	<!-- /#panel-summary-values -->		
+		        	
+					<!-- Modal de Timeout de sessão-->
+					<div class="modal fade" id="modal-finaliza" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+				     	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h5 class="modal-title" id="modal-label">
+					        	<strong>Parabéns! Você gerou sua escolha com sucesso.</strong></h5>
+					      </div>
+					      <div class="modal-body" id="modalBody">
+					      	<div class="row">
+								<div class="col-md-3 col-xs-3">
+									<p align="center"><span style="font-size:32px"><i class="fa fa-exclamation"></i></span></p>
+								</div>
+								<div class="col-md-9 col-xs-9">
+									<p>Aguarde enquanto processamos sua escolha e lembre-se: se não utilizou a quantidade e/ou valor 
+									disponível, poderá voltar dentro do período do seu ciclo para escolher mais peças.</p>
+								</div>
+							</div>
+					      </div>			      
+					    </div>
+					  </div>
+					</div>  		       
+					
+					<!-- Modal Spinner -->
+					<div class="modal fade bd-example-modal-sm modal-spinner" id="modal-spinner" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-sm modal-spinner-dialog">
+					    <div class="modal-content" >
+					      <div class="modal-body" id="modalBody">
+							<div class="spinner">
+								<p align="center"><i class="fa fa-spinner fa-spin fa-4x"></i></p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Spinner -->								 	        	
 		        	
 	        	</h:form>
 	        	<!-- /#frm-carrinho -->	   		        	
@@ -379,8 +448,7 @@
 	            
         </div>
         <!-- /#content -->	
-	
-	
+        
 	</ui:define>
 	<!-- END OF DEFINE CONTENT -->
 	
@@ -392,6 +460,7 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="spinner-handler.js"/>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

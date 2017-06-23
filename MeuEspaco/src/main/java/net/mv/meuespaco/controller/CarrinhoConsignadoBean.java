@@ -68,7 +68,6 @@ public class CarrinhoConsignadoBean extends CarrinhoAbstractBean implements Seri
 	 * @return
 	 */
 	public String finalizaCarrinho() {
-		
 		try {
 			carrinhoSrvc.finalizaEscolha(carrinho, this.getClienteLogado());
 			carrinho.atualizaSaldos();
@@ -79,7 +78,7 @@ public class CarrinhoConsignadoBean extends CarrinhoAbstractBean implements Seri
 			return "minhas-escolhas";
 			
 		} catch (RegraDeNegocioException e) {
-
+			
 			FacesUtil.addErrorMessage(
 					String.format("Não foi possível criar a escolha. %s", e.getMessage()));
 			

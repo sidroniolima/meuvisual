@@ -46,5 +46,4 @@ public class VisualizaEscolhaBean implements Serializable {
 	public Escolha getEscolha() {
 		return escolha;
 	}
-	
 }

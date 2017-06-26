@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  template="/public/template_initial.xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+ 
+ 	<ui:define name="css">
+   		<h:outputStylesheet library="css" name="custom.css"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+            <div class="container">	
+            
+				<div class="col-md-12">
+                
+                    <ul class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+
+                        <li>
+                        	<a href="./pesquisa-resgate.xhtml">Resgate</a>
+                        </li>
+                        
+                        <li>Finaliza resgate</li>
+                    </ul>
+                    
+                </div>
+                
+                <h:form
+                	id="frm-resgate">
+                
+	       			<div class="col-md-12">
+		       			
+		   				<h:messages 
+				      		id="messages"
+				      		errorClass="alert alert-block alert-danger fade in"
+				      		infoClass="alert alert-success fade in"
+				      		style="padding-left:0px;"
+				      		globalOnly="true"/>		       			
+	       			
+		                <div class="box" id="box-resgate">
+		                
+		                	<h3>Visualização do Resgate</h3>
+						
+							<div class="row">
+								<div class="col-md-12">
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-cod-interno" class="small">Código do resgate</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-cod" 
+				                            	value="${visualizaResgateBrindeBean.resgate.codigoFormatado()}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-status" class="small">Status</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-status" 
+				                            	value="${visualizaResgateBrindeBean.resgate.status.descricao}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>				            	
+	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-cod-cliente" class="small">Código do cliente</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-cod-cliente" 
+				                            	value="${visualizaResgateBrindeBean.resgate.cliente.codigoSiga}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>				            	
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-nome-cliente" class="small">Nome do cliente</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-nome-cliente" 
+				                            	value="${visualizaResgateBrindeBean.resgate.cliente.nome}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-cod-regiao" class="small">Código da região</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-cod-regoap" 
+				                            	value="${visualizaResgateBrindeBean.resgate.cliente.regiao.codigoFormatado()}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>				            	
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-desc-regiao" class="small">Descrição da região</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-desc-regoap" 
+				                            	value="${visualizaResgateBrindeBean.resgate.cliente.regiao.descricao}"
+				                            	readonly="true">
+							              	</h:outputText>
+					                 	</div>
+					            	</div>			            					            	
+					            	
+					            	<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-data" class="small">Horário</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-data" 
+				                            	value="#{visualizaResgateBrindeBean.resgate.horario}"
+				                            	readonly="true">
+				                            	<f:converter
+				                            		converterId="localDateTimeFacesConverter"/>
+							              	</h:outputText>
+					                 	</div>		
+					                 </div>
+			
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-qtd" class="small">Quantidade de itens</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-qtd" 
+				                            	value="#{visualizaResgateBrindeBean.resgate.qtdDeItens()}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		 
+					                 
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-saldo-anterior" class="small">Saldo anterior</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-saldo-anterior" 
+				                            	value="#{visualizaResgateBrindeBean.resgate.saldoAnterior}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		 
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-valor" class="small">Pontos utilizados</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-valor" 
+				                            	value="#{visualizaResgateBrindeBean.resgate.valor()}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		  
+					            	
+									<div class="col-sm-6"> 
+										<div class="form-group">
+					                        
+				                            <label for="input-saldo-posterior" class="small">Saldo posterior</label>
+				                            <h:outputText 
+				                            	pt:type="text" 
+				                            	class="form-control input-small" 
+				                            	id="input-saldo-posterior" 
+				                            	value="#{visualizaResgateBrindeBean.resgate.saldoPosterior}"
+				                            	readonly="true">
+				                            	<f:convertNumber type="number" maxFractionDigits="0"/>
+				                            	
+							              	</h:outputText>
+					                 	</div>
+					            	</div>		
+															
+								</div>
+							</div>
+
+						</div>
+						
+						<!-- box -->
+					</div>
+				</h:form>
+				
+		        <div class="col-md-12" id="table">
+		
+		            <div class="box">
+		
+	                    <h3>Itens da resgate</h3>
+	                    
+	                    <div class="table-responsive">
+	                        <table class="table table-striped table-advance table-hover table-small">
+	                            <thead>
+	                                <tr>
+	                                    <th>Código</th>form
+	                                    <th style="width:350px">Descrição</th>
+	                                    <th style="width:250px">Grade</th>
+	                                    <th style="width:100px">Qtd</th>
+	                                    <th style="width:100px">Pontos</th>
+	                                    <th style="width:100px">Total</th>
+	                                </tr>
+	                            </thead>
+	                            
+	                            <tbody>
+	                            
+									<ui:repeat 
+										var="item" 
+									   	value="#{visualizaResgateBrindeBean.resgate.brindes}">		                          
+										<tr>
+										   <td>#{item.produto.codigoInterno}</td>
+										   <td>#{item.produto.descricao}</td>
+										   <td>#{item.grade}</td>
+										   <td>
+										   		<h:outputText 
+										   			value="#{item.qtd}">
+										   			
+										   			<f:convertNumber 
+										   				type="number"
+										   				locale="pt_BR"/>
+										   		</h:outputText>
+										   </td>
+										   <td>
+										   		<h:outputText 
+										   			value="#{item.valorUnitario}">
+										   			
+										   			<f:convertNumber 
+										   				type="number"
+										   				locale="pt_BR"
+										   				minFractionDigits="0"
+										   				maxFractionDigits="0"/>
+										   		</h:outputText>
+										   </td>
+										   <td>
+										   		<h:outputText 
+										   			value="#{item.valorTotal()}">
+										   			
+										   			<f:convertNumber 
+										   				type="number"
+										   				locale="pt_BR"
+										   				minFractionDigits="0"
+										   				maxFractionDigits="0"/>
+										   		</h:outputText>
+										   </td>												   										   
+										</tr>
+									</ui:repeat>		                            
+
+                                   </tbody>
+                               </table>
+
+                       	</div>
+                        <!-- /.table-responsive -->
+                        
+						<div class="row">
+							<div class="col-md-12">
+		                        <h:commandButton
+		                        	class="btn btn-primary"
+		                        	action="#{visualizaResgateBrindeBean.finaliza()}"
+		                        	value="Finalizar"
+		                        	disabled="#{not visualizaResgateBrindeBean.resgate.podeSerAtendido}">
+		                        	
+		                        	<f:ajax
+		                        		execute="@this"
+		                        		render="frm-resgate"
+		                        		onevent="scrollMessages()"/>
+	                        	</h:commandButton>
+							</div>
+						</div>	
+                        
+                  	</div> 
+                  	<!-- /#box -->
+                  	
+            	</div>
+            	<!-- /.cod-md-12 -->
+		            	
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->		
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	   	<ui:include src="/public/footer.xhtml" />
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<h:outputScript library="js" name="scroll.js"/>
+	</ui:define>
+	<!-- END OF DEFINE SCRIPT -->			
+			
+</ui:composition>

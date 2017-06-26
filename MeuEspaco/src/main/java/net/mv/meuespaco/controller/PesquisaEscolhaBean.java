@@ -56,13 +56,11 @@ public class PesquisaEscolhaBean extends PesquisaSingle implements Serializable 
 	public void init() {
 		
 		status = StatusEscolha.values();
-		
 		filtro = new FiltroEscolha();
 		
 		if (null == escolhas) {
 			listarComPaginacao();
 		}
-		
 	}
 
 	@Override

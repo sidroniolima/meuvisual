@@ -26,6 +26,7 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.EntidadeModel;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.grade.Grade;
+import net.mv.meuespaco.util.Encryptor;
 
 /**
  * Troca ou resgate dos produtos com finalidade de brinde.
@@ -34,6 +35,10 @@ import net.mv.meuespaco.model.grade.Grade;
  * @created 03/05/2017
  */
 
+/**
+ * @author sidronio
+ *
+ */
 @Entity
 @Table(name="resgate_brinde")
 public class ResgateBrinde extends EntidadeModel implements Serializable
@@ -89,7 +94,23 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 		this.saldoAnterior = saldoAtual;
 		this.saldoPosterior = saldoAtual;
 	}
+	
+	/* 
+	 * Encripta o código.
+	 */
+	public String codigoEncoded()
+	{
+		return Encryptor.encrypt(this.codigoFormatado());
+	}
 
+	/**
+	 * Substitui o status para Finalizado.
+	 */
+	public void finaliza() 
+	{
+		this.status = StatusEscolha.FINALIZADA;
+	}	
+	
 	@Override
 	public void valida() throws RegraDeNegocioException 
 	{
@@ -107,6 +128,17 @@ public class ResgateBrinde extends EntidadeModel implements Serializable
 		{
 			throw new RegraDeNegocioException("O resgate deve conter ao menos um brinde.");
 		}
+	}
+	
+	/**
+	 * Verifica se o resgate pode ser atendido se for 
+	 * um Novo ou que já esteja em separação anteriormente.
+	 * 
+	 * @return se pode ou não ser atendido.
+	 */
+	public boolean isPodeSerAtendido()
+	{
+		return status.equals(StatusEscolha.NOVA) || status.equals(StatusEscolha.EM_SEPARACAO);
 	}
 	
 	/**

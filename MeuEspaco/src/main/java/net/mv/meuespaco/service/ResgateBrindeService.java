@@ -2,9 +2,11 @@ package net.mv.meuespaco.service;
 
 import java.util.List;
 
+import net.mv.meuespaco.controller.filtro.IFiltroPesquisaAcao;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ResgateBrinde;
+import net.mv.meuespaco.util.Paginator;
 /**
  * Abstração da camada Service para a entidade ResgateBrinde.
  * 
@@ -52,4 +54,13 @@ public interface ResgateBrindeService extends SimpleServiceLayer<ResgateBrinde, 
 	 * @return total de pontos de resgates.
 	 */
 	public Long totalDePontosResgatadosDoClienteLogado();
+
+	/**
+	 * Filtra os registros de Resgate pelo filtro.
+	 * 
+	 * @param filtro
+	 * @param paginator
+	 * @return lista de resgate de brinde que satisfaçam o filtro.
+	 */
+	public List<ResgateBrinde> filtraPelaPesquisa(IFiltroPesquisaAcao filtro, Paginator paginator);
 }

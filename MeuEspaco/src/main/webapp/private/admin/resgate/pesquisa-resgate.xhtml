@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  template="/public/template_initial.xhtml"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 
+ 	<ui:define name="css">
+		<!-- theme stylesheet venda -->
+   		<h:outputStylesheet library="css" name="custom.css" id="theme-custom"/>
+	</ui:define>
+ 
+	<!-- TOP BAR DEFINE -->
+	<ui:define name="top_bar">
+		<ui:include src="/public/top_bar-admin.xhtml"/>
+	</ui:define>
+  
+  	<!-- NAV BAR DEFINE -->
+	<ui:define name="nav_bar">
+		<ui:include src="/public/nav_bar-admin.xhtml"/>
+	</ui:define>	
+
+	<!-- CONTENT DEFINE -->
+	<ui:define name="page_content">	
+
+		<div id="content">
+		    <div class="container">
+		    
+		    	<h:form 
+		        	id="form-pesquisa">
+		        	
+	   				<h:messages 
+			      		id="messages"
+			      		errorClass="alert alert-block alert-danger fade in"
+			      		infoClass="alert alert-success fade in"
+			      		style="padding-left:0px;"/>		        	
+		        	
+		        	<div class="row">
+		
+				        <div class="col-md-12">
+				            <ul class="breadcrumb">
+				                <li>
+				                	<a href="#">Home</a>
+				                </li>
+				                <li>
+				                	Resgate
+				                </li>
+				                <li>
+				                	Pesquisa
+				                </li>				                
+				            </ul>
+				        </div>
+				 	</div>
+				 	<!-- /.row -->
+				 	
+				 	<div class="row">
+						
+						<!-- Div FILTRO -->
+				        <div class="col-md-12" id="filtro">
+				
+				            <div class="box">
+				
+			                    <h4>Filtro</h4>	
+			                    
+			                    <h:form
+			                    	id="form-filtro"
+			                    	styleClass="form-inline">
+			                    	
+			                    	<div class="row">
+			                    
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cod">Código</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-cod" 
+					                            	value="#{pesquisaResgateBean.filtro.codigo}"/>				                            	
+						                 	</div>
+						            	</div>
+						            	
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="select-status">Status</label>
+												<h:selectOneMenu 
+					                          		styleClass="form-control"
+					                          		value="#{pesquisaResgateBean.filtro.status}"
+					                          		id="select-status">
+					                          		
+					                          		<f:selectItem 
+					                          			noSelectionOption="true"/>
+					                          			
+					                          		<f:selectItems
+					                          			value="#{pesquisaResgateBean.status}"
+					                          			var="status"
+					                          			itemLabel="#{status.descricao}"
+					                          			itemValue="#{status}"/>
+					                          		
+						                    	</h:selectOneMenu>  
+						                  	</div>
+						            	</div>						            	
+						            	
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-data-incial">Data inicial</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-data-incial" 
+					                            	value="#{pesquisaResgateBean.filtro.dataInicial}"
+					                            	converter="localDateFacesConverter"/>				                            	
+						                 	</div>
+						            	</div>
+						            	
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-data-final">Data final</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-data-final" 
+				                            		value="#{pesquisaResgateBean.filtro.dataFinal}"
+				                            		converter="localDateFacesConverter"/>				                            	
+					                 		</div>
+					            		</div>	
+					            		
+					                    <div class="col-sm-2"> 
+											<div class="form-group">
+						                        
+					                            <label for="input-cod-cliente">Cliente</label>
+					                            <h:inputText 
+					                            	styleClass="form-control" 
+					                            	id="input-cod-cliente" 
+					                            	value="#{pesquisaResgateBean.filtro.codigoCliente}"/>				                            	
+						                 	</div>
+							            </div>				
+							            	            		
+				                    	<div class="col-md-12 text-center"> 
+											<div class="form-group">
+						                        <h:commandButton
+						                        	styleClass="btn btn-primary"
+						                        	action="#{pesquisaResgateBean.listarComPaginacao}"
+						                        	value="Filtrar">
+						                        	
+						                        	<f:ajax
+						                        		execute="@form"
+						                        		render=":form-pesquisa:panel-resgates :form-pesquisa:panel-load-more"/>
+					                        	</h:commandButton>
+					                        </div>
+				                        </div>
+			                        </div>
+
+		                    	</h:form>
+		                    	<!-- /form-filtro -->
+		                    	
+		                  	</div> 
+		                  	<!-- /#box -->
+		                  	
+		            	</div>
+		            	<!-- /.cod-md-12 filtro-->	 	
+						
+				        <div class="col-md-12" id="table">
+				
+				            <div class="box">
+				
+			                    <h4>Pesquisa de resgate</h4>
+			                    
+			                    <h:panelGroup 
+			                    	id="panel-resgates">
+			                    
+				                    <div class="table-responsive">
+				                        <table class="table table-striped table-advance table-hover table-small">
+				                            <thead>
+				                                <tr>
+				                                    <th style="width:60px">Código</th>
+				                                    <th style="width:110px">Status</th>
+				                                    <th style="width:180px">Data</th>
+				                                    <th style="width:80px">Código do Cliente</th>
+				                                    <th style="width:250px; overflow: hidden;">Cliente</th>
+				                                    <th style="width:80px">Código da Região</th>
+				                                    <th style="width:150px; overflow: hidden;">Região</th>
+				                                    <th style="width:200px; text-align: right;">Controle</th>
+				                                </tr>
+				                            </thead>
+				                            
+				                            <tbody>
+				                            
+												<ui:repeat 
+													var="resgate" 
+												   	value="#{pesquisaResgateBean.resgates}">		                          
+													<tr>
+													   <td>#{resgate.codigoFormatado()}</td>
+													   <td>#{resgate.status.descricao}</td>
+													   <td>
+													   		<h:outputText 
+													   			value="#{resgate.horario}">
+													   			
+													   			<f:converter
+													   				converterId="localDateTimeFacesConverter"/>
+													   		</h:outputText>
+													   </td>
+													   <td>#{resgate.cliente.codigoSiga}</td>
+													   <td>#{resgate.cliente.nome}</td>
+													   
+													   <td>#{resgate.cliente.regiao.codigoFormatado()}</td>
+													   
+													   <td>#{resgate.cliente.regiao.descricao}</td>
+													   
+													   <td style="text-align: right">
+														   <div class="btn-group" >													  												   
+															
+																<h:link styleClass="btn btn-info" 
+																	outcome="./visualiza-resgate.xhtml?faces-redirect=true&amp;param-codigo=${resgate.codigoEncoded()}">
+																	<i class="icon_zoom-in_alt"></i>
+														        </h:link>
+														        
+																<h:link styleClass="#{not resgate.podeSerAtendido ? 'btn btn-primary disable' : 'btn btn-primary'}" 
+																	outcome="./finaliza-resgate.xhtml?faces-redirect=true&amp;param-codigo=${resgate.codigoEncoded()}"
+																	rendered="#{resgate.podeSerAtendido}">
+																	
+																	<i class="icon_check"></i>
+														        </h:link>														        
+														        
+																<a class="btn btn-primary" 
+																	jsfc="h:commandLink"
+																	type="button"
+																	immediate="true"
+																	rendered="#{not resgate.podeSerAtendido}">
+												                 												        	
+												                   <f:passThroughAttribute name="data-toggle" value="modal" />
+												                   <f:passThroughAttribute name="data-target" value="#myModalAtendimento" />
+												                   <f:ajax/>
+																
+																	<i class="icon_check"></i>
+																</a>												        												        
+														        													   
+																<a class="btn btn-danger" 
+																	jsfc="h:commandLink"
+																	type="button"
+																	immediate="true">
+												                  
+												                   <f:setPropertyActionListener 
+												                  	 	value="#{resgate}" 
+												                  	 	target="#{pesquisaResgateBean.resgateSelecionado}"/>
+												                   												        	
+												                   <f:passThroughAttribute name="data-toggle" value="modal" />
+												                   <f:passThroughAttribute name="data-target" value="#myModal" />
+												                   <f:ajax/>
+																
+																	<i class="icon_close_alt2"></i>
+																</a>
+														    </div>
+													    </td>
+													</tr>
+												</ui:repeat>		                            
+		
+		                                    </tbody>
+		                                </table>
+			
+			                       	</div>
+			                        <!-- /.table-responsive -->
+			                        
+			                	</h:panelGroup>
+			                	<!-- /#panel-resgates -->
+		                  	</div> 
+		                  	<!-- /#box -->
+		                  	
+		            	</div>
+		            	<!-- /.cod-md-12 -->
+		            	
+		            </div>
+		            <!-- /.row -->
+		            
+		            <div class="row">
+		            	
+		            	<div class="col-md-12">
+		                            
+							<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+						    	<div class="modal-dialog modal-md">
+						        	<div class="modal-content">
+						            	<h:form id="myForm">
+						                	<div class="modal-header">
+						                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						                    	<h4 class="modal-title">Confirmação de exclusão</h4>
+						                	</div>
+						                	<div class="modal-body">
+						                		<h:panelGroup 
+							                		layout="block" 
+							                		id="panelDescricao">
+							                	
+							                		Deseja realmente excluir o resgate selecionado?
+							                		<div 
+				                						style="text-align:right"
+				                						id="btns-confirm">
+								                	
+								                		<a  type="submit"
+								                			class="btn btn-warning btn-sm"
+								                			jsfc="h:commandLink"
+								                			action="#{pesquisaResgateBean.excluir()}">
+								                			Sim
+														
+															<f:passThroughAttribute name="data-dismiss" value="modal" />
+															<f:ajax
+										               			execute="@this"
+										               			render="@all"
+										               			onevent="handleExclusao"/>
+														</a>
+							                		
+							                			<button 
+							                				id="close"
+							                				type="submit" 
+							                				class="btn btn-info btn-sm">Não</button>
+							                		</div>
+							                		<!-- /.btns-confirm -->
+							                		
+						                		</h:panelGroup>
+						                	</div>
+						
+						            	</h:form>
+						        	</div>
+						    	</div>
+							</div>	
+		                        
+		                </div>
+		                <!-- /.col-md-12 -->
+		         	
+		         	</div>
+		         	<!-- /.row -->
+		         	
+		         	<div class="row">
+		                
+						<h:panelGroup
+							id="panel-load-more">
+						    
+						    <div class="pages">
+						    
+				                <div class="col-md-12" id="paginator">
+				                
+									<nav style="text-align:center">
+						     				
+									  <ul class="pagination">
+									  
+									    <li>
+									    	<a
+									    		jsfc="h:commandLink"
+									    		actionListener="#{pesquisaResgateBean.paginator.previous()}"
+									    		action="#{pesquisaResgateBean.listarComPaginacao()}" 
+									    		value="«">
+
+							                   	<f:ajax
+							                   		render="panel-resgates"/>   
+									    	</a>
+									    </li>
+									    
+									    <c:forEach 
+									    	begin="0" 
+									    	end="#{pesquisaResgateBean.paginator.partesVisiveis() - 1}"
+									    	var="index">
+									    
+										    <li>
+									    		<a
+									    			jsfc="h:commandLink"
+										    		actionListener="#{pesquisaResgateBean.paginator.goTo(index)}" 
+										    		action="#{pesquisaResgateBean.listarComPaginacao()}"
+										    		value="#{index+1}" >
+										    		
+								                   	<f:ajax
+								                   		render="panel-resgates"/>   
+										    	</a>
+										    </li>
+									    </c:forEach>
+
+									    <li class="disabled"
+									    	style="#{not pesquisaResgateBean.paginator.particionado ? 'display:none' : ''}">
+									    	<a href="#" aria-label="..."><span aria-hidden="true">...</span></a>
+									    </li>
+									    
+									    <li
+									    	style="#{not pesquisaResgateBean.paginator.particionado ? 'display:none' : ''}">
+									      <h:commandLink
+									    		actionListener="#{pesquisaResgateBean.paginator.goToLast()}" 
+									    		action="#{pesquisaResgateBean.listarComPaginacao()}"
+									    		value="#{pesquisaResgateBean.paginator.partes}">
+									    		
+							                   	<f:ajax
+							                   		render="panel-resgates"/>   
+									    	</h:commandLink>
+									    </li>
+									    <li>
+									      <h:commandLink
+									    		actionListener="#{pesquisaResgateBean.paginator.next()}" 
+									    		action="#{pesquisaResgateBean.listarComPaginacao()}"
+									    		value="»">
+									    		
+							                   	<f:ajax
+							                   		render="panel-resgates"/>   
+									    	</h:commandLink>
+									    </li>									    									    
+									  </ul>
+									</nav>		                
+				                
+				                </div> <!-- /#paginator -->
+				                
+						    </div>
+							    
+						</h:panelGroup>
+						<!-- /#panel-load-more -->	
+		                
+		        	</div>
+		        	<!-- /.row -->
+		        	
+	           		<!-- Modal -->
+					<div class="modal fade" id="myModalAtendimento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+			      	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h5 class="modal-title" id="myModalLabel">
+					        	<strong>Não é possível finalizar esta resgate.</strong></h5>
+					      </div>
+					      <div class="modal-body">
+					      	<div class="row">
+								<div class="col-md-2">
+									<p align="center"><span style="font-size:32px">:(</span></p>
+								</div>
+								<div class="col-md-10">
+									<p>Para atender os itens e finalizar um resgate é preciso que 
+										ela esteja com status <strong>Novo</strong> ou <strong>Em separação</strong>.</p>
+								</div>
+							</div>
+					      </div>			      
+					    </div>
+					  </div>
+					</div> 
+										        						
+					<!-- Modal Spinner -->
+					<div class="modal fade bd-example-modal-sm modal-spinner" id="modal-spinner" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-sm modal-spinner-dialog">
+					    <div class="modal-content" >
+					      <div class="modal-body" id="modalBody">
+							<div class="spinner">
+								<p align="center"><i class="fa fa-spinner fa-spin fa-4x"></i></p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Spinner -->
+                
+                </h:form> <!-- /#form-pesquisa -->
+
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /#content -->                           
+	
+	</ui:define>
+	<!-- END OF DEFINE CONTENT -->
+	
+	<!-- DEFINE FOOTER -->
+	<ui:define name="footer">
+	</ui:define>
+	<!-- END OF DEFINE FOOTER -->
+	   
+	<!-- DEFINE SCRIPT -->
+	<ui:define name="script">
+		<h:outputScript library="js" name="spinner-handler.js"/>
+		<h:outputScript library="js" name="scroll.js"/>
+		
+		<script>
+		function handleExclusao()
+		{
+			eventSpinnerHandler;
+			scrollMessages()
+		}
+		</script>
+	</ui:define>
+			
+</ui:composition>

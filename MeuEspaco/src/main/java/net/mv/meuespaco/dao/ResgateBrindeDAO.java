@@ -2,8 +2,10 @@ package net.mv.meuespaco.dao;
 
 import java.util.List;
 
+import net.mv.meuespaco.controller.filtro.IFiltroPesquisaAcao;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ResgateBrinde;
+import net.mv.meuespaco.util.Paginator;
 
 /**
  * Abstração da camada DAO para a entidade ResgateBrinde.
@@ -31,4 +33,14 @@ public interface ResgateBrindeDAO extends GenericDAO<ResgateBrinde, Long>
 	 */
 	Long buscarPontosResgatadosDoCliente(Cliente cliente);
 
+	/**
+	 * Filtra os registros elo modo específico, 
+	 * utilizando o código, data inicial e final, cliente ou 
+	 * status.
+	 * 
+	 * @param filtro Filtro da pesquisa.
+	 * @param paginator Primeiro registro e quantidade de registros por página.
+	 * @return Lista de registros paginados.
+	 */
+	List<ResgateBrinde> filtrarPeloModoEspecifico(IFiltroPesquisaAcao filtro, Paginator paginator);
 }

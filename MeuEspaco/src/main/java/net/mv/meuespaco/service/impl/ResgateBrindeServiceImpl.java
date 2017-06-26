@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
+import net.mv.meuespaco.controller.filtro.IFiltroPesquisaAcao;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.ResgateBrindeDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -14,6 +15,7 @@ import net.mv.meuespaco.model.estoque.IMovimentavel;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ResgateBrinde;
 import net.mv.meuespaco.service.ResgateBrindeService;
+import net.mv.meuespaco.util.Paginator;
 
 /**
  * Abstração da camada DAO para a entidade ResgateBrinde.
@@ -97,12 +99,20 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	public ResgateBrinde buscarCompletaPeloCodigo(Long codigo) 
 	{
 		return this.resgateDAO
-				.buscarPeloCodigoComRelacionamento(codigo, Arrays.asList("brindes","brindes.produto","brindes.grade"));
+				.buscarPeloCodigoComRelacionamento(
+						codigo, 
+						Arrays.asList("cliente","cliente.regiao", "brindes","brindes.produto","brindes.grade"));
 	}
 	
 	@Override
 	public Long totalDePontosResgatadosDoClienteLogado() 
 	{
 		return this.resgateDAO.buscarPontosResgatadosDoCliente(this.clienteLogado);
+	}
+	
+	@Override
+	public List<ResgateBrinde> filtraPelaPesquisa(IFiltroPesquisaAcao filtro, Paginator paginator) 
+	{
+		return this.resgateDAO.filtrarPeloModoEspecifico(filtro, paginator);
 	}
 }

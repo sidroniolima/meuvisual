@@ -307,7 +307,7 @@
 															<f:ajax
 										               			execute="@this"
 										               			render="@all"
-										               			onevent="handleExclusao"/>
+										               			onevent="eventSpinnerHandler"/>
 														</a>
 							                		
 							                			<button 
@@ -469,15 +469,6 @@
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
 		<h:outputScript library="js" name="spinner-handler.js"/>
-		<h:outputScript library="js" name="scroll.js"/>
-		
-		<script>
-		function handleExclusao(data)
-		{
-			eventSpinnerHandler(data);
-			scrollMessages();
-		}
-		</script>
 	</ui:define>
 			
 </ui:composition>

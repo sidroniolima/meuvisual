@@ -10,16 +10,14 @@ import net.mv.meuespaco.model.loja.StatusEscolha;
  * @author Sidronio
  * 13/01/2016
  */
-public class FiltroEscolha {
-
+public class FiltroEscolha implements IFiltroPesquisaAcao 
+{
 	private Long codigo;
 	private StatusEscolha status;
 	private LocalDate dataInicial;
 	private LocalDate dataFinal;
 	private String codigoCliente;
 	private String codigoRegiao;
-	
-	
 	
 	/**
 	 * Construtor padrão.

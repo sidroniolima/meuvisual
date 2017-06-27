@@ -43,5 +43,12 @@ public interface IMovimentavel {
 	 */
 	public BigDecimal valorTotal();
 	
+	/**
+	 * Informa o valor do item.
+	 * 
+	 * @return valor
+	 */
+	public BigDecimal getValorUnitario();
+	
 }
 

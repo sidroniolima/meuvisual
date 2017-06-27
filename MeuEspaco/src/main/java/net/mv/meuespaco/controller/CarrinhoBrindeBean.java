@@ -45,7 +45,7 @@ public class CarrinhoBrindeBean extends CarrinhoAbstractBean implements Serializ
 	@Override
 	public void criaCarrinho() throws RegraDeNegocioException 
 	{
-		this.carrinho = new CarrinhoBrinde(pontosSrvc.pontosAcumuladosDoClienteLogado());
+		this.carrinho = new CarrinhoBrinde(pontosSrvc.saldoDePontosDoClienteLogado());
 	}
 
 	@Override

@@ -69,7 +69,7 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 				resgate.adicionaBrinde(
 						i.getProduto(), 
 						i.getQtd(), 
-						i.valorTotal(), 
+						i.getValorUnitario(), 
 						i.getGrade());
 				
 			} catch (RegraDeNegocioException e) 

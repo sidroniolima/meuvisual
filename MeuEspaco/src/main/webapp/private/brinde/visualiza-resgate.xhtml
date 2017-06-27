@@ -201,6 +201,8 @@
 			                             	<th colspan="1">Código</th>
 			                                 <th colspan="1">Descrição</th>
 			                                 <th>Quantidade</th>
+			                                 <th>Val. unitário</th>
+			                                 <th>Total</th>
 			                                 <th colspan="1">Grade</th>
 			                                 <th></th>
 			                             </tr>
@@ -223,6 +225,22 @@
 			                                  			minFractionDigits="0"/>
 			                                  	</h:outputText>
 			                                  </td>
+			                                  <td>
+			                                  	<h:outputText value="#{item.valorUnitario}">
+			                                  		<f:convertNumber
+			                                  			locale="pt_BR"
+			                                  			minFractionDigits="0"
+			                                  			maxFractionDigits="0"/>
+			                                  	</h:outputText>
+			                                  </td>	
+			                                  <td>
+			                                  	<h:outputText value="#{item.valorTotal()}">
+			                                  		<f:convertNumber
+			                                  			locale="pt_BR"
+			                                  			minFractionDigits="0"
+			                                  			maxFractionDigits="0"/>
+			                                  	</h:outputText>
+			                                  </td>			     			                                  		                                  
 			                                  <td>#{item.grade.toString()}</td>
 			                              </tr>
 			                      	</ui:repeat>

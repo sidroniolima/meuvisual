@@ -34,12 +34,6 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	private Cliente clienteLogado;
 
 	@Override
-	public ResgateBrinde salva(ResgateBrinde entidade) throws RegraDeNegocioException 
-	{		
-		return this.resgateDAO.salvar(entidade);
-	}
-
-	@Override
 	public GenericDAO<ResgateBrinde, Long> getDAO() 
 	{
 		return this.resgateDAO;

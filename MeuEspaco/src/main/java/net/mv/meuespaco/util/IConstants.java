@@ -19,5 +19,7 @@ public interface IConstants {
 	String PRODUTO_SEM_FOTO = "Produto_sem_foto.png";
 	int QTD_EXIBIDA_NA_LISTAGEM_DE_PRODUTOS = 21;
 	String CAMINHO_DOS_RELATORIOS = "http://meuvisualsemijoias.com/relatorios/rel-escolha.jrxml";
+	final int MIN_VALOR_BRINDE = 1000; 
+	final int MAX_VALOR_BRINDE = 75000; 
 
 }

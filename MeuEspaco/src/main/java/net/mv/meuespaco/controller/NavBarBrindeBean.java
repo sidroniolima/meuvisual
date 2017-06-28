@@ -10,6 +10,7 @@ import javax.inject.Named;
 import org.omnifaces.util.Faces;
 
 import net.mv.meuespaco.annotations.CarrinhoBrindeBeanAnnotation;
+import net.mv.meuespaco.util.IConstants;
 
 /**
  * Controller do NavBar dos Brindes.
@@ -24,7 +25,6 @@ public class NavBarBrindeBean implements Serializable
 	private static final long serialVersionUID = 1718570606292967713L;
 
 	private final String url = "/private/brinde/lista-brindes-da-pesquisa-ou-valor.xhtml";
-	private final int MIN = 200; 
 	
 	@Inject
 	@CarrinhoBrindeBeanAnnotation
@@ -53,8 +53,8 @@ public class NavBarBrindeBean implements Serializable
 	 */
 	private void definiValoresDefault() 
 	{
-		min = String.valueOf(MIN);
-		max = String.valueOf(carrinhoBrinde.saldoDePontos());
+		min = String.valueOf(IConstants.MIN_VALOR_BRINDE);
+		max = String.valueOf(IConstants.MAX_VALOR_BRINDE);
 	}
 	
 	/**

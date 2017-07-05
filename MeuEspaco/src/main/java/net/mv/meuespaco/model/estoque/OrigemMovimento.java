@@ -12,7 +12,10 @@ public enum OrigemMovimento {
 	COMPRA("Compra"),
 	REQUISICAO("Requisição"),
 	ESCOLHA("Escolha"),
-	ESTORNO_ESCOLHA("Estorno de escolha");
+	ESTORNO_ESCOLHA("Estorno de escolha"),
+	RESGATE_BRINDE("Resgate de brinde"),
+	ESTORNO_RESGATE_BRINDE("Estorno de resgate de brinde"),
+	ESTORNA_VENDA("Estorna venda");
 	
 	private OrigemMovimento(String descricao) {
 		this.descricao = descricao;

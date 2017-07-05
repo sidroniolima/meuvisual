@@ -377,6 +377,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteriaSublist.add(Restrictions.or(
 					Restrictions.like("codigoInterno", pesquisa, MatchMode.ANYWHERE),
 					Restrictions.like("descricao", pesquisa, MatchMode.ANYWHERE)));
+		
+		criteriaSublist.add(Restrictions.eq("ativo", true));
 
 		criteriaSublist.addOrder(Order.asc("descricao"));
 		
@@ -416,6 +418,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
 		criteriaSublist.add(Restrictions.between("valor", min, max));
+		
+		criteriaSublist.add(Restrictions.eq("ativo", true));
 
 		criteriaSublist.addOrder(Order.desc("valor"));
 		
@@ -455,6 +459,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		criteriaSublist.add(Restrictions.eq("finalidade", finalidade));
 		criteriaSublist.add(Restrictions.eq("subgrupo", subgrupo));
+		
+		criteriaSublist.add(Restrictions.eq("ativo", true));
 
 		criteriaSublist.addOrder(Order.asc("descricao"));
 		
@@ -492,6 +498,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		subCriteria.setProjection(Projections.property("codigo"));
 		subCriteria.add(Restrictions.eq("ativo", true));
 		subCriteria.add(Restrictions.eq("finalidade", finalidade));
+		subCriteria.add(Restrictions.eq("ativo", true));
 		
 		subCriteria.addOrder(Order.desc("dataDeCadastro"));
 		subCriteria.addOrder(Order.desc("codigo"));

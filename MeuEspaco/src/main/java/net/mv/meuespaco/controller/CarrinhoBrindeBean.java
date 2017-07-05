@@ -51,17 +51,14 @@ public class CarrinhoBrindeBean extends CarrinhoAbstractBean implements Serializ
 	@Override
 	public String finalizaCarrinho() 
 	{
-		ResgateBrinde resgateCriado = 
-				resgateSrvc.criaResgateDeCarrinho(
-						this.carrinho.getItens(), 
-						this.getClienteLogado(), 
-						this.pontosSrvc.saldoDePontosDoClienteLogado());
-		
-		ResgateBrinde resgateSalvo;
-		
 		try 
 		{
-			resgateSalvo = this.resgateSrvc.salva(resgateCriado);
+			ResgateBrinde resgateSalvo = 
+					resgateSrvc.finalizaCarrinho(
+							this.carrinho.getItens(), 
+							this.getClienteLogado(), 
+							this.pontosSrvc.saldoDePontosDoClienteLogado());
+			
 			carrinho.atualizaSaldo();
 			this.esvazia();
 			

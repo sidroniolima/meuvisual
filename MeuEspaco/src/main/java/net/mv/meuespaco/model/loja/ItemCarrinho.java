@@ -58,6 +58,24 @@ public class ItemCarrinho implements IMovimentavel {
 	}
 	
 	/**
+	 * Constutor com os campos da instância.
+	 * 
+	 * @param produto
+	 * @param qtd
+	 * @param valor
+	 * @param grade
+	 */
+	public ItemCarrinho(Produto produto, BigDecimal qtd, BigDecimal valorUnitario, Grade grade) 
+	{
+		this();
+		
+		this.produto = produto;
+		this.qtd = qtd;
+		this.grade = grade;
+		this.valorUnitario = valorUnitario;
+	}
+	
+	/**
 	 * Valida um item observado se há produto, grade e
 	 * a quantidade é maior que zero.
 	 * 

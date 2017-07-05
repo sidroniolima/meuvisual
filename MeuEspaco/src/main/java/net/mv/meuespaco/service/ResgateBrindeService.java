@@ -3,6 +3,7 @@ package net.mv.meuespaco.service;
 import java.util.List;
 
 import net.mv.meuespaco.controller.filtro.IFiltroPesquisaAcao;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ResgateBrinde;
@@ -63,4 +64,15 @@ public interface ResgateBrindeService extends SimpleServiceLayer<ResgateBrinde, 
 	 * @return lista de resgate de brinde que satisfaçam o filtro.
 	 */
 	public List<ResgateBrinde> filtraPelaPesquisa(IFiltroPesquisaAcao filtro, Paginator paginator);
+	
+	/**
+	 * Finaliza carrinho de brinde pelos itens, cliente e saldo.
+	 * 
+	 * @param itens
+	 * @param cliente
+	 * @param saldo
+	 * @return resgate finalizado.
+	 * @throws RegraDeNegocioException 
+	 */
+	public ResgateBrinde finalizaCarrinho(List<? extends IMovimentavel> itens, Cliente cliente, long saldo) throws RegraDeNegocioException;
 }

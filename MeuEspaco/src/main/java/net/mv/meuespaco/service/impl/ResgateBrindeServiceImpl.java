@@ -10,10 +10,13 @@ import net.mv.meuespaco.annotations.ClienteLogado;
 import net.mv.meuespaco.controller.filtro.IFiltroPesquisaAcao;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.ResgateBrindeDAO;
+import net.mv.meuespaco.exception.DeleteException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
+import net.mv.meuespaco.model.estoque.OrigemMovimento;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.ResgateBrinde;
+import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.service.ResgateBrindeService;
 import net.mv.meuespaco.util.Paginator;
 
@@ -32,7 +35,19 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	@Inject
 	@ClienteLogado
 	private Cliente clienteLogado;
+	
+	@Inject
+	private EstoqueService estoqueSrvc;
 
+	public ResgateBrindeServiceImpl() {	}
+	
+	public ResgateBrindeServiceImpl(ResgateBrindeDAO resgateDAO, Cliente clienteLogado, EstoqueService estoqueSrvc) 
+	{
+		this.resgateDAO = resgateDAO;
+		this.clienteLogado = clienteLogado;
+		this.estoqueSrvc = estoqueSrvc;
+	}
+	
 	@Override
 	public GenericDAO<ResgateBrinde, Long> getDAO() 
 	{
@@ -43,6 +58,16 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	public void validaInsercao(ResgateBrinde entidade) throws RegraDeNegocioException 
 	{
 		entidade.valida();
+	}
+	
+	@Override
+	public void exclui(Long codigo) throws RegraDeNegocioException, DeleteException 
+	{
+		ResgateBrinde resgate = this.buscarComItensPeloCodigo(codigo); 
+				//this.resgateDAO.buscarPeloCodigoComRelacionamento(codigo, Arrays.asList("brindes","brindes.produto"));
+		
+		super.exclui(codigo);
+		this.estoqueSrvc.estorna(resgate.getBrindes(), OrigemMovimento.ESTORNO_RESGATE_BRINDE);
 	}
 
 	@Override
@@ -108,5 +133,18 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	public List<ResgateBrinde> filtraPelaPesquisa(IFiltroPesquisaAcao filtro, Paginator paginator) 
 	{
 		return this.resgateDAO.filtrarPeloModoEspecifico(filtro, paginator);
+	}
+	
+	@Override
+	public ResgateBrinde finalizaCarrinho(List<? extends IMovimentavel> itens, Cliente cliente, long saldo) throws RegraDeNegocioException 
+	{
+		ResgateBrinde resgate = this.criaResgateDeCarrinho(
+				itens, 
+				cliente, 
+				saldo);
+		
+		estoqueSrvc.movimenta(itens, OrigemMovimento.RESGATE_BRINDE);
+		
+		return this.salva(resgate);
 	}
 }

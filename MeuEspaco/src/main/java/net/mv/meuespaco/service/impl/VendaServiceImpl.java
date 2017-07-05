@@ -14,6 +14,7 @@ import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
+import net.mv.meuespaco.model.estoque.OrigemMovimento;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.CarrinhoVenda;
 import net.mv.meuespaco.model.loja.Cliente;
@@ -97,7 +98,7 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 		}
 		
 		super.exclui(id);
-		this.estoqueSrvc.estornaVenda(vendaTemp.getItens());
+		this.estoqueSrvc.estorna(vendaTemp.getItens(), OrigemMovimento.ESTORNA_VENDA);
 	}
 
 	@Override
@@ -157,7 +158,7 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 		
 		venda.cancela();
 		this.salva(venda);
-		estoqueSrvc.estornaVenda(venda.getItens());
+		estoqueSrvc.estorna(venda.getItens(), OrigemMovimento.ESTORNA_VENDA);
 	}
 	
 	@Override
@@ -178,7 +179,7 @@ public class VendaServiceImpl extends SimpleServiceLayerImpl<Venda, Long> implem
 				
 		venda.registraPagamento(resposta.paymentId(), resposta.horarioDoPagamento());
 		this.salva(venda);
-		this.estoqueSrvc.movimentaVenda(venda.getItens());
+		this.estoqueSrvc.movimenta(venda.getItens(), OrigemMovimento.VENDA);
 	}
 	
 	@Override

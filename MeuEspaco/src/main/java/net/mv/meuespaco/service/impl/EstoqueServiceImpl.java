@@ -219,43 +219,6 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 	}
 	
 	@Override
-	public void movimentaEscolha(List<? extends IMovimentavel> itens) throws RegraDeNegocioException {
-		
-		Almoxarifado alm = this.almService.almoxarifadoPrincipal();
-		
-		for (IMovimentavel item : itens) {
-			
-			this.saida(
-					alm, 
-					item.getProduto(), 
-					item.getGrade(), 
-					item.getQtd(), 
-					OrigemMovimento.ESCOLHA);
-			
-			this.verificaDisponibilidadedoProduto(item.getProduto());
-			
-		}
-	}
-	
-	@Override
-	public void estornaEscolha(List<? extends IMovimentavel> itens) throws RegraDeNegocioException {
-		
-		Almoxarifado alm = this.almService.almoxarifadoPrincipal();
-		
-		for (IMovimentavel item : itens) 
-		{
-			this.entrada(
-					alm, 
-					item.getProduto(), 
-					item.getGrade(), 
-					item.getQtd(), 
-					OrigemMovimento.ESTORNO_ESCOLHA);
-			
-			this.verificaDisponibilidadedoProduto(item.getProduto());
-		}
-	}
-
-	@Override
 	public void verificaDisponibilidadedoProduto(Produto produto) throws RegraDeNegocioException {
 		
 		if (!this.estaDisponivelParaVenda(produto) && produto.isAtivo()) 
@@ -406,32 +369,11 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 				this.estoqueDAO.salvar(mov);
 			}
 		}
-		
 	}
-
+	
 	@Override
-	public void movimentaVenda(List<? extends IMovimentavel> itens) throws RegraDeNegocioException {
-
-		Almoxarifado alm = this.almService.almoxarifadoPrincipal();
-		
-		for (IMovimentavel item : itens) {
-			
-			this.saida(
-					alm, 
-					item.getProduto(), 
-					item.getGrade(), 
-					item.getQtd(), 
-					OrigemMovimento.VENDA);
-			
-			this.verificaDisponibilidadedoProduto(item.getProduto());
-			
-		}
-		
-	}
-
-	@Override
-	public void estornaVenda(List<? extends IMovimentavel> itens) throws RegraDeNegocioException {
-		
+	public void estorna(List<? extends IMovimentavel> itens, OrigemMovimento origem) throws RegraDeNegocioException 
+	{
 		Almoxarifado alm = this.almService.almoxarifadoPrincipal();
 		
 		for (IMovimentavel item : itens) {
@@ -441,7 +383,26 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 					item.getProduto(), 
 					item.getGrade(), 
 					item.getQtd(), 
-					OrigemMovimento.VENDA);
+					origem);
+			
+			this.verificaDisponibilidadedoProduto(item.getProduto());
+			
+		}
+	}
+	
+	@Override
+	public void movimenta(List<? extends IMovimentavel> itens, OrigemMovimento origem) throws RegraDeNegocioException 
+	{
+		Almoxarifado alm = this.almService.almoxarifadoPrincipal();
+		
+		for (IMovimentavel item : itens) {
+			
+			this.saida(
+					alm, 
+					item.getProduto(), 
+					item.getGrade(), 
+					item.getQtd(), 
+					origem);
 			
 			this.verificaDisponibilidadedoProduto(item.getProduto());
 			

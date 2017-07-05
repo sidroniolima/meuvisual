@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +23,7 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.cielo.CieloException;
 import net.mv.meuespaco.model.cielo.Pagamento;
+import net.mv.meuespaco.model.estoque.OrigemMovimento;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
 import net.mv.meuespaco.model.grade.GradeTamanho;
@@ -169,7 +169,7 @@ public class VendaServiceImplTest {
 		
 		Venda venda = argumento.getValue();
 		
-		verify(estoqueFalso, times(1)).movimentaVenda(venda.getItens());
+		verify(estoqueFalso, times(1)).movimenta(venda.getItens(), OrigemMovimento.VENDA);
 		
 		assertEquals("Venda gerada", new BigDecimal(90), venda.valorComDesconto());
 		
@@ -187,7 +187,7 @@ public class VendaServiceImplTest {
 		verify(daoFalso).excluir(argumento.capture());
 		
 		verify(daoFalso, times(1)).excluir(argumento.getValue());
-		verify(estoqueFalso, times(1)).estornaVenda(vendaPadrao.getItens());
+		verify(estoqueFalso, times(1)).estorna(vendaPadrao.getItens(), OrigemMovimento.ESTORNA_VENDA);
 		
 		assertEquals("Código da venda.", 1L, argumento.getValue().longValue());
 	}
@@ -203,7 +203,7 @@ public class VendaServiceImplTest {
 		verify(daoFalso).excluir(argumento.capture());
 
 		verify(daoFalso, never()).excluir(argumento.getValue());
-		verify(estoqueFalso, never()).estornaVenda(vendaPadrao.getItens());
+		verify(estoqueFalso, never()).estorna(vendaPadrao.getItens(), OrigemMovimento.ESTORNA_VENDA);
 	}
 	
 }

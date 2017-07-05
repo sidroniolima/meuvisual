@@ -17,6 +17,7 @@ import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.exception.DeleteException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.factory.EscolhaFactory;
+import net.mv.meuespaco.model.estoque.OrigemMovimento;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Escolha;
@@ -76,7 +77,8 @@ public class EscolhaServiceImpl extends SimpleServiceLayerImpl<Escolha, Long> im
 	{
 		Escolha escolha = this.buscaPeloCodigoComItens(id);
 		super.exclui(id);
-		this.estoqueSrvc.estornaEscolha(escolha.getItens());
+
+		estoqueSrvc.estorna(escolha.getItens(), OrigemMovimento.ESTORNO_ESCOLHA);
 	}
 	
 	@Override
@@ -135,13 +137,15 @@ public class EscolhaServiceImpl extends SimpleServiceLayerImpl<Escolha, Long> im
 					.comOsItens(carrinho.getItens())
 					.cria();
 			
-			estoqueSrvc.movimentaEscolha(escolha.getItens());
+			estoqueSrvc.movimenta(escolha.getItens(), OrigemMovimento.ESCOLHA);
 			
-		} else {
+		} else 
+		{
 			escolha.setQtdMaximaPermitida(new BigDecimal(cliente.getQtdDePecasParaEscolha()));
 			escolha.setValorMaximoPermitido(new BigDecimal(cliente.getValorParaEscolha()));
 			escolha.adicionaItensDoCarrinho(carrinho.getItens());
-			estoqueSrvc.movimentaEscolha(carrinho.getItens());
+			
+			estoqueSrvc.movimenta(escolha.getItens(), OrigemMovimento.ESCOLHA);
 		}
 		
 		carrinhoSrvc.esvazia();

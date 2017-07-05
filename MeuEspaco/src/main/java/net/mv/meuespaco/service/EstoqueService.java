@@ -23,6 +23,10 @@ import net.mv.meuespaco.util.Paginator;
  * @author Sidronio
  * 14/12/2015
  */
+/**
+ * @author sidronio
+ *
+ */
 public interface EstoqueService {
 
 	/**
@@ -106,14 +110,7 @@ public interface EstoqueService {
 	 */
 	public void ajusta(Ajuste ajuste) throws RegraDeNegocioException;
 	
-	/**
-	 * Movimenta os itens do pedido na sua criação.
-	 * 
-	 * @param itens Itens de pedido.
-	 * @throws RegraDeNegocioException 
-	 */
-	public void movimentaEscolha(List<? extends IMovimentavel> itens) throws RegraDeNegocioException;
-	
+
 	/**
 	 * Verifica a disponibilidade do produto pela grade no estoque Principal
 	 * e chama a inativação caso sua quantidade em estoque seja 0.
@@ -241,28 +238,22 @@ public interface EstoqueService {
 	 * Atualiza as movimentações com o horário no formato LocalDateTime.
 	 */
 	public void atualizaHorario();
-
-	/**
-	 * Estorna a movimentação de uma escolha. Utilizado na exclusão.
-	 * @param itens da escolha.
-	 * @throws RegraDeNegocioException 
-	 */
-	public void estornaEscolha(List<? extends IMovimentavel> itens) throws RegraDeNegocioException;
 	
 	/**
-	 * Movimenta os itens da venda na sua criação.
+	 * Movimenta os itens do resgate.
 	 * 
-	 * @param itens Itens da venda.
-	 * @throws RegraDeNegocioException 
+	 * @param itens itens do resgate
+	 * @param origem
+	 * @throws RegraDeNegocioException
 	 */
-	public void movimentaVenda(List<? extends IMovimentavel> itens) throws RegraDeNegocioException;
+	public void movimenta(List<? extends IMovimentavel> itens, OrigemMovimento origem) throws RegraDeNegocioException; 
 	
 	/**
-	 * Estorna a movimentação dos itens da venda.
+	 * Estorna a movimentação dos itens do resgate.
 	 * 
-	 * @param itens Itens da venda.
-	 * @throws RegraDeNegocioException 
+	 * @param itens itens do resgate
+	 * @param origem
+	 * @throws RegraDeNegocioException
 	 */
-	public void estornaVenda(List<? extends IMovimentavel> itens) throws RegraDeNegocioException;
-
+	public void estorna(List<? extends IMovimentavel> itens, OrigemMovimento origem) throws RegraDeNegocioException; 
 }

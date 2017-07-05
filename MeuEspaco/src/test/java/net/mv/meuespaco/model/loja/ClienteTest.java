@@ -1,8 +1,13 @@
 package net.mv.meuespaco.model.loja;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -84,11 +89,11 @@ public class ClienteTest {
 		cliente.setCpf(new Cpf("1234566"));
 		cliente.setCodigoSiga("000111");
 		
+		List<Permissao> permissoes = Arrays.asList(Permissao.ROLE_ADMIN);
+		
 		try 
 		{
-			cliente.efetivaCadastro();
-			
-			assertTrue("Permissões padrão: VENDA e CLIENTE", cliente.temPermissao(Permissao.ROLE_VENDA));
+			cliente.efetivaCadastro(permissoes);
 			
 		} catch (RegraDeNegocioException e) {
 			fail("Deve efetivar sem erro.");
@@ -100,9 +105,24 @@ public class ClienteTest {
 	{
 		Cliente pre = new Cliente();
 		
-		cliente.efetivaCadastro("015308", new Regiao("000001"));
+		cliente.efetivaCadastro("015308", new Regiao("000001"), Arrays.asList(Permissao.ROLE_ADMIN));
 		
 		assertFalse("Pré-cadastro", cliente.isPreCadastro());
 		assertTrue("Pré-cadastro", pre.isPreCadastro());
+	}
+	
+	@Test
+	public void deveTerPermissao() throws RegraDeNegocioException
+	{
+		cliente.criaUsuario(Arrays.asList(Permissao.ROLE_ADMIN));
+		
+		assertTrue("Tem permissão Administrativa.", cliente.temPermissao(Permissao.ROLE_ADMIN));
+	}
+	
+	@Test
+	public void naoDeveTerPermissao() throws RegraDeNegocioException
+	{
+		cliente.criaUsuario(Arrays.asList(Permissao.ROLE_ADMIN));
+		assertFalse("Tem permissão Administrativa.", cliente.temPermissao(Permissao.ROLE_VENDA));
 	}
 }

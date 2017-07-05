@@ -241,20 +241,27 @@ public class Cliente implements Serializable {
 	 * um login com senha pré-definida.
 	 * @throws RegraDeNegocioException 
 	 */
-	public void efetivaCadastro() throws RegraDeNegocioException {
+	public void efetivaCadastro(List<Permissao> permissoes) throws RegraDeNegocioException {
 		
 		this.valida();
 		
 		this.status = StatusCliente.ATIVO;
-
+		
+		this.criaUsuario(permissoes);
+	}
+	
+	/**
+	 * Cria usuário para o cliente.
+	 */
+	public void criaUsuario(List<Permissao> permissoes)
+	{
 		this.usuario = new Usuario(
 				this.cpf.getValor(),
 				this.senha,
 				this.nome, 
 				this.getEmail());
 		
-		this.usuario.adicionaPermissao(Permissao.ROLE_CLIENTE);
-		this.usuario.adicionaPermissao(Permissao.ROLE_VENDA);
+		this.usuario.getPermissoes().addAll(permissoes);
 	}
 	
 	/**
@@ -264,12 +271,12 @@ public class Cliente implements Serializable {
 	 * @param codigoRegiao
 	 * @throws RegraDeNegocioException 
 	 */
-	public void efetivaCadastro(String codigoSiga, Regiao regiao) throws RegraDeNegocioException 
+	public void efetivaCadastro(String codigoSiga, Regiao regiao, List<Permissao> permissoes) throws RegraDeNegocioException 
 	{
 		this.codigoSiga = codigoSiga;
 		this.regiao = regiao;
 		
-		this.efetivaCadastro();
+		this.efetivaCadastro(permissoes);
 	}
 	
 	/**
@@ -419,6 +426,26 @@ public class Cliente implements Serializable {
 	public boolean temPermissao(Permissao permissao)
 	{
 		return this.getUsuario().getPermissoes().contains(permissao);
+	}
+	
+
+	/**
+	 * Adiciona permissão ao usuário.
+	 * @param role
+	 */
+	public void addPermissao(Permissao role) 
+	{
+		this.getUsuario().adicionaPermissao(role);
+	}
+
+	/**
+	 * Remove permissão do usuário.
+	 * @param role
+	 */
+	public void removePermissao(Permissao role) 
+	{
+		if (this.temPermissao(role))
+			this.getUsuario().getPermissoes().remove(role);
 	}
 	
 	/**
@@ -627,5 +654,4 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-
 }

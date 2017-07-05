@@ -9,6 +9,7 @@ import org.primefaces.model.UploadedFile;
 
 import net.mv.meuespaco.controller.filtro.FiltroCliente;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.Permissao;
 import net.mv.meuespaco.model.Semana;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.integracao.ClientesDoErp;
@@ -217,10 +218,11 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 * os dados do sistema legado.
 	 * 
 	 * @param cliente para efetivação.
+	 * @param permissoes permissões para o usuário do cliente.
 	 * @throws RegraDeNegocioException Lança exceção caso já exista um cliente com o 
 	 * mesmo código siga ou a efetivação não seja validada.  
 	 */
-	public void efetivaCadastro(Cliente cliente) throws RegraDeNegocioException;
+	public void efetivaCadastro(Cliente cliente, List<Permissao> permissoes) throws RegraDeNegocioException;
 
 	/**
 	 * Verifica se já existe um cliente com o código siga informado.

@@ -1,10 +1,13 @@
 package net.mv.meuespaco.service.impl;
 
+import static java.util.Arrays.asList;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,7 @@ import net.mv.meuespaco.controller.filtro.FiltroCliente;
 import net.mv.meuespaco.dao.ClienteDAO;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.Permissao;
 import net.mv.meuespaco.model.Regiao;
 import net.mv.meuespaco.model.Semana;
 import net.mv.meuespaco.model.Usuario;
@@ -300,8 +304,11 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
-	public void importaClientesDoErp(List<ClientesDoErp> registrosErp) throws MalformedURLException, IOException
+	public void importaClientesDoErp(List<ClientesDoErp> registrosErp)
 	{
+		List<Permissao> permissoesPadrao = asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE, Permissao.ROLE_CLIENTE);
+		List<Permissao> permissoesRestritas = asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE);
+		
 		registrosErp.parallelStream().forEach(c -> 
 		{
 			Optional<Cliente> optCliente = Optional.ofNullable(this.buscarClientePeloCpf(new Cpf(c.getCpf())));
@@ -320,7 +327,16 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 					{
 						try 
 						{
-							cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get());
+							//TODO: permissões na região.
+							if (regiaoDoErp.getCodigoInterno().equals("000001"))
+							{
+								cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoesRestritas);
+								logger.log(Level.INFO, String.format("Cliente %s Friburgo", c.getCodigoSiga()));
+							} else 
+							{
+								cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoesPadrao);
+								logger.log(Level.INFO, String.format("Cliente %s fora de Friburgo", c.getCodigoSiga()));
+							}
 							
 							logger.log(Level.INFO, String.format(this.msgEfetivacao, c.getCodigoSiga()));
 							
@@ -419,7 +435,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 							if (null != cliente) {
 								cliente.setSenha(v.get(0));
 								
-								cliente.efetivaCadastro();
+								cliente.efetivaCadastro(Arrays.asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE));
 								
 								this.salva(cliente);
 							}
@@ -492,14 +508,13 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
-	public void efetivaCadastro(Cliente cliente) throws RegraDeNegocioException {
+	public void efetivaCadastro(Cliente cliente, List<Permissao> permissoes) throws RegraDeNegocioException {
 		
 		if (jaExisteCodigoSiga(cliente.getCodigo(), cliente.getCodigoSiga())) {
 			throw new RegraDeNegocioException("Já existe um outro cliente com este código siga.");
 		}
 		
-		cliente.efetivaCadastro();
-		
+		cliente.efetivaCadastro(permissoes);
 		this.salva(cliente);
 	}
 

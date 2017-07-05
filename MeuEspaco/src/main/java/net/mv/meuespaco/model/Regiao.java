@@ -35,7 +35,7 @@ public class Regiao extends EntidadeModel implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="semana_codigo")
 	private Semana semana;
-
+	
 	/**
 	 * Construtor padrão.
 	 */

@@ -6,7 +6,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
 	  template="/public/template_initial.xhtml"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:o="http://omnifaces.org/ui">
  
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
@@ -27,6 +28,18 @@
 		    	<h:form 
 		        	id="form-pesquisa">
 		        	
+					<o:commandScript name="addRoleAdmin" 
+						action="${pesquisaClienteBean.addRoleAdmin()}"/>       		        	
+
+					<o:commandScript name="addRoleConsignado" 
+						action="${pesquisaClienteBean.addRoleConsignado()}"/>
+
+					<o:commandScript name="addRoleVenda" 
+						action="${pesquisaClienteBean.addRoleVenda()}"/>
+						
+					<o:commandScript name="addRoleBrinde" 
+						action="${pesquisaClienteBean.addRoleBrinde()}"/>												
+								        	
 	   				<h:messages 
 			      		id="messages"
 			      		errorClass="alert alert-block alert-danger fade in"
@@ -187,18 +200,18 @@
 	
 																<a class="btn btn-primary" 
 																	jsfc="h:commandLink"
-																	action="#{pesquisaClienteBean.efetivaCadastro()}"
 																	title="Efetivar cadastro"
-																	disabled="#{cliente.status != 'PRE_CADASTRO'}">
+																	disabled="#{cliente.status != 'PRE_CADASTRO'}"
+																	immediate="true">
 												                  
 												                   <f:setPropertyActionListener 
 												                  	 	value="#{cliente}" 
 												                  	 	target="#{pesquisaClienteBean.clienteSelecionado}"/>
+
+												                   <f:passThroughAttribute name="data-toggle" value="modal" />
+												                   <f:passThroughAttribute name="data-target" value="#modal-efetiva" />
+												                   <f:ajax/>
 												                   												        	
-												                   <f:ajax
-												                   		execute="@this"
-												                   		render="@form"/>
-																
 																	<i class="icon_heart_alt"></i>
 																</a>													        
 														        
@@ -282,6 +295,89 @@
 						                		</h:panelGroup>
 						                	</div>
 						
+						            	</h:form>
+						        	</div>
+						    	</div>
+							</div>	
+		                        
+		                </div>
+		                <!-- /.col-md-12 -->
+		         	
+		         	</div>
+		         	<!-- /.row -->
+
+		            <div class="row">
+		            	
+		            	<div class="col-md-12">
+		                            
+							<div class="modal fade" id="modal-efetiva" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+						    	<div class="modal-dialog modal-md">
+						        	<div class="modal-content">
+						            	<h:form id="frm-permissoes">
+						                	<div class="modal-header">
+						                		<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+						                    	<h4 class="modal-title">Selecione as permissões</h4>
+						                	</div>
+						                	<div class="modal-body">
+						                		<h:panelGroup 
+							                		layout="block" 
+							                		id="panelDescricao">
+							                		
+							                		<div class="row center" id="labl-permissoes-modal">
+							                			<p>Selecione as opções de permissão às áreas</p>
+							                		</div>
+							                		
+							                		<div class="row" id="btns-permissoes-modal">
+							                		
+							                			<button type="button" class="btn btn-primary btn-modal-permissao nao-selecionado"
+							                				name="btn-admin">
+							                				<i class="fa fa-cogs fa-4x"></i>
+							                			</button>
+							                			
+							                			<button type="button" class="btn btn-success btn-modal-permissao nao-selecionado"
+							                				name="btn-consignado">
+							                				<i class="fa fa-shopping-basket fa-4x"></i>
+							                			</button>
+							                			
+							                			<button type="button" class="btn btn-info btn-modal-permissao nao-selecionado"
+							                				name="btn-venda">
+							                				<i class="fa fa-shopping-bag fa-4x"></i>
+							                			</button>
+							                			
+							                			<button type="button" class="btn btn-warning btn-modal-permissao nao-selecionado"
+							                				name="btn-brinde">
+							                				<i class="fa fa-gift fa-4x"></i>
+							                			</button>
+							                		</div>
+							                		
+						                		</h:panelGroup>
+						                	</div>
+									      <div class="modal-footer">
+					                		<div 
+		                						style="text-align:right"
+		                						id="btns-confirm">
+						                	
+						                		<a  type="submit"
+						                			class="btn btn-warning btn-sm"
+						                			jsfc="h:commandLink"
+						                			action="#{pesquisaClienteBean.efetivaCadastro()}">
+						                			Sim
+								                  
+								                   <f:setPropertyActionListener 
+								                  	 	value="#{cliente}" 
+								                  	 	target="#{pesquisaClienteBean.clienteSelecionado}"/>												
+													<f:passThroughAttribute name="data-dismiss" value="modal" />
+													<f:ajax
+								               			execute="@this"
+								               			render="form-pesquisa"/>
+												</a>
+					                		
+					                			<button 
+					                				id="close"
+					                				type="submit" 
+					                				class="btn btn-info btn-sm">Não</button>
+					                		</div>
+									      </div>	
 						            	</h:form>
 						        	</div>
 						    	</div>
@@ -390,6 +486,34 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<script>
+			$('.btn-modal-permissao').on('click', function(event) {
+				$(event.target).toggleClass('nao-selecionado');
+				switch(event.target.name)
+				{
+					case 'btn-admin': 
+					{
+						addRoleAdmin();
+						break;
+					}
+					case 'btn-consignado':
+					{
+						addRoleConsignado();
+						break;
+					}
+					case 'btn-venda':
+					{
+						addRoleVenda();
+						break;
+					}
+					case 'btn-brinde':
+					{
+						addRoleBrinde();
+						break;
+					}					
+				}
+			});
+		</script>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

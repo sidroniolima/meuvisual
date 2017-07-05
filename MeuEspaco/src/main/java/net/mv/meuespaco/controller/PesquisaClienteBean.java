@@ -1,6 +1,7 @@
 package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.inject.Named;
 import net.mv.meuespaco.controller.filtro.FiltroCliente;
 import net.mv.meuespaco.exception.DeleteException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.Permissao;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.util.FacesUtil;
@@ -35,6 +37,8 @@ public class PesquisaClienteBean extends PesquisaSingle implements Serializable 
 	private Cliente clienteSelecionado;
 	
 	private FiltroCliente filtro;
+	
+	List<Permissao> permissoesSelecionadas = new ArrayList<Permissao>();
 	
 	@Override
 	@PostConstruct
@@ -65,7 +69,7 @@ public class PesquisaClienteBean extends PesquisaSingle implements Serializable 
 		
 		try {
 		
-			this.clienteSrvc.efetivaCadastro(clienteSelecionado);
+			this.clienteSrvc.efetivaCadastro(clienteSelecionado, this.permissoesSelecionadas);
 			
 			FacesUtil.addSuccessMessage(
 					String.format("Cliente %s efetivado e login gerado.", clienteSelecionado.getNome()));
@@ -75,6 +79,64 @@ public class PesquisaClienteBean extends PesquisaSingle implements Serializable 
 		} catch (RegraDeNegocioException e) {
 			FacesUtil.addErrorMessage(
 					String.format("Não foi possível efetivar ou gerar o login do cliente. %s", e.getMessage()));
+		}
+	}
+
+	/**
+	 * Adiciona permissão para a área Administrativa. 
+	 */
+	public void addRoleAdmin()
+	{
+		if (!permissoesSelecionadas.contains(Permissao.ROLE_ADMIN)) 
+		{
+			permissoesSelecionadas.add(Permissao.ROLE_ADMIN);
+			permissoesSelecionadas.add(Permissao.ROLE_USER);
+		} else
+		{
+			permissoesSelecionadas.remove(Permissao.ROLE_ADMIN);
+			permissoesSelecionadas.remove(Permissao.ROLE_USER);
+		}
+	}
+
+	/**
+	 * Adiciona permissão para a área de escolha consignada. 
+	 */
+	public void addRoleConsignado()
+	{
+		if (!permissoesSelecionadas.contains(Permissao.ROLE_CLIENTE)) 
+		{
+			permissoesSelecionadas.add(Permissao.ROLE_CLIENTE);
+		} else
+		{
+			permissoesSelecionadas.remove(Permissao.ROLE_CLIENTE);
+		}
+	}
+	
+	/**
+	 * Adiciona permissão para a área de Venda.
+	 */
+	public void addRoleVenda()
+	{
+		if (!permissoesSelecionadas.contains(Permissao.ROLE_VENDA)) 
+		{
+			permissoesSelecionadas.add(Permissao.ROLE_VENDA);
+		} else
+		{
+			permissoesSelecionadas.remove(Permissao.ROLE_VENDA);
+		}
+	}
+	
+	/**
+	 * Adiciona permissão para a área de Brindes. 
+	 */
+	public void addRoleBrinde()
+	{
+		if (!permissoesSelecionadas.contains(Permissao.ROLE_BRINDE)) 
+		{
+			permissoesSelecionadas.add(Permissao.ROLE_BRINDE);
+		} else
+		{
+			permissoesSelecionadas.remove(Permissao.ROLE_BRINDE);
 		}
 	}
 	

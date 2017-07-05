@@ -656,3 +656,25 @@ i.afastada {
 .modal-spinner-dialog .spinner {
   padding: 20px 30px 10px 30px;
 }
+
+#labl-permissoes-modal
+{
+	padding-left: 20px;
+	font-weight: bold;
+}
+
+#btns-permissoes-modal
+{
+	text-align: center;
+	padding: 20px 10px 20px 10px;
+}
+
+.btn-modal-permissao
+{
+	opacity: 1
+}
+
+.btn-modal-permissao.nao-selecionado
+{
+	opacity: 0.3
+}

@@ -59,8 +59,8 @@ public class CarrinhoParaVendaTest {
 	}
 	
 	private void adicionaItensBasicos() throws RegraDeNegocioException {
-		carrinho.adicionaItem(new ItemCarrinho(anel, BigDecimal.ONE, corETamanho));
-		carrinho.adicionaItem(new ItemCarrinho(brinco, BigDecimal.ONE, cor));
+		carrinho.adicionaItem(new ItemCarrinho(anel, BigDecimal.ONE, anel.getValor(), corETamanho));
+		carrinho.adicionaItem(new ItemCarrinho(brinco, BigDecimal.ONE, brinco.getValor(), cor));
 	}
 	
 	@Test
@@ -82,11 +82,11 @@ public class CarrinhoParaVendaTest {
 	{
 		adicionaItensBasicos();
 		
-		assertTrue(carrinho.jaExisteOItem(new ItemCarrinho(brinco, BigDecimal.ONE, cor)).isPresent());
-		assertFalse(carrinho.jaExisteOItem(new ItemCarrinho(brinco, BigDecimal.ONE, new GradeCor(3L, Cor.APATITA))).isPresent());
+		assertTrue(carrinho.jaExisteOItem(new ItemCarrinho(brinco, BigDecimal.ONE, brinco.getValor(), cor)).isPresent());
+		assertFalse(carrinho.jaExisteOItem(new ItemCarrinho(brinco, BigDecimal.ONE, brinco.getValor(), new GradeCor(3L, Cor.APATITA))).isPresent());
 		
-		assertTrue(carrinho.jaExisteOItem(new ItemCarrinho(anel, BigDecimal.ONE, corETamanho)).isPresent());
-		assertFalse(carrinho.jaExisteOItem(new ItemCarrinho(anel, BigDecimal.ONE, new GradeCorETamanho(4L, Cor.APATITA, Tamanho.TAM_6))).isPresent());
+		assertTrue(carrinho.jaExisteOItem(new ItemCarrinho(anel, BigDecimal.ONE, anel.getValor(), corETamanho)).isPresent());
+		assertFalse(carrinho.jaExisteOItem(new ItemCarrinho(anel, BigDecimal.ONE, anel.getValor(), new GradeCorETamanho(4L, Cor.APATITA, Tamanho.TAM_6))).isPresent());
 	}
 
 	@Test
@@ -96,7 +96,7 @@ public class CarrinhoParaVendaTest {
 		
 		try
 		{
-			carrinho.removeItem(new ItemCarrinho(brinco, BigDecimal.ONE, new GradeCor(3L, Cor.APATITA)));
+			carrinho.removeItem(new ItemCarrinho(brinco, BigDecimal.ONE, brinco.getValor(), new GradeCor(3L, Cor.APATITA)));
 			fail("Deve ser gerada uma exceção pois não existe o item.");
 		} catch (RegraDeNegocioException ex)
 		{		
@@ -105,7 +105,7 @@ public class CarrinhoParaVendaTest {
 		
 		try
 		{
-			carrinho.removeItem(new ItemCarrinho(brinco, BigDecimal.ONE, cor));
+			carrinho.removeItem(new ItemCarrinho(brinco, BigDecimal.ONE, brinco.getValor(), cor));
 			
 		} catch (RegraDeNegocioException ex)
 		{		
@@ -121,10 +121,10 @@ public class CarrinhoParaVendaTest {
 		
 		assertEquals("Valor dos itens.", new BigDecimal("83.80"), carrinho.valorDosItens());
 		
-		carrinho.add(new ItemCarrinho(anel, new BigDecimal(2), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
+		carrinho.add(new ItemCarrinho(anel, new BigDecimal(2), anel.getValor(), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
 		assertEquals("Valor dos itens.", new BigDecimal("221.60"), carrinho.valorDosItens());
 		
-		carrinho.removeItem(new ItemCarrinho(anel, new BigDecimal(2), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
+		carrinho.removeItem(new ItemCarrinho(anel, new BigDecimal(2), anel.getValor(), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
 		assertEquals("Valor dos itens.", new BigDecimal("83.80"), carrinho.valorDosItens());
 	}
 	
@@ -134,10 +134,10 @@ public class CarrinhoParaVendaTest {
 		adicionaItensBasicos();
 		assertEquals("Quantidade de itens.", new BigDecimal("2"), carrinho.qtdDeItens());
 		
-		carrinho.add(new ItemCarrinho(anel, new BigDecimal(2), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
+		carrinho.add(new ItemCarrinho(anel, new BigDecimal(2), anel.getValor(), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
 		assertEquals("Quandidate de itens.", new BigDecimal("4"), carrinho.qtdDeItens());
 		
-		carrinho.removeItem(new ItemCarrinho(anel, new BigDecimal(2), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
+		carrinho.removeItem(new ItemCarrinho(anel, new BigDecimal(2), anel.getValor(), new GradeCorETamanho(Cor.BRONZE, Tamanho.TAM_13)));
 		assertEquals("Quantidade de itens.", new BigDecimal("2"), carrinho.qtdDeItens());
 
 	}

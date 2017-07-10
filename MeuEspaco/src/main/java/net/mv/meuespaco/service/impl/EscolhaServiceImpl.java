@@ -145,7 +145,7 @@ public class EscolhaServiceImpl extends SimpleServiceLayerImpl<Escolha, Long> im
 			escolha.setValorMaximoPermitido(new BigDecimal(cliente.getValorParaEscolha()));
 			escolha.adicionaItensDoCarrinho(carrinho.getItens());
 			
-			estoqueSrvc.movimenta(escolha.getItens(), OrigemMovimento.ESCOLHA);
+			estoqueSrvc.movimenta(carrinho.getItens(), OrigemMovimento.ESCOLHA);
 		}
 		
 		carrinhoSrvc.esvazia();

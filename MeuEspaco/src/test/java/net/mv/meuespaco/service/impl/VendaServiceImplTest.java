@@ -112,10 +112,12 @@ public class VendaServiceImplTest {
 		
 		item1 = new ItemCarrinho(new Produto(1L, "Brinco", "21007656MV09000"), 
 				BigDecimal.ONE, 
+				 new BigDecimal(10),
 				new GradeCorETamanho(Cor.APATITA, Tamanho.TAM_19));
 		
 		item2 = new ItemCarrinho(new Produto(2L, "Anel", "20008899MV02000"), 
 				BigDecimal.ONE, 
+				 new BigDecimal(10),
 				new GradeTamanho(Tamanho.TAM_22));
 		
 	}

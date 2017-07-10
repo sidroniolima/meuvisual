@@ -83,7 +83,7 @@ public class ResgateBrindeServiceImplTest {
 		ResgateBrinde resgate = new ResgateBrinde();
 		resgate.adicionaBrinde(brincoFalso, new BigDecimal(1), new BigDecimal(2.5), gradeCorFalsa);
 				
-		when(resgateSrvc.buscarComItensPeloCodigo(1L)).thenReturn(resgate);
+		when(resgateSrvc.buscarCompletaPeloCodigo(1L)).thenReturn(resgate);
 		
 		resgateSrvc.exclui(1L);
 		

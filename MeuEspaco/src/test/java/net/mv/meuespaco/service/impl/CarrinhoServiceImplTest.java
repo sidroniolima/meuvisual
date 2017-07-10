@@ -49,7 +49,7 @@ public class CarrinhoServiceImplTest {
 		
 		assertTrue("Check de carrinho vazio.", carrinhoSrvc.getCarrinho().isEmpty());
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), new BigDecimal(10), gradeBrinco);
 		
 		assertTrue("Check de carrinho com item.", carrinhoSrvc.qtdDeItens() == 1);
 	}
@@ -58,9 +58,9 @@ public class CarrinhoServiceImplTest {
 		Grade gradeNova = new GradeCorETamanho(Cor.AMETISTA_VERDE, Tamanho.TAM_23);
 		prodBrinco.adicionaGrade(gradeNova);
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
-		carrinhoSrvc.adicionaProduto(prodBrinco, BigDecimal.ONE, gradeNova);
-		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE, gradeAnel);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), new BigDecimal(10), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodBrinco, BigDecimal.ONE,  new BigDecimal(10), gradeNova);
+		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE,  new BigDecimal(10), gradeAnel);
 		
 		assertTrue("Check de carrinho com item.", carrinhoSrvc.qtdDeItens() == 3);
 		
@@ -75,8 +75,8 @@ public class CarrinhoServiceImplTest {
 	
 	public void deveAlterarAQtdDoItem() throws RegraDeNegocioException {
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
-		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE, gradeAnel);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1),  new BigDecimal(10), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE,  new BigDecimal(10), gradeAnel);
 		
 		ItemCarrinho itemSelecionado = carrinhoSrvc.getCarrinho().get(1);
 		carrinhoSrvc.alteraQtd(itemSelecionado, itemSelecionado.getQtd().add(BigDecimal.ONE));
@@ -86,10 +86,10 @@ public class CarrinhoServiceImplTest {
 
 	public void deveAtualizarQtdSeForMesmoProduto() throws RegraDeNegocioException {
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
-		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE, gradeAnel);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1),  new BigDecimal(10), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE,  new BigDecimal(10), gradeAnel);
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1),  new BigDecimal(10), gradeBrinco);
 		
 		assertTrue("Check tamanho do carrinho.", carrinhoSrvc.getCarrinho().size() == 2);
 		assertEquals("Check de qtd de itens.", carrinhoSrvc.qtdDeItens(), new BigDecimal(3).doubleValue(), 0.00);
@@ -97,10 +97,10 @@ public class CarrinhoServiceImplTest {
 	
 	public void deveCriarResumoDoCarrinho() throws RegraDeNegocioException {
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
-		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE, gradeAnel);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1),  new BigDecimal(10), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodAnel, BigDecimal.ONE,  new BigDecimal(10), gradeAnel);
 		
-		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1), gradeBrinco);
+		carrinhoSrvc.adicionaProduto(prodBrinco, new BigDecimal(1),  new BigDecimal(10), gradeBrinco);
 		
 		assertTrue("Check da criação do resumo.", carrinhoSrvc.getResumo().size() == 3);
 		

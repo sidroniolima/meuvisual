@@ -31,7 +31,7 @@ public interface CarrinhoService {
 	 * @param gradeSelecionada Grade específica selecionada.
 	 * @throws RegraDeNegocioException
 	 */
-	public void adicionaProduto(Produto produto, BigDecimal qtd, Grade gradeSelecionada) throws RegraDeNegocioException;
+	public void adicionaProduto(Produto produto, BigDecimal qtd, BigDecimal valorUnitario, Grade gradeSelecionada) throws RegraDeNegocioException;
 	
 	/**
 	 * Remove um item do carrinho.

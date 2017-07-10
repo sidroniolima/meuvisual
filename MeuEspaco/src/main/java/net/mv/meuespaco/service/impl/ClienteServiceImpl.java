@@ -331,11 +331,9 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 							if (regiaoDoErp.getCodigoInterno().equals("000001"))
 							{
 								cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoesRestritas);
-								logger.log(Level.INFO, String.format("Cliente %s Friburgo", c.getCodigoSiga()));
 							} else 
 							{
 								cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoesPadrao);
-								logger.log(Level.INFO, String.format("Cliente %s fora de Friburgo", c.getCodigoSiga()));
 							}
 							
 							logger.log(Level.INFO, String.format(this.msgEfetivacao, c.getCodigoSiga()));

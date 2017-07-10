@@ -65,9 +65,9 @@ public class ItemCarrinhoTest {
 		correnteMasculina.setSubgrupo(subDescontavel);
 		embalagem.setSubgrupo(subNaoDescontavel);
 		
-		itensCarrinho.add(new ItemCarrinho(anelDourado, BigDecimal.ONE, new GradeCorETamanho(Cor.CITRINO_CONHAQUE, Tamanho.TAM_20)));
-		itensCarrinho.add(new ItemCarrinho(brincoPendurado, new BigDecimal(2), new GradeCor(Cor.AMETISTA_VERDE)));
-		itensCarrinho.add(new ItemCarrinho(correnteMasculina, BigDecimal.ONE, new GradeUnica()));
+		itensCarrinho.add(new ItemCarrinho(anelDourado, BigDecimal.ONE, anelDourado.getValor(), new GradeCorETamanho(Cor.CITRINO_CONHAQUE, Tamanho.TAM_20)));
+		itensCarrinho.add(new ItemCarrinho(brincoPendurado, new BigDecimal(2), brincoPendurado.getValor(), new GradeCor(Cor.AMETISTA_VERDE)));
+		itensCarrinho.add(new ItemCarrinho(correnteMasculina, BigDecimal.ONE, correnteMasculina.getValor(), new GradeUnica()));
 	}
 	
 	@Test
@@ -82,7 +82,7 @@ public class ItemCarrinhoTest {
 		assertEquals("Check do valor da corrente", 
 				new BigDecimal(990.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(2).getValorUnitario().setScale(2, RoundingMode.HALF_UP));
 		
-		itensCarrinho.add(new ItemCarrinho(embalagem, BigDecimal.ONE, new GradeUnica()));
+		itensCarrinho.add(new ItemCarrinho(embalagem, BigDecimal.ONE, embalagem.getValor(), new GradeUnica()));
 		assertEquals("Check do valor da embalagem", 
 				new BigDecimal(0.60).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(3).getValorUnitario().setScale(2, RoundingMode.HALF_UP));
 	}
@@ -99,7 +99,7 @@ public class ItemCarrinhoTest {
 		assertEquals("Check do valor da corrente", 
 				new BigDecimal(990.90).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(2).valorTotal());
 		
-		itensCarrinho.add(new ItemCarrinho(embalagem, BigDecimal.TEN, new GradeUnica()));
+		itensCarrinho.add(new ItemCarrinho(embalagem, BigDecimal.TEN, embalagem.getValor(), new GradeUnica()));
 		assertEquals("Check do valor da embalagem", 
 				new BigDecimal(6.00).setScale(2, RoundingMode.HALF_UP), itensCarrinho.get(3).valorTotal());
 	}
@@ -108,18 +108,18 @@ public class ItemCarrinhoTest {
 	public void deveInvalidarItem() throws RegraDeNegocioException
 	{
 		
-		ItemCarrinho itemInvalido1 = new ItemCarrinho(null, BigDecimal.ONE, new GradeUnica());
+		ItemCarrinho itemInvalido1 = new ItemCarrinho(null, BigDecimal.ONE, null, new GradeUnica());
 		itemInvalido1.valida();
 		
-		ItemCarrinho itemInvalido2 = new ItemCarrinho(anelDourado, BigDecimal.ZERO, new GradeUnica());
+		ItemCarrinho itemInvalido2 = new ItemCarrinho(anelDourado, BigDecimal.ZERO, anelDourado.getValor(), new GradeUnica());
 		itemInvalido2.valida();
 		
-		ItemCarrinho itemInvalido3 = new ItemCarrinho(anelDourado, BigDecimal.ONE, null);
+		ItemCarrinho itemInvalido3 = new ItemCarrinho(anelDourado, BigDecimal.ONE,  anelDourado.getValor(), null);
 		itemInvalido3.valida();
 		
 		Produto anelDouradoSemValor = new Produto(51L, "Anel Dourado");
 		
-		ItemCarrinho itemInvalido4 = new ItemCarrinho(anelDouradoSemValor, BigDecimal.ONE, new GradeUnica());
+		ItemCarrinho itemInvalido4 = new ItemCarrinho(anelDouradoSemValor, BigDecimal.ONE, anelDouradoSemValor.getValor(), new GradeUnica());
 		itemInvalido4.valida();		
 	}
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
@@ -31,6 +32,8 @@ import net.mv.meuespaco.util.FacesUtil;
 public abstract class ProdutoDetailAbstratcBean implements Serializable {
 
 	private static final long serialVersionUID = -8005533306682249757L;
+	
+	private Logger log = Logger.getLogger(ProdutoDetailAbstratcBean.class.getSimpleName());
 
 	@Inject
 	protected ProdutoService produtoService;
@@ -126,15 +129,15 @@ public abstract class ProdutoDetailAbstratcBean implements Serializable {
 	 * Adiciona o produto ao carrinho com a grade 
 	 * selecionada.
 	 * @throws RegraDeNegocioException 
-	 * 
+	 * 3
 	 */
-	public String addToChart() {
-		
+	public String addToChart() 
+	{
 		if (null == qtdDoProduto)
 		{
 			qtdDoProduto = BigDecimal.ONE;
 		}
-		
+
 		if (null == gradeSelecionada) 
 		{
 			FacesUtil.addErrorMessage("A grade do produto deve ser especificada.");
@@ -146,10 +149,12 @@ public abstract class ProdutoDetailAbstratcBean implements Serializable {
 				
 				Grade gradeDoProduto = produtoService.gradeDoProduto(produto, gradeSelecionada);
 				
-				this.getCarrinhoBean().adicionaProduto(produto, qtdDoProduto, gradeDoProduto);
+				this.getCarrinhoBean().adicionaProduto(produto, qtdDoProduto, produto.getValor(), gradeDoProduto);
 				return this.getUrlCarrinho();
 				
-			} catch (RegraDeNegocioException e) {
+			} catch (RegraDeNegocioException e) 
+			{
+				log.severe(String.format("ERRO ao adicionar o produto %s ao carrinho. %s", produto.getCodigoInterno(), e.getMessage()));
 				FacesUtil.addErrorMessage(e.getMessage());
 			}
 			

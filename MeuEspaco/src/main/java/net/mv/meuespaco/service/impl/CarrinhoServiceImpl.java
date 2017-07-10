@@ -53,7 +53,7 @@ public class CarrinhoServiceImpl implements CarrinhoService, Serializable {
 	private Map<Subgrupo, BigDecimal> resumo = new HashMap<Subgrupo, BigDecimal>();
 
 	@Override
-	public void adicionaProduto(Produto produto, BigDecimal qtd, Grade gradeSelecionada) throws RegraDeNegocioException {
+	public void adicionaProduto(Produto produto, BigDecimal qtd, BigDecimal valorUnitario, Grade gradeSelecionada) throws RegraDeNegocioException {
 		
 		if (null == produto) {
 			throw new RegraDeNegocioException("O item não possui o produto. Selecione um produto.");
@@ -66,6 +66,10 @@ public class CarrinhoServiceImpl implements CarrinhoService, Serializable {
 		if (null == gradeSelecionada) {
 			throw new RegraDeNegocioException("A grade do produto deve ser especificada.");
 		}
+		
+		if (null == valorUnitario) {
+			throw new RegraDeNegocioException("O valor unitário do item não está presente. Verifique o valor do produto.");
+		}		
 		
 		BigDecimal qtdDisponivel = this.qtdDisponivelDoProduto(produto, gradeSelecionada);
 		
@@ -94,7 +98,7 @@ public class CarrinhoServiceImpl implements CarrinhoService, Serializable {
 		
 		this.reservaProdutoSrvc.adicionaReserva(produto, gradeSelecionada, qtd);
 		
-		ItemCarrinho novoItem = new ItemCarrinho(produto, qtd, gradeSelecionada);
+		ItemCarrinho novoItem = new ItemCarrinho(produto, qtd, valorUnitario, gradeSelecionada);
 		
 		Optional<ItemCarrinho> itemExistente = 
 				carrinho.stream().filter(i -> i.equals(novoItem)).findFirst(); 

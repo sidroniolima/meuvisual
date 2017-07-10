@@ -81,9 +81,9 @@ public class EscolhaTest {
 		correnteMasculina.setSubgrupo(subDescontavel);
 		embalagem.setSubgrupo(subNaoDescontavel);
 		
-		itensCarrinho.add(new ItemCarrinho(anelDourado, BigDecimal.ONE, new GradeCorETamanho(Cor.CITRINO_CONHAQUE, Tamanho.TAM_20)));
-		itensCarrinho.add(new ItemCarrinho(brincoPendurado, new BigDecimal(2), new GradeCor(Cor.AMETISTA_VERDE)));
-		itensCarrinho.add(new ItemCarrinho(correnteMasculina, BigDecimal.ONE, new GradeUnica()));
+		itensCarrinho.add(new ItemCarrinho(anelDourado, BigDecimal.ONE,  anelDourado.getValor(), new GradeCorETamanho(Cor.CITRINO_CONHAQUE,Tamanho.TAM_20)));
+		itensCarrinho.add(new ItemCarrinho(brincoPendurado, new BigDecimal(2), brincoPendurado.getValor(), new GradeCor(Cor.AMETISTA_VERDE)));
+		itensCarrinho.add(new ItemCarrinho(correnteMasculina, BigDecimal.ONE, correnteMasculina.getValor(), new GradeUnica()));
 	}
 	
 	@Test
@@ -126,8 +126,8 @@ public class EscolhaTest {
 		
 		List<ItemCarrinho> novoCarrinho = new ArrayList<ItemCarrinho>();
 		
-		novoCarrinho.add(new ItemCarrinho(correnteMasculina, new BigDecimal(22), new GradeUnica()));
-		novoCarrinho.add(new ItemCarrinho(brincoPendurado, new BigDecimal(2), new GradeCor(Cor.CITRINO_CONHAQUE)));
+		novoCarrinho.add(new ItemCarrinho(correnteMasculina, new BigDecimal(22), correnteMasculina.getValor(), new GradeUnica()));
+		novoCarrinho.add(new ItemCarrinho(brincoPendurado, new BigDecimal(2), brincoPendurado.getValor(), new GradeCor(Cor.CITRINO_CONHAQUE)));
 		
 		escolha.adicionaItensDoCarrinho(novoCarrinho);
 		
@@ -499,7 +499,7 @@ public class EscolhaTest {
 		assertTrue("Check da data de envio.", 
 				LocalDateTime.now().toLocalDate().plus(3, ChronoUnit.DAYS).compareTo(escolha.getDataEnvio().toLocalDate()) == 0);
 		
-		escolha.adicionaItensDoCarrinho(Arrays.asList(new ItemCarrinho(correnteMasculina, BigDecimal.ONE, new GradeUnica())));
+		escolha.adicionaItensDoCarrinho(Arrays.asList(new ItemCarrinho(correnteMasculina, BigDecimal.ONE, correnteMasculina.getValor(), new GradeUnica())));
 
 		assertEquals("Check do status Enviado.", StatusEscolha.ENVIADA, escolha.getStatus());
 		assertTrue("Check da data de envio.", LocalDateTime.now().toLocalDate().compareTo(escolha.getDataEnvio().toLocalDate()) == 0 );

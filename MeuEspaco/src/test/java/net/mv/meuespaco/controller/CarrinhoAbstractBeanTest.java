@@ -61,7 +61,7 @@ public class CarrinhoAbstractBeanTest {
 		assertTrue("Carrinho criado", null != carrinhoBean.getCarrinho());
 		
 		carrinhoBean.getCarrinho().adicionaItem(
-				new ItemCarrinho(produto, BigDecimal.ONE, new GradeCor(1L, Cor.AMETISTA_ROSA)));
+				new ItemCarrinho(produto, BigDecimal.ONE,  new BigDecimal(10), new GradeCor(1L, Cor.AMETISTA_ROSA)));
 		
 		assertTrue("Item do carrinho", produto.equals(carrinhoBean.getCarrinho().getItens().get(0).getProduto()));
 	}
@@ -79,7 +79,7 @@ public class CarrinhoAbstractBeanTest {
 		assertEquals("Qtd de itens", BigDecimal.ZERO, carrinhoBean.getQtdDeItens());
 		
 		carrinhoBean.getCarrinho().adicionaItem(
-				new ItemCarrinho(produto, BigDecimal.ONE, new GradeCor(1L, Cor.AMETISTA_ROSA)));
+				new ItemCarrinho(produto, BigDecimal.ONE,  new BigDecimal(10), new GradeCor(1L, Cor.AMETISTA_ROSA)));
 		
 		assertEquals("Qtd de itens", BigDecimal.ONE, carrinhoBean.getQtdDeItens());
 	}

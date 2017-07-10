@@ -63,8 +63,7 @@ public class ResgateBrindeServiceImpl extends SimpleServiceLayerImpl<ResgateBrin
 	@Override
 	public void exclui(Long codigo) throws RegraDeNegocioException, DeleteException 
 	{
-		ResgateBrinde resgate = this.buscarComItensPeloCodigo(codigo); 
-				//this.resgateDAO.buscarPeloCodigoComRelacionamento(codigo, Arrays.asList("brindes","brindes.produto"));
+		ResgateBrinde resgate = this.buscarCompletaPeloCodigo(codigo);
 		
 		super.exclui(codigo);
 		this.estoqueSrvc.estorna(resgate.getBrindes(), OrigemMovimento.ESTORNO_RESGATE_BRINDE);

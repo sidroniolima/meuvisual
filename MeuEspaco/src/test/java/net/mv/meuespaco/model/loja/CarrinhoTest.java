@@ -75,10 +75,10 @@ public class CarrinhoTest {
 		
 		carrinho = new CarrinhoConsignado(new BigDecimal(1800), 45);
 		
-		itemAnel = new ItemCarrinho(anelDourado, BigDecimal.ONE, new GradeCorETamanho(Cor.CITRINO_CONHAQUE, Tamanho.TAM_20));
-		itemBrinco = new ItemCarrinho(brincoPendurado, new BigDecimal(2), new GradeCor(Cor.AMETISTA_VERDE));
-		itemCorrente = new ItemCarrinho(correnteMasculina, BigDecimal.ONE, new GradeUnica());
-		itemEmbalagem =  new ItemCarrinho(embalagem, BigDecimal.TEN, new GradeUnica());
+		itemAnel = new ItemCarrinho(anelDourado, BigDecimal.ONE, anelDourado.getValor(), new GradeCorETamanho(Cor.CITRINO_CONHAQUE, Tamanho.TAM_20));
+		itemBrinco = new ItemCarrinho(brincoPendurado, new BigDecimal(2), brincoPendurado.getValor(), new GradeCor(Cor.AMETISTA_VERDE));
+		itemCorrente = new ItemCarrinho(correnteMasculina, BigDecimal.ONE, correnteMasculina.getValor(), new GradeUnica());
+		itemEmbalagem =  new ItemCarrinho(embalagem, BigDecimal.TEN, embalagem.getValor(), new GradeUnica());
 	}
 
 	@Test
@@ -94,7 +94,7 @@ public class CarrinhoTest {
 	public void deveVerificarSeExisteOuNaoOItem()
 	{
 		carrinho.getItens().addAll(Arrays.asList(itemAnel, itemBrinco, itemCorrente, itemEmbalagem));
-		itemCorrente = new ItemCarrinho(correnteMasculina, BigDecimal.ONE, new GradeUnica());
+		itemCorrente = new ItemCarrinho(correnteMasculina, BigDecimal.ONE, correnteMasculina.getValor(), new GradeUnica());
 		
 		Optional<ItemCarrinho> itemExistente1 = carrinho.jaExisteOItem(itemCorrente);
 		assertTrue("Deve achar o item.", itemExistente1.isPresent());
@@ -102,7 +102,7 @@ public class CarrinhoTest {
 		Produto produtoNovo = new Produto(10L, "Produto novo");
 		produtoNovo.setCodigoInterno("2033456700050");
 		
-		ItemCarrinho itemNovo = new ItemCarrinho(produtoNovo, BigDecimal.ONE, new GradeUnica());
+		ItemCarrinho itemNovo = new ItemCarrinho(produtoNovo, BigDecimal.ONE, produtoNovo.getValor(), new GradeUnica());
 		
 		Optional<ItemCarrinho> itemExistente2 = carrinho.jaExisteOItem(itemNovo);
 		assertFalse("Deve achar o item.", itemExistente2.isPresent());
@@ -144,18 +144,18 @@ public class CarrinhoTest {
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
 		novaEmbalagem.setSubgrupo(subNaoDescontavel);
 		
-		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(2), new GradeUnica());
-		ItemCarrinho novoItemEmbalagem =  new ItemCarrinho(novaEmbalagem, BigDecimal.TEN, new GradeUnica());
+		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(2), novaCorrenteMasculina.getValor(), new GradeUnica());
+		ItemCarrinho novoItemEmbalagem =  new ItemCarrinho(novaEmbalagem, BigDecimal.TEN, novaEmbalagem.getValor(), new GradeUnica());
 		
 		carrinho.adicionaItem(novoItemCorrente);
 		carrinho.adicionaItem(novoItemEmbalagem);
 		
 		assertEquals("Check da quantidade.", new BigDecimal(26), carrinho.qtdDeItens());
 		
-		ItemCarrinho maisEmbalagem =  new ItemCarrinho(novaEmbalagem, BigDecimal.TEN, new GradeUnica());
+		ItemCarrinho maisEmbalagem =  new ItemCarrinho(novaEmbalagem, BigDecimal.TEN, novaEmbalagem.getValor(), new GradeUnica());
 		carrinho.adicionaItem(maisEmbalagem);
 		
-		ItemCarrinho maisCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), new GradeUnica());
+		ItemCarrinho maisCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), novaCorrenteMasculina.getValor(), new GradeUnica());
 		
 		try {
 			carrinho.adicionaItem(maisCorrente);
@@ -178,7 +178,7 @@ public class CarrinhoTest {
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
 		novaCorrenteMasculina.setValor(new BigDecimal(990.9));
 		
-		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), new GradeCor(Cor.AMARELO));
+		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), novaCorrenteMasculina.getValor(), new GradeCor(Cor.AMARELO));
 		
 		try {
 			carrinho.removeItem(novoItemCorrente);
@@ -206,7 +206,7 @@ public class CarrinhoTest {
 		novaCorrenteMasculina.setValor(new BigDecimal(100.9));
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
 		
-		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(1), new GradeCor(Cor.AMARELO));
+		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(1), novaCorrenteMasculina.getValor(), new GradeCor(Cor.AMARELO));
 		carrinho.adicionaItem(novoItemCorrente);
 		
 		assertEquals("Deve criar o resumo.", new BigDecimal(5), carrinho.getResumo().get(grupoDescontavel));
@@ -255,7 +255,7 @@ public class CarrinhoTest {
 		novaCorrenteMasculina.setSubgrupo(subDescontavel);
 		novaCorrenteMasculina.setValor(new BigDecimal(990.9));
 		
-		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), new GradeCor(Cor.AMARELO));
+		ItemCarrinho novoItemCorrente = new ItemCarrinho(novaCorrenteMasculina, new BigDecimal(41), novaCorrenteMasculina.getValor(), new GradeCor(Cor.AMARELO));
 		
 		try
 		{
@@ -272,14 +272,14 @@ public class CarrinhoTest {
 		novoAnel.setSubgrupo(subDescontavel);
 		novoAnel.setValor(new BigDecimal(572.40));
 		
-		ItemCarrinho novoItemAnel = new ItemCarrinho(novoAnel, new BigDecimal(1), new GradeCor(Cor.AMARELO));
+		ItemCarrinho novoItemAnel = new ItemCarrinho(novoAnel, new BigDecimal(1), novoAnel.getValor(), new GradeCor(Cor.AMARELO));
 		
 		try
 		{
 			carrinho.adicionaItem(novoItemAnel);
 		} catch (RegraDeNegocioException ex) 
 		{
-			fail("Deve ser adicionado o item pois há saldo suficiente para tal.");
+			fail("Deve ser adicionado o item pois há saldo suficiente para tal. " + ex.getMessage());
 		}
 	}
 	

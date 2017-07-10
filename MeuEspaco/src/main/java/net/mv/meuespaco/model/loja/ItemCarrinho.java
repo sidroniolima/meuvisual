@@ -32,6 +32,7 @@ public class ItemCarrinho implements IMovimentavel {
 		this.qtd = BigDecimal.ONE;
 	}
 	
+	
 	/**
 	 * Constutor com os campos da instância.
 	 * 
@@ -39,23 +40,15 @@ public class ItemCarrinho implements IMovimentavel {
 	 * @param qtd
 	 * @param grade
 	 */
-	public ItemCarrinho(Produto produto, BigDecimal qtd, Grade grade) {
+/*	public ItemCarrinho(Produto produto, BigDecimal qtd, Grade grade) 
+	{
 		this();
 		
 		this.produto = produto;
 		this.qtd = qtd;
 		this.grade = grade;
-		
-		if (null != produto) {
-			this.valorUnitario = 
-					produto.getValor();
-			//TODO: passar o valor por parâmetro.
-		} else
-		{
-			valorUnitario = BigDecimal.ZERO;
-		}
-			
-	}
+		this.valorUnitario = produto.getValor(); 
+	}*/	
 	
 	/**
 	 * Constutor com os campos da instância.
@@ -95,7 +88,12 @@ public class ItemCarrinho implements IMovimentavel {
 			throw new RegraDeNegocioException("A quantidade deve ser maior que zero.");
 		}
 		
-		if (this.valorUnitario.compareTo(BigDecimal.ZERO) <= 0) {
+		if (null == this.valorUnitario) {
+			throw new RegraDeNegocioException("O produto não está com valor definido. Atualizaremos em breve.");
+		}
+		
+		if (this.valorUnitario.compareTo(BigDecimal.ZERO) <= 0)
+		{
 			throw new RegraDeNegocioException("O valor do item não está correto.");
 		}
 	}

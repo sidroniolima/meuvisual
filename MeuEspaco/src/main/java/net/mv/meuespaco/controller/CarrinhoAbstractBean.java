@@ -79,7 +79,7 @@ public abstract class CarrinhoAbstractBean implements Serializable {
 	 * @throws RegraDeNegocioException lança exceção se não for possível 
 	 * adicionar o produto.
 	 */
-	public void adicionaProduto(Produto produto, BigDecimal qtd, Grade gradeSelecionada) throws RegraDeNegocioException {
+	public void adicionaProduto(Produto produto, BigDecimal qtd, BigDecimal valorUnitario, Grade gradeSelecionada) throws RegraDeNegocioException {
 		
 		BigDecimal qtdDisponivel = this.qtdDisponivelDoProduto(produto, gradeSelecionada);
 		
@@ -94,7 +94,7 @@ public abstract class CarrinhoAbstractBean implements Serializable {
 							qtdDisponivel.setScale(0)));
 		}
 		
-		this.getCarrinho().adicionaItem(new ItemCarrinho(produto, qtd, gradeSelecionada));
+		this.getCarrinho().adicionaItem(new ItemCarrinho(produto, qtd, valorUnitario, gradeSelecionada));
 		reservaProdutoSrvc.adicionaReserva(produto, gradeSelecionada, qtd);
 	}
 	

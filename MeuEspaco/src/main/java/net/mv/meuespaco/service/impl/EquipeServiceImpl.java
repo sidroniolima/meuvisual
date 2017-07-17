@@ -21,7 +21,7 @@ import net.mv.meuespaco.model.loja.StatusCliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.EquipeService;
 import net.mv.meuespaco.service.RegiaoService;
-import net.mv.meuespaco.util.ParseFromCsv;
+import net.mv.meuespaco.util.ParseCsv;
 
 /**
  * Implementação Service para Equipe.
@@ -74,7 +74,7 @@ public class EquipeServiceImpl extends SimpleServiceLayerImpl<Equipe, Long> impl
 	{
 		URL urlImportacao = new URL(this.propsProxy.absolutePathToEquipes());
 		
-		BufferedReader reader = ParseFromCsv.getBufferedReaderFromUrl(urlImportacao);
+		BufferedReader reader = ParseCsv.getBufferedReaderFromUrl(urlImportacao);
 		
 		List<Optional<Equipe>> equipes = reader.lines()
 			.map(line -> (line.split(";")))

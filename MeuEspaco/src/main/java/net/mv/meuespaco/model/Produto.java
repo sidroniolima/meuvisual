@@ -176,6 +176,23 @@ public class Produto extends EntidadeModel implements Serializable {
 	}
 	
 	/**
+	 * Construtor pelo código, descrição, código interno e valor.
+	 * 
+	 * @param codigo
+	 * @param descricao
+	 * @param codigoInterno
+	 * @param valor
+	 */
+	public Produto(long codigo, String descricao, String codigoInterno, BigDecimal valor) {
+		this();
+		
+		this.codigo = codigo;
+		this.descricao = descricao;
+		this.codigoInterno = codigoInterno;
+		this.valor = valor;
+	}
+	
+	/**
 	 * Adiciona um Grade já formada ao produto.
 	 * 
 	 * @param grade
@@ -437,9 +454,15 @@ public class Produto extends EntidadeModel implements Serializable {
 	 * 
 	 * @return Valor do produto.
 	 */
-	public BigDecimal valor() {
-		String valor = this.codigoInterno.substring(10, this.codigoInterno.length());
-		return new BigDecimal(valor).divide(new BigDecimal(100));
+	public BigDecimal valor() 
+	{
+		if (null == this.valor)
+		{
+			String valor = this.codigoInterno.substring(10, this.codigoInterno.length());
+			return new BigDecimal(valor).divide(new BigDecimal(100));
+		}
+		
+		return this.getValor();
 	}
 	
 	public BigDecimal getValor() 

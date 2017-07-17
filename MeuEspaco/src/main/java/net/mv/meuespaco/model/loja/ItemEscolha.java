@@ -3,6 +3,7 @@ package net.mv.meuespaco.model.loja;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.StringJoiner;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.Column;
@@ -86,6 +87,20 @@ public class ItemEscolha implements IMovimentavel, ItemCalculavel, Serializable 
 		this(produto, qtd);
 		this.grade = grade;
 	}
+	
+	/**
+	 * Construtor do Item pelo Produto, Qtd e grade.
+	 * 
+	 * @param produto
+	 * @param qtd
+	 * @param grade
+	 */
+	public ItemEscolha(Produto produto, BigDecimal qtd, BigDecimal valorUnitario, Grade grade) {
+		this(produto, qtd);
+		this.grade = grade;
+		this.valorUnitario = valorUnitario;
+	}
+	
 	
 	/**
 	 * Valida um item observado se há produto, grade e
@@ -260,13 +275,15 @@ public class ItemEscolha implements IMovimentavel, ItemCalculavel, Serializable 
 	}
 
 	@Override
-	public String toString() {
-		return new StringBuilder().append(this.getProduto().getDescricao())
-				.append(" , ")
-				.append(this.getGrade())
-				.append(": ")
-				.append(this.getQtd())
-				.toString();
+	public String toString() 
+	{
+		StringJoiner joiner = new StringJoiner(";");
+		joiner.add(this.getProduto().getCodigoInterno());
+		joiner.add(this.getQtd().toString());
+		joiner.add(this.getValorUnitario().toString());
+		joiner.add(this.valorTotal().toString());
+		
+		return joiner.toString();
 	}
 
 	/* (non-Javadoc)
@@ -299,5 +316,5 @@ public class ItemEscolha implements IMovimentavel, ItemCalculavel, Serializable 
 			return false;
 		return true;
 	}
-
+	
 }

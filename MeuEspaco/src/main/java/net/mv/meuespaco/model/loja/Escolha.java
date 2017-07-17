@@ -3,8 +3,10 @@ package net.mv.meuespaco.model.loja;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import javax.enterprise.inject.Vetoed;
 import javax.persistence.CascadeType;
@@ -529,5 +531,42 @@ public class Escolha extends EntidadeModel implements Serializable {
 	public void setValorMaximoPermitido(BigDecimal valorMaximoPermitido) {
 		this.valorMaximoPermitido = valorMaximoPermitido;
 	}
+	
+	@Override
+	public String toString() 
+	{
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		StringJoiner joiner = new StringJoiner(";");
+		joiner.add(this.codigoFormatado());
+		joiner.add(this.getCliente().getCodigoSiga());
+		joiner.add(this.getData().format(dtf));
+		joiner.add(this.qtdDeItens().toString());
+		joiner.add(this.valorDosItens().toString());
+		
+		return joiner.toString();
+	}
 
+	/**
+	 * Gera a string no formato csv das informações da escolha e dos itens.
+	 * 
+	 * @return string no formato csv
+	 */
+	public String generateCsv()
+	{
+		String escolha = this.toString().concat(";");
+		StringBuilder builder = new StringBuilder();
+		
+		if (null == this.itens)
+		{
+			return this.toString();
+		}
+		
+		this.itens
+			.stream()
+			.map(i -> i.toString())
+			.forEach(i -> builder.append(escolha.concat(i).concat("\n")));
+		
+		return builder.toString();
+	}
 }

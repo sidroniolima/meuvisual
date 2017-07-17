@@ -204,12 +204,21 @@
 	    <artifactId>resteasy-client</artifactId>
 	    <version>3.0.19.Final</version>
 	</dependency>
-<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons -->
-<dependency>
-    <groupId>org.springframework.data</groupId>
-    <artifactId>spring-data-commons</artifactId>
-    <version>1.12.3.RELEASE</version>
-</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons -->
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-commons</artifactId>
+	    <version>1.12.3.RELEASE</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+	<!-- For FtpClient -->
+	<dependency>
+	    <groupId>commons-net</groupId>
+	    <artifactId>commons-net</artifactId>
+	    <version>3.3</version>
+	</dependency>
 	
 	
   </dependencies>

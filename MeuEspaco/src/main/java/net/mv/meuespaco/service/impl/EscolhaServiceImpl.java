@@ -1,20 +1,25 @@
 package net.mv.meuespaco.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import net.mv.meuespaco.controller.EnvProperties;
 import net.mv.meuespaco.controller.LoginBean;
 import net.mv.meuespaco.controller.filtro.FiltroEscolha;
 import net.mv.meuespaco.dao.EscolhaDAO;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.exception.DeleteException;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.factory.EscolhaFactory;
 import net.mv.meuespaco.model.estoque.OrigemMovimento;
@@ -27,6 +32,7 @@ import net.mv.meuespaco.service.CarrinhoService;
 import net.mv.meuespaco.service.EscolhaService;
 import net.mv.meuespaco.service.EstoqueService;
 import net.mv.meuespaco.util.Paginator;
+import net.mv.meuespaco.util.ParseCsv;
 
 /**
  * Implementação da camada DAO da entidade Escolha;
@@ -37,6 +43,11 @@ import net.mv.meuespaco.util.Paginator;
 @Stateless
 public class EscolhaServiceImpl extends SimpleServiceLayerImpl<Escolha, Long> implements EscolhaService {
 
+	private static final String MSG_EXPORTACAO_ERROR = "Não foi possível enviar o arquivo de escolhas.";
+	private static final String MSG_EXPORTACAO_OK = "Exportação de %s escolhas efetuada com sucesso.";
+
+	private final Logger log = Logger.getLogger(EscolhaServiceImpl.class.getSimpleName());
+	
 	@Inject
 	private EscolhaDAO escolhaDAO;	
 	
@@ -48,6 +59,9 @@ public class EscolhaServiceImpl extends SimpleServiceLayerImpl<Escolha, Long> im
 	
 	@Inject
 	private LoginBean loginBean;
+	
+	@Inject
+	private EnvProperties props;
 	
 	@Override
 	public GenericDAO getDAO() {
@@ -243,5 +257,40 @@ public class EscolhaServiceImpl extends SimpleServiceLayerImpl<Escolha, Long> im
 		}
 		
 		return atual.get().qtdDeItensDescontaveis();
+	}
+	
+	@Override
+	public List<Escolha> filtraPelaPesquisaSemPaginacao(FiltroEscolha filtro) 
+	{
+		return this.escolhaDAO.filtrarPeloModoEspecificoSemPaginacao(filtro);
+	}
+	
+	@Override
+	public int exportaEscolhas(List<Escolha> escolhas) throws IOException, IntegracaoException 
+	{
+		
+		File file = ParseCsv.criaArquivoCsvFromStream(
+				escolhas.stream().map(Escolha::generateCsv),  
+				props.get("file-name-escolhas"));
+		
+		String server = props.get("ftp-server");
+		String path = props.get("ftp-path-integracao");
+		String user = props.get("ftp-user");
+		String pass = props.get("ftp-pass");
+		String remoteFileName = props.get("file-name-escolhas");
+		
+		boolean success = ParseCsv.sendFtp(file, server, path, user, pass, remoteFileName);
+		
+		if(!success)
+		{
+			log.info(String.format(MSG_EXPORTACAO_ERROR));
+			throw new IntegracaoException(MSG_EXPORTACAO_ERROR);
+		}
+		
+		int qtd = escolhas.size();
+		
+		log.info(String.format(MSG_EXPORTACAO_OK, qtd));
+		
+		return qtd;
 	}
 }

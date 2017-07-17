@@ -270,4 +270,58 @@ public class HibernateEscolhaDAO extends HibernateGenericDAO<Escolha, Long> impl
 		
 		criteria.executeUpdate();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Escolha> filtrarPeloModoEspecificoSemPaginacao(FiltroEscolha filtro) 
+	{
+		Criteria criteria = getSession().createCriteria(Escolha.class);
+		
+		criteria.setFetchMode("itens", FetchMode.JOIN);
+		criteria.setFetchMode("itens.produto", FetchMode.JOIN);
+		
+		criteria.createAlias("itens", "i", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("cliente", "cli", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("cli.regiao", "reg", JoinType.LEFT_OUTER_JOIN);		
+		
+		if (null != filtro.getCodigo()) {
+			criteria.add(Restrictions.eq("codigo", filtro.getCodigo()));
+		}
+		
+		if (null != filtro.getDataInicial()) 
+		{
+			if (null == filtro.getDataFinal()) 
+			{
+				criteria.add(Restrictions.sqlRestriction("date(data_envio) = ?", 
+						UtilDateTimeConverter.toDate(filtro.getDataInicial()), DateType.INSTANCE));
+			} else 
+			{
+				criteria.add(Restrictions.sqlRestriction(
+						"date(data_envio) between ? and ?", 
+						new Date[] {UtilDateTimeConverter.toDate(filtro.getDataInicial()), 
+											UtilDateTimeConverter.toDate(filtro.getDataFinal())}, 
+						new DateType[] {DateType.INSTANCE, DateType.INSTANCE}));
+			}
+		}
+		
+		if (null != filtro.getCodigoCliente() && !filtro.getCodigoCliente().isEmpty()) {
+			criteria.add(Restrictions.eq("cli.codigoSiga", filtro.getCodigoCliente()));
+		}
+		
+		if (null != filtro.getCodigoRegiao() && !filtro.getCodigoRegiao().isEmpty()) {
+			criteria.add(Restrictions.eq("reg.codigoInterno", filtro.getCodigoRegiao()));
+		}
+		
+		if (null != filtro.getStatus()) 
+		{
+			criteria.add(Restrictions.eq("status", filtro.getStatus()));
+		}		
+		
+		criteria.addOrder(Order.asc("codigo"));
+		criteria.addOrder(Order.asc("i.codigo"));
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return criteria.list();
+	}
 }

@@ -40,7 +40,7 @@ import net.mv.meuespaco.service.EscolhaService;
 import net.mv.meuespaco.service.IntegracaoService;
 import net.mv.meuespaco.service.RegiaoService;
 import net.mv.meuespaco.util.Paginator;
-import net.mv.meuespaco.util.ParseFromCsv;
+import net.mv.meuespaco.util.ParseCsv;
 
 /**
  * Implementação da camada Service da entidade Cliente.
@@ -398,7 +398,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	@Override
 	public void importaPreCadastrosDoERP(UploadedFile file) {
 
-		Map<String, List<String>> registros = ParseFromCsv.geraInformaçõesDaExportaçãoDoERP(file);
+		Map<String, List<String>> registros = ParseCsv.geraInformaçõesDaExportaçãoDoERP(file);
 		
 		registros.forEach(
 				(p,v) -> {
@@ -419,7 +419,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	@Override
 	public void atualizaSenhaDosCadastrosPeloSistemaLegado(UploadedFile file) {
 
-		Map<String, List<String>> registros = ParseFromCsv.coletaASenhaDoSistemaLegado(file);
+		Map<String, List<String>> registros = ParseCsv.coletaASenhaDoSistemaLegado(file);
 
 		registros.forEach(
 				(p,v) -> {
@@ -450,7 +450,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	@Override
 	public void atualizaRegiaoDosClientesPeloERP(UploadedFile file) {
 
-		Map<String, List<String>> registros = ParseFromCsv.atualizaARegiaoDosClientes(file);
+		Map<String, List<String>> registros = ParseCsv.atualizaARegiaoDosClientes(file);
 	
 		registros.forEach(
 				(p,v) -> {

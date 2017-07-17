@@ -26,7 +26,7 @@ import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.PontuacaoService;
 import net.mv.meuespaco.service.ResgateBrindeService;
 import net.mv.meuespaco.util.Paginator;
-import net.mv.meuespaco.util.ParseFromCsv;
+import net.mv.meuespaco.util.ParseCsv;
 
 /**
  * Implementação da camanda Service da entidade Pontuacao. 
@@ -117,7 +117,7 @@ public class PontuacaoServiceImpl extends SimpleServiceLayerImpl<Pontuacao, Long
 	private void adicionaRegistros() throws IOException
 	{
 		BufferedReader reader = 
-				ParseFromCsv.getBufferedReaderFromUrl(new URL(this.props.getProperty("pontuacao-path")));
+				ParseCsv.getBufferedReaderFromUrl(new URL(this.props.getProperty("pontuacao-path")));
 		
 		List<Optional<Pontuacao>> pontuacao = 
 				reader.lines()

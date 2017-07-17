@@ -94,4 +94,12 @@ public interface EscolhaDAO extends GenericDAO<Escolha, Long> {
 	 * menor que a data atual.
 	 */
 	void atualizaStatusEDataDeEnvioDeEscolhasVencidas();
+
+	/**
+	 * Filtra registro de escolha pelo filtro sem paginação.
+	 * 
+	 * @param filtro
+	 * @return registros de escolhas.
+	 */
+	List<Escolha> filtrarPeloModoEspecificoSemPaginacao(FiltroEscolha filtro);
 }

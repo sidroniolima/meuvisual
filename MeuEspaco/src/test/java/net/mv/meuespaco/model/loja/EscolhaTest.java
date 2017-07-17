@@ -504,4 +504,30 @@ public class EscolhaTest {
 		assertEquals("Check do status Enviado.", StatusEscolha.ENVIADA, escolha.getStatus());
 		assertTrue("Check da data de envio.", LocalDateTime.now().toLocalDate().compareTo(escolha.getDataEnvio().toLocalDate()) == 0 );
 	}
+	
+	@Test
+	public void deveGerarOToString() throws RegraDeNegocioException
+	{
+		Cliente cliente = new Cliente(1L, "Sidronio");
+		cliente.setCodigoSiga("015308");
+		
+		LocalDateTime horario = LocalDateTime.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				
+		String data = dtf.format(horario);
+		
+		escolha = new EscolhaFactory()
+				.doCliente(cliente)
+				.naData(horario)
+				.comQtdMaximaDeItens(4)
+				.comOsItens(itensCarrinho)
+				.cria();	
+		escolha.setCodigo(1L);
+		
+		System.out.println(escolha.generateCsv());		
+		String csv = escolha.generateCsv();
+
+		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;"+data+";4;1227.60;20884456MV03490;1;34.90;34.90"));
+		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;"+data+";4;1227.60;20884499MV10090;2;100.90;201.80"));
+	}
 }

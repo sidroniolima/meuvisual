@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import net.mv.meuespaco.model.integracao.ClientesDoErp;
 import net.mv.meuespaco.service.IntegracaoService;
-import net.mv.meuespaco.util.ParseFromCsv;
+import net.mv.meuespaco.util.ParseCsv;
 
 /**
  * Implementação para o serviço de integração, encapsulamento este 
@@ -30,7 +30,7 @@ public class IntegracaoServiceImpl implements IntegracaoService {
 	@Override
 	public List<ClientesDoErp> listaClientesDoErp() throws MalformedURLException, IOException 
 	{
-		BufferedReader reader = ParseFromCsv.getBufferedReaderFromUrl(new URL(props.absolutePathToClientes()));
+		BufferedReader reader = ParseCsv.getBufferedReaderFromUrl(new URL(props.absolutePathToClientes()));
 		
 		List<ClientesDoErp> registrosErp = reader.lines()
 			.map(l -> l.split(";"))

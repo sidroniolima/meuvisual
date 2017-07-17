@@ -1,10 +1,12 @@
 package net.mv.meuespaco.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 import net.mv.meuespaco.controller.filtro.FiltroEscolha;
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.loja.Carrinho;
 import net.mv.meuespaco.model.loja.Cliente;
@@ -166,4 +168,24 @@ public interface EscolhaService extends SimpleServiceLayer<Escolha, Long> {
 	 * datas. Pode ocorre por conta de um cadastro sem região ou semana. 
 	 */
 	public BigDecimal qtdDePecasEscolhidasDoCicloAtual(Cliente cliente) throws RegraDeNegocioException;
+
+	/**
+	 * Filtra escolhas pela pesquisa do cliente e retorna sem ordenação.
+	 * 
+	 * @param filtro
+	 * @return escolhas
+	 */
+	public List<Escolha> filtraPelaPesquisaSemPaginacao(FiltroEscolha filtro);
+	
+	/**
+	 * Exporta para o domínio a lista de escolhas previamente selecionada 
+	 * no formato csv. As escolhas têm informação do cliente, região e 
+	 * seus itens. 
+	 * 
+	 * @param escolhas
+	 * @return número de escolhas exportadas.
+	 * @throws IOException 
+	 * @throws IntegracaoException 
+	 */
+	public int exportaEscolhas(List<Escolha> escolhas) throws IOException, IntegracaoException;
 }

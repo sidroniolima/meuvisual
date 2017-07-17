@@ -22,7 +22,7 @@ import net.mv.meuespaco.model.integracao.ListagemCreditos;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.CreditoService;
-import net.mv.meuespaco.util.ParseFromCsv;
+import net.mv.meuespaco.util.ParseCsv;
 
 @Stateless
 public class CreditoServiceImpl extends SimpleServiceLayerImpl<Credito, Long> implements CreditoService, Serializable
@@ -62,7 +62,7 @@ public class CreditoServiceImpl extends SimpleServiceLayerImpl<Credito, Long> im
 	private void adicionaNovosRegistros() throws IOException 
 	{
 		BufferedReader reader = 
-				ParseFromCsv.getBufferedReaderFromUrl(new URL(props.absolutePathToCreditos()));
+				ParseCsv.getBufferedReaderFromUrl(new URL(props.absolutePathToCreditos()));
 		
 		List<Optional<Credito>> creditos = reader
 			.lines()

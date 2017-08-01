@@ -292,12 +292,12 @@ public class HibernateEscolhaDAO extends HibernateGenericDAO<Escolha, Long> impl
 		{
 			if (null == filtro.getDataFinal()) 
 			{
-				criteria.add(Restrictions.sqlRestriction("date(data_envio) = ?", 
+				criteria.add(Restrictions.sqlRestriction("date(data_finalizacao) = ?", 
 						UtilDateTimeConverter.toDate(filtro.getDataInicial()), DateType.INSTANCE));
 			} else 
 			{
 				criteria.add(Restrictions.sqlRestriction(
-						"date(data_envio) between ? and ?", 
+						"date(data_finalizacao) between ? and ?", 
 						new Date[] {UtilDateTimeConverter.toDate(filtro.getDataInicial()), 
 											UtilDateTimeConverter.toDate(filtro.getDataFinal())}, 
 						new DateType[] {DateType.INSTANCE, DateType.INSTANCE}));

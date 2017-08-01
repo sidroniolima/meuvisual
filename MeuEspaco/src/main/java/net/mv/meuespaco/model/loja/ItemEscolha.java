@@ -142,7 +142,7 @@ public class ItemEscolha implements IMovimentavel, ItemCalculavel, Serializable 
 			return false;
 		}
 		
-		return qtd.compareTo(qtdAtendido) == 0;
+		return qtdAtendido.compareTo(BigDecimal.ZERO) > 0;
 	}
 	
 	/**
@@ -267,6 +267,17 @@ public class ItemEscolha implements IMovimentavel, ItemCalculavel, Serializable 
 		
 		return qtdAtendido;
 	}
+	
+	
+	/**
+	 * Calcula o valor atendido.
+	 * @return
+	 */
+	public BigDecimal valorAtendido() 
+	{
+		return this.qtdAtendido.multiply(this.valorUnitario);
+	}
+	
 	/**
 	 * @param qtdAtendido the qtdAtendido to set
 	 */
@@ -286,6 +297,21 @@ public class ItemEscolha implements IMovimentavel, ItemCalculavel, Serializable 
 		return joiner.toString();
 	}
 
+	/**
+	 * Gera as informações para CSV.
+	 * @return
+	 */
+	public String toCsv() 
+	{
+		StringJoiner joiner = new StringJoiner(";");
+		joiner.add(this.getProduto().getCodigoInterno());
+		joiner.add(this.getQtdAtendido().toString());
+		joiner.add(this.getValorUnitario().toString());
+		joiner.add(this.valorAtendido().toString());
+		
+		return joiner.toString();
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

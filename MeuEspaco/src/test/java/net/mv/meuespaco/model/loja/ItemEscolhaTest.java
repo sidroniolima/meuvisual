@@ -32,7 +32,13 @@ public class ItemEscolhaTest
 	@Test
 	public void deveGerarOToString() 
 	{
-		assertTrue("To string correta", itens.get(0).toString().contains("000001;1;20.00"));
+		assertTrue("To string correta", itens.get(0).toString().contains("000001;1;20.00;20.00"));
 	}
 
+	@Test
+	public void deveGerarOToCsv() 
+	{
+		System.out.println(itens.get(0).toCsv());
+		assertTrue("To csv correto", itens.get(0).toCsv().contains("000001;0;20.00;0"));
+	}
 }

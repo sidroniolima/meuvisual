@@ -270,13 +270,9 @@ public class Escolha extends EntidadeModel implements Serializable {
 	/**
 	 * Atende a escolha quando são separados seus itens.
 	 */
-	public void atende() {
-		
-		if (foramTodosOsItensAtendidos()) {
-			this.finaliza();
-		} else {
-			this.status = StatusEscolha.EM_SEPARACAO;
-		}
+	public void atende() 
+	{		
+		this.finaliza();
 	}
 
 	/**
@@ -284,9 +280,9 @@ public class Escolha extends EntidadeModel implements Serializable {
 	 * e seu status. 
 	 */
 	private void finaliza() 
-	{
-		this.status = StatusEscolha.FINALIZADA;
+	{		
 		this.dataFinalizacao = LocalDateTime.now();
+		this.status = StatusEscolha.FINALIZADA;
 	}
 
 	/**
@@ -434,6 +430,19 @@ public class Escolha extends EntidadeModel implements Serializable {
 	}	
 	
 	/**
+	 * Calcula o valor dos itens atendidos.
+	 * 
+	 * @return valor dos itens atendidos.
+	 */
+	public BigDecimal valorDosItensAtendidos()
+	{
+		return this.itens
+			.stream()
+			.map(ItemEscolha::valorAtendido)
+			.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+	
+	/**
 	 * @param status the status to set
 	 */
 	public void setStatus(StatusEscolha status) {
@@ -546,6 +555,26 @@ public class Escolha extends EntidadeModel implements Serializable {
 		
 		return joiner.toString();
 	}
+	
+	/**
+	 * Gera as informações da escolha com quantidade e valor
+	 * dos itens atendidos.
+	 * 
+	 * @return
+	 */
+	public String toCsv() 
+	{
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		StringJoiner joiner = new StringJoiner(";");
+		joiner.add(this.codigoFormatado());
+		joiner.add(this.getCliente().getCodigoSiga());
+		joiner.add(this.getData().format(dtf));
+		joiner.add(this.qtdDeItensAtendidos().toString());
+		joiner.add(this.valorDosItensAtendidos().toString());
+		
+		return joiner.toString();
+	}
 
 	/**
 	 * Gera a string no formato csv das informações da escolha e dos itens.
@@ -554,17 +583,18 @@ public class Escolha extends EntidadeModel implements Serializable {
 	 */
 	public String generateCsv()
 	{
-		String escolha = this.toString().concat(";");
+		String escolha = this.toCsv().concat(";");
 		StringBuilder builder = new StringBuilder();
 		
 		if (null == this.itens)
 		{
-			return this.toString();
+			return builder.toString();
 		}
 		
 		this.itens
 			.stream()
-			.map(i -> i.toString())
+			.filter(ItemEscolha::isAtendido)
+			.map(i -> i.toCsv())
 			.forEach(i -> builder.append(escolha.concat(i).concat("\n")));
 		
 		return builder.toString();

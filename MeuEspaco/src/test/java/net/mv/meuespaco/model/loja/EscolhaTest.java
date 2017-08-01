@@ -209,17 +209,16 @@ public class EscolhaTest {
 		
 		item1.setQtdAtendido(BigDecimal.ONE);
 		item2.setQtdAtendido(new BigDecimal(1));
-		item3.setQtdAtendido(BigDecimal.ONE);
 		
 		assertTrue("O item 1 foi atendido.", item1.isAtendido());
-		assertFalse("O item 2 foi atendido.", item2.isAtendido());
-		assertTrue("O item 3 foi atendido.", item3.isAtendido());
+		assertTrue("O item 2 foi atendido.", item2.isAtendido());
+		assertFalse("O item 3 foi atendido.", item3.isAtendido());
 		
 		escolha.atende();
 		
-		assertFalse("Todos os itens foram atendidos.", escolha.foramTodosOsItensAtendidos());
-		assertEquals("O status deve ser atendida.", StatusEscolha.EM_SEPARACAO, escolha.getStatus());
-		assertTrue("A data de envio não deve estar preenchida.", null == escolha.getDataFinalizacao());
+		assertFalse("Todos os itens foram atendidos (1 parcialmente).", escolha.foramTodosOsItensAtendidos());
+		assertEquals("O status deve ser atendida.", StatusEscolha.FINALIZADA, escolha.getStatus());
+		assertTrue("A data de envio deve estar preenchida.", null != escolha.getDataFinalizacao());
 	}
 	
 	@Test
@@ -506,6 +505,30 @@ public class EscolhaTest {
 	}
 	
 	@Test
+	public void deveCalcularOValorAtendido() throws RegraDeNegocioException
+	{
+		Cliente cliente = new Cliente(1L, "Sidronio");
+		cliente.setCodigoSiga("015308");
+		
+		escolha = new EscolhaFactory()
+				.doCliente(cliente)
+				.naData(LocalDateTime.now())
+				.comQtdMaximaDeItens(4)
+				.comOsItens(itensCarrinho)
+				.cria();	
+		
+		escolha.setCodigo(1L);
+		
+		//Anel Dourado
+		ItemEscolha itemAtendido = escolha.getItens().get(0);
+		itemAtendido.setQtdAtendido(BigDecimal.ONE);
+		
+		assertEquals("Valor do item atendido", new BigDecimal(34.9).setScale(2, RoundingMode.HALF_DOWN), itemAtendido.valorAtendido().setScale(2, RoundingMode.HALF_DOWN));
+		
+		assertEquals("Valor atendido da escolha", new BigDecimal(34.9).setScale(2, RoundingMode.HALF_DOWN), escolha.valorDosItensAtendidos().setScale(2, RoundingMode.HALF_DOWN));
+	}
+	
+	@Test
 	public void deveGerarOToString() throws RegraDeNegocioException
 	{
 		Cliente cliente = new Cliente(1L, "Sidronio");
@@ -524,10 +547,13 @@ public class EscolhaTest {
 				.cria();	
 		escolha.setCodigo(1L);
 		
-		System.out.println(escolha.generateCsv());		
+		//brincoPendurado, 2, 20884499MV10090
+		escolha.getItens().get(1).setQtdAtendido(BigDecimal.ONE);
+		escolha.atende();
+			
 		String csv = escolha.generateCsv();
+		System.out.println(csv);
 
-		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;"+data+";4;1227.60;20884456MV03490;1;34.90;34.90"));
-		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;"+data+";4;1227.60;20884499MV10090;2;100.90;201.80"));
+		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;"+data+";1;100.9;20884499MV10090;1;100.90;100.9"));
 	}
 }

@@ -178,20 +178,37 @@
 						            	</div>					            
 							        </div>
 							        
-							        <div class="row">    
-			                        	<div class="col-sm-12 text-center">                        
-					                        <h:commandButton
-					                        	class="btn btn-primary"
-					                        	action="#{atendeEscolhaBean.atendeEscolha()}"
-					                        	value="Atender"
-					                        	disabled="#{not atendeEscolhaBean.podeAtender}">
-					                        	
-					                        	<f:ajax
-					                        		execute="@this"
-					                        		render="frm-escolha"/>
-				                        	</h:commandButton>
-			                        	</div>				            				            		            
-							            
+							        <div class="row">
+							        
+							        	<h:panelGroup id="panel-btn-atende">    
+				                        	<div class="col-sm-12 text-center">                        
+						                        <h:commandButton
+						                        	class="btn btn-primary"
+						                        	action="#{atendeEscolhaBean.atendeEscolha()}"
+						                        	value="Atender"
+						                        	disabled="#{not atendeEscolhaBean.podeAtender}"
+						                        	rendered="#{atendeEscolhaBean.escolha.foramTodosOsItensAtendidos()}">
+						                        	
+						                        	<f:ajax
+						                        		execute="@this"
+						                        		render="frm-escolha"/>
+					                        	</h:commandButton>
+	
+												<a class="btn btn-danger" 
+													jsfc="h:commandLink"
+													type="button"
+													immediate="true"
+													value="Atender parcialmente"
+						                        	disabled="#{not atendeEscolhaBean.podeAtender}"
+						                        	rendered="#{not atendeEscolhaBean.escolha.foramTodosOsItensAtendidos()}">
+								                  
+								                   <f:passThroughAttribute name="data-toggle" value="modal" />
+								                   <f:passThroughAttribute name="data-target" value="#myModalAtendimento" />
+								                   <f:ajax/>
+												</a>
+				                        	</div>
+				                        	
+				                        </h:panelGroup>				            				            		            
 									</div>											
 									
 								</div>
@@ -221,7 +238,7 @@
 													   			
 													        	<f:ajax
 									                        		execute="@this"
-									                        		render="frm-escolha:panel-itens"/>
+									                        		render="frm-escolha:panel-itens panel-btn-atende"/>
 																
 																<i class="icon_close_alt2"></i>							                        		
 													   		</a>
@@ -253,7 +270,7 @@
 														   			
 														        	<f:ajax
 										                        		execute="@this"
-										                        		render="frm-escolha:panel-itens"/>
+										                        		render="frm-escolha:panel-itens frm-escolha:panel-btn-atende"/>
 										                        	
 										                        	<i class="#{item.atendido ? 'icon_close_alt2' : 'icon_check_alt2'}"></i>
 														   		</a>
@@ -291,6 +308,68 @@
 			            </h:panelGroup>
 			            <!-- /.panel-escolha -->
 			    	</div> <!-- fim row dados -->
+
+	           		<!-- Modal -->
+					<div class="modal fade" id="myModalAtendimento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+			      	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h5 class="modal-title" id="myModalLabel">
+					        	<strong>Deseja atender e finalizar a escolha?</strong></h5>
+					      </div>
+					      <div class="modal-body">
+					      	<div class="row">
+								<div class="col-md-2">
+									<p align="center"><span style="font-size:32px">?</span></p>
+								</div>
+								<div class="col-md-10">
+									<p>Nem todos os itens da escolha foram atendidos. <strong>Deseja realmente anteder parcialmente e finalizar?</strong></p>
+								</div>
+							</div>
+							<div>
+		                		<div 
+               						style="text-align:right"
+               						id="btns-confirm">
+			                	
+			                		<a  type="submit"
+			                			class="btn btn-warning btn-sm"
+			                			jsfc="h:commandLink"
+			                			action="#{atendeEscolhaBean.atendeEscolha()}">
+			                			Sim
+									
+										<f:passThroughAttribute name="data-dismiss" value="modal" />
+										<f:ajax
+					               			execute="@this"
+					               			render="@all"
+					               			onevent="eventSpinnerHandler"/>
+									</a>
+		                		
+		                			<button 
+		                				id="close"
+		                				type="submit" 
+		                				class="btn btn-info btn-sm">Não</button>
+		                		</div>
+		                		<!-- /.btns-confirm -->								
+							</div>
+					      </div>			      
+					    </div>
+					  </div>
+					</div> 
+					
+					<!-- Modal Spinner -->
+					<div class="modal fade bd-example-modal-sm modal-spinner" id="modal-spinner" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-sm modal-spinner-dialog">
+					    <div class="modal-content" >
+					      <div class="modal-body" id="modalBody">
+							<div class="spinner">
+								<p align="center"><i class="fa fa-spinner fa-spin fa-4x"></i></p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Spinner -->					
 	            	
 	            </h:form> <!--  end /frm-escolha -->
 		            	
@@ -310,6 +389,7 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="spinner-handler.js"/>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

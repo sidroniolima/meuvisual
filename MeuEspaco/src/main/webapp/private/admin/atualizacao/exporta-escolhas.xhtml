@@ -56,16 +56,16 @@
 		
 		                    <div class="box" id="box-exportacao">
 		        	
-		        				<h3>Filtro de escolhas</h3>
+		        				<h4>Filtro de escolhas</h4>
 		        				
 			        				<div class="row">
 								     	 	
 					                    <div class="col-sm-2"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-cod">Código</label>
+					                            <label for="input-cod" class="small">Código</label>
 					                            <h:inputText 
-					                            	styleClass="form-control" 
+					                            	styleClass="form-control input-small" 
 					                            	id="input-cod" 
 					                            	value="#{exportaEscolhasBean.filtro.codigo}"/>				                            	
 						                 	</div>
@@ -74,9 +74,9 @@
 					                    <div class="col-sm-2"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-data-incial">Data inicial</label>
+					                            <label for="input-data-incial" class="small">Data finalização (início)</label>
 					                            <h:inputText 
-					                            	styleClass="form-control" 
+					                            	styleClass="form-control input-small" 
 					                            	id="input-data-incial" 
 					                            	value="#{exportaEscolhasBean.filtro.dataInicial}"
 					                            	converter="localDateFacesConverter"/>				                            	
@@ -86,9 +86,9 @@
 					                    <div class="col-sm-2"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-data-final">Data final</label>
+					                            <label for="input-data-final" class="small">Data finalização (fim)</label>
 					                            <h:inputText 
-					                            	styleClass="form-control" 
+					                            	styleClass="form-control input-small" 
 					                            	id="input-data-final" 
 				                            		value="#{exportaEscolhasBean.filtro.dataFinal}"
 				                            		converter="localDateFacesConverter"/>				                            	
@@ -100,7 +100,7 @@
 						                        
 					                            <label for="input-cod-cliente">Cliente</label>
 					                            <h:inputText 
-					                            	styleClass="form-control" 
+					                            	styleClass="form-control input-small" 
 					                            	id="input-cod-cliente" 
 					                            	value="#{exportaEscolhasBean.filtro.codigoCliente}"/>				                            	
 						                 	</div>
@@ -109,15 +109,15 @@
 					                    <div class="col-sm-2"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-cod-regiao">Região</label>
+					                            <label for="input-cod-regiao" class="small">Região</label>
 					                            <h:inputText 
-					                            	styleClass="form-control" 
+					                            	styleClass="form-control input-small" 
 					                            	id="input-cod-regiao" 
 					                            	value="#{exportaEscolhasBean.filtro.codigoRegiao}"/>				                            	
 						                 	</div>
 							            </div>			
 					            	
-				                    	<div class="col-md-12 text-right"> 
+				                    	<div class="col-md-2 text-right"> 
 											<div class="form-group">
 						                        <h:commandButton
 						                        	styleClass="btn btn-primary"
@@ -161,16 +161,16 @@
 		
 		                    <div class="box" id="box-exportacao">
 		        	
-		        				<h3>Exportar escolhas</h3>
+		        				<h4>Exportar escolhas</h4>
 		        				
 		        				<h:panelGroup id="panel-sumario">
 		        					<div class="row">
 					                    <div class="col-sm-2"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-total-escolhas">Escolhas seleciondas</label>
+					                            <label for="input-total-escolhas" class="small">Escolhas seleciondas</label>
 					                            <h:inputText 
-					                            	styleClass="form-control" 
+					                            	styleClass="form-control input-small" 
 					                            	id="input-total-escolhas" 
 					                            	value="#{exportaEscolhasBean.qtdEscolhasFiltradas()}"
 					                            	readonly="true"/>				                            	

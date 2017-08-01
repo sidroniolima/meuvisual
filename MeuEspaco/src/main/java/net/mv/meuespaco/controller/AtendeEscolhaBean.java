@@ -53,10 +53,10 @@ public class AtendeEscolhaBean implements Serializable {
 	/**
 	 * Atende a escolha do cliente.
 	 */
-	public String atendeEscolha() {
-		
-		try {
-			
+	public String atendeEscolha() 
+	{
+		try 
+		{
 			escolha.atende();
 			this.escolhaSrvc.salva(escolha);
 			FacesUtil.addSuccessMessage("Escolha atendida com sucesso.");

@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import org.primefaces.model.UploadedFile;
 
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
+import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.ProdutoDAO;
@@ -455,5 +456,11 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	public List<Produto> listaBrindesEmDestaque(int numero) 
 	{
 		return this.produtoDAO.listarNProdutosMaisVendidosPorFinalidade(Finalidade.BRINDE, numero);
+	}
+
+	@Override
+	public List<ProdutosEQtdPorSubgrupo> listaProdutosEQtdPorSubgrupo() 
+	{
+		return this.produtoDAO.listarQtdDeProdutosPorSubgrupoEGrupo();
 	}
 }

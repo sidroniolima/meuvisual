@@ -8,6 +8,7 @@ import java.util.Map;
 import org.primefaces.model.UploadedFile;
 
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
+import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Caracteristica;
@@ -319,4 +320,11 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 * @return n brindes em destaque.
 	 */
 	public List<Produto> listaBrindesEmDestaque(int numero);
+
+	/**
+	 * Lista a quantidade de produtos ativos agrupados pelo sugrupo e grupo  
+	 * 
+	 * @return lista de quantidade de produtos por sub e grupo.
+	 */
+	public List<ProdutosEQtdPorSubgrupo> listaProdutosEQtdPorSubgrupo();
 }

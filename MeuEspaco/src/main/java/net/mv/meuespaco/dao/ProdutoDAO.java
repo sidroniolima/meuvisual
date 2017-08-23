@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
+import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Finalidade;
@@ -159,4 +160,11 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long>{
 	 * @return
 	 */
 	List<Produto> listarNProdutosMaisVendidosPorFinalidade(Finalidade finalidade, int numero);
+
+	/**
+	 * Lista a qtd de  produtos ativos agrupados pelo grupo e subgrupo.
+	 * 
+	 * @return qtd de produtos ativos agrupados.
+	 */
+	List<ProdutosEQtdPorSubgrupo> listarQtdDeProdutosPorSubgrupoEGrupo();
 }

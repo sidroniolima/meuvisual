@@ -15,8 +15,10 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.persister.collection.CollectionPropertyNames;
 import org.hibernate.sql.JoinType;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 
 import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
+import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
 import net.mv.meuespaco.dao.ProdutoDAO;
 import net.mv.meuespaco.model.Finalidade;
@@ -515,6 +517,43 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		return criteria.list();	
+	}
+
+	@Override
+	public List<ProdutosEQtdPorSubgrupo> listarQtdDeProdutosPorSubgrupoEGrupo()
+	{
+		String strQuery = "SELECT " +
+		"g.descricao as grupoDescricao, " +
+		"s.descricao as subgrupoDescricao, " +
+		"d.descricao as departamentoDescricao, " +
+		"p.composicao as composicao, " +
+		"c.valor as caracteristica, " +
+		"COUNT(p.codigo) as qtd " +
+		"FROM " +
+		"produto p " +
+		"LEFT JOIN sub_grupo s on p.subgrupo_codigo = s.codigo " +
+		"LEFT JOIN grupo g on s.grupo_codigo = g.codigo " +
+		"LEFT JOIN produto_caracteristicas c on c.produto_codigo = p.codigo " +
+		"LEFT JOIN departamento d on d.codigo = p.departamento_codigo " +
+		"WHERE " +
+		"p.ativo = 1 " +	
+		"GROUP BY " +
+		"g.descricao, " +
+		"s.descricao, " +
+		"d.descricao, " +
+		"p.composicao, " + 
+		"c.valor " +
+		"ORDER BY " +
+		"g.descricao, " +
+		"s.descricao, " + 
+		"d.descricao, " +
+		"p.composicao, " +
+		"c.valor";
+		
+		SQLQuery query = this.getSession().createSQLQuery(strQuery);
+		query.setResultTransformer(new AliasToBeanResultTransformer(ProdutosEQtdPorSubgrupo.class));
+		
+		return query.list();
 	}
 	
 }

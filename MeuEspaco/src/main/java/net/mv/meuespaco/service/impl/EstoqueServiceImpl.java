@@ -8,12 +8,14 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import net.mv.meuespaco.controller.filtro.FiltroEntradaProdutos;
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaMovimento;
 import net.mv.meuespaco.dao.EstoqueDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
+import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
 import net.mv.meuespaco.model.estoque.Ajuste;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
@@ -407,5 +409,11 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 			this.verificaDisponibilidadedoProduto(item.getProduto());
 			
 		}
+	}
+
+	@Override
+	public List<MovimentoPorComposicaoSubgrupo> agrupaMovimentosPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator) 
+	{
+		return this.estoqueDAO.agruparMovimentacaoPeloFiltro(filtro, paginator);
 	}
 }

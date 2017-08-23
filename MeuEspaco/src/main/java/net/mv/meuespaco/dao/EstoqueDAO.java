@@ -3,9 +3,11 @@ package net.mv.meuespaco.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
+import net.mv.meuespaco.controller.filtro.FiltroEntradaProdutos;
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaMovimento;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
+import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.Movimento;
 import net.mv.meuespaco.model.grade.Grade;
@@ -64,5 +66,7 @@ public interface EstoqueDAO extends GenericDAO<Movimento, Long>{
 	 * @param paginator
 	 */
 	public List<Movimento> listarPeloFiltro(FiltroPesquisaMovimento filtro, Paginator paginator);
+
+	public List<MovimentoPorComposicaoSubgrupo> agruparMovimentacaoPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator);
 	
 }

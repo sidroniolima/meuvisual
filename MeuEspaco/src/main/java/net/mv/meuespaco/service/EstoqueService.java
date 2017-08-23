@@ -3,11 +3,13 @@ package net.mv.meuespaco.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import net.mv.meuespaco.controller.filtro.FiltroEntradaProdutos;
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaMovimento;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
+import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
 import net.mv.meuespaco.model.estoque.Ajuste;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
@@ -255,5 +257,14 @@ public interface EstoqueService {
 	 * @param origem
 	 * @throws RegraDeNegocioException
 	 */
-	public void estorna(List<? extends IMovimentavel> itens, OrigemMovimento origem) throws RegraDeNegocioException; 
+	public void estorna(List<? extends IMovimentavel> itens, OrigemMovimento origem) throws RegraDeNegocioException;
+
+	
+	/**
+	 * Agrupa os moviemntos de entrada pelo filtro de produto e período.
+	 * 
+	 * @param filtro de entada de produtos por período.
+	 * @param paginator paginador do controller
+	 */
+	public List<MovimentoPorComposicaoSubgrupo> agrupaMovimentosPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator); 
 }

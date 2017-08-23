@@ -19,14 +19,17 @@ import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.type.DateType;
 import org.hibernate.type.Type;
 
+import net.mv.meuespaco.controller.filtro.FiltroEntradaProdutos;
 import net.mv.meuespaco.controller.filtro.FiltroPesquisaMovimento;
 import net.mv.meuespaco.dao.EstoqueDAO;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
+import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.Movimento;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.util.Paginator;
+import net.mv.meuespaco.util.UtilDateTimeConverter;
 
 /**
  * Implementação DAO do Estoque representando as movimentações.
@@ -299,6 +302,65 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		return criteria.list();
+	}
+
+	@Override
+	public List<MovimentoPorComposicaoSubgrupo> agruparMovimentacaoPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator) 
+	{
+		StringBuilder sqlStrBuilder = new StringBuilder()
+			.append("SELECT ") 
+			.append("DATE(horario) as data, ")
+			.append("concat(f.descricao, ', ', g.descricao, ', ', s.descricao) as subgrupo, ")
+			.append("p.composicao as composicao, ")
+			.append("SUM(qtd) as qtd ")
+			
+			.append("FROM ")
+			.append("movimento m ")
+			.append("LEFT JOIN produto p ON p.codigo = m.produto_codigo ")
+			.append("LEFT JOIN sub_grupo s ON s.codigo = p.subgrupo_codigo ")
+			.append("LEFT JOIN grupo g ON g.codigo = s.grupo_codigo ")
+			.append(" LEFT JOIN familia f ON f.codigo = g.familia_codigo ")
+				
+			.append("WHERE ")
+			.append("tipo_movimento = 'ENTRADA' AND ")
+			.append("DATE(horario) BETWEEN :data_inicial AND :data_final ");
+				
+		if (null != filtro.getFiltroProduto().getSubgrupo())
+			sqlStrBuilder.append("AND s.codigo = :subgrupo ");
+				
+		if (null != filtro.getFiltroProduto().getComposicao())
+			sqlStrBuilder.append("AND p.composicao = :composicao ");
+				
+		sqlStrBuilder.append("GROUP BY ")
+			.append("DATE(horario), ")
+			.append("s.descricao, ")
+			.append("p.composicao ")
+				
+			.append("ORDER BY ")
+			.append("DATE(horario), ")
+			.append("s.descricao");
+		
+		SQLQuery query =  this.getSession().createSQLQuery(sqlStrBuilder.toString());
+		
+		query.setParameter("data_inicial", UtilDateTimeConverter.toDate(filtro.getFiltroPeriodo().getDataInicial()));				
+
+		if (null != filtro.getFiltroProduto().getSubgrupo())
+			query.setLong("subgrupo", filtro.getFiltroProduto().getSubgrupo().getCodigo());
+				
+		if (null != filtro.getFiltroProduto().getComposicao())
+			query.setString("composicao", filtro.getFiltroProduto().getComposicao().toString());
+		
+		if (filtro.getFiltroPeriodo().isComposto())
+		{
+			query.setParameter("data_final", UtilDateTimeConverter.toDate(filtro.getFiltroPeriodo().getDataFinal()));
+		} else 
+		{
+			query.setParameter("data_final", UtilDateTimeConverter.toDate(filtro.getFiltroPeriodo().getDataInicial()));
+		}
+		
+		query.setResultTransformer(new AliasToBeanResultTransformer(MovimentoPorComposicaoSubgrupo.class));
+		
+		return query.list();
 	}
 
 }

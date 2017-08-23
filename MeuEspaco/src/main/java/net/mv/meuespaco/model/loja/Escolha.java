@@ -39,6 +39,10 @@ import net.mv.meuespaco.model.grade.Grade;
  * @author Sidronio
  *
  */
+/**
+ * @author sidronio
+ *
+ */
 @Entity
 @Vetoed
 @Table(name="escolha")
@@ -268,18 +272,10 @@ public class Escolha extends EntidadeModel implements Serializable {
 	}
 	
 	/**
-	 * Atende a escolha quando são separados seus itens.
-	 */
-	public void atende() 
-	{		
-		this.finaliza();
-	}
-
-	/**
 	 * Finaliza a escolha ajsutando a data e hora de finalização 
 	 * e seu status. 
 	 */
-	private void finaliza() 
+	public void finaliza() 
 	{		
 		this.dataFinalizacao = LocalDateTime.now();
 		this.status = StatusEscolha.FINALIZADA;
@@ -345,6 +341,14 @@ public class Escolha extends EntidadeModel implements Serializable {
 		for (ItemEscolha itemEscolha : itens) {
 			itemEscolha.atendeOuCancelaAtendimento();
 		}
+	}
+	
+	/**
+	 * Atende a escolha e forma parcial e permite retornar.
+	 */
+	public void atendeParcialmente()
+	{
+		this.setStatus(StatusEscolha.EM_SEPARACAO);
 	}
 	
 	/**
@@ -569,6 +573,7 @@ public class Escolha extends EntidadeModel implements Serializable {
 		StringJoiner joiner = new StringJoiner(";");
 		joiner.add(this.codigoFormatado());
 		joiner.add(this.getCliente().getCodigoSiga());
+		joiner.add(this.getCliente().getNome());
 		joiner.add(this.getData().format(dtf));
 		joiner.add(this.qtdDeItensAtendidos().toString());
 		joiner.add(this.valorDosItensAtendidos().toString());

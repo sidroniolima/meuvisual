@@ -182,7 +182,7 @@ public class EscolhaTest {
 		assertTrue("O item 2 foi atendido.", item2.isAtendido());
 		assertTrue("O item 3 foi atendido.", item3.isAtendido());
 		
-		escolha.atende();
+		escolha.finaliza();
 		LocalDateTime horaDeFinalizacao = LocalDateTime.now();
 		
 		assertTrue("Todos os itens foram atendidos.", escolha.foramTodosOsItensAtendidos());
@@ -214,7 +214,7 @@ public class EscolhaTest {
 		assertTrue("O item 2 foi atendido.", item2.isAtendido());
 		assertFalse("O item 3 foi atendido.", item3.isAtendido());
 		
-		escolha.atende();
+		escolha.finaliza();
 		
 		assertFalse("Todos os itens foram atendidos (1 parcialmente).", escolha.foramTodosOsItensAtendidos());
 		assertEquals("O status deve ser atendida.", StatusEscolha.FINALIZADA, escolha.getStatus());
@@ -549,11 +549,37 @@ public class EscolhaTest {
 		
 		//brincoPendurado, 2, 20884499MV10090
 		escolha.getItens().get(1).setQtdAtendido(BigDecimal.ONE);
-		escolha.atende();
+		escolha.finaliza();
 			
 		String csv = escolha.generateCsv();
 		System.out.println(csv);
 
-		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;"+data+";1;100.9;20884499MV10090;1;100.90;100.9"));
+		assertTrue("Arquivo csv deve conter...", csv.contains("000001;015308;Sidronio;"+data+";1;100.9;20884499MV10090;1;100.90;100.9"));
+	}
+	
+	@Test
+	public void deveAtenderParcialmente() throws RegraDeNegocioException
+	{
+		Cliente cliente = new Cliente(1L, "Sidronio");
+		cliente.setCodigoSiga("015308");
+		
+		LocalDateTime horario = LocalDateTime.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				
+		String data = dtf.format(horario);
+		
+		escolha = new EscolhaFactory()
+				.doCliente(cliente)
+				.naData(horario)
+				.comQtdMaximaDeItens(4)
+				.comOsItens(itensCarrinho)
+				.cria();	
+		escolha.setCodigo(1L);
+		
+		escolha.getItens().get(1).setQtdAtendido(BigDecimal.ONE);
+		escolha.atendeParcialmente();
+		
+		assertEquals("Valor do item atendido", new BigDecimal(100.9).setScale(2, RoundingMode.HALF_DOWN), escolha.getItens().get(1).valorAtendido().setScale(2, RoundingMode.HALF_DOWN));
+		assertEquals("Status", StatusEscolha.EM_SEPARACAO, escolha.getStatus());
 	}
 }

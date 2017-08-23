@@ -180,14 +180,27 @@
 							        
 							        <div class="row">
 							        
-							        	<h:panelGroup id="panel-btn-atende">    
-				                        	<div class="col-sm-12 text-center">                        
+							        	<h:panelGroup id="panel-btn-atende" style="text-align:right">    
+				                        	<div class="col-md-12">                        
 						                        <h:commandButton
 						                        	class="btn btn-primary"
-						                        	action="#{atendeEscolhaBean.atendeEscolha()}"
-						                        	value="Atender"
+						                        	action="#{atendeEscolhaBean.finalizaEscolha()}"
+						                        	value="Finalizar"
 						                        	disabled="#{not atendeEscolhaBean.podeAtender}"
 						                        	rendered="#{atendeEscolhaBean.escolha.foramTodosOsItensAtendidos()}">
+						                        	
+						                        	<f:ajax
+						                        		execute="@this"
+						                        		render="frm-escolha"/>
+					                        	</h:commandButton>
+	
+							                    <h:commandButton
+						                        	class="btn btn-warning"
+						                        	style="margin-right:5px"
+													value="Atender parcialmente"
+						                        	disabled="#{not atendeEscolhaBean.podeAtender}"
+						                        	rendered="#{not atendeEscolhaBean.escolha.foramTodosOsItensAtendidos()}"
+						                        	action="${atendeEscolhaBean.atendeParcialmente()}">
 						                        	
 						                        	<f:ajax
 						                        		execute="@this"
@@ -198,7 +211,7 @@
 													jsfc="h:commandLink"
 													type="button"
 													immediate="true"
-													value="Atender parcialmente"
+													value="Finalizar parcialmente"
 						                        	disabled="#{not atendeEscolhaBean.podeAtender}"
 						                        	rendered="#{not atendeEscolhaBean.escolha.foramTodosOsItensAtendidos()}">
 								                  
@@ -206,6 +219,7 @@
 								                   <f:passThroughAttribute name="data-target" value="#myModalAtendimento" />
 								                   <f:ajax/>
 												</a>
+					                        	
 				                        	</div>
 				                        	
 				                        </h:panelGroup>				            				            		            
@@ -335,7 +349,7 @@
 			                		<a  type="submit"
 			                			class="btn btn-warning btn-sm"
 			                			jsfc="h:commandLink"
-			                			action="#{atendeEscolhaBean.atendeEscolha()}">
+			                			action="#{atendeEscolhaBean.finalizaEscolha()}">
 			                			Sim
 									
 										<f:passThroughAttribute name="data-dismiss" value="modal" />

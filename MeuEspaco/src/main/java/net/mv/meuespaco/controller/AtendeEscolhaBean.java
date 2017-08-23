@@ -51,13 +51,13 @@ public class AtendeEscolhaBean implements Serializable {
 	}
 	
 	/**
-	 * Atende a escolha do cliente.
+	 * Finaliza a escolha do cliente.
 	 */
-	public String atendeEscolha() 
+	public String finalizaEscolha() 
 	{
 		try 
 		{
-			escolha.atende();
+			escolha.finaliza();
 			this.escolhaSrvc.salva(escolha);
 			FacesUtil.addSuccessMessage("Escolha atendida com sucesso.");
 			
@@ -106,6 +106,31 @@ public class AtendeEscolhaBean implements Serializable {
 	public boolean isPodeAtender()
 	{
 		return null != escolha;
+	}
+	
+	/**
+	 * Atende uma escolha parcialmente e salva as 
+	 * quantidades de produtos atendidas.
+	 * 
+	 * @return
+	 */
+	public String atendeParcialmente()
+	{
+		try 
+		{
+			escolha.atendeParcialmente();
+			this.escolhaSrvc.salva(escolha);
+			FacesUtil.addSuccessMessage("Escolha parcialmente atendida com sucesso.");
+			
+			return "pesquisa-escolha";
+			
+		} catch (RegraDeNegocioException e) {
+			FacesUtil.addErrorMessage(
+					String.format("Não foi possível atender parcialmente a escolha. %s.", e.getMessage()));
+		}
+		
+		return null;
+		
 	}
 
 	/**

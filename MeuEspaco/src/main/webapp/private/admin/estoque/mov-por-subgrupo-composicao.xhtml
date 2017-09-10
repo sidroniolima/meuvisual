@@ -186,7 +186,9 @@
 				                                    <th style="width:100px">Date</th>
 				                                    <th style="width:100px">Subgrupo</th>
 				                                    <th style="width:100px">Composição</th>
-				                                    <th style="width:40px">Qtd</th>
+				                                    <th style="width:100px">Característica</th>
+				                                    <th style="width:40px">Qtd movimentada</th>
+				                                    <th style="width:40px">Qtd de itens</th>
 				                                </tr>
 				                            </thead>
 				                            
@@ -206,6 +208,7 @@
 														</td>
 													   <td>#{mov.subgrupo}</td>
 													   <td>#{mov.descricaoComposicao()}</td>
+													   <td>#{mov.caracteristica}</td>
 													   <td>
 													   	<h:outputText 
 													   		value="#{mov.qtd}">
@@ -215,6 +218,15 @@
 													   			locale="pt_BR"/>
 													   	</h:outputText>
 													   </td>
+													   <td>
+													   	<h:outputText 
+													   		value="#{mov.qtdItens}">
+													   		
+													   		<f:convertNumber 
+													   			type="number"
+													   			locale="pt_BR"/>
+													   	</h:outputText>
+													   </td>													   
 													</tr>
 												</ui:repeat>		                            
 		

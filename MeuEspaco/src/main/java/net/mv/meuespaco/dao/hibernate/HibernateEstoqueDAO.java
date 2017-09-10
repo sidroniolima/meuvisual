@@ -312,17 +312,21 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			.append("DATE(horario) as data, ")
 			.append("concat(f.descricao, ', ', g.descricao, ', ', s.descricao) as subgrupo, ")
 			.append("p.composicao as composicao, ")
-			.append("SUM(qtd) as qtd ")
-			
+			.append("c.valor as caracteristica, ")
+			.append("SUM(qtd) as qtd, ")
+            .append("COUNT(distinct(m.produto_codigo)) as qtdItens ")			
+            
 			.append("FROM ")
 			.append("movimento m ")
 			.append("LEFT JOIN produto p ON p.codigo = m.produto_codigo ")
 			.append("LEFT JOIN sub_grupo s ON s.codigo = p.subgrupo_codigo ")
 			.append("LEFT JOIN grupo g ON g.codigo = s.grupo_codigo ")
-			.append(" LEFT JOIN familia f ON f.codigo = g.familia_codigo ")
+			.append("LEFT JOIN familia f ON f.codigo = g.familia_codigo ")
+			.append("LEFT JOIN produto_caracteristicas c on c.produto_codigo = p.codigo ")
 				
 			.append("WHERE ")
 			.append("tipo_movimento = 'ENTRADA' AND ")
+			.append("origem = 'AJUSTE' AND ")
 			.append("DATE(horario) BETWEEN :data_inicial AND :data_final ");
 				
 		if (null != filtro.getFiltroProduto().getSubgrupo())
@@ -334,11 +338,15 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 		sqlStrBuilder.append("GROUP BY ")
 			.append("DATE(horario), ")
 			.append("s.descricao, ")
-			.append("p.composicao ")
+			.append("p.composicao, ")
+			.append("c.valor ")
 				
 			.append("ORDER BY ")
 			.append("DATE(horario), ")
-			.append("s.descricao");
+			.append("s.descricao, ")
+			.append("p.composicao, ")
+			.append("c.valor ");
+
 		
 		SQLQuery query =  this.getSession().createSQLQuery(sqlStrBuilder.toString());
 		

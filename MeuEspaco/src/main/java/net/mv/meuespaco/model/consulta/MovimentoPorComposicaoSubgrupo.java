@@ -1,6 +1,7 @@
 package net.mv.meuespaco.model.consulta;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 
 import net.mv.meuespaco.model.Composicao;
@@ -10,7 +11,9 @@ public class MovimentoPorComposicaoSubgrupo
 	private Date data;
 	private String subgrupo;
 	private String composicao;
+	private String caracteristica;
 	private BigDecimal qtd;
+	private BigInteger qtdItens;
 	
 	public MovimentoPorComposicaoSubgrupo() {	}
 	
@@ -46,11 +49,25 @@ public class MovimentoPorComposicaoSubgrupo
 	public void setComposicao(String composicao) {
 		this.composicao = composicao;
 	}
+	
+	public String getCaracteristica() {
+		return caracteristica;
+	}
+	public void setCaracteristica(String caracteristica) {
+		this.caracteristica = caracteristica;
+	}
 
 	public BigDecimal getQtd() {
 		return qtd;
 	}
 	public void setQtd(BigDecimal qtd) {
 		this.qtd = qtd;
+	}
+
+	public BigInteger getQtdItens() {
+		return qtdItens;
+	}
+	public void setQtdItens(BigInteger qtdItens) {
+		this.qtdItens = qtdItens;
 	}
 }

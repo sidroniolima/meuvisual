@@ -2,7 +2,6 @@ package net.mv.meuespaco.controller;
 
 import java.math.BigInteger;
 
-import net.mv.meuespaco.model.Caracteristica;
 import net.mv.meuespaco.model.Composicao;
 
 public class ProdutosEQtdPorSubgrupo 
@@ -54,5 +53,12 @@ public class ProdutosEQtdPorSubgrupo
 	}
 	public void setCaracteristica(String caracteristica) {
 		this.caracteristica = caracteristica;
+	}
+
+	@Override
+	public String toString() {
+		return "ProdutosEQtdPorSubgrupo [grupoDescricao=" + grupoDescricao + ", subgrupoDescricao=" + subgrupoDescricao
+				+ ", departamentoDescricao=" + departamentoDescricao + ", composicao=" + composicao
+				+ ", caracteristica=" + caracteristica + ", qtd=" + qtd + "]";
 	}
 }

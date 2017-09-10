@@ -16,9 +16,9 @@ import javax.inject.Inject;
 
 import org.primefaces.model.UploadedFile;
 
-import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.controller.filtro.FiltroProduto;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.dao.ProdutoDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -28,6 +28,7 @@ import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
 import net.mv.meuespaco.model.TipoGrade;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeComCor;
@@ -327,6 +328,15 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	}
 	
 	@Override
+	public List<Produto> filtraPelaPesquisa(FiltroProduto filtro) {
+		
+		return produtoDAO.filtrarPeloModoEspecifico(
+				filtro, 
+				0, 
+				Integer.MAX_VALUE);
+	}	
+	
+	@Override
 	public List<Produto> ultimosDezProdutosCadastrados() {
 		return produtoDAO.listarUltimosCadastros(10);
 	}
@@ -462,5 +472,11 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	public List<ProdutosEQtdPorSubgrupo> listaProdutosEQtdPorSubgrupo() 
 	{
 		return this.produtoDAO.listarQtdDeProdutosPorSubgrupoEGrupo();
+	}
+	
+	@Override
+	public List<ReferenciaProdutoComQtd> detalhaProdutosEQtdPorSubgrupoPorReferencia(FiltroProduto filtro) 
+	{
+		return this.produtoDAO.detalharQtdDeProdutosPorSubgrupoEGrupo(filtro);
 	}
 }

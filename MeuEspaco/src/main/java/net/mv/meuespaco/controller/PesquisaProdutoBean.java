@@ -9,6 +9,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.mv.meuespaco.controller.filtro.FiltroProduto;
 import net.mv.meuespaco.exception.DeleteException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Produto;
@@ -37,56 +38,6 @@ public class PesquisaProdutoBean extends PesquisaSingle implements Serializable 
 	private Produto produtoSelecionado;
 	
 	private FiltroProduto filtro;
-	
-	/**
-	 * Filtro utilizado na pesquisa dos Produtos.
-	 * 
-	 * @author Sidronio
-	 */
-	public class FiltroProduto {
-		
-		private String codigoInterno;
-		private String descricao;
-		
-		public FiltroProduto() {		}
-		
-		/**
-		 * Verifica se o filtro foi preenchido.
-		 * 
-		 * @return
-		 */
-		public boolean isPreenchido() {
-			
-			return !(null == codigoInterno || null == descricao);
-		}
-		
-		/**
-		 * @return the codigoInterno
-		 */
-		public String getCodigoInterno() {
-			return codigoInterno;
-		}
-		/**
-		 * @param codigoInterno the codigoInterno to set
-		 */
-		public void setCodigoInterno(String codigoInterno) {
-			this.codigoInterno = codigoInterno;
-		}
-		
-		/**
-		 * @return the descricao
-		 */
-		public String getDescricao() {
-			return descricao;
-		}
-		/**
-		 * @param descricao the descricao to set
-		 */
-		public void setDescricao(String descricao) {
-			this.descricao = descricao;
-		}
-		
-	}
 	
 	@Override
 	@PostConstruct

@@ -17,14 +17,15 @@ import org.hibernate.persister.collection.CollectionPropertyNames;
 import org.hibernate.sql.JoinType;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 
-import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.controller.filtro.FiltroProduto;
 import net.mv.meuespaco.dao.ProdutoDAO;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.Paginator;
 
@@ -135,6 +136,12 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteria.setFetchMode("departamento", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
 		criteria.setFetchMode("subgrupo.grupo", FetchMode.JOIN);
+		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
+		
+		criteria.createAlias("departamento", "dep", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("subgrupo", "sub", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("subgrupo.grupo", "gru", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("caracteristicas", "car", JoinType.LEFT_OUTER_JOIN);
 		
 		if (null != filtro.getCodigoInterno() && !filtro.getCodigoInterno().isEmpty()) {
 			criteria.add(Restrictions.eq("codigoInterno", filtro.getCodigoInterno()));
@@ -142,6 +149,46 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		if (null != filtro.getDescricao() && !filtro.getDescricao().isEmpty()) {
 			criteria.add(Restrictions.like("descricao", filtro.getDescricao(), MatchMode.ANYWHERE));
+		}
+		
+		if (null != filtro.getSubgrupo())
+		{
+			criteria.add(Restrictions.eq("subgrupo", filtro.getSubgrupo()));
+		}
+		
+		if (null != filtro.getComposicao())
+		{
+			criteria.add(Restrictions.eq("composicao", filtro.getComposicao()));
+		}		
+		
+		if (null != filtro.getDepartamentoDescricao() && !filtro.getDepartamentoDescricao().isEmpty())
+		{
+			criteria.add(Restrictions.eq("dep.descricao", filtro.getDepartamentoDescricao()));
+		}
+		
+		if (null != filtro.getGrupoDescricao() && !filtro.getGrupoDescricao().isEmpty())
+		{
+			criteria.add(Restrictions.eq("gru.descricao", filtro.getGrupoDescricao()));
+		}	
+		
+		if (null != filtro.getSubgrupoDescricao() && !filtro.getSubgrupoDescricao().isEmpty())
+		{
+			criteria.add(Restrictions.eq("sub.descricao", filtro.getSubgrupoDescricao()));
+		}			
+		
+		if (null != filtro.getCaracteristica() && !filtro.getCaracteristica().isEmpty())
+		{
+			criteria.add(Restrictions.eq("car.valor", filtro.getCaracteristica()));
+		}			
+		
+		if (null != filtro.getFinalidade())
+		{
+			criteria.add(Restrictions.eq("finalidade", filtro.getFinalidade()));
+		}
+		
+		if (null != filtro.isAtivo())
+		{
+			criteria.add(Restrictions.eq("ativo", filtro.isAtivo()));
 		}
 		
 		criteria.addOrder(Order.asc("codigoInterno"));
@@ -529,6 +576,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		"p.composicao as composicao, " +
 		"c.valor as caracteristica, " +
 		"COUNT(p.codigo) as qtd " +
+		
 		"FROM " +
 		"produto p " +
 		"LEFT JOIN sub_grupo s on p.subgrupo_codigo = s.codigo " +
@@ -536,13 +584,16 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		"LEFT JOIN produto_caracteristicas c on c.produto_codigo = p.codigo " +
 		"LEFT JOIN departamento d on d.codigo = p.departamento_codigo " +
 		"WHERE " +
-		"p.ativo = 1 " +	
+		"p.ativo = 1 AND " +
+		"p.finalidade = 'CONSIGNADO' " +	
+		
 		"GROUP BY " +
 		"g.descricao, " +
 		"s.descricao, " +
 		"d.descricao, " +
 		"p.composicao, " + 
 		"c.valor " +
+		
 		"ORDER BY " +
 		"g.descricao, " +
 		"s.descricao, " + 
@@ -555,5 +606,79 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		return query.list();
 	}
+	
+	@Override
+	public List<ReferenciaProdutoComQtd> detalharQtdDeProdutosPorSubgrupoEGrupo(FiltroProduto filtro)
+	{
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("SELECT ")
+		.append("p.codigo_interno as codigoInterno, ")
+		.append("p.descricao as descricao, ")
+		.append("coalesce( ")
+		.append("	(")
+		.append("		SELECT coalesce(sum(qtd),0.00) FROM movimento ")
+		.append("		WHERE ")
+		.append("		tipo_movimento = 'ENTRADA'		AND ")
+		.append("		produto_codigo = p.codigo		AND ")
+		.append("       a.codigo = almoxarifado_codigo) - ")
+		.append("	( ")
+		.append("		SELECT coalesce(sum(qtd),0.00) FROM movimento ")
+		.append("		WHERE ")
+		.append("		tipo_movimento = 'SAIDA'		AND ")
+		.append("		produto_codigo = p.codigo		AND ")
+		.append("       a.codigo = almoxarifado_codigo) ")
+		.append(",0.00) AS 'qtd' ")
+		
+		.append("FROM ")
+		.append("almoxarifado a, ")		
+		.append("produto p ")
+		.append("LEFT JOIN sub_grupo s on p.subgrupo_codigo = s.codigo ")
+		.append("LEFT JOIN grupo g on s.grupo_codigo = g.codigo ")
+		.append("LEFT JOIN produto_caracteristicas c on c.produto_codigo = p.codigo ")
+		.append("LEFT JOIN departamento d on d.codigo = p.departamento_codigo ")
+		
+		.append("WHERE ")
+		
+		.append("a.codigo = 1	AND ")
+		.append("p.ativo = 1 ");
+
+		if (null != filtro.getComposicao())
+		{
+			strBuilder.append("AND p.composicao = '" + filtro.getComposicao() + "' ");
+		}		
+		
+		if (null != filtro.getDepartamentoDescricao() && !filtro.getDepartamentoDescricao().isEmpty())
+		{
+			strBuilder.append("AND d.descricao = '" + filtro.getDepartamentoDescricao() + "' ");
+		}
+		
+		if (null != filtro.getGrupoDescricao() && !filtro.getGrupoDescricao().isEmpty())
+		{
+			strBuilder.append("AND g.descricao = '" + filtro.getGrupoDescricao() + "' ");
+		}	
+		
+		if (null != filtro.getSubgrupoDescricao() && !filtro.getSubgrupoDescricao().isEmpty())
+		{
+			strBuilder.append("AND s.descricao = '" + filtro.getSubgrupoDescricao() + "' ");
+		}			
+		
+		if (null != filtro.getCaracteristica() && !filtro.getCaracteristica().isEmpty())
+		{
+			strBuilder.append("AND c.valor = '" + filtro.getCaracteristica() + "' ");	
+		}			
+		
+		if (null != filtro.getFinalidade())
+		{
+			strBuilder.append("AND p.finalidade = '" + filtro.getFinalidade() + "' ");	
+		}
+		
+		strBuilder.append("ORDER BY ")
+		.append("p.descricao; ");
+		
+		SQLQuery query = this.getSession().createSQLQuery(strBuilder.toString());
+		query.setResultTransformer(new AliasToBeanResultTransformer(ReferenciaProdutoComQtd.class));
+		
+		return query.list();
+	}	
 	
 }

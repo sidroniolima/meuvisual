@@ -3,14 +3,15 @@ package net.mv.meuespaco.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
-import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
-import net.mv.meuespaco.model.loja.Departamento;
+import net.mv.meuespaco.controller.filtro.FiltroProduto;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.Paginator;
 
 /**
@@ -167,4 +168,11 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long>{
 	 * @return qtd de produtos ativos agrupados.
 	 */
 	List<ProdutosEQtdPorSubgrupo> listarQtdDeProdutosPorSubgrupoEGrupo();
+
+	/**
+	 * Detalha a qtd de  produtos ativos agrupados pelo grupo e subgrupo.
+	 * 
+	 * @return referências dos produtos agrupados.
+	 */
+	List<ReferenciaProdutoComQtd> detalharQtdDeProdutosPorSubgrupoEGrupo(FiltroProduto filtro);
 }

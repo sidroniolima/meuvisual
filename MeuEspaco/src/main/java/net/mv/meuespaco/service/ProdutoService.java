@@ -7,20 +7,21 @@ import java.util.Map;
 
 import org.primefaces.model.UploadedFile;
 
-import net.mv.meuespaco.controller.PesquisaProdutoBean.FiltroProduto;
 import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.controller.filtro.FiltroProduto;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Caracteristica;
-import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
 import net.mv.meuespaco.model.TipoGrade;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.Tamanho;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.Paginator;
 
 /**
@@ -170,6 +171,15 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 */
 	public List<Produto> filtraPelaPesquisa(FiltroProduto filtro, Paginator paginator);
 
+	/**
+	 * Filtra os registros de Produtos de acordo com o filtro 
+	 * na pesquisa e retorna os dados SEM paginação. 
+	 * 
+	 * @param filtro
+	 * @return
+	 */
+	public List<Produto> filtraPelaPesquisa(FiltroProduto filtro);
+	
 	/**
 	 * Busca um produto pelo seu código interno.
 	 * @param codigoInterno
@@ -327,4 +337,11 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 * @return lista de quantidade de produtos por sub e grupo.
 	 */
 	public List<ProdutosEQtdPorSubgrupo> listaProdutosEQtdPorSubgrupo();
+
+	/**
+	 * Detalha os produtos e a quantidade dos ativos agrupados pelo sugrupo e grupo  
+	 * 
+	 * @return lista de referências.
+	 */
+	public List<ReferenciaProdutoComQtd> detalhaProdutosEQtdPorSubgrupoPorReferencia(FiltroProduto filtro);
 }

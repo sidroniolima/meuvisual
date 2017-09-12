@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 
 /**
@@ -55,6 +57,7 @@ public class Usuario extends EntidadeModel implements Serializable {
 	@ElementCollection(targetClass=Permissao.class, fetch=FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	@Column(name="permissao_codigo")
+	@Cascade(value=org.hibernate.annotations.CascadeType.ALL)
 	private List<Permissao> permissoes = new ArrayList<Permissao>();
 	
 	@Column(columnDefinition = "boolean default true")
@@ -177,6 +180,22 @@ public class Usuario extends EntidadeModel implements Serializable {
 		
 		return nome;
 	}
+
+	/**
+	 * Remove as permissões atuais e inclui as novas. Utilizado na importação 
+	 * dos clientes na atualização dos já existentes.
+	 * 
+	 * @param novasPermissoes.
+	 */
+	public void atualizaPermissoes(List<Permissao> novasPermissoes) 
+	{
+		if (this.isAdmin())
+		{
+			novasPermissoes.add(Permissao.ROLE_ADMIN);
+		}
+		this.permissoes = new ArrayList<Permissao>();
+		this.permissoes.addAll(novasPermissoes);
+	}
 	
 	/**
 	 * @return the codigo
@@ -292,5 +311,4 @@ public class Usuario extends EntidadeModel implements Serializable {
 			return false;
 		return true;
 	}
-
 }

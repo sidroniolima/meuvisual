@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.Permissao;
 import net.mv.meuespaco.model.Regiao;
 import net.mv.meuespaco.model.Semana;
+import net.mv.meuespaco.model.Usuario;
 
 public class ClienteTest {
 
@@ -124,5 +126,24 @@ public class ClienteTest {
 	{
 		cliente.criaUsuario(Arrays.asList(Permissao.ROLE_ADMIN));
 		assertFalse("Tem permissão Administrativa.", cliente.temPermissao(Permissao.ROLE_VENDA));
+	}
+	
+	@Test
+	public void deveAtualizarPermissoes()
+	{
+		List<Permissao> novasPermissoes = new ArrayList<Permissao>();
+		novasPermissoes.addAll(Arrays.asList(Permissao.ROLE_VENDA, Permissao.ROLE_CLIENTE));
+		
+		cliente.criaUsuario(Arrays.asList(Permissao.ROLE_ADMIN));
+		cliente.atualizaPermissoes(novasPermissoes);
+		
+		assertEquals("Permissões atualizadas.", Arrays.asList(Permissao.ROLE_VENDA, Permissao.ROLE_CLIENTE, Permissao.ROLE_ADMIN), cliente.getUsuario().getPermissoes());
+	}
+	
+	@Test
+	public void deveVerificarSeUsuarioEhAdministrativo()
+	{
+		Usuario usuario = new Usuario();
+		assertFalse("Usuario não adm.", usuario.isAdmin());
 	}
 }

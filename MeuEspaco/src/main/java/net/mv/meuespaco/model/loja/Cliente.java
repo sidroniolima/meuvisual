@@ -342,7 +342,7 @@ public class Cliente implements Serializable {
 	 * ocorre na atualização de peças para escolha na atualização 
 	 * de clientes com os dados vindos do sistema ERP.
 	 */
-	private void ativaCliente() {
+	public void ativaCliente() {
 		if (status.equals(StatusCliente.INATIVO)) {
 			this.status = StatusCliente.ATIVO;
 		}
@@ -446,6 +446,15 @@ public class Cliente implements Serializable {
 	{
 		if (this.temPermissao(role))
 			this.getUsuario().getPermissoes().remove(role);
+	}
+
+	/**
+	 * Atualiza as permissões do cliente. Utilizado na atualização.
+	 * @param permissoes.
+	 */
+	public void atualizaPermissoes(List<Permissao> permissoes) 
+	{
+		this.usuario.atualizaPermissoes(permissoes);
 	}
 	
 	/**

@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -312,30 +311,33 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 		registrosErp.parallelStream().forEach(c -> 
 		{
 			Optional<Cliente> optCliente = Optional.ofNullable(this.buscarClientePeloCpf(new Cpf(c.getCpf())));
+			List<Permissao> permissoes = permissoesPadrao;
 			
 			if (optCliente.isPresent())
 			{
 				Cliente cliente = optCliente.get();
-
+				
+				//TODO: cachear a lista de regiões
 				Optional<Regiao> optRegiao = Optional.ofNullable(regiaoSrvc.buscaPeloCodigoInterno(c.getCodigoRegiao()));
 				
 				if (optRegiao.isPresent())
 				{
 					Regiao regiaoDoErp = optRegiao.get();
 					
+					//TODO: permissões na região.
+					if (regiaoDoErp.getCodigoInterno().equals("000001"))
+					{
+						permissoes = permissoesRestritas;
+					} else 
+					{
+						permissoes = permissoesPadrao;
+					}
+					
 					if (cliente.isPreCadastro())
 					{
 						try 
 						{
-							//TODO: permissões na região.
-							if (regiaoDoErp.getCodigoInterno().equals("000001"))
-							{
-								cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoesRestritas);
-							} else 
-							{
-								cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoesPadrao);
-							}
-							
+							cliente.efetivaCadastro(c.getCodigoSiga(), optRegiao.get(), permissoes);
 							logger.log(Level.INFO, String.format(this.msgEfetivacao, c.getCodigoSiga()));
 							
 						} catch (RegraDeNegocioException e) 
@@ -358,10 +360,12 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 					logger.log(Level.WARNING, String.format(this.msgRegiaoNaoExite, c.getCodigoRegiao()));
 				}
 				
-				cliente.atualizaValoresDoErp(c.getQtd(), c.getValor());	
-				
 				try 
 				{
+					cliente.ativaCliente();
+					cliente.atualizaValoresDoErp(c.getQtd(), c.getValor());	
+					cliente.atualizaPermissoes(permissoes);
+					
 					this.salva(cliente);
 					
 					logger.log(Level.INFO, String.format(this.msgClienteAtualizado, c.getCodigoSiga(), c.getQtd(), c.getValor()));
@@ -370,6 +374,11 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 					
 					logger.log(Level.SEVERE, 
 							String.format(this.msgErroAoSalvar, c.getCodigoSiga(), e.getMessage()));
+				
+				} catch (Exception e) 
+				{
+					logger.log(Level.SEVERE, 
+							String.format(this.msgErroAoSalvar, c.getCodigoSiga(), e.getMessage()));					
 				}
 			} else
 			{

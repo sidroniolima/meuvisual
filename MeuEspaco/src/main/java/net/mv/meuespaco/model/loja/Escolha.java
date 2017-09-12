@@ -598,6 +598,7 @@ public class Escolha extends EntidadeModel implements Serializable {
 		
 		this.itens
 			.stream()
+			.sorted((i1,i2) -> i1.getProduto().getCodigoInterno().compareTo(i2.getProduto().getCodigoInterno()) )
 			.filter(ItemEscolha::isAtendido)
 			.map(i -> i.toCsv())
 			.forEach(i -> builder.append(escolha.concat(i).concat("\n")));

@@ -32,6 +32,7 @@ public class ExportaEscolhasBean implements Serializable
 	private static final String MSG_ERROR = "Não foi possível exportar as escolhas selecionadas.";
 	private static final String MSG_SUCCESS = "Foram exportadas %s escolhas.";
 	private static final String MSG_FILTRO_NAO_PREENCHIDO = "O filtro deve ser preenchido";
+	private static final String MSG_ZERO_REGISTROS_RETORNADOS = "Não foi possível encontrar escolhas para este filtro.";
 
 	@Inject
 	private EscolhaService escolhaSrvc;
@@ -56,6 +57,11 @@ public class ExportaEscolhasBean implements Serializable
 		filtro.setStatus(StatusEscolha.FINALIZADA);
 		
 		escolhas = escolhaSrvc.filtraPelaPesquisaSemPaginacao(filtro);
+		
+		if (this.escolhas.isEmpty())
+		{
+			FacesUtil.addErrorMessage(MSG_ZERO_REGISTROS_RETORNADOS);
+		}
 	}
 	
 	public int qtdEscolhasFiltradas()

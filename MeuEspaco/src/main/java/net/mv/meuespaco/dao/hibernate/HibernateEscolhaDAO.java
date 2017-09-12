@@ -318,7 +318,6 @@ public class HibernateEscolhaDAO extends HibernateGenericDAO<Escolha, Long> impl
 		}		
 		
 		criteria.addOrder(Order.asc("codigo"));
-		criteria.addOrder(Order.asc("i.codigo"));
 		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		

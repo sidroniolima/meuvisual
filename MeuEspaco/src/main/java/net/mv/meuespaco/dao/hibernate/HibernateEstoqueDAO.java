@@ -337,13 +337,13 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 				
 		sqlStrBuilder.append("GROUP BY ")
 			.append("DATE(horario), ")
-			.append("s.descricao, ")
+			.append("s.codigo, ")
 			.append("p.composicao, ")
 			.append("c.valor ")
 				
 			.append("ORDER BY ")
 			.append("DATE(horario), ")
-			.append("s.descricao, ")
+			.append("s.codigo, ")
 			.append("p.composicao, ")
 			.append("c.valor ");
 

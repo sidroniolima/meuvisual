@@ -3,10 +3,12 @@ package net.mv.meuespaco.converter;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
 /**
@@ -28,9 +30,15 @@ public class LocalDateTimeFacesConverter implements Converter {
 		
 		LocalDateTime localDateTime = null; 
 		
-		localDateTime = LocalDateTime.parse(
+		try 
+		{
+			localDateTime = LocalDateTime.parse(
 					stringValue.trim(), 
 					DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").withZone(ZoneId.systemDefault()));
+		} catch (DateTimeParseException dtpEx)
+		{
+			throw new ConverterException("O formato da data e hora está inválido. Deve ser: dd/MM/yyyy HH:mm:ss.");
+		}
 		
 		return localDateTime;
 		

@@ -25,6 +25,7 @@ import net.mv.meuespaco.dao.EstoqueDAO;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
 import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.Movimento;
 import net.mv.meuespaco.model.grade.Grade;
@@ -259,16 +260,17 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			if (filtro.isPeriodoSimples())
 			{
 				criteriaSublist.add(Restrictions.sqlRestriction(
-						"date(horario) = ?", 
-						filtro.getDataInicialComoDate(),
+						"DATE(horario) = ?", 
+						UtilDateTimeConverter.toDate(filtro.getDataInicial()),
 						DateType.INSTANCE));
 			}
 
 			if (filtro.isPeriodoComposto())
 			{
 				criteriaSublist.add(Restrictions.sqlRestriction(
-						"date(horario) between ? and ?", 
-						new Date[] {filtro.getDataInicialComoDate(), filtro.getDataFinalComoDate()},
+						"DATE(horario) between ? and ?", 
+						new Date[] {	UtilDateTimeConverter.toDate(filtro.getDataInicial()), 
+										UtilDateTimeConverter.toDate(filtro.getDataFinal())},
 						new Type[] {DateType.INSTANCE, DateType.INSTANCE}));
 			}
 			
@@ -281,7 +283,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 		paginator.setTotalDeRegistros(registrosSublist.size());
 		
 		if (registrosSublist.isEmpty()) {
-			return null;
+			return registrosSublist;
 		}
 		
 		int lastResult = registrosSublist.size() <= paginator.getLastResult() ? 
@@ -292,6 +294,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 		Criteria criteria = this.getSession().createCriteria(Movimento.class);
 		criteria.setFetchMode("usuario", FetchMode.JOIN);
 		criteria.setFetchMode("produto", FetchMode.JOIN);
+		criteria.setFetchMode("produto.subgrupo", FetchMode.JOIN);
 		criteria.setFetchMode("almoxarifado", FetchMode.JOIN);
 		criteria.setFetchMode("grade", FetchMode.JOIN);
 		
@@ -371,4 +374,54 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 		return query.list();
 	}
 
+	@Override
+	public List<ReferenciaProdutoComQtd> listarReferenciasAgrupadasDeMovimentacao(FiltroPesquisaMovimento filtro) 
+	{
+		StringBuilder sqlStrBuilder = new StringBuilder()
+		
+		.append("SELECT ")
+		.append("horario as 'horario', ")
+		.append("p.descricao as 'descricao', ")
+		.append("concat(g.descricao, ', ', s.descricao) as 'grupo', ")
+		.append("SUM(m.qtd) as 'qtd' ")
+
+		.append("FROM ")
+		.append("movimento m ")
+		.append("LEFT JOIN produto p ON m.produto_codigo = p.codigo	 ")	
+		.append("LEFT JOIN sub_grupo s ON p.subgrupo_codigo = s.codigo ")
+		.append("LEFT JOIN grupo g ON s.grupo_codigo = g.codigo ")
+
+		.append("WHERE ");
+		
+		if (null != filtro.getOrigem())
+		{
+			sqlStrBuilder.append("origem = '" + filtro.getOrigem().toString() +"'		AND ");	
+		}
+		
+		
+		if (null != filtro.getTipo())
+		{
+			sqlStrBuilder.append("tipo_movimento = '" + filtro.getTipo().toString() +"'	AND ");
+		}
+		
+		sqlStrBuilder.append("horario BETWEEN :data_hora_inicial and :data_hora_final ")
+
+		.append("GROUP BY  ")
+		.append("horario, ")
+		.append("p.descricao, ")
+		.append("concat(g.descricao, ', ', s.descricao) ")
+
+		.append("ORDER BY ")
+		.append("horario, ")
+		.append("p.descricao; ");
+		
+		SQLQuery query = this.getSession().createSQLQuery(sqlStrBuilder.toString());
+		
+		query.setParameter("data_hora_inicial", UtilDateTimeConverter.toDateTime(filtro.getDataHoraInicial()));
+		query.setParameter("data_hora_final", UtilDateTimeConverter.toDateTime(filtro.getDataHoraFinal()));
+		
+		query.setResultTransformer(new AliasToBeanResultTransformer(ReferenciaProdutoComQtd.class));
+		
+		return query.list();
+	}
 }

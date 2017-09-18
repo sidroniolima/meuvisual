@@ -1,11 +1,10 @@
 package net.mv.meuespaco.controller.filtro;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import net.mv.meuespaco.model.estoque.OrigemMovimento;
 import net.mv.meuespaco.model.estoque.TipoMovimento;
-import net.mv.meuespaco.util.UtilDateTimeConverter;
 
 /**
  * Filtra o movimento pelo Tipo, Origem, Usuário, Produto e 
@@ -14,12 +13,15 @@ import net.mv.meuespaco.util.UtilDateTimeConverter;
  * @author Sidronio
  * @created 06/07/2016
  */
-public class FiltroPesquisaMovimento implements FiltroDePesquisa {
-
+public class FiltroPesquisaMovimento implements IFiltro, FiltroDePesquisa 
+{
 	private TipoMovimento tipo;
 	private OrigemMovimento origem;
 	private String nomeUsuario;
 	private String codigoInterno;
+	private LocalDateTime dataHoraInicial;
+	private LocalDateTime dataHoraFinal;
+	
 	private LocalDate dataInicial;
 	private LocalDate dataFinal;
 	
@@ -29,7 +31,8 @@ public class FiltroPesquisaMovimento implements FiltroDePesquisa {
 	 * @return se simples ou não.
 	 */
 	public boolean isPeriodoSimples() {
-		return this.dataFinal == null && this.dataInicial != null;
+		return (this.dataFinal == null && this.dataInicial != null)
+				|| (this.dataHoraFinal== null && this.dataHoraInicial != null);
 	}
 	
 	/**
@@ -38,27 +41,16 @@ public class FiltroPesquisaMovimento implements FiltroDePesquisa {
 	 * @return composto ou não.
 	 */
 	public boolean isPeriodoComposto() {
-		return this.dataFinal != null && this.dataInicial != null;
+		return (this.dataFinal != null && this.dataInicial != null)
+				|| (this.dataHoraInicial != null && this.dataHoraFinal != null);
 	}
 	
-	/**
-	 * Converte a data inicial para o formato Date.
-	 * 
-	 * @return
-	 */
-	public Date getDataInicialComoDate()
+	@Override
+	public boolean isPreenchido() 
 	{
-		return UtilDateTimeConverter.toDate(this.dataInicial);
-	}
-	
-	/**
-	 * Converte a data final para o formato Date.
-	 * 
-	 * @return
-	 */
-	public Date getDataFinalComoDate()
-	{
-		return UtilDateTimeConverter.toDate(this.dataFinal);
+		return null != this.tipo &&
+				null != this.origem &&
+				(this.isPeriodoSimples() || this.isPeriodoComposto());
 	}
 	
 	public TipoMovimento getTipo() {
@@ -102,5 +94,18 @@ public class FiltroPesquisaMovimento implements FiltroDePesquisa {
 	public void setDataFinal(LocalDate dataFinal) {
 		this.dataFinal = dataFinal;
 	}
-	
+
+	public LocalDateTime getDataHoraInicial() {
+		return dataHoraInicial;
+	}
+	public void setDataHoraInicial(LocalDateTime dataHoraInicial) {
+		this.dataHoraInicial = dataHoraInicial;
+	}
+
+	public LocalDateTime getDataHoraFinal() {
+		return dataHoraFinal;
+	}
+	public void setDataHoraFinal(LocalDateTime dataHoraFinal) {
+		this.dataHoraFinal = dataHoraFinal;
+	}
 }

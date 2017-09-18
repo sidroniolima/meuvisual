@@ -8,6 +8,7 @@ import net.mv.meuespaco.controller.filtro.FiltroPesquisaMovimento;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
 import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.Movimento;
 import net.mv.meuespaco.model.grade.Grade;
@@ -66,7 +67,21 @@ public interface EstoqueDAO extends GenericDAO<Movimento, Long>{
 	 * @param paginator
 	 */
 	public List<Movimento> listarPeloFiltro(FiltroPesquisaMovimento filtro, Paginator paginator);
-
+	
+	/**
+	 * Lista movimentações agrupadas por composicao e subgrupo, com qtd entrada e total
+	 * por referência.
+	 * 
+	 * @param filtro
+	 * @param paginator
+	 */
 	public List<MovimentoPorComposicaoSubgrupo> agruparMovimentacaoPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator);
+
+	/**
+	 * Lista movimentações agrupadas por referência com soma da quantidade movimentada. 
+	 * 
+	 * @param filtro
+	 */
+	public List<ReferenciaProdutoComQtd> listarReferenciasAgrupadasDeMovimentacao(FiltroPesquisaMovimento filtro);
 	
 }

@@ -16,6 +16,7 @@ import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
 import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.estoque.Ajuste;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
@@ -415,5 +416,11 @@ public class EstoqueServiceImpl implements EstoqueService, Serializable {
 	public List<MovimentoPorComposicaoSubgrupo> agrupaMovimentosPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator) 
 	{
 		return this.estoqueDAO.agruparMovimentacaoPeloFiltro(filtro, paginator);
+	}
+	
+	@Override
+	public List<ReferenciaProdutoComQtd> listaReferenciasAgruapadasDeMovimentacao(FiltroPesquisaMovimento filtro) 
+	{
+		return this.estoqueDAO.listarReferenciasAgrupadasDeMovimentacao(filtro);
 	}
 }

@@ -10,6 +10,7 @@ import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Usuario;
 import net.mv.meuespaco.model.consulta.EstoqueDoProdutoConsulta;
 import net.mv.meuespaco.model.consulta.MovimentoPorComposicaoSubgrupo;
+import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.estoque.Ajuste;
 import net.mv.meuespaco.model.estoque.Almoxarifado;
 import net.mv.meuespaco.model.estoque.IMovimentavel;
@@ -266,5 +267,12 @@ public interface EstoqueService {
 	 * @param filtro de entada de produtos por período.
 	 * @param paginator paginador do controller
 	 */
-	public List<MovimentoPorComposicaoSubgrupo> agrupaMovimentosPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator); 
+	public List<MovimentoPorComposicaoSubgrupo> agrupaMovimentosPeloFiltro(FiltroEntradaProdutos filtro, Paginator paginator);
+
+	/**
+	 * Agrupa os moviemntos por referências e quantidade.
+	 * 
+	 * @param filtro de entada de movimentação.
+	 */
+	public List<ReferenciaProdutoComQtd> listaReferenciasAgruapadasDeMovimentacao(FiltroPesquisaMovimento filtro); 
 }

@@ -24,7 +24,7 @@ public class FiltraEntradaPorProdutoEPeriodoBean extends ListaSimples implements
 {
 	private static final long serialVersionUID = 3855803300739845052L;
 
-	private static final String ERROR_FILTRO_NAO_PREENCHIDO = "Não foi possível realizar a consulta. Preencha o filtro e tente novamente.";
+	private static final String ERROR_FILTRO_NAO_PREENCHIDO = "Não foi possível realizar a consulta. Redefina o filtro e tente novamente.";
 
 	@Inject
 	private EstoqueService estoqueSrvc;

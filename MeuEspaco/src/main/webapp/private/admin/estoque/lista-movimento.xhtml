@@ -133,11 +133,12 @@
 					                    <div class="col-sm-3"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-data-incial">Data inicial</label>
+					                            <label for="input-data-incial">Data inicial (dd/MM/aaaa hh:mm:ss)</label>
 					                            <h:inputText 
 					                            	styleClass="form-control" 
 					                            	id="input-data-incial" 
-					                            	value="#{listaMovimentacaoBean.filtro.dataInicial}">
+					                            	value="#{listaMovimentacaoBean.filtro.dataInicial}"
+					                            	converterMessage="O período deve estar no formato dd/MM/aaaa hh:mm:ss">
 					                            	
 					                            	<f:converter
 					                            		converterId="localDateFacesConverter"/>
@@ -148,11 +149,12 @@
 					                    <div class="col-sm-3"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-data-final">Data final</label>
+					                            <label for="input-data-final">Data final (dd:MM:aaaa hh:mm:ss)</label>
 					                            <h:inputText 
 					                            	styleClass="form-control" 
 					                            	id="input-data-final" 
-					                            	value="#{listaMovimentacaoBean.filtro.dataFinal}">
+					                            	value="#{listaMovimentacaoBean.filtro.dataFinal}"
+					                            	converterMessage="O período deve estar no formato dd:MM:aaaa hh:mm:ss">
 
 					                            	<f:converter
 					                            		converterId="localDateFacesConverter"/>					                            	
@@ -173,7 +175,7 @@
 						                        	
 						                        	<f:ajax
 						                        		execute="@form"
-						                        		render=":form-pesquisa:panelTable :form-pesquisa:panel-load-more"/>
+						                        		render=":form-pesquisa:messages :form-pesquisa:panelTable :form-pesquisa:panel-load-more"/>
 					                        	</h:commandButton>
 					                        </div>
 					                	</div>
@@ -210,10 +212,11 @@
 				                                    <th style="width:100px">Login</th>
 				                                    <th style="width:100px">Cód. interno</th>
 				                                    <th style="width:250px">Descrição</th>
+				                                    <th style="width:150px">Subgrupo</th>
 				                                    <th style="width:180px">Grade</th>
 				                                    <th style="width:40px">Qtd</th>
-				                                    <th style="width:80px">Tipo</th>
-				                                    <th style="width:80px">Origem</th>
+				                                    <th style="width:50px">Tipo</th>
+				                                    <th style="width:50px">Origem</th>				                                    
 				                                </tr>
 				                            </thead>
 				                            
@@ -239,6 +242,7 @@
 													   			#{mov.produto.descricao}
 													   		</div>
 													   </td>
+													   <td>#{mov.produto.subgrupo.descricao}</td>
 													   <td>#{mov.grade}</td>
 													   <td>
 													   	<h:outputText 

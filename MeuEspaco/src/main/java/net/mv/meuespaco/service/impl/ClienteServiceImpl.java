@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.jfree.util.Log;
 import org.primefaces.model.UploadedFile;
 
 import net.mv.meuespaco.annotations.ClienteLogado;
@@ -51,16 +52,21 @@ import net.mv.meuespaco.util.ParseCsv;
 public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> implements ClienteService, Serializable {
 
 	private static final long serialVersionUID = 5643535166157974287L;
-	
+
 	private Logger logger = Logger.getLogger(ClienteServiceImpl.class.getSimpleName());
+	
+	private static final String ATUALIZACAO_CLIENTES_INICIO = "ATUALIZACAO CLIENTES - Início";
+	private static final String ATUALIZACAO_CLIENTES_FIM = "ATUALIZACAO CLIENTES - Fim";
+	private static final Object ATUALIZACAO_CLIENTES_INATIVACAO = "ATUALIZACAO CLIENTES - Início do processo de inativação de clientes.";
 	
 	private final String msgEfetivacao = "Cliente %s efetivado.";
 	private final String msgClienteNaoCadastrado = "O cliente código %s não está cadastrado no site.";
 	private final String msgRegiaoNaoExite = "A região %s não existe.";
 	private final String msgClienteAtualizado = "Cliente %s atualizado: qtd %s e valor %s.";
-	private final String msgErroAoSalvar = "Não foi possível salvar o cliente %s. %s";
-	private final String msgErroAoEfetivar = "Não foi possível salvar o cliente %s. %s";
+	private final String msgErroAoSalvar = "Não foi possível salvar (exceção) o cliente %s. %s";
+	private final String msgErroAoEfetivar = "Não foi possível efetivar o cliente %s. %s";
 	private final String msgAtualizacaoDeRegiao = "Autalizada a região %s para a %s do cliente %s.";
+	private String msgErroAoSalvarRegraDeNegocio = "Não foi possível salvar (regra de negócio) o cliente %s. %s";;
 	
 	@Inject
 	private ClienteDAO clienteDAO;
@@ -291,6 +297,8 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	@Override
 	public void atualizaInformacoesVindasDoErp() throws MalformedURLException, IOException 
 	{
+		logger.info(ATUALIZACAO_CLIENTES_INICIO);
+		
 		List<ClientesDoErp> registrosErp = this.integracaoSrvc.listaClientesDoErp();
 		
 		this.importaClientesDoErp(registrosErp);
@@ -300,6 +308,8 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 					.map(c -> c.getCodigoSiga())
 					.collect(Collectors.toList())
 				);
+		
+		logger.info(ATUALIZACAO_CLIENTES_FIM);
 	}
 	
 	@Override
@@ -373,7 +383,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 				} catch (RegraDeNegocioException e) {
 					
 					logger.log(Level.SEVERE, 
-							String.format(this.msgErroAoSalvar, c.getCodigoSiga(), e.getMessage()));
+							String.format(this.msgErroAoSalvarRegraDeNegocio, c.getCodigoSiga(), e.getMessage()));
 				
 				} catch (Exception e) 
 				{
@@ -400,7 +410,9 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	 * @param registros
 	 */
 	@Override
-	public void inativaClientesQueNaoEstaoEntreOsCodigos(List<String> codigosSiga) {
+	public void inativaClientesQueNaoEstaoEntreOsCodigos(List<String> codigosSiga) 
+	{
+		Log.info(ATUALIZACAO_CLIENTES_INATIVACAO);
 		this.clienteDAO.inativaClientesQueNaoEstaoNaListagem(codigosSiga);
 	}
 	

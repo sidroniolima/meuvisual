@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import net.mv.meuespaco.dao.EquipeDAO;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
@@ -34,6 +36,11 @@ public class EquipeServiceImpl extends SimpleServiceLayerImpl<Equipe, Long> impl
 {
 	private static final long serialVersionUID = 2661628860345241427L;
 
+	private final Logger log = Logger.getLogger(EquipeServiceImpl.class.getSimpleName());
+	private final String PREFIXO_ATUALIZACAO_EQUIPE = "ATUALIZAÇÃO DE EQUIPES - ";
+	private final String EQUIPE_IMPORTADA = PREFIXO_ATUALIZACAO_EQUIPE.concat("Equipe %s do cliente %s importada.");
+	private final String ERRO_IMPORTACAO_EQUIPE = PREFIXO_ATUALIZACAO_EQUIPE.concat("ERRO ao imprortar a equipe %s do cliente %s. %s");
+	
 	@Inject
 	private EquipeDAO equipeDAO;
 	
@@ -66,8 +73,10 @@ public class EquipeServiceImpl extends SimpleServiceLayerImpl<Equipe, Long> impl
 	@Override
 	public void atualizaEquipesDoERP() throws IOException 
 	{
+		this.log.info(PREFIXO_ATUALIZACAO_EQUIPE + "Início.");
 		this.removeRegistros();
 		this.importaRegistros();
+		this.log.info(PREFIXO_ATUALIZACAO_EQUIPE + "Término.");
 	}
 	
 	public void importaRegistros() throws IOException
@@ -88,9 +97,19 @@ public class EquipeServiceImpl extends SimpleServiceLayerImpl<Equipe, Long> impl
 				try 
 				{
 					this.salva(e.get());
+					
+					log.info(String.format(
+							EQUIPE_IMPORTADA, 
+							e.get().getCodigoEquipe(),
+							e.get().getCliente().getCodigoSiga()));
+					
 				} catch (RegraDeNegocioException ex) 
 				{
-					ex.printStackTrace();
+					log.error(String.format(
+							ERRO_IMPORTACAO_EQUIPE, 
+							e.get().getCodigoEquipe(), 
+							e.get().getCliente().getCodigoSiga(), 
+							ex.getMessage()));
 				}
 			});
 	}
@@ -121,6 +140,7 @@ public class EquipeServiceImpl extends SimpleServiceLayerImpl<Equipe, Long> impl
 	public void removeRegistros()
 	{
 		this.equipeDAO.removerTodosRegistros();
+		this.log.info(PREFIXO_ATUALIZACAO_EQUIPE + "Remoção dos registros.");
 	}
 	
 	@Override

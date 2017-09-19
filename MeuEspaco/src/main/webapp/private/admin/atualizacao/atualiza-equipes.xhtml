@@ -70,7 +70,7 @@
 										action="#{atualizacaoEquipesBean.atualizaEquipes()}"
 										onclick="waitingDialog.show('Atualizando equipes...', {progressType: 'warning'});">
 
-					                   <f:ajax render="@form" onevent="callFunctionAjaxRequest"/>										
+					                   <f:ajax render="formCadastro:messages" onevent="callFunctionAjaxRequest"/>										
 
 									</button>										
 								</div>	

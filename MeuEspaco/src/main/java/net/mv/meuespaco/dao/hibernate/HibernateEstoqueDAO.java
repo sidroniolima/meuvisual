@@ -381,6 +381,7 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 		
 		.append("SELECT ")
 		.append("horario as 'horario', ")
+		.append("p.codigo_interno as 'codigoInterno', ")
 		.append("p.descricao as 'descricao', ")
 		.append("concat(g.descricao, ', ', s.descricao) as 'grupo', ")
 		.append("SUM(m.qtd) as 'qtd' ")

@@ -133,12 +133,11 @@
 					                    <div class="col-sm-3"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-data-incial">Data inicial (dd/MM/aaaa hh:mm:ss)</label>
+					                            <label for="input-data-incial">Data inicial</label>
 					                            <h:inputText 
 					                            	styleClass="form-control" 
 					                            	id="input-data-incial" 
-					                            	value="#{listaMovimentacaoBean.filtro.dataInicial}"
-					                            	converterMessage="O período deve estar no formato dd/MM/aaaa hh:mm:ss">
+					                            	value="#{listaMovimentacaoBean.filtro.dataInicial}">
 					                            	
 					                            	<f:converter
 					                            		converterId="localDateFacesConverter"/>
@@ -149,12 +148,11 @@
 					                    <div class="col-sm-3"> 
 											<div class="form-group">
 						                        
-					                            <label for="input-data-final">Data final (dd:MM:aaaa hh:mm:ss)</label>
+					                            <label for="input-data-final">Data final</label>
 					                            <h:inputText 
 					                            	styleClass="form-control" 
 					                            	id="input-data-final" 
-					                            	value="#{listaMovimentacaoBean.filtro.dataFinal}"
-					                            	converterMessage="O período deve estar no formato dd:MM:aaaa hh:mm:ss">
+					                            	value="#{listaMovimentacaoBean.filtro.dataFinal}">
 
 					                            	<f:converter
 					                            		converterId="localDateFacesConverter"/>					                            	

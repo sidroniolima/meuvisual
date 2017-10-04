@@ -39,6 +39,7 @@ import org.hibernate.annotations.FetchMode;
 import net.mv.meuespaco.converter.LocalDateDBConverter;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.grade.Grade;
+import net.mv.meuespaco.model.grade.GradeUnica;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.IConstants;
 
@@ -463,6 +464,36 @@ public class Produto extends EntidadeModel implements Serializable {
 		}
 		
 		return this.getValor();
+	}
+	
+	/**
+	 * Verifica se o produto pode ser escolhido com 
+	 * um click.
+	 */
+	public boolean isOneClick()
+	{
+		return this.tipoGrade.equals(TipoGrade.UNICA);
+	}
+
+	/**
+	 * Retorna a grade caso o tipo de grade seja única.
+	 * 
+	 * @return
+	 * @throws RegraDeNegocioException 
+	 */
+	public Grade gradeUnica() throws RegraDeNegocioException 
+	{
+		GradeUnica grade;
+		
+		if (this.tipoGrade.equals(TipoGrade.UNICA))
+		{
+			grade = (GradeUnica) this.grades.get(0);
+		} else 
+		{
+			throw new RegraDeNegocioException("O produto tem uma grade única.");
+		}
+		
+		return grade;
 	}
 	
 	public BigDecimal getValor() 

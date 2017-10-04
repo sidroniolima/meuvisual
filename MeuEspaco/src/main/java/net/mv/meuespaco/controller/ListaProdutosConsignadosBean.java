@@ -1,14 +1,24 @@
 package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.omnifaces.util.Faces;
+
+import net.mv.meuespaco.annotations.CarrinhoConsignadoBeanAnnotation;
 import net.mv.meuespaco.annotations.EstadoDeNavegacaoConsignadoAnnotation;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.exception.SaldoDoClienteInsuficienteException;
+import net.mv.meuespaco.model.Produto;
+import net.mv.meuespaco.service.ClienteService;
+import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.util.EstadoDeNavegacao;
+import net.mv.meuespaco.util.FacesUtil;
 import net.mv.meuespaco.util.FiltroListaProdutoConsignadoAnnotation;
 
 /**
@@ -30,6 +40,21 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	@Inject
 	@EstadoDeNavegacaoConsignadoAnnotation
 	private EstadoDeNavegacao estadoDeNavegacao;
+
+	@Inject
+	private ProdutoService produtoSrvc;
+	
+	@Inject
+	@CarrinhoConsignadoBeanAnnotation
+	private CarrinhoAbstractBean carrinho;
+	
+	@Inject
+	private ClienteService clienteSrvc;
+	
+	private Produto produtoSelecionado;
+	
+	private String msgModal;
+
 	/**
 	 * Lista os registros de produtos para consignação de forma paginada.
 	 */
@@ -46,6 +71,48 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	}
 	
 	@Override
+	public boolean verificaDisponibilidadeDaEscolha()
+	{
+		try 
+		{
+			this.clienteSrvc.verificaSeOUsuarioLogadoPodeEscolher();
+			return true;
+			
+		} catch (RegraDeNegocioException e) 
+		{ 
+			return false;
+		}
+	}
+	
+	/**
+	 * Adiciona o produto selecionado ao carrinho, isto é, 
+	 * o   OneClick.
+	 */
+	public void addToChart()
+	{
+		String paramProduto = Faces.getRequestParameter("produto");
+
+		Produto produto = this.produtoSrvc.buscaPeloCodigoComRelacionamentos(new Long(paramProduto));
+		
+		try 
+		{
+			carrinho.adicionaProduto(produto, BigDecimal.ONE, produto.valor(), produto.gradeUnica());
+			System.out.println("BEAN:  ADICIONOU");
+		}
+		catch (SaldoDoClienteInsuficienteException e)
+		{
+			msgModal = (e.getMessage());
+			System.out.println("MODAL: " + msgModal);
+			this.setHabilitaEscolha(false);
+		}
+		catch (RegraDeNegocioException e) 
+		{
+			System.out.println("REGRA: " + e.getMessage());
+			FacesUtil.addErrorMessage("Não foi possível adicionar o produto ao carrinho.");
+		}
+	}
+	
+	@Override
 	public EstadoDeNavegacao getEstadoDeNavegacao() 
 	{
 		return this.estadoDeNavegacao;
@@ -59,5 +126,17 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	@Override
 	public void setFiltro(FiltroListaProduto filtro) {
 		this.filtro = filtro;
+	}
+
+	public Produto getProdutoSelecionado() {
+		return produtoSelecionado;
+	}
+	public void setProdutoSelecionado(Produto produtoSelecionado) {
+		this.produtoSelecionado = produtoSelecionado;
+	}
+	
+	public String getMsgModal() 
+	{
+		return msgModal;
 	}
 }

@@ -57,4 +57,10 @@ public class ListaProdutosVendaBean extends ListaProdutosAbstractBean implements
 		this.filtro = filtro;
 	}
 
+	@Override
+	public boolean verificaDisponibilidadeDaEscolha() 
+	{
+		return true;
+	}
+
 }

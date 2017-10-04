@@ -479,4 +479,10 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	{
 		return this.produtoDAO.detalharQtdDeProdutosPorSubgrupoEGrupo(filtro);
 	}
+	
+	@Override
+	public Produto buscaParaCarrinho(Long codigo) 
+	{
+		return this.produtoDAO.buscarPeloCodigoComRelacionamento(codigo, Arrays.asList("grades","subgrupo","subgrupo.grupo"));
+	}
 }

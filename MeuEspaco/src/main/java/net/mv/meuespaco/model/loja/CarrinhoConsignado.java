@@ -3,6 +3,7 @@ package net.mv.meuespaco.model.loja;
 import java.math.BigDecimal;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.exception.SaldoDoClienteInsuficienteException;
 
 /**
  * Implementação do carrinho utilizado na venda consignada. Neste 
@@ -25,18 +26,19 @@ public class CarrinhoConsignado extends Carrinho {
 	}
 	
 	@Override
-	public void adicionaItem(ItemCarrinho item) throws RegraDeNegocioException {
+	public void adicionaItem(ItemCarrinho item) throws SaldoDoClienteInsuficienteException, RegraDeNegocioException 
+	{
 		item.valida();
 		
 		if (item.isDescontavel()) {
 			if (!haSaldoDeQtdParaAdicaoDoItem(item.getQtd())) 
 			{
-				throw new RegraDeNegocioException("Não há saldo de quantidade para adição deste item ao carrinho.");
+				throw new SaldoDoClienteInsuficienteException("Não há saldo de quantidade para adição deste item ao carrinho.");
 			}
 			
 			if (!haSaldoDeValorParaAdicaoDoItem(item.valorTotal()))
 			{
-				throw new RegraDeNegocioException("Não há saldo para o valor do item selecionado.");
+				throw new SaldoDoClienteInsuficienteException("Não há saldo para o valor do item selecionado.");
 			}
 		}
 		

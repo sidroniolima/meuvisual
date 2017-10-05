@@ -39,11 +39,14 @@ public abstract class PesquisaProdutoAbstractBean {
 	
 	private Paginator paginator = new Paginator(IConstants.QTD_EXIBIDA_NA_LISTAGEM_DE_PRODUTOS);
 	
+	private boolean habilitaEscolha; 
 	/**
 	 * Inicia o Bean.
 	 */
 	@PostConstruct
-	public void init() {
+	public void init() 
+	{
+		this.habilitaEscolha = this.verificaDisponibilidadeDaEscolha();
 		
 		if (null != paramPesquisa && !paramPesquisa.isEmpty()) {
 			listarComPaginacao();
@@ -57,6 +60,10 @@ public abstract class PesquisaProdutoAbstractBean {
 	public void listarComPaginacao() {
 		produtos = produtoSrvc.filtrarProdutosPelaPesquisaDoUsuario(paramPesquisa, paginator, this.getFinalidade());
 	}
+	/**
+	 * Verifica se o cliente pode adicionar peças ao carrinho.
+	 */
+	public abstract boolean verificaDisponibilidadeDaEscolha();
 	
 	/**
 	 * Finalidade para a pesquisa.
@@ -91,5 +98,16 @@ public abstract class PesquisaProdutoAbstractBean {
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
+	
+	public ProdutoService getProdutoSrvc() 
+	{
+		return produtoSrvc;
+	}
 
+	public boolean isHabilitaEscolha() {
+		return habilitaEscolha;
+	}
+	public void setHabilitaEscolha(boolean habilitaEscolha) {
+		this.habilitaEscolha = habilitaEscolha;
+	}
 }

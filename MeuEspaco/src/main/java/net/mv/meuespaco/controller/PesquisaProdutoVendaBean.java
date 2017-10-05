@@ -24,4 +24,15 @@ public class PesquisaProdutoVendaBean extends PesquisaProdutoAbstractBean implem
 		return Finalidade.VENDA;
 	}
 
+	/* (non-Javadoc)
+	 * @see net.mv.meuespaco.controller.PesquisaProdutoAbstractBean#verificaDisponibilidadeDaEscolha()
+	 * Sempre permite a escolha na venda.
+	 * 
+	 */
+	@Override
+	public boolean verificaDisponibilidadeDaEscolha() 
+	{
+		return true;
+	}
+
 }

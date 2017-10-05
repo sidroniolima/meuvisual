@@ -21,5 +21,7 @@ public interface IConstants {
 	String CAMINHO_DOS_RELATORIOS = "http://meuvisualsemijoias.com/relatorios/rel-escolha.jrxml";
 	final int MIN_VALOR_BRINDE = 1000; 
 	final int MAX_VALOR_BRINDE = 75000; 
-
+	final String WARN_ATINGIU_QTD = "Você atingiu a quantidade de peças permitidas.";
+	final String WARN_ATINGIU_VALOR = "Você atingiu seu saldo de peças permitidas. "
+			+ "Escolha peças cujo valor é menor que o seu saldo, de %s.";
 }

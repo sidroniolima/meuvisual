@@ -22,6 +22,7 @@ import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.util.EstadoDeNavegacao;
 import net.mv.meuespaco.util.FacesUtil;
 import net.mv.meuespaco.util.FiltroListaProdutoConsignadoAnnotation;
+import net.mv.meuespaco.util.IConstants;
 
 /**
  * Implementação da listagem de produtos para consignados.
@@ -32,11 +33,6 @@ import net.mv.meuespaco.util.FiltroListaProdutoConsignadoAnnotation;
 @Named
 @ViewScoped
 public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean implements Serializable{
-
-	private static final String WARN_ATINGIU_QTD = "Você atingiu a quantidade de peças permitidas.";
-
-	private static final String WARN_ATINGIU_VALOR = "Você atingiu seu saldo de peças permitidas. "
-			+ "Escolha peças cujo valor é menor que o seu saldo, de %s.";
 
 	private static final long serialVersionUID = -1044183808309706397L;
 	
@@ -110,7 +106,7 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 		}
 		catch (QtdInsuficienteParaEscolhaException e)
 		{
-			msgModal = WARN_ATINGIU_QTD;
+			msgModal = IConstants.WARN_ATINGIU_QTD;
 			this.setHabilitaEscolha(false);
 		}
 		catch (ValorInsuficienteParaEscolhaException e)
@@ -118,7 +114,7 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 			BigDecimal saldo = ((CarrinhoConsignadoBean) this.carrinho).saldoValor();
 			
 			String saldoFormatado = NumberFormat.getCurrencyInstance().format(saldo.doubleValue());
-			msgModal = String.format(WARN_ATINGIU_VALOR, saldoFormatado);
+			msgModal = String.format(IConstants.WARN_ATINGIU_VALOR, saldoFormatado);
 			
 			this.setHabilitaEscolha(false);
 		}
@@ -154,5 +150,16 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	public String getMsgModal() 
 	{
 		return msgModal;
+	}
+	
+	public ClienteService getClienteSrvc()
+	{
+		return this.clienteSrvc;
+	}
+	
+	@Override
+	public boolean isHabilitaEscolha() 
+	{
+		return super.isHabilitaEscolha();
 	}
 }

@@ -211,12 +211,12 @@
 							                    
 							                    <div class="flipper">
 							                        <div class="front">
-							                            <a href="javascript:;" class="ex1" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(1)}')">
+							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(1)}', '${props.serverImageName()}')">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
-							                            <a href="javascript:;" class="ex1" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}')">
+							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
@@ -401,7 +401,7 @@
 					    </div>
 					  </div>
 					</div>	
-					<!-- End of Modal Spinner -->										
+					<!-- End of Modal Zoom fotos -->										
 					
 				</h:form> <!-- end form -->
 				
@@ -422,48 +422,8 @@
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
 		<h:outputScript library="js" name="jquery.zoom.js" />
+		<h:outputScript library="js" name="add-to-chart.js" />
 		<script> 
-			var cod = '';
-			
-			function adicionaProduto(codigoProduto) 
-			{
-				commandAdicionaProduto({ produto : codigoProduto });
-				cod = codigoProduto;
-			}			
-
-			function atualizaForm(codigoProduto)
-			{
-				msgModal = $('#span-msg-modal').text();
-				
-				if (msgModal)
-				{
-					$('#modal-body-msg').html(msgModal);
-					$("#modal-saldo-insuficiente").modal('show');
-				} else 
-				{	
-					qtd_carrinho = $("#messages_counter").text();
-					qtd_carrinho_collapsed = $("#messages_counter_collapsed").text();
-					
-					$("#messages_counter").text(++qtd_carrinho);
-					$("#messages_counter_collapsed").text(++qtd_carrinho_collapsed);
-					
-					$("#check_"+cod).fadeTo(0,1).fadeTo(550,0);
-				} 				
-			}
-
-			function showModalFotos(codigoInterno, descricao, idFoto)
-			{
-				console.log(codigoInterno, descricao, idFoto);
-				$('#modal-img').attr('src', '#{props.serverImageName()}/imagens/meu-espaco/' + idFoto);
-				$('#modal-fotos-header-text').text(codigoInterno);
-				$('#modal-fotos-body-text').text(descricao);
-				$('#modal-fotos-produto').modal('show');
-				$('#ex1').zoom({magnify: 1.1});
-			}
-			
-			$(document).ready(function(){
-			});
-			
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})			

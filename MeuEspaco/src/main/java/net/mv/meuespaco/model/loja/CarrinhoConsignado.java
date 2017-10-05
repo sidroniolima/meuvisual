@@ -2,8 +2,11 @@ package net.mv.meuespaco.model.loja;
 
 import java.math.BigDecimal;
 
+import org.apache.log4j.Logger;
+
+import net.mv.meuespaco.exception.QtdInsuficienteParaEscolhaException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.exception.SaldoDoClienteInsuficienteException;
+import net.mv.meuespaco.exception.ValorInsuficienteParaEscolhaException;
 
 /**
  * Implementação do carrinho utilizado na venda consignada. Neste 
@@ -13,8 +16,12 @@ import net.mv.meuespaco.exception.SaldoDoClienteInsuficienteException;
  * @created 24/05/2016
  * @updated 08/08/2016
  */
-public class CarrinhoConsignado extends Carrinho {
-
+public class CarrinhoConsignado extends Carrinho 
+{
+	private Logger log = Logger.getLogger(CarrinhoConsignado.class.getSimpleName());
+	
+	private final String ERRO_ISDESCONTAVEL = "Não foi possível verificar se o produto % é descontável poist não está associado a um grupo.";
+	
 	private BigDecimal valorPermitido;
 	private int qtdPermitida;
 	
@@ -26,19 +33,19 @@ public class CarrinhoConsignado extends Carrinho {
 	}
 	
 	@Override
-	public void adicionaItem(ItemCarrinho item) throws SaldoDoClienteInsuficienteException, RegraDeNegocioException 
+	public void adicionaItem(ItemCarrinho item) throws RegraDeNegocioException 
 	{
 		item.valida();
 		
 		if (item.isDescontavel()) {
 			if (!haSaldoDeQtdParaAdicaoDoItem(item.getQtd())) 
 			{
-				throw new SaldoDoClienteInsuficienteException("Não há saldo de quantidade para adição deste item ao carrinho.");
+				throw new QtdInsuficienteParaEscolhaException("Não há saldo de quantidade para adição deste item ao carrinho.");
 			}
 			
 			if (!haSaldoDeValorParaAdicaoDoItem(item.valorTotal()))
 			{
-				throw new SaldoDoClienteInsuficienteException("Não há saldo para o valor do item selecionado.");
+				throw new ValorInsuficienteParaEscolhaException("Não há saldo para o valor do item selecionado.");
 			}
 		}
 		
@@ -90,10 +97,9 @@ public class CarrinhoConsignado extends Carrinho {
 	 * Calcula o saldo do valor dos itens, considerando o valor descontável.
 	 * 
 	 * @return saldo de valor.
-	 * @throws RegraDeNegocioException lança exceção se não puder verificar se 
-	 * o item é descontável.
 	 */
-	public BigDecimal calculaSaldoDeValor() throws RegraDeNegocioException {
+	public BigDecimal calculaSaldoDeValor()
+	{
 		BigDecimal valorDescontavel = this.calculaValorDescontavel();
 		
 		return valorPermitido.subtract(valorDescontavel);
@@ -106,14 +112,20 @@ public class CarrinhoConsignado extends Carrinho {
 	 * @throws RegraDeNegocioException lança exceção se não puder verificar se 
 	 * o item é descontável.
 	 */
-	public BigDecimal calculaValorDescontavel() throws RegraDeNegocioException {
+	public BigDecimal calculaValorDescontavel() {
 		
 		BigDecimal valor = BigDecimal.ZERO;
 		
 		for (ItemCarrinho i : this.getItens()) {
 			
-			if (i.isDescontavel()) {
-				valor = valor.add(i.valorTotal());
+			try 
+			{
+				if (i.isDescontavel()) {
+					valor = valor.add(i.valorTotal());
+				}
+			} catch (RegraDeNegocioException e) 
+			{
+				log.error(String.format(ERRO_ISDESCONTAVEL, i.getProduto().getCodigoInterno()));
 			}
 			
 		}

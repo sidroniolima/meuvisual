@@ -2,6 +2,7 @@ package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -12,8 +13,9 @@ import org.omnifaces.util.Faces;
 import net.mv.meuespaco.annotations.CarrinhoConsignadoBeanAnnotation;
 import net.mv.meuespaco.annotations.EstadoDeNavegacaoConsignadoAnnotation;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
+import net.mv.meuespaco.exception.QtdInsuficienteParaEscolhaException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.exception.SaldoDoClienteInsuficienteException;
+import net.mv.meuespaco.exception.ValorInsuficienteParaEscolhaException;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.ProdutoService;
@@ -30,6 +32,11 @@ import net.mv.meuespaco.util.FiltroListaProdutoConsignadoAnnotation;
 @Named
 @ViewScoped
 public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean implements Serializable{
+
+	private static final String WARN_ATINGIU_QTD = "Você atingiu a quantidade de peças permitidas.";
+
+	private static final String WARN_ATINGIU_VALOR = "Você atingiu seu saldo de peças permitidas. "
+			+ "Escolha peças cujo valor é menor que o seu saldo, de %s.";
 
 	private static final long serialVersionUID = -1044183808309706397L;
 	
@@ -90,6 +97,9 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	 */
 	public void addToChart()
 	{
+		this.setHabilitaEscolha(true);
+		msgModal = "";
+		
 		String paramProduto = Faces.getRequestParameter("produto");
 
 		Produto produto = this.produtoSrvc.buscaPeloCodigoComRelacionamentos(new Long(paramProduto));
@@ -97,17 +107,23 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 		try 
 		{
 			carrinho.adicionaProduto(produto, BigDecimal.ONE, produto.valor(), produto.gradeUnica());
-			System.out.println("BEAN:  ADICIONOU");
 		}
-		catch (SaldoDoClienteInsuficienteException e)
+		catch (QtdInsuficienteParaEscolhaException e)
 		{
-			msgModal = (e.getMessage());
-			System.out.println("MODAL: " + msgModal);
+			msgModal = WARN_ATINGIU_QTD;
+			this.setHabilitaEscolha(false);
+		}
+		catch (ValorInsuficienteParaEscolhaException e)
+		{
+			BigDecimal saldo = ((CarrinhoConsignadoBean) this.carrinho).saldoValor();
+			
+			String saldoFormatado = NumberFormat.getCurrencyInstance().format(saldo.doubleValue());
+			msgModal = String.format(WARN_ATINGIU_VALOR, saldoFormatado);
+			
 			this.setHabilitaEscolha(false);
 		}
 		catch (RegraDeNegocioException e) 
 		{
-			System.out.println("REGRA: " + e.getMessage());
 			FacesUtil.addErrorMessage("Não foi possível adicionar o produto ao carrinho.");
 		}
 	}

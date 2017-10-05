@@ -1,6 +1,7 @@
 package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -96,4 +97,13 @@ public class CarrinhoConsignadoBean extends CarrinhoAbstractBean implements Seri
 		return carrinho;
 	}
 	
+	/**
+	 * Informa o saldo de valor.
+	 * 
+	 * @return Quanto ainda há de saldo de valor para escolha.
+	 */
+	public BigDecimal saldoValor()
+	{
+		return this.carrinho.calculaSaldoDeValor();
+	}
 }

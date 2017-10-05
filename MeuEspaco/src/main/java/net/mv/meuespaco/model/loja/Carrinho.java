@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import net.mv.meuespaco.exception.RegraDeNegocioException;
-import net.mv.meuespaco.exception.SaldoDoClienteInsuficienteException;
 import net.mv.meuespaco.model.Grupo;
 
 /**
@@ -38,10 +37,9 @@ public abstract class Carrinho {
 	 * necessário, tanto de quantidade como de valor.
 	 * 
 	 * @param item
-	 * @throws SaldoDoClienteInsuficienteException
 	 * @throws RegraDeNegocioException 
 	 */
-	public abstract void adicionaItem(ItemCarrinho item) throws SaldoDoClienteInsuficienteException, RegraDeNegocioException; 
+	public abstract void adicionaItem(ItemCarrinho item) throws RegraDeNegocioException; 
 	
 	/**
 	 * Adiciona um item ao carrinho validando-o, passando o saldo e verificando

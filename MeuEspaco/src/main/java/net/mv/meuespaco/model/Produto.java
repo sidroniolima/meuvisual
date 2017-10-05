@@ -440,7 +440,6 @@ public class Produto extends EntidadeModel implements Serializable {
 	@Transient
 	public boolean isDescontavel() throws RegraDeNegocioException 
 	{
-		
 		Grupo grupo = this.subgrupo.getGrupo();
 		
 		if (null == grupo) {

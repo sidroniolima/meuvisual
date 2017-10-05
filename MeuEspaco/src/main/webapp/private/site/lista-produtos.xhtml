@@ -368,9 +368,9 @@
 									<p align="center"><span style="font-size:40px"><i class="fa fa-exclamation"/></span></p>
 								</div>
 								<div class="col-md-10">
-									<p>Você já atingiu a quantidade ou valor de peças que podia escolha. 
-									<br/>
-									Agora, é só ir até o clicar <a href="carrinho/carrinho.xhtml">aqui</a> e <strong>gerar</strong> sua escolha.
+									<p id="modal-body-msg"></p> 
+									<p>
+									Se quiser, pode clicar <a href="carrinho/carrinho.xhtml">aqui</a> e <strong>gerar</strong> sua escolha.
 									</p>
 								</div>
 							</div>
@@ -437,15 +437,18 @@
 				
 				if (msgModal)
 				{
+					$('#modal-body-msg').html(msgModal);
 					$("#modal-saldo-insuficiente").modal('show');
 				} else 
 				{	
 					qtd_carrinho = $("#messages_counter").text();
+					qtd_carrinho_collapsed = $("#messages_counter_collapsed").text();
+					
 					$("#messages_counter").text(++qtd_carrinho);
+					$("#messages_counter_collapsed").text(++qtd_carrinho_collapsed);
 					
 					$("#check_"+cod).fadeTo(0,1).fadeTo(550,0);
 				} 				
-
 			}
 
 			function showModalFotos(codigoInterno, descricao, idFoto)

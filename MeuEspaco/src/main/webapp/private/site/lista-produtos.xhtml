@@ -176,6 +176,34 @@
 				       	 		style="font-size:22px"
 				       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
 				       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
+				       	 		
+				       	 	<div style="text-aling: right">
+								<div class="form-group">
+								
+					                <label for="select-ordem">Ordenar por </label>   
+					                            
+									<h:selectOneRadio
+										id="select-ordem"
+										value="#{listaProdutosConsignadosBean.filtro.ordenacao}"
+										valueChangeListener="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}"
+		                               	layout="pageDirection"
+		                               	style="padding-left:20px">
+		                               			                               	
+		                               	<f:selectItems
+		                               		value="#{entry.key}"
+		                               		var="value"
+		                               		itemLabel="&nbsp;&nbsp;&nbsp;#{value}"
+		                               		itemValue="#{entry.key}"/>
+		                               		
+					                   	<f:ajax
+					                   		execute="@this"
+					                        event="change"
+					                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		
+					                               
+		                        	</h:selectOneRadio> 
+		                                
+		                    	</div>				       	 	
+				       	 	</div>
 					    </div>
 					    
 					    <h:panelGroup

@@ -1,5 +1,8 @@
 package net.mv.meuespaco.controller.filtro;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.mv.meuespaco.model.Composicao;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.TipoProduto;
@@ -17,7 +20,27 @@ public abstract class FiltroListaProduto {
 	private String caracteristica;
 	private Composicao composicao;
 	
-	public FiltroListaProduto() {	}
+	private String ordenacao;
+	
+	private Map<String, String> ordens = new HashMap<String, String>();
+	
+	public FiltroListaProduto() 
+	{	
+		ordens.put("+dataInsercao", "Produtos mais novos");
+		ordens.put("-valor", "Mais baratos");
+		ordens.put("+valor", "Mais caros");
+	}
+	
+	/**
+	 * Verifica a ordem do campo na lista de ordenação.
+	 * 
+	 * @param campo
+	 * @return DESC ou ASC
+	 */
+	public static String verificaOrdem(String key)
+	{
+		return key.charAt(0) == '+' ? "DESC" : "ASC";
+	}
 	
 	/**
 	 * Limpa os valores do filtro.
@@ -54,5 +77,14 @@ public abstract class FiltroListaProduto {
 
 	public abstract Finalidade getFinalidade();
 
+	public String getOrdenacao() {
+		return ordenacao;
+	}
+	public void setOrdenacao(String ordenacao) {
+		this.ordenacao = ordenacao;
+	}
 
+	public Map<String, String> getOrdens() {
+		return ordens;
+	}
 }

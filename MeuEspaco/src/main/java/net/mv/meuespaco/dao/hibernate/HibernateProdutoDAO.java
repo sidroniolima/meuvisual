@@ -334,8 +334,11 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 
 	@Override
 	public List<Produto> fitrarPelaNavegacao(Departamento dep, Grupo grupo, Subgrupo subgrupo, FiltroListaProduto filtro,
-			Paginator paginator) {
-
+			Paginator paginator) 
+	{
+		Order orderFiltro = Order.asc("codigoInterno");
+		Order orderNatural = Order.asc("codigoInterno");
+		
 		Criteria criteriaSublist = this.getSession().createCriteria(Produto.class);
 		criteriaSublist.setFetchMode("departamento", FetchMode.JOIN);
 		criteriaSublist.setFetchMode("subgrupo", FetchMode.JOIN);
@@ -361,6 +364,15 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 				criteriaSublist.add(Restrictions.eq("carac." + CollectionPropertyNames.COLLECTION_ELEMENTS, filtro.getCaracteristica()));
 			}
 			
+			if (null != filtro.getOrdenacao())
+			{
+				String ordem = filtro.getOrdenacao();
+				String direction = FiltroListaProduto.verificaOrdem(ordem);
+				ordem = ordem.replaceAll("\\+|\\-", "");
+				orderFiltro = (direction == "ASC" ? Order.asc(ordem) : Order.desc((ordem)));
+				criteriaSublist.addOrder(orderFiltro);
+			}
+			
 			criteriaSublist.add(Restrictions.eq("finalidade", filtro.getFinalidade()));
 		}	
 		
@@ -374,7 +386,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 			criteriaSublist.add(Restrictions.eq("subgrupo", subgrupo));
 		}
 		
-		criteriaSublist.addOrder(Order.asc("descricao"));
+		criteriaSublist.addOrder(orderNatural);
 		
 		List registrosSublist = criteriaSublist.list();
 		
@@ -397,7 +409,11 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		
 		criteria.add(Restrictions.in("codigo", registrosSublist));
 		
-		criteria.addOrder(Order.asc("descricao"));
+		if (null != filtro.getOrdenacao())
+		{
+			criteria.addOrder(orderFiltro);
+		}
+		criteria.addOrder(orderNatural);
 		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		

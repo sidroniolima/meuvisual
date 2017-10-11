@@ -26,9 +26,8 @@ public abstract class FiltroListaProduto {
 	
 	public FiltroListaProduto() 
 	{	
-		ordens.put("+dataInsercao", "Produtos mais novos");
-		ordens.put("-valor", "Mais baratos");
-		ordens.put("+valor", "Mais caros");
+		ordens.put("-valor", "Menor preço");
+		ordens.put("+valor", "Maior preço");
 	}
 	
 	/**

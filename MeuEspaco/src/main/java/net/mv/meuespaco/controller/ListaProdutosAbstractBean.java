@@ -230,6 +230,24 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		listarComPaginacaoESalvarEstado();
 		
 	}
+
+	/**
+	 * Lista os resultados utilizando a ordenação.
+	 * 
+	 * @param event Ordem selecionada.
+	 */
+	public void filtraComOrdemListener(ValueChangeEvent event) 
+	{
+		String ordem = (String) event.getNewValue();
+		if (null != ordem) 
+		{
+			this.getFiltro().setOrdenacao(ordem);
+		}
+		
+		this.reiniciaPaginator();
+		
+		listarComPaginacaoESalvarEstado();
+	}
 	
 	/**
 	 * Reinicia o Paginador.

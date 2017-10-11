@@ -140,7 +140,7 @@
 												valueChangeListener="#{listaProdutosConsignadosBean.filtraPorCaracteristicaListener}"
 				                               	layout="pageDirection"
 				                               	style="padding-left:20px">
-				                               			                               	
+				                               	
 				                               	<f:selectItems
 				                               		value="#{entry.value}"
 				                               		var="value"
@@ -165,34 +165,33 @@
 		                
 		                </h:panelGroup>
 	                </div>
-	
 					<div class="col-md-9">
-					    <div class="box">
-					    	<h:outputText 
-					    		style="font-size:28px"
-					    		value="#{listaProdutosConsignadosBean.grupo.descricao}" />
-				       	 	
-				       	 	<h:outputText 
-				       	 		style="font-size:22px"
-				       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
-				       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
-				       	 		
-				       	 	<div style="text-aling: right">
-								<div class="form-group">
+							<div class="box" align="left" style="float: left; width: 100%;">
+								<h:outputText 
+						    		style="font-size:22px"
+						    		value="#{listaProdutosConsignadosBean.grupo.descricao}" />
+					       	 	
+					       	 	<h:outputText 
+					       	 		style="font-size:16px"
+					       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
+					       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
 								
-					                <label for="select-ordem">Ordenar por </label>   
-					                            
-									<h:selectOneRadio
+								<div style="float: right; width: 45%; text-align: middle" align="right" >
+									<h:selectOneMenu
 										id="select-ordem"
 										value="#{listaProdutosConsignadosBean.filtro.ordenacao}"
-										valueChangeListener="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}"
-		                               	layout="pageDirection"
-		                               	style="padding-left:20px">
-		                               			                               	
+										valueChangeListener="#{listaProdutosConsignadosBean.filtraComOrdemListener}"
+		                               	style="width: auto; margin-left: 5px;"
+		                               	styleClass="form-control">
+		                               	
+		                               	<f:selectItem 
+					                    	noSelectionOption="true"
+					                    	itemLabel="Selecione a ordem"/>
+					                    	            	
 		                               	<f:selectItems
-		                               		value="#{entry.key}"
-		                               		var="value"
-		                               		itemLabel="&nbsp;&nbsp;&nbsp;#{value}"
+		                               		value="#{listaProdutosConsignadosBean.filtro.ordens.entrySet().toArray()}"
+		                               		var="entry"
+		                               		itemLabel="&nbsp;&nbsp;&nbsp;#{entry.value}"
 		                               		itemValue="#{entry.key}"/>
 		                               		
 					                   	<f:ajax
@@ -200,12 +199,10 @@
 					                        event="change"
 					                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		
 					                               
-		                        	</h:selectOneRadio> 
-		                                
-		                    	</div>				       	 	
-				       	 	</div>
-					    </div>
-					    
+		                        	</h:selectOneMenu> 
+								</div>		
+	                        </div>
+			       	 	
 					    <h:panelGroup
 					    	id="panel-produtos">
 					    	

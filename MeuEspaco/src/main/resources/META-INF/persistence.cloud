@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  	
+  	<persistence-unit name="meuespaco-persistence-unit" transaction-type="JTA">
+    
+    <description>Meu Espaço Persistence Unit</description>
+    
+    <properties>
+	  <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+	  <property name="javax.persistence.jdbc.url" value="jdbc:mysql://google/cloud_meu_espaco&amp;socketFactory=com.google.cloud.sql.mysql.SocketFactory&amp;cloudSqlInstance=meu-espaco-db-183115:southamerica-east1:meu-espaco-com" />
+	  <property name="javax.persistence.jdbc.user" value="root" />
+	  <property name="javax.persistence.jdbc.password" value="M@elSA33mv" />
+      <property name="hibernate.cache.use_query_cache" value="true"/>	
+	  <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
+      <property name="hibernate.connection.useSSL" value="false"/>
+      <property name="hibernate.transaction.flush_before_completion" value="true"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </properties>
+    
+  </persistence-unit>
+</persistence>

@@ -1,6 +1,7 @@
 package net.mv.meuespaco.service.impl;
 
 import static java.util.Arrays.asList;
+import static org.mockito.Mockito.timeout;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,7 +17,9 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.jfree.util.Log;
 import org.primefaces.model.UploadedFile;
@@ -318,17 +321,23 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 		List<Permissao> permissoesPadrao = asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE, Permissao.ROLE_CLIENTE);
 		List<Permissao> permissoesRestritas = asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE);
 		
-		registrosErp.parallelStream().forEach(c -> 
+		registrosErp.stream().forEach(c -> 
 		{
 			Optional<Cliente> optCliente = Optional.ofNullable(this.buscarClientePeloCpf(new Cpf(c.getCpf())));
 			List<Permissao> permissoes = permissoesPadrao;
+			
+			List<Regiao> regioes = regiaoSrvc.buscaTodas();
 			
 			if (optCliente.isPresent())
 			{
 				Cliente cliente = optCliente.get();
 				
 				//TODO: cachear a lista de regiões
-				Optional<Regiao> optRegiao = Optional.ofNullable(regiaoSrvc.buscaPeloCodigoInterno(c.getCodigoRegiao()));
+				//Optional<Regiao> optRegiao = Optional.ofNullable(regiaoSrvc.buscaPeloCodigoInterno(c.getCodigoRegiao()));
+				Optional<Regiao> optRegiao = regioes
+						.stream()
+						.filter(r -> r.getCodigoInterno().equals(c.getCodigoRegiao()))
+						.findFirst();
 				
 				if (optRegiao.isPresent())
 				{

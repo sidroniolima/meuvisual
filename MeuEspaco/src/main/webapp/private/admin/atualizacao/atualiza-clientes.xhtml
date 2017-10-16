@@ -196,7 +196,9 @@
 	<ui:define name="script">
 		<h:outputScript library="js" name="modal.js"/>
 		<script type="text/javascript">
-			function callFunctionAjaxRequest(data) {
+			function callFunctionAjaxRequest(data) 
+			{
+				console.log(data);
 			     if (data.status == "success")
 			    	 waitingDialog.hide();
 			}

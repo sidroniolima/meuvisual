@@ -86,11 +86,13 @@ public class AtualizacaoClientesBean implements Serializable {
 			usuarioSrvc.reativaUsuarios();
 			
 			FacesUtil.addSuccessMessage("Clientes e usuários atualizados com sucesso.");
-		
+			System.out.println("SUCESSO");
 		} catch (IOException e) 
 		{
 			FacesUtil.addSuccessMessage("Não foi possível atualizar as informações vindas do Erp.");
+			System.out.println("CATCH");
 		}
+		System.out.println("TERMINOU");
 	}
 	
 	public void atualizaStatus() {

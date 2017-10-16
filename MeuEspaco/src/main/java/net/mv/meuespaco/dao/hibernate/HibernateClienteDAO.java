@@ -217,4 +217,5 @@ public class HibernateClienteDAO extends HibernateGenericDAO<Cliente, Long> impl
 		
 		return criteria.list();
 	}
+	
 }

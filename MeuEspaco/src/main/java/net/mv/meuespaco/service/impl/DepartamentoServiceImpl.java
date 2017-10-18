@@ -2,6 +2,7 @@ package net.mv.meuespaco.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -9,6 +10,10 @@ import javax.inject.Inject;
 import net.mv.meuespaco.dao.DepartamentoDAO;
 import net.mv.meuespaco.dao.GenericDAO;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
+import net.mv.meuespaco.model.Finalidade;
+import net.mv.meuespaco.model.Grupo;
+import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.consulta.MenuPorDepartamento;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.DepartamentoService;
 
@@ -46,5 +51,11 @@ public class DepartamentoServiceImpl extends SimpleServiceLayerImpl<Departamento
 		dep.setAtivo(true);
 		return depDAO.filtrar(dep, Arrays.asList("ativo"), null, Arrays.asList("codigo"), null);
 	}
-
+	
+	@Override
+	public Map<Departamento, Map<Grupo, Map<Subgrupo, List<MenuPorDepartamento>>>> listaAtivosComGruposESubgrupos(Finalidade finalidade) 
+	{
+		return MenuPorDepartamento.constroiMenu(
+				depDAO.listarAtivosPorFinalidadeComGrupoESubgrupo(finalidade));
+	}
 }

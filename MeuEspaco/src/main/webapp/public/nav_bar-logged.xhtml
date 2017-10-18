@@ -72,11 +72,11 @@
 		
 		                <ul class="nav navbar-nav navbar-left">
 		                    
-		                    <ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
+		                    <ui:repeat var="dep" value="#{navBarConsignadoBean.criaMenus().entrySet().toArray()}">
 		                    
 			                    <li class="dropdown yamm-fw">
 			                    
-			                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">#{dep.descricao} <b class="caret"></b></a>
+			                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200">#{dep.key.descricao} <b class="caret"></b></a>
 			                        
 			                        <ul class="dropdown-menu">
 			                            <li>
@@ -90,50 +90,50 @@
 			                                        </div>		                                    
 			                                    
 			                                    	<ui:repeat 
-			                                    		var="menu" 
-			                                    		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
+			                                    		var="grupo" 
+			                                    		value="${dep.value.entrySet().toArray()}">
 			                                    		
-					                                        <div class="col-md-3">
-					                                            <h5>
-							                                       	<a 
-							                                       		jsfc="h:outputLink"
-							                                       		value="#{root}private/site/lista-produtos.xhtml">
-							                                       		
-							                                       		<h:outputText value="#{menu.descricao}" />
-							                                       		
-							                                       		<f:param
-							                                       			name="paramDep"
-							                                       			value="#{dep.codigo}"/>
-							                                       		
-							                                       		<f:param
-							                                       			name="paramGrupo"
-							                                       			value="#{menu.codigo}"/>
-							                                       	</a>	
-					                                            </h5>
-					                                            <ul>	
-					                                            	<ui:repeat 
-					                                            		var="submenu" 
-					                                            		value="#{menu.subgrupos.toArray()}">
-																		<li>
-									                                       	<a 
-									                                       		jsfc="h:outputLink"
-									                                       		value="#{root}private/site/lista-produtos.xhtml">
-									                                       		
-									                                       		<h:outputText value="#{submenu.descricao}" />
-									                                       		
-									                                       		<f:param
-									                                       			name="paramDep"
-									                                       			value="#{dep.codigo}"/>
-									                                       		
-									                                       		<f:param
-									                                       			name="paramSubgrupo"
-									                                       			value="#{submenu.codigo}"/>
-									                                       	</a>	
-									                                 	</li>	
-									                            	</ui:repeat>
-									                            	<!-- /#ui:repeat subgrupos -->                                                
-					                                            </ul>
-					                                        </div>                                    		
+				                                        <div class="col-md-3">
+				                                            <h5>
+						                                       	<a 
+						                                       		jsfc="h:outputLink"
+						                                       		value="#{root}private/site/lista-produtos.xhtml">
+						                                       		
+						                                       		<h:outputText value="#{grupo.key.descricao}" />
+						                                       		
+						                                       		<f:param
+						                                       			name="paramDep"
+						                                       			value="#{dep.key.codigo}"/>
+						                                       		
+						                                       		<f:param
+						                                       			name="paramGrupo"
+						                                       			value="#{grupo.key.codigo}"/>
+						                                       	</a>	
+				                                            </h5>
+				                                            <ul>	
+				                                            	<ui:repeat 
+				                                            		var="subgrupo" 
+				                                            		value="#{grupo.value.entrySet().toArray()}">
+																	<li>
+								                                       	<a 
+								                                       		jsfc="h:outputLink"
+								                                       		value="#{root}private/site/lista-produtos.xhtml">
+								                                       		
+								                                       		<h:outputText value="#{subgrupo.key.descricao}" />
+								                                       		
+								                                       		<f:param
+								                                       			name="paramDep"
+								                                       			value="#{dep.key.codigo}"/>
+								                                       		
+								                                       		<f:param
+								                                       			name="paramSubgrupo"
+								                                       			value="#{subgrupo.key.codigo}"/>
+								                                       	</a>	
+								                                 	</li>	
+								                            	</ui:repeat>
+								                            	<!-- /#ui:repeat subgrupos -->                                                
+				                                            </ul>
+				                                        </div>                                    		
 			                                    		
 			                                    	</ui:repeat>
 													<!-- /#ui:repeat grupos -->

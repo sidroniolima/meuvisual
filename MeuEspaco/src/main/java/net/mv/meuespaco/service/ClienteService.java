@@ -23,6 +23,10 @@ import net.mv.meuespaco.util.Paginator;
  * @author Sidronio
  * 22/12/2015
  */
+/**
+ * @author sidronio
+ *
+ */
 public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 
 	/**
@@ -292,5 +296,47 @@ public interface ClienteService extends SimpleServiceLayer<Cliente, Long> {
 	 * @throws RegraDeNegocioException
 	 */
 	public void verificaValorDisponivelParaConsignado() throws RegraDeNegocioException;
+
+	/**
+	 * Verifica se o valor permitido para que o cliente faça a escolha de 
+	 * peças consignadas. Cálculo feito com o valor do ciclo atual e os itens 
+	 * já escolhidos neste período. Lança uma exceção caso não aja saldo positivo.
+	 * 
+	 * @param valorJaEscolhido
+	 * @throws RegraDeNegocioException
+	 */
+	public void verificaValorDisponivelParaConsignado(BigDecimal valorJaEscolhido) throws RegraDeNegocioException;
+
+	/**
+	 * Verifica se a quantidade permitida para que o cliente faça a escolha de 
+	 * peças consignadas. Cálculo feito com o valor do ciclo atual e os itens 
+	 * já escolhidos neste período. Lança uma exceção caso não aja saldo positivo.
+	 * 	 
+	 * @param qtdJaEscolhida
+	 * @throws RegraDeNegocioException
+	 */
+	public void verificaQtdPermitidaDoConsignado(BigDecimal qtdJaEscolhida) throws RegraDeNegocioException;
+
+	/**
+	 * Calcula o valor disponível para escolha, diminuindo o 
+	 * que já foi utilizado em escolhas do atual ciclo e do valor 
+	 * permitido para o cliente.
+	 * 
+	 * @param valorJaEscolhido
+	 * @return
+	 * @throws RegraDeNegocioException
+	 */
+	BigDecimal valorDisponivelParaEscolha(BigDecimal valorJaEscolhido) throws RegraDeNegocioException;
+
+	/**
+	 * Informa quantidade disponível para escolha, diminuindo o 
+	 * que já foi utilizado em escolhas do atual cicloe da quantidade 
+	 * definida pelo que foi vendido no acerto atual.
+	 * 	 
+	 * @param qtdJaEscolhida
+	 * @return
+	 * @throws RegraDeNegocioException
+	 */
+	int qtdDisponivelParaEscolha(BigDecimal qtdJaEscolhida) throws RegraDeNegocioException;
 	
 }

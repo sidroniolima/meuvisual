@@ -45,7 +45,7 @@
   <from-view-id>/*</from-view-id>
   <navigation-case>
    <from-outcome>index-admin</from-outcome>
-   <to-view-id>/private/admin/cliente/pesquisa-cliente.xhtml</to-view-id>
+   <to-view-id>/private/admin/dashboard/dashboard.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>

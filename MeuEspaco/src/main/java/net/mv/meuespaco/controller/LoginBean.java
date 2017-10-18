@@ -3,9 +3,7 @@ package net.mv.meuespaco.controller;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -74,8 +72,6 @@ public class LoginBean implements Serializable {
 	@Inject
 	private DashboardService dashSrvc;
 	
-	private Map<String, List<String>> map = new HashMap<String, List<String>>();
-	
 	@Inject
 	private MessageService msgService;
 	
@@ -86,8 +82,6 @@ public class LoginBean implements Serializable {
 	
 	private String mustShowPriorityMessages = "no";
 
-	private String json;
-	
 	public LoginBean() 
 	{
 		messages = new ArrayList<Message>();
@@ -192,7 +186,6 @@ public class LoginBean implements Serializable {
 	 * @return
 	 */
 	public String getMensagemInicial() {
-		
 		try {
 		
 			clienteSrvc.verificaSeOUsuarioLogadoPodeEscolher();
@@ -252,11 +245,6 @@ public class LoginBean implements Serializable {
 	@UsuarioLogado
 	public Usuario getUserLogged() {
 		return userLogged;
-	}
-
-	public void mostraObservers() 
-	{
-		this.map.values().forEach(System.out::println); 
 	}
 
 	public List<Message> getMessages() 

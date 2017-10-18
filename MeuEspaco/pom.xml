@@ -171,12 +171,6 @@
 		<artifactId>jasperreports</artifactId>
 		<version>6.2.0</version>
 	</dependency>
-    
-	<!-- Hibernate EntityManager for Test -->
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-entitymanager</artifactId>
-	</dependency>
 	
 	<!-- http://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
 	<dependency>
@@ -219,8 +213,29 @@
 	    <artifactId>commons-net</artifactId>
 	    <version>3.3</version>
 	</dependency>
-	
-	
+
+    <!-- testing -->
+     <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+     </dependency>
+     
+     <dependency>
+         <groupId>com.h2database</groupId>
+         <artifactId>h2</artifactId>
+         <version>1.4.192</version>
+         <scope>test</scope>
+     </dependency>	
+    
+	<!-- Hibernate EntityManager for Test -->
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-entitymanager</artifactId>
+		<scope>test</scope>
+	</dependency>
+		
   </dependencies>
   
   <build>

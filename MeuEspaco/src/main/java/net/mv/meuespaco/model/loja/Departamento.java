@@ -30,6 +30,14 @@ public class Departamento extends EntidadeModel {
 	@Column(columnDefinition = "boolean default true")
 	private boolean ativo;
 	
+	public Departamento() {}
+	
+	public Departamento(Long codigo, String descricao) 
+	{
+		this.codigo = codigo;
+		this.descricao = descricao;
+	}
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -83,4 +91,9 @@ public class Departamento extends EntidadeModel {
 		return true;
 	}
 	
+	@Override
+	public String toString() 
+	{
+		return this.getDescricao();
+	}
 }

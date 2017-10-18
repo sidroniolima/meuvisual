@@ -6,8 +6,9 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
-import net.mv.meuespaco.model.loja.Departamento;
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
+import net.mv.meuespaco.model.loja.Departamento;
 
 /**
  * Implementação da navegação dos produtos de finalidade Consignado.
@@ -32,9 +33,15 @@ public class NavBarConsignadoBean extends NavBarBeanAbstract implements Serializ
 	{
 		return super.getGrupoSrvc().listaGruposPorDepartamentoParaConsignado(dep);
 	}
-	
+
 	protected String getUrl() {
 		return "/private/site/lista-produtos-da-pesquisa.xhtml?faces-redirect=true&paramPesquisa=";
+	}
+
+	@Override
+	public Finalidade getFinalidade() 
+	{
+		return Finalidade.CONSIGNADO;
 	}
 }
 	

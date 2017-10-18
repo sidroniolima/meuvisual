@@ -37,6 +37,7 @@ import net.mv.meuespaco.model.integracao.ClientesDoErp;
 import net.mv.meuespaco.model.loja.Cliente;
 import net.mv.meuespaco.model.loja.Cpf;
 import net.mv.meuespaco.model.loja.Documento;
+import net.mv.meuespaco.model.loja.Escolha;
 import net.mv.meuespaco.model.loja.StatusCliente;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.EscolhaService;
@@ -178,9 +179,51 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 
 		verificaCicloAberto(); 
 		
-		verificaQtdPermitidaDoConsignado();
+		Optional<Escolha> escolhaAtual = Optional.ofNullable(this.escolhaSrvc.buscarEscolhaDaSemanaAtual(this.clienteLogado));
 		
-		verificaValorDisponivelParaConsignado();
+		BigDecimal valorJaEscolhido = 
+				escolhaAtual.isPresent()
+				? escolhaAtual.get().valorDosItensDescontaveis() 
+				: BigDecimal.ZERO;
+		
+		BigDecimal qtdJaEscolhida = 
+				escolhaAtual.isPresent() 
+				? escolhaAtual.get().qtdDeItensDescontaveis()
+				: BigDecimal.ZERO;
+		
+		verificaQtdPermitidaDoConsignado(qtdJaEscolhida);
+		verificaValorDisponivelParaConsignado(valorJaEscolhido);
+	}
+
+	@Override
+	public void verificaValorDisponivelParaConsignado(BigDecimal valorJaEscolhido) throws RegraDeNegocioException 
+	{
+		Semana semana = this.getSemanaDoClienteLogado();
+		
+		if (this.valorDisponivelParaEscolha(valorJaEscolhido).compareTo(BigDecimal.ZERO) <= 0)
+		{
+			throw new RegraDeNegocioException(
+					String.format("Você já escolheu o valor permitido para este ciclo. "
+							+ "O próximo será aberto em %s dia(s) em %s .", 
+							semana.diasAteOProximoCiclo(),
+							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+		
+		}
+	}
+
+	@Override
+	public void verificaQtdPermitidaDoConsignado(BigDecimal qtdJaEscolhida) throws RegraDeNegocioException 
+	{
+		Semana semana = this.getSemanaDoClienteLogado();
+		
+		if (this.qtdDisponivelParaEscolha(qtdJaEscolhida) <= 0) 
+		{
+			throw new RegraDeNegocioException(
+					String.format("Você já escolheu todas as peças disponíveis para este ciclo. "
+							+ "O próximo será aberto em %s dia(s) em %s .", 
+							semana.diasAteOProximoCiclo(),
+							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
+		}
 	}
 
 	@Override
@@ -213,7 +256,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 							semana.dataDoProximoCiclo().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 		}
 	}
-
+	
 	@Override
 	public void verificaCicloAberto() throws RegraDeNegocioException 
 	{
@@ -278,6 +321,24 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 	}
 	
 	@Override
+	public int qtdDisponivelParaEscolha(BigDecimal qtdJaEscolhida) throws RegraDeNegocioException {
+		
+		Cliente cliente = this.buscaClientePeloUsuarioLogado();
+		
+		return 
+			(int) (cliente.getQtdDePecasParaEscolha() - qtdJaEscolhida.floatValue());
+				
+	}
+	
+	@Override
+	public BigDecimal valorDisponivelParaEscolha(BigDecimal valorJaEscolhido) throws RegraDeNegocioException {
+		
+		Cliente cliente = this.buscaClientePeloUsuarioLogado();
+
+		return new BigDecimal(cliente.getValorParaEscolha()).subtract(valorJaEscolhido);
+	}
+	
+	@Override
 	public int qtdDisponivelParaEscolha() throws RegraDeNegocioException {
 		
 		Cliente cliente = this.buscaClientePeloUsuarioLogado();
@@ -295,7 +356,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 
 		return new BigDecimal(cliente.getValorParaEscolha())
 					.subtract(this.valorEscolhidoNoCicloAtual());
-	}
+	}	
 	
 	@Override
 	public void atualizaInformacoesVindasDoErp() throws MalformedURLException, IOException 

@@ -3,15 +3,15 @@ package net.mv.meuespaco.controller;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import net.mv.meuespaco.model.loja.Departamento;
+import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Subgrupo;
-import net.mv.meuespaco.model.consulta.Menu;
+import net.mv.meuespaco.model.consulta.MenuPorDepartamento;
+import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.DepartamentoService;
 import net.mv.meuespaco.service.GrupoService;
 
@@ -32,52 +32,29 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	@Inject
 	private DepartamentoService depSrvc;
 	
-	private List<Departamento> departamentos;
-	
 	private String pesquisa;
 	
 	@PostConstruct
 	public void init() {
-		
-		if (null == departamentos) {
-			//departamentos = Departamento.getAtivos();
-			departamentos = depSrvc.listaAtivos();
-		}
 	}
 	
 	/**
-	 * Cria os menus pela lista de subgrupos com grupo  
-	 * do departamento de acordo com a finalidade.
+	 * Criação do menu de forma dinâmica e performatica, evitando querys.
 	 * 
-	 * @param dep Departamento atual.
-	 * @return Lista de subgrupos com grupos.
+	 * @return Menu completo.
 	 */
-	public abstract List<Grupo> criaMenuPorDepartamento(Departamento dep);	
-	
-	/**
-	 * Criação do menu estático.
-	 * 
-	 * @param dep
-	 * @return Menu estático.
-	 */
-	public Map<Grupo, Set<Subgrupo>> montaMenuPeloDepartamento(Departamento dep) 
-	{/*
-		List<Grupo> gruposComSubgrupos = grupoSrvc.listaGruposPorDepartamento(dep);
-		
-		Menu menu = new Menu();
-		
-		for (Grupo grupo : gruposComSubgrupos) {
-			menu.montaMenu(dep, grupo);
-		}
-		
-		return menu.getMenus().get(dep);
-		*/
-		
-		return null;
+	public Map<Departamento, Map<Grupo, Map<Subgrupo, List<MenuPorDepartamento>>>> criaMenus()
+	{
+		return this.getDepSrvc().listaAtivosComGruposESubgrupos(this.getFinalidade());
 	}
 	
 	/**
-	 * Redireciona a pesquisa para a listagem de produtos.
+	 * Define a finalidade do Menu.
+	 * @return finalidade.
+	 */
+	public abstract Finalidade getFinalidade(); 
+
+	/**	 * Redireciona a pesquisa para a listagem de produtos.
 	 * 
 	 * @return
 	 */
@@ -103,13 +80,6 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	protected abstract String getUrl();
 	
 	/**
-	 * @return
-	 */
-	public List<Departamento> getDepartamentos() {
-		return departamentos;
-	}
-
-	/**
 	 * @return the pesquisa
 	 */
 	public String getPesquisa() {
@@ -124,5 +94,10 @@ public abstract class NavBarBeanAbstract implements Serializable {
 
 	public GrupoService getGrupoSrvc() {
 		return grupoSrvc;
+	}
+	
+	public DepartamentoService getDepSrvc() 
+	{
+		return depSrvc;
 	}
 }

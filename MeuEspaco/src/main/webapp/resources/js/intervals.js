@@ -43,7 +43,7 @@ function registraCronometro()
 			clearInterval(cronometroId);						
 		}
 
-	}, 5000);
+	}, 600000);
 };
 	
 $("#myModalMsgs").on("hide.bs.modal", function () 

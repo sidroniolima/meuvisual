@@ -382,7 +382,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 		List<Permissao> permissoesPadrao = asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE, Permissao.ROLE_CLIENTE);
 		List<Permissao> permissoesRestritas = asList(Permissao.ROLE_VENDA, Permissao.ROLE_BRINDE);
 		
-		registrosErp.stream().forEach(c -> 
+		registrosErp.parallelStream().forEach(c -> 
 		{
 			Optional<Cliente> optCliente = Optional.ofNullable(this.buscarClientePeloCpf(new Cpf(c.getCpf())));
 			List<Permissao> permissoes = permissoesPadrao;
@@ -444,7 +444,7 @@ public class ClienteServiceImpl extends SimpleServiceLayerImpl<Cliente, Long> im
 				{
 					cliente.ativaCliente();
 					cliente.atualizaValoresDoErp(c.getQtd(), c.getValor());	
-					cliente.atualizaPermissoes(permissoes);
+					//cliente.atualizaPermissoes(permissoes);
 					
 					this.salva(cliente);
 					

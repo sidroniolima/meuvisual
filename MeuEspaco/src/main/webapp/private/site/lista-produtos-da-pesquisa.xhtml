@@ -72,44 +72,12 @@
 	                    <div class="panel panel-default sidebar-menu">
 	
 	                        <div class="panel-heading">
-	                            <h3 class="panel-title">Categorias</h3>
+	                            <h3 class="panel-title">Filtros</h3>
 	                        </div>
 	
 	                        <div class="panel-body">
 	                            <ul class="nav nav-pills nav-stacked category-menu">
 	                            
-	                            	<ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
-	                            
-	                                	<li><a href="#">#{dep.descricao}</a>
-		                                    
-		                                    <ul>
-												<ui:repeat 
-			                                   		var="menu" 
-			                                   		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
-				                                	<li>
-				                                       	<a 
-				                                       		jsfc="h:outputLink"
-				                                       		value="./lista-produtos.xhtml">
-				                                       		
-				                                       		<h:outputText value="#{menu.descricao}" />
-				                                       		
-				                                       		<f:param
-				                                       			name="paramDep"
-				                                       			value="#{dep.codigo}"/>
-				                                       		
-				                                       		<f:param
-				                                       			name="paramGrupo"
-				                                       			value="#{menu.codigo}"/>
-				                                       	</a>	
-													</li>                                  		
-				                                    		
-		                                    	</ui:repeat>
-												<!-- /#ui:repeat grupos -->
-		                                    </ul>
-	                                	</li>
-	                                	
-	                                </ui:repeat>
-	                                <!-- /.ui:repeat dep -->
 	                            </ul>
 	
 	                        </div>
@@ -170,17 +138,6 @@
 							                    <p class="price">#{produto.codigoInterno}</p>
 							                    <p class="buttons">
 							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
-								                    <button 
-							                    		class="btn btn-warning btn-oneclick"
-							                    		onclick="adicionaProduto(${produto.codigo});"
-														style="#{produto.isOneClick() and pesquisaProdutoConsignadoBean.habilitaEscolha ? '' : 'display: none'}"
-														type="button">
-														
-														<span>Escolher</span>
-													</button>
-													<span>
-														<i id="check_${produto.codigo}" class="fa fa-check fa-2x one-click-check" aria-hidden="true"></i>
-													</span>	
 												</p>
 							                </div>
 							                <!-- /.text -->

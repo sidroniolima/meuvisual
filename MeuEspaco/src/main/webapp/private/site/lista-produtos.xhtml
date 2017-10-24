@@ -209,15 +209,14 @@
 							            
 							            <div class="product">
 							                <div class="flip-container">
-							                    
 							                    <div class="flipper">
 							                        <div class="front">
-							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(1)}', '${props.serverImageName()}')">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" onclick="">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
-							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" onclick="">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
@@ -243,7 +242,14 @@
 															target="#{listaProdutosConsignadosBean.produtoSelecionado}"/>
 														
 							                    	</h:commandButton>
-													
+							                    	<!-- 
+							                    	<button 
+							                    		class="btn btn-default"
+							                    		onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(1)}', '${props.serverImageName()}')">
+							                    		Zoom
+							                    	</button>
+							                    	 -->
+							                    		
 												</p>
 							                </div>
 							                <!-- /.text -->

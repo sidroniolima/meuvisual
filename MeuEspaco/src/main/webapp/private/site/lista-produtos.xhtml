@@ -176,31 +176,7 @@
 					       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
 					       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
 								
-								<div style="float: right; width: 45%; text-align: middle" align="right" >
-									<h:selectOneMenu
-										id="select-ordem"
-										value="#{listaProdutosConsignadosBean.filtro.ordenacao}"
-										valueChangeListener="#{listaProdutosConsignadosBean.filtraComOrdemListener}"
-		                               	style="width: auto; margin-left: 5px;"
-		                               	styleClass="form-control">
-		                               	
-		                               	<f:selectItem 
-					                    	noSelectionOption="true"
-					                    	itemLabel="Selecione a ordem"/>
-					                    	            	
-		                               	<f:selectItems
-		                               		value="#{listaProdutosConsignadosBean.filtro.ordens.entrySet().toArray()}"
-		                               		var="entry"
-		                               		itemLabel="&nbsp;&nbsp;&nbsp;#{entry.value}"
-		                               		itemValue="#{entry.key}"/>
-		                               		
-					                   	<f:ajax
-					                   		execute="@this"
-					                        event="change"
-					                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		
-					                               
-		                        	</h:selectOneMenu> 
-								</div>		
+								
 	                        </div>
 			       	 	
 					    <h:panelGroup
@@ -267,18 +243,6 @@
 															target="#{listaProdutosConsignadosBean.produtoSelecionado}"/>
 														
 							                    	</h:commandButton>
-							                    	<button 
-							                    		class="btn btn-warning btn-oneclick"
-							                    		onclick="adicionaProduto(${produto.codigo});"
-														style="#{produto.isOneClick() and listaProdutosConsignadosBean.habilitaEscolha ? '' : 'display: none'}"
-														type="button">
-														
-														<span>Escolher</span>
-														
-													</button>
-													<span>
-														<i id="check_${produto.codigo}" class="fa fa-check fa-2x one-click-check" aria-hidden="true"></i>
-													</span>
 													
 												</p>
 							                </div>

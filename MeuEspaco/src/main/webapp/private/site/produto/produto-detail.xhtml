@@ -46,293 +46,290 @@
 			     	 	globalOnly="true"/>   
 			    </div>
                 
-                <h:panelGroup
-                	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade != 'UNICA'}">
-	                <div class="col-md-3">
-	                    <!-- *** MENUS AND FILTERS *** _________________________________________________________ -->
-						<h:panelGroup 
-	                       	id="panel-letras"
-	                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'LETRA'}">
-	
-	                    	<div class="panel panel-default sidebar-menu">
-	
-	                       		<div class="panel-heading">
-	                            	<h3 class="panel-title">Letras <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
-	                        	</div>
+                <div class="col-md-3">
+                    <!-- *** MENUS AND FILTERS *** _________________________________________________________ -->
+					<h:panelGroup 
+                       	id="panel-letras"
+                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'LETRA'}">
+
+                    	<div class="panel panel-default sidebar-menu">
+
+                       		<div class="panel-heading">
+                            	<h3 class="panel-title">Letras <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+                        	</div>
+                        
+	                        <div class="panel-body">
 	                        
-		                        <div class="panel-body">
-		                        
-		                            <h:form id="frm-letra">
-		                            
-		                                <div class="form-group">
-		                                
-	                                   		<h:selectOneRadio
-	                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.letra}"
-	                                           	layout="pageDirection"
-	                                           	style="padding-left:20px">
-	                                           	
-	                                           	<f:selectItems
-	                                           		value="#{produtoDetailConsignadoBean.letrasDisponiveis}"
-	                                           		var="letra"
-	                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{letra}"
-	                                           		itemValue="#{letra}"/>
-	                                           		
-				                            	<f:ajax
-				                            		execute="@this"/>                                           		
-	                                           
-	                                    	</h:selectOneRadio>
-		                                </div>
-		
-		                            </h:form> <!-- /#frm-letra -->
-		
-		                        </div>
-		                        
-		                	</div> <!-- sidebar-menu-letras -->
-		                </h:panelGroup> <!-- /#panel-letras -->                    
+	                            <h:form id="frm-letra">
+	                            
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.letra}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailConsignadoBean.letrasDisponiveis}"
+                                           		var="letra"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{letra}"
+                                           		itemValue="#{letra}"/>
+                                           		
+			                            	<f:ajax
+			                            		execute="@this"/>                                           		
+                                           
+                                    	</h:selectOneRadio>
+	                                </div>
+	
+	                            </h:form> <!-- /#frm-letra -->
+	
+	                        </div>
+	                        
+	                	</div> <!-- sidebar-menu-letras -->
+	                </h:panelGroup> <!-- /#panel-letras -->                    
+                    
+                    <h:panelGroup 
+                       	id="panel-tamanhos"
+                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'TAMANHO'}">
+
+                    	<div class="panel panel-default sidebar-menu">
+
+                       		<div class="panel-heading">
+                            	<h3 class="panel-title">Tamanhos <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+                        	</div>
+                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form id="frm-tamanho">
+	                            
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.tamanho}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailConsignadoBean.tamanhosDisponiveis}"
+                                           		var="tam"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{tam.descricao}"
+                                           		itemValue="#{tam}"/>
+                                           		
+			                            	<f:ajax
+			                            		execute="@this"/>                                           		
+                                           
+                                    	</h:selectOneRadio>
+	                                </div>
+	
+	                            </h:form> <!-- /#frm-tamanho -->
+	
+	                        </div>
+	                        
+	                	</div> <!-- sidebar-menu-tamanho -->
+	                </h:panelGroup> <!-- /#panel-tamanhos -->
+	                
+					<h:panelGroup 
+                       	id="panel-simbolos-musicais"
+                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'MUSICAL'}">
+	                
+		                <div class="panel panel-default sidebar-menu">
+	
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Musical <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        </div>
+	                        
+	                        <div class="panel-body">
+	                        
+	                            <h:form 
+	                            	id="frm-simbolos"
+	                            	styleClass="form-inline">                        	
+
+			                        <div class="form-group">
+			                        
+			                            <h:selectOneRadio
+			                            	value="#{produtoDetailConsignadoBean.gradeSelecionada.simbolo}"
+			                            	layout="pageDirection"
+			                            	style="padding-left:20px">
+			                            	
+			                            	<f:selectItems
+			                            		value="#{produtoDetailConsignadoBean.simbolosMusicaisDisponiveis}"
+			                            		var="simbolo"
+			                            		itemLabel="&nbsp;&nbsp;&nbsp;#{simbolo}"
+			                            		itemValue="#{simbolo}"/>
+			                            		
+			                            	<f:ajax
+			                            		execute="@this"/>
+			                            	
+			                            </h:selectOneRadio>
+			                        </div>
+			                        
+			            		</h:form> <!-- /#frm-musical -->
+			            
+			            	</div>
+			            	
+	                    </div> <!-- sidebar-menu-musical -->
 	                    
-	                    <h:panelGroup 
-	                       	id="panel-tamanhos"
-	                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'TAMANHO'}">
+	                </h:panelGroup> <!-- /#panel-simbolos-musicais -->	                
+	                
+					<h:panelGroup 
+                       	id="panel-cores"
+                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'COR'}">
+	                
+		                <div class="panel panel-default sidebar-menu">
 	
-	                    	<div class="panel panel-default sidebar-menu">
-	
-	                       		<div class="panel-heading">
-	                            	<h3 class="panel-title">Tamanhos <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
-	                        	</div>
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Cores <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        </div>
 	                        
-		                        <div class="panel-body">
-		                        
-		                            <h:form id="frm-tamanho">
-		                            
-		                                <div class="form-group">
-		                                
-	                                   		<h:selectOneRadio
-	                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.tamanho}"
-	                                           	layout="pageDirection"
-	                                           	style="padding-left:20px">
-	                                           	
-	                                           	<f:selectItems
-	                                           		value="#{produtoDetailConsignadoBean.tamanhosDisponiveis}"
-	                                           		var="tam"
-	                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{tam.descricao}"
-	                                           		itemValue="#{tam}"/>
-	                                           		
-				                            	<f:ajax
-				                            		execute="@this"/>                                           		
-	                                           
-	                                    	</h:selectOneRadio>
-		                                </div>
-		
-		                            </h:form> <!-- /#frm-tamanho -->
-		
-		                        </div>
-		                        
-		                	</div> <!-- sidebar-menu-tamanho -->
-		                </h:panelGroup> <!-- /#panel-tamanhos -->
-		                
-						<h:panelGroup 
-	                       	id="panel-simbolos-musicais"
-	                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'MUSICAL'}">
-		                
-			                <div class="panel panel-default sidebar-menu">
-		
-		                        <div class="panel-heading">
-		                            <h3 class="panel-title">Musical <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
-		                        </div>
-		                        
-		                        <div class="panel-body">
-		                        
-		                            <h:form 
-		                            	id="frm-simbolos"
-		                            	styleClass="form-inline">                        	
+	                        <div class="panel-body">
+	                        
+	                            <h:form 
+	                            	id="frm-cores"
+	                            	styleClass="form-inline">                        	
+
+			                        <div class="form-group">
+			                        
+			                            <h:selectOneRadio
+			                            	value="#{produtoDetailConsignadoBean.gradeSelecionada.cor}"
+			                            	layout="pageDirection"
+			                            	style="padding-left:20px">
+			                            	
+			                            	<f:selectItems
+			                            		value="#{produtoDetailConsignadoBean.coresDisponiveis}"
+			                            		var="cor"
+			                            		itemLabel="&nbsp;&nbsp;&nbsp;#{cor.descricao}"
+			                            		itemValue="#{cor}"/>
+			                            		
+			                            	<f:ajax
+			                            		execute="@this"/>
+			                            	
+			                            </h:selectOneRadio>
+			                        </div>
+			                        
+			                        <div class="form-group" style="margin-left:15px; margin-top:0px;">
+					            		<ui:repeat var="cor" value="#{produtoDetailConsignadoBean.coresDisponiveis}">
+					            			<div class="square cor-${cor.codigoHtml}"/>
+					            			<div style="padding-top: 10px"/>
+					            		</ui:repeat>	
+					            	</div>		                        
+			            
+			            		</h:form> <!-- /#frm-cores -->
+			            
+			            	</div>
+			            	
+	                    </div> <!-- sidebar-menu-cor -->
+	                    
+	                </h:panelGroup> <!-- /#panel-cores -->
+                    
+                    <h:panelGroup 
+                        id="panel-gr-completa"
+                        rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'COR_E_TAMANHO'}">
+                        	
+                        <h:form 
+                        	id="frm-gr-completa-tamanho"
+                        	styleClass="form-inline">
+	                
+		                	<div class="panel panel-default sidebar-menu">
 	
-				                        <div class="form-group">
-				                        
-				                            <h:selectOneRadio
-				                            	value="#{produtoDetailConsignadoBean.gradeSelecionada.simbolo}"
-				                            	layout="pageDirection"
-				                            	style="padding-left:20px">
-				                            	
-				                            	<f:selectItems
-				                            		value="#{produtoDetailConsignadoBean.simbolosMusicaisDisponiveis}"
-				                            		var="simbolo"
-				                            		itemLabel="&nbsp;&nbsp;&nbsp;#{simbolo}"
-				                            		itemValue="#{simbolo}"/>
-				                            		
-				                            	<f:ajax
-				                            		execute="@this"/>
-				                            	
-				                            </h:selectOneRadio>
-				                        </div>
-				                        
-				            		</h:form> <!-- /#frm-musical -->
-				            
-				            	</div>
-				            	
-		                    </div> <!-- sidebar-menu-musical -->
-		                    
-		                </h:panelGroup> <!-- /#panel-simbolos-musicais -->	                
-		                
-						<h:panelGroup 
-	                       	id="panel-cores"
-	                       	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'COR'}">
-		                
-			                <div class="panel panel-default sidebar-menu">
-		
+	                        	<div class="panel-heading">
+	                        	    <h3 class="panel-title">Tamanho <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
+	                        	</div>	                
+	
+	                        	<div class="panel-body">
+	                            
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.tamanho}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px"
+                                           	valueChangeListener="#{produtoDetailConsignadoBean.filtroDeCoresPorTamanho}">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailConsignadoBean.tamanhosDisponiveis}"
+                                           		var="tamanho"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{tamanho.descricao}"
+                                           		itemValue="#{tamanho}"/>
+                                           		
+			                            	<f:ajax
+			                            		render=":frm-gr-completa-tamanho"/>                                           		
+                                           
+                                    	</h:selectOneRadio>
+	                                </div>
+	                                
+	                        	</div>
+							</div> <!-- /.sidebar-menu tamanho -->
+								
+							<div class="panel panel-default sidebar-menu">
+
 		                        <div class="panel-heading">
 		                            <h3 class="panel-title">Cores <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
-		                        </div>
+		                        </div>	 
 		                        
 		                        <div class="panel-body">
-		                        
-		                            <h:form 
-		                            	id="frm-cores"
-		                            	styleClass="form-inline">                        	
-	
-				                        <div class="form-group">
-				                        
-				                            <h:selectOneRadio
-				                            	value="#{produtoDetailConsignadoBean.gradeSelecionada.cor}"
-				                            	layout="pageDirection"
-				                            	style="padding-left:20px">
-				                            	
-				                            	<f:selectItems
-				                            		value="#{produtoDetailConsignadoBean.coresDisponiveis}"
-				                            		var="cor"
-				                            		itemLabel="&nbsp;&nbsp;&nbsp;#{cor.descricao}"
-				                            		itemValue="#{cor}"/>
-				                            		
-				                            	<f:ajax
-				                            		execute="@this"/>
-				                            	
-				                            </h:selectOneRadio>
-				                        </div>
-				                        
-				                        <div class="form-group" style="margin-left:15px; margin-top:0px;">
-						            		<ui:repeat var="cor" value="#{produtoDetailConsignadoBean.coresDisponiveis}">
-						            			<div class="square cor-${cor.codigoHtml}"/>
-						            			<div style="padding-top: 10px"/>
-						            		</ui:repeat>	
-						            	</div>		                        
-				            
-				            		</h:form> <!-- /#frm-cores -->
-				            
-				            	</div>
-				            	
-		                    </div> <!-- sidebar-menu-cor -->
-		                    
-		                </h:panelGroup> <!-- /#panel-cores -->
-	                    
-	                    <h:panelGroup 
-	                        id="panel-gr-completa"
-	                        rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'COR_E_TAMANHO'}">
+	                                
+	                                <div class="form-group">
+	                                
+                                   		<h:selectOneRadio
+                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.cor}"
+                                           	layout="pageDirection"
+                                           	style="padding-left:20px"
+                                           	id="select-radio-cor-gr-completa">
+                                           	
+                                           	<f:selectItems
+                                           		value="#{produtoDetailConsignadoBean.coresParaOTamanho}"
+                                           		var="cor"
+                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{cor.descricao}"
+                                           		itemValue="#{cor}"/>
+                                           		
+                                           	<f:ajax
+                                           		execute="@this"
+                                           		immediate="true"/>
+                                           		
+                                    	</h:selectOneRadio>
+	                                </div>	   
+	                                
+			                        <div class="form-group" style="margin-left:15px; margin-top:0px;">
+					            		<ui:repeat var="cor" value="#{produtoDetailConsignadoBean.coresParaOTamanho}">
+						            		<div class="square cor-${cor.codigoHtml}"/>
+											<div style="padding-top: 10px"/>						            		
+					            		</ui:repeat>	
+					            	</div>		                                     
+	                        
+	                        	</div>
 	                        	
-	                        <h:form 
-	                        	id="frm-gr-completa-tamanho"
-	                        	styleClass="form-inline">
-		                
-			                	<div class="panel panel-default sidebar-menu">
-		
-		                        	<div class="panel-heading">
-		                        	    <h3 class="panel-title">Tamanho <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
-		                        	</div>	                
-		
-		                        	<div class="panel-body">
-		                            
-		                                <div class="form-group">
-		                                
-	                                   		<h:selectOneRadio
-	                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.tamanho}"
-	                                           	layout="pageDirection"
-	                                           	style="padding-left:20px"
-	                                           	valueChangeListener="#{produtoDetailConsignadoBean.filtroDeCoresPorTamanho}">
-	                                           	
-	                                           	<f:selectItems
-	                                           		value="#{produtoDetailConsignadoBean.tamanhosDisponiveis}"
-	                                           		var="tamanho"
-	                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{tamanho.descricao}"
-	                                           		itemValue="#{tamanho}"/>
-	                                           		
-				                            	<f:ajax
-				                            		render=":frm-gr-completa-tamanho"/>                                           		
-	                                           
-	                                    	</h:selectOneRadio>
-		                                </div>
-		                                
-		                        	</div>
-								</div> <!-- /.sidebar-menu tamanho -->
-									
-								<div class="panel panel-default sidebar-menu">
+	                        </div> <!-- /.sidebar-meny cores -->  
+	                        
+		                </h:form> <!-- /#frm-tamanho-gr-completa --> 
+		            </h:panelGroup> <!-- /#panel-gr-completa -->     
+		            
+		            <h:panelGroup
+		            	id="panel-categorias"
+		            	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'UNICA'}">
+		            	
+						<div class="panel panel-default sidebar-menu">
 	
-			                        <div class="panel-heading">
-			                            <h3 class="panel-title">Cores <a class="btn btn-xs btn-default pull-right" href="#"><i class="fa fa-times-circle"></i> Limpar</a></h3>
-			                        </div>	 
-			                        
-			                        <div class="panel-body">
-		                                
-		                                <div class="form-group">
-		                                
-	                                   		<h:selectOneRadio
-	                                        	value="#{produtoDetailConsignadoBean.gradeSelecionada.cor}"
-	                                           	layout="pageDirection"
-	                                           	style="padding-left:20px"
-	                                           	id="select-radio-cor-gr-completa">
-	                                           	
-	                                           	<f:selectItems
-	                                           		value="#{produtoDetailConsignadoBean.coresParaOTamanho}"
-	                                           		var="cor"
-	                                           		itemLabel="&nbsp;&nbsp;&nbsp;#{cor.descricao}"
-	                                           		itemValue="#{cor}"/>
-	                                           		
-	                                           	<f:ajax
-	                                           		execute="@this"
-	                                           		immediate="true"/>
-	                                           		
-	                                    	</h:selectOneRadio>
-		                                </div>	   
-		                                
-				                        <div class="form-group" style="margin-left:15px; margin-top:0px;">
-						            		<ui:repeat var="cor" value="#{produtoDetailConsignadoBean.coresParaOTamanho}">
-							            		<div class="square cor-${cor.codigoHtml}"/>
-												<div style="padding-top: 10px"/>						            		
-						            		</ui:repeat>	
-						            	</div>		                                     
-		                        
-		                        	</div>
-		                        	
-		                        </div> <!-- /.sidebar-meny cores -->  
-		                        
-			                </h:form> <!-- /#frm-tamanho-gr-completa --> 
-			            </h:panelGroup> <!-- /#panel-gr-completa -->     
-			            
-			            <h:panelGroup
-			            	id="panel-categorias"
-			            	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'UNICA'}">
-			            	
-							<div class="panel panel-default sidebar-menu">
-		
-		                        <div class="panel-heading">
-		                            <h3 class="panel-title">Filtros</h3>
-		                        </div>
-		
-		                        <div class="panel-body">
-		                            <ul class="nav nav-pills nav-stacked category-menu">
-		                            
-		                            </ul>
-		
-		                        </div>
-		                    </div>        	
-						</h:panelGroup>
+	                        <div class="panel-heading">
+	                            <h3 class="panel-title">Filtros</h3>
+	                        </div>
 	
-	                    <!-- *** MENUS AND FILTERS END *** -->
+	                        <div class="panel-body">
+	                            <ul class="nav nav-pills nav-stacked category-menu">
+	                            	Produto sem filtros
+	                            </ul>
 	
-	                </div>
-	            </h:panelGroup>
+	                        </div>
+	                    </div>        	
+					</h:panelGroup>
 
-                <div class="#{produtoDetailConsignadoBean.produto.tipoGrade == 'UNICA' ? 'col-md-12' : 'col-md-9'}">
+                    <!-- *** MENUS AND FILTERS END *** -->
+
+                </div>
+
+                <div class="col-md-9">
                 
                     <div class="row" id="productMain">
-                        <div class="#{produtoDetailConsignadoBean.produto.tipoGrade == 'UNICA' ? 'col-md-5' : 'col-md-6'}">
+                        <div class="col-md-6">
                             <div id="mainImage">
                                 <span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
                                 	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
@@ -346,7 +343,7 @@
                             <!-- /.ribbon -->
 
                         </div>
-                        <div class="#{produtoDetailConsignadoBean.produto.tipoGrade == 'UNICA' ? 'col-md-7' : 'col-md-6'}">
+                        <div class="col-md-6">
                             <div class="box">
                                 <h1 class="text-center">#{produtoDetailConsignadoBean.produto.descricao}</h1>
                                 

@@ -344,4 +344,11 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 * @return lista de referências.
 	 */
 	public List<ReferenciaProdutoComQtd> detalhaProdutosEQtdPorSubgrupoPorReferencia(FiltroProduto filtro);
+
+	/**
+	 * Busca produto com informações para adição ao carrinho: grade, grupo e subgrupo.
+	 * @param codigo do produto.
+	 * @return produto com grade, grupo e subgrupo.
+	 */
+	public Produto buscaParaCarrinho(Long codigo);
 }

@@ -7,7 +7,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	template="/public/template_initial.xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="css">
+		<h:outputStylesheet library="css" name="zoom.css"/>
+	</ui:define>
  
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
@@ -37,7 +42,21 @@
                 
                 <h:form
                 	id="frm-listagem">
-                
+                	
+					<o:commandScript name="commandAdicionaProduto" 
+						action="${listaProdutosConsignadosBean.addToChart()}"
+						render="group-msg-modal"
+						oncomplete="atualizaForm()"/>  
+					
+					<o:commandScript name="commandGetMsgModal" 
+						action="${listaProdutosConsignadosBean.getMsgModal()}"
+						render="group-msg-modal"/>
+
+					<h:panelGroup
+						id="group-msg-modal">
+						<span id="span-msg-modal" style="display:none">${listaProdutosConsignadosBean.msgModal}</span>
+					</h:panelGroup>
+						                  
 	                <div class="col-md-12">
 	                	
 	                	<h:messages 
@@ -53,44 +72,12 @@
 	                    <div class="panel panel-default sidebar-menu">
 	
 	                        <div class="panel-heading">
-	                            <h3 class="panel-title">Categorias</h3>
+	                            <h3 class="panel-title">Filtros</h3>
 	                        </div>
 	
 	                        <div class="panel-body">
 	                            <ul class="nav nav-pills nav-stacked category-menu">
 	                            
-	                            	<ui:repeat var="dep" value="#{navBarConsignadoBean.departamentos}">
-	                            
-	                                	<li><a href="#">#{dep.descricao}</a>
-		                                    
-		                                    <ul>
-												<ui:repeat 
-			                                   		var="menu" 
-			                                   		value="#{navBarConsignadoBean.criaMenuPorDepartamento(dep)}">
-				                                	<li>
-				                                       	<a 
-				                                       		jsfc="h:outputLink"
-				                                       		value="./lista-produtos.xhtml">
-				                                       		
-				                                       		<h:outputText value="#{menu.descricao}" />
-				                                       		
-				                                       		<f:param
-				                                       			name="paramDep"
-				                                       			value="#{dep.codigo}"/>
-				                                       		
-				                                       		<f:param
-				                                       			name="paramGrupo"
-				                                       			value="#{menu.codigo}"/>
-				                                       	</a>	
-													</li>                                  		
-				                                    		
-		                                    	</ui:repeat>
-												<!-- /#ui:repeat grupos -->
-		                                    </ul>
-	                                	</li>
-	                                	
-	                                </ui:repeat>
-	                                <!-- /.ui:repeat dep -->
 	                            </ul>
 	
 	                        </div>
@@ -100,7 +87,7 @@
 	                    
 					<div class="col-md-9">
 					    <div class="box">
-					        <h1>Pequisa: #{pesquisaProdutoConsignadoBean.paramPesquisa}</h1>
+					        <h4>Pequisa: #{pesquisaProdutoConsignadoBean.paramPesquisa}</h4>
 					    </div>
 					    
 					    <h:panelGroup
@@ -131,12 +118,12 @@
 							                    <div class="flipper">
 							                    
 							                        <div class="front">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(1)}', '${props.serverImageName()}')">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="#{produto.buscaFotoPeloIndice(1)}" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
@@ -145,12 +132,13 @@
 							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
 							                    <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                </a>
+					                
 							                <div class="text">
 							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
 							                    <p class="price">#{produto.codigoInterno}</p>
 							                    <p class="buttons">
 							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
-							                    </p>
+												</p>
 							                </div>
 							                <!-- /.text -->
 							            </div>
@@ -242,6 +230,55 @@
 						
 					</div>
 					<!-- /.col-md-9 -->	
+					<!-- Modal -->
+					<div class="modal fade" id="modal-saldo-insuficiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+			      	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h5 class="modal-title" id="myModalLabel">
+					        	<strong>Você atingiu seu saldo</strong></h5>
+					      </div>
+					      <div class="modal-body">
+					      	<div class="row">
+								<div class="col-md-2">
+									<p align="center"><span style="font-size:40px"><i class="fa fa-exclamation"/></span></p>
+								</div>
+								<div class="col-md-10">
+									<p id="modal-body-msg"></p> 
+									<p>
+									Se quiser, pode clicar <a href="carrinho/carrinho.xhtml">aqui</a> e <strong>gerar</strong> sua escolha.
+									</p>
+								</div>
+							</div>
+					      </div>			      
+					    </div>
+					  </div>
+					</div> 	
+					<!-- end modal -->
+					
+					<!-- Modal Fotos -->
+					<div class="modal fade modal-fotos-produto" id="modal-fotos-produto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					      	<button type="button" style="margin-bottom: 7px" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					      	<h5><span id="modal-fotos-header-text"/></h5>
+					      </div>					    
+					      <div class="modal-body" id="modalBody">
+							<div class="modal-fotos-produto-foto">
+								<h5><span id="modal-fotos-body-text"/></h5>
+								<p align="center">
+									<span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
+										<img id="modal-img" src="" style="width: 50%; height: 50%"/>
+									</span>
+								</p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Zoom fotos -->						
 					
 				</h:form> <!-- /.frm-listagem -->
 
@@ -261,6 +298,13 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="jquery.zoom.js" />
+		<h:outputScript library="js" name="add-to-chart.js" />
+		<script> 
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})			
+		</script>		
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

@@ -2,8 +2,10 @@ package net.mv.meuespaco.model;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,6 +18,7 @@ import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.model.grade.Cor;
 import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeComLetra;
+import net.mv.meuespaco.model.grade.GradeCor;
 import net.mv.meuespaco.model.grade.GradeCorETamanho;
 import net.mv.meuespaco.model.grade.GradeLetra;
 import net.mv.meuespaco.model.grade.GradeUnica;
@@ -165,5 +168,44 @@ public class ProdutoTest {
 		assertTrue("Check do valor", produtoComValor_1.valor().compareTo(new BigDecimal(230.90).setScale(2, RoundingMode.HALF_UP)) == 0);
 		assertTrue("Check do valor", produtoComValor_2.valor().compareTo(new BigDecimal(3.90).setScale(2, RoundingMode.HALF_UP)) == 0);
 		assertTrue("Check do valor", produtoComValor_3.valor().compareTo(new BigDecimal(121.90).setScale(2, RoundingMode.HALF_UP)) == 0);
+	}
+	
+	@Test
+	public void deveSerOneClick() throws RegraDeNegocioException
+	{
+		Produto produto = new Produto(4L, "21776454MV13390");
+		produto.setTipoGrade(TipoGrade.UNICA);
+		produto.adicionaGrade(new GradeUnica());
+				
+		assertTrue("Produto eh onclick", produto.isOneClick());
+		
+		Produto produtoCor = new Produto(5L, "21883421MV09990");
+		produtoCor.setTipoGrade(TipoGrade.COR);
+		produtoCor.adicionaGrade(new GradeCor(Cor.AMARELO));
+				
+		assertFalse("Produto eh onclick", produtoCor.isOneClick());
+	}
+
+	@Test
+	public void deveRetornarGradeUnicaDoProduto() throws RegraDeNegocioException
+	{
+		Produto produto = new Produto(4L, "21776454MV13390");
+		produto.setTipoGrade(TipoGrade.UNICA);
+		GradeUnica grade = new GradeUnica(1L, produto);
+		produto.adicionaGrade(grade);
+				
+		assertEquals("Grade única do produto", grade, produto.gradeUnica());
+		
+		Produto produtoCor = new Produto(5L, "21883421MV09990");
+		produtoCor.setTipoGrade(TipoGrade.COR);
+		GradeCor gradeCor = new GradeCor(Cor.AZUL_CLARO);
+		produtoCor.adicionaGrade(gradeCor);
+				
+		try
+		{
+			Grade gradeNaoUnica = produtoCor.gradeUnica();
+			fail("Deve lançar exceção por não ser grade unica");
+		}catch (RegraDeNegocioException e) {
+		}
 	}
 }

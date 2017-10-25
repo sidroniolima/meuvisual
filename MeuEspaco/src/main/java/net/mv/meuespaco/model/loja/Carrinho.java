@@ -37,7 +37,7 @@ public abstract class Carrinho {
 	 * necessário, tanto de quantidade como de valor.
 	 * 
 	 * @param item
-	 * @throws RegraDeNegocioException
+	 * @throws RegraDeNegocioException 
 	 */
 	public abstract void adicionaItem(ItemCarrinho item) throws RegraDeNegocioException; 
 	

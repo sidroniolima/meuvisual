@@ -6,7 +6,12 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  template="/public/template_initial.xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="css">
+		<h:outputStylesheet library="css" name="zoom.css"/>
+	</ui:define>
       
 	<!-- TOP BAR DEFINE -->
 	<ui:define name="top_bar">
@@ -25,6 +30,20 @@
             <div class="container">
             
             	<h:form id="frm-lista-produto">
+
+					<o:commandScript name="commandAdicionaProduto" 
+						action="${listaProdutosConsignadosBean.addToChart()}"
+						render="group-msg-modal"
+						oncomplete="atualizaForm()"/>  
+					
+					<o:commandScript name="commandGetMsgModal" 
+						action="${listaProdutosConsignadosBean.getMsgModal()}"
+						render="group-msg-modal"/>  						
+						
+					<h:panelGroup
+						id="group-msg-modal">
+						<span id="span-msg-modal" style="display:none">${listaProdutosConsignadosBean.msgModal}</span>
+					</h:panelGroup>
 
 	                <div class="col-md-12">
 	                
@@ -121,7 +140,7 @@
 												valueChangeListener="#{listaProdutosConsignadosBean.filtraPorCaracteristicaListener}"
 				                               	layout="pageDirection"
 				                               	style="padding-left:20px">
-				                               			                               	
+				                               	
 				                               	<f:selectItems
 				                               		value="#{entry.value}"
 				                               		var="value"
@@ -146,19 +165,20 @@
 		                
 		                </h:panelGroup>
 	                </div>
-	
 					<div class="col-md-9">
-					    <div class="box">
-					    	<h:outputText 
-					    		style="font-size:28px"
-					    		value="#{listaProdutosConsignadosBean.grupo.descricao}" />
-				       	 	
-				       	 	<h:outputText 
-				       	 		style="font-size:22px"
-				       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
-				       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
-					    </div>
-					    
+							<div class="box" align="left" style="float: left; width: 100%;">
+								<h:outputText 
+						    		style="font-size:22px"
+						    		value="#{listaProdutosConsignadosBean.grupo.descricao}" />
+					       	 	
+					       	 	<h:outputText 
+					       	 		style="font-size:16px"
+					       	 		value=" - #{listaProdutosConsignadosBean.subgrupo.descricao}" 
+					       	 		rendered="#{listaProdutosConsignadosBean.subgrupo ne null}"/>
+								
+								
+	                        </div>
+			       	 	
 					    <h:panelGroup
 					    	id="panel-produtos">
 					    	
@@ -189,22 +209,20 @@
 							            
 							            <div class="product">
 							                <div class="flip-container">
-							                    
 							                    <div class="flipper">
-							                    
 							                        <div class="front">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" onclick="">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                        <div class="back">
-							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">
+							                            <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" onclick="">
 							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
 							                            </a>
 							                        </div>
 							                    </div>
 							                </div>
-							                <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="invisible">
+							                <a href="#" class="invisible">
 							                    <img src="#{props.serverImageName()}/imagens/meu-espaco/Produto_sem_foto.png" class="img-responsive"/>
 							                </a>
 							                <div class="text">
@@ -212,7 +230,27 @@
 							                    <p class="price">#{produto.codigoInterno}</p>
 							                    <p class="buttons">
 							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
-							                    </p>
+													
+													<h:commandButton style="display: none" 
+														id="btn-oneclick_${produto.codigo}"
+														action="#{listaProdutosConsignadosBean.addToChart()}"
+														type="button"
+														immediate="true">
+														
+														<f:setPropertyActionListener 
+															value="#{produto}" 
+															target="#{listaProdutosConsignadosBean.produtoSelecionado}"/>
+														
+							                    	</h:commandButton>
+							                    	<!-- 
+							                    	<button 
+							                    		class="btn btn-default"
+							                    		onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(1)}', '${props.serverImageName()}')">
+							                    		Zoom
+							                    	</button>
+							                    	 -->
+							                    		
+												</p>
 							                </div>
 							                <!-- /.text -->
 							            </div>
@@ -310,6 +348,56 @@
 					</div>
 					<!-- /.col-md-9 -->	
 					
+					<!-- Modal -->
+					<div class="modal fade" id="modal-saldo-insuficiente" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+					  <div class="modal-dialog" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+			      	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h5 class="modal-title" id="myModalLabel">
+					        	<strong>Você atingiu seu saldo</strong></h5>
+					      </div>
+					      <div class="modal-body">
+					      	<div class="row">
+								<div class="col-md-2">
+									<p align="center"><span style="font-size:40px"><i class="fa fa-exclamation"/></span></p>
+								</div>
+								<div class="col-md-10">
+									<p id="modal-body-msg"></p> 
+									<p>
+									Se quiser, pode clicar <a href="carrinho/carrinho.xhtml">aqui</a> e <strong>gerar</strong> sua escolha.
+									</p>
+								</div>
+							</div>
+					      </div>			      
+					    </div>
+					  </div>
+					</div> 	
+					<!-- end modal -->
+					
+					<!-- Modal Fotos -->
+					<div class="modal fade modal-fotos-produto" id="modal-fotos-produto" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					      	<button type="button" style="margin-bottom: 7px" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					      	<h5><span id="modal-fotos-header-text"/></h5>
+					      </div>					    
+					      <div class="modal-body" id="modalBody">
+							<div class="modal-fotos-produto-foto">
+								<h5><span id="modal-fotos-body-text"/></h5>
+								<p align="center">
+									<span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
+										<img id="modal-img" src="" style="width: 50%; height: 50%"/>
+									</span>
+								</p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Zoom fotos -->										
+					
 				</h:form> <!-- end form -->
 				
             </div>
@@ -328,15 +416,12 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
-		
-		<script>
-			$(function(){
-				/* $('.product').hide();
-				
-				$('.product').fadeIn(1000, function() {
-				    console.log('fade in 1000 complete');
-				  }); */
-			});
+		<h:outputScript library="js" name="jquery.zoom.js" />
+		<h:outputScript library="js" name="add-to-chart.js" />
+		<script> 
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})			
 		</script>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			

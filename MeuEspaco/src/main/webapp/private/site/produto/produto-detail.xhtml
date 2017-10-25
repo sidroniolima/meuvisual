@@ -47,8 +47,7 @@
 			    </div>
                 
                 <div class="col-md-3">
-                    <!-- *** MENUS AND FILTERS ***
- _________________________________________________________ -->
+                    <!-- *** MENUS AND FILTERS *** _________________________________________________________ -->
 					<h:panelGroup 
                        	id="panel-letras"
                        	rendered="#{produtoDetailConsignadoBean.produto.tipoGrade == 'LETRA'}">
@@ -311,12 +310,12 @@
 						<div class="panel panel-default sidebar-menu">
 	
 	                        <div class="panel-heading">
-	                            <h3 class="panel-title">Categorias</h3>
+	                            <h3 class="panel-title">Filtros</h3>
 	                        </div>
 	
 	                        <div class="panel-body">
 	                            <ul class="nav nav-pills nav-stacked category-menu">
-	                            
+	                            	Produto sem filtros
 	                            </ul>
 	
 	                        </div>
@@ -330,7 +329,7 @@
                 <div class="col-md-9">
                 
                     <div class="row" id="productMain">
-                        <div class="col-sm-6">
+                        <div class="col-md-6">
                             <div id="mainImage">
                                 <span class='zoom' id='ex1' data-toggle="tooltip" data-placement="top" title="Passe o mouse para zoom">
                                 	<img src="#{props.serverImageName()}/imagens/meu-espaco/#{produtoDetailConsignadoBean.produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
@@ -344,7 +343,7 @@
                             <!-- /.ribbon -->
 
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-md-6">
                             <div class="box">
                                 <h1 class="text-center">#{produtoDetailConsignadoBean.produto.descricao}</h1>
                                 

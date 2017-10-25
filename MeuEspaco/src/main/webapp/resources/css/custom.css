@@ -678,3 +678,15 @@ i.afastada {
 {
 	opacity: 0.3
 }
+
+.btn-oneclick
+{
+	margin-left: 5px;
+}
+
+.one-click-check
+{
+	margin-left: 5px;
+	color: green; 
+	opacity: 0;
+}

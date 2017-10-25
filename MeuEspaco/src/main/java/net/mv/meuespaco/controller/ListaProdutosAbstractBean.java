@@ -71,20 +71,24 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 
 	private Paginator paginator = new Paginator(IConstants.QTD_EXIBIDA_NA_LISTAGEM_DE_PRODUTOS);
 	
+	private boolean habilitaEscolha;
+	
 	/**
 	 * Inicia o Bean por um Estado de Navegação já utilizado ou
 	 * pelos parâmetros.
 	 * 
 	 */
 	@PostConstruct
-	public void init() {
+	public void init() 
+	{
+		this.habilitaEscolha = this.verificaDisponibilidadeDaEscolha();
 		
 		if (this.getEstadoDeNavegacao().isEstadoCriado() && !isParametrizado()) {
 			this.restauraEstado();
 			
 			this.criaListaDeSubgrupos();
 			this.listarComPaginacaoESalvarEstado();
-							
+			
 		} else {
 		
 			try {
@@ -226,6 +230,24 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		listarComPaginacaoESalvarEstado();
 		
 	}
+
+	/**
+	 * Lista os resultados utilizando a ordenação.
+	 * 
+	 * @param event Ordem selecionada.
+	 */
+	public void filtraComOrdemListener(ValueChangeEvent event) 
+	{
+		String ordem = (String) event.getNewValue();
+		if (null != ordem) 
+		{
+			this.getFiltro().setOrdenacao(ordem);
+		}
+		
+		this.reiniciaPaginator();
+		
+		listarComPaginacaoESalvarEstado();
+	}
 	
 	/**
 	 * Reinicia o Paginador.
@@ -336,8 +358,22 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		return produtoService;
 	}
 
+	public boolean isHabilitaEscolha() 
+	{
+		return habilitaEscolha;
+	}
+	public void setHabilitaEscolha(boolean habilitaEscolha) 
+	{
+		this.habilitaEscolha = habilitaEscolha;
+	}
+
 	public abstract EstadoDeNavegacao getEstadoDeNavegacao();
 
 	public abstract FiltroListaProduto getFiltro();
 	public abstract void setFiltro(FiltroListaProduto filtro);
+	
+	/**
+	 * Verifica se o cliente pode adicionar peças ao carrinho.
+	 */
+	public abstract boolean verificaDisponibilidadeDaEscolha();
 }

@@ -3,6 +3,8 @@ package net.mv.meuespaco.controller;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
@@ -17,6 +19,7 @@ import net.mv.meuespaco.model.Composicao;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.TipoGrade;
 import net.mv.meuespaco.model.grade.Tamanho;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.DepartamentoService;
@@ -66,14 +69,13 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	
 	private List<Produto> produtos;
 	
-	private List<Subgrupo> subgrupos;
-	
 	private Composicao[] composicoes;
 	private Tamanho[] tamanhos;
 
 	private Paginator paginator = new Paginator(IConstants.QTD_EXIBIDA_NA_LISTAGEM_DE_PRODUTOS);
 	
 	private boolean habilitaEscolha;
+	private boolean mostraTamanhos;
 	
 	/**
 	 * Inicia o Bean por um Estado de Navegação já utilizado ou
@@ -88,33 +90,42 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		if (this.getEstadoDeNavegacao().isEstadoCriado() && !isParametrizado()) {
 			this.restauraEstado();
 			
-			this.criaListaDeSubgrupos();
-			this.listarComPaginacaoESalvarEstado();
-			
 		} else {
 		
 			try {
+				
 				this.preencheInformacoesDeNavegacao(paramDep, paramGrupo, paramSubgrupo);
 				this.getEstadoDeNavegacao().criaEstado();
 				
-				this.criaListaDeSubgrupos();
-				this.listarComPaginacaoESalvarEstado();
-			
 			} catch (RegraDeNegocioException e) {
 				FacesUtil.addErrorMessage(e.getMessage() + " Clique nos links de navegação acima para listar as peças.");
 			}
 		}
+		
+		this.listarComPaginacao();
+		this.verificaSeMostraTamanhos(this.produtos);
+		this.salvaEstado();
 		
 		composicoes = Composicao.values();
 		tamanhos = Tamanho.values();
 	}
 	
 	/**
-	 * Cria a lista de subgrupos disponíveis para o Departamento e Grupo 
-	 * selecionado.
+	 * Verifica se os produtos da lista tem a grade de 
+	 * tamanho. 
 	 */
-	private void criaListaDeSubgrupos() {
-		subgrupos = this.subgrupoService.listarSubgruposPorDepEGrupo(dep, grupo);
+	public void verificaSeMostraTamanhos(List<Produto> produtos) 
+	{
+		Predicate<Produto> predicate = p -> {
+					return 	(p.getTipoGrade() == TipoGrade.TAMANHO) || 
+							(p.getTipoGrade() == TipoGrade.COR_E_TAMANHO);};
+			
+		Optional<Produto> optProd = produtos
+											.stream()
+											.filter(predicate)
+											.findAny();
+		
+		this.setMostraTamanhos(optProd.isPresent());
 	}
 
 	/**
@@ -182,6 +193,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		this.grupo = this.getEstadoDeNavegacao().getEstado().getGrupo();
 		this.subgrupo = this.getEstadoDeNavegacao().getEstado().getSubgrupo();
 		this.paginator = this.getEstadoDeNavegacao().getEstado().getPaginator();
+		this.mostraTamanhos = this.getEstadoDeNavegacao().getEstado().isMostraTamanhos();
 	}
 
 	/**
@@ -198,13 +210,21 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	public void listarComPaginacaoESalvarEstado()
 	{
 		this.listarComPaginacao();
-		
+		this.salvaEstado();
+	}
+	
+	/**
+	 * Salva o estado de navegação.
+	 */
+	public void salvaEstado()
+	{
 		this.getEstadoDeNavegacao().salvaEstado(
 				this.getDep(), 
 				this.getGrupo(), 
 				this.getSubgrupo(), 
 				this.getFiltro(), 
-				this.getPaginator());
+				this.getPaginator(),
+				this.mostraTamanhos);
 	}
 	
 	/**
@@ -320,13 +340,6 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	}
 
 	/**
-	 * @return the subgrupos
-	 */
-	public List<Subgrupo> getSubgrupos() {
-		return subgrupos;
-	}
-
-	/**
 	 * @return the caracteristicas
 	 */
 	public Map<Caracteristica, List<String>> getCaracteristicas() {
@@ -378,6 +391,15 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		this.habilitaEscolha = habilitaEscolha;
 	}
 
+	public boolean isMostraTamanhos() 
+	{
+		return mostraTamanhos;
+	}
+	public void setMostraTamanhos(boolean mostraTamanhos) 
+	{
+		this.mostraTamanhos = mostraTamanhos;
+	}
+	
 	public abstract EstadoDeNavegacao getEstadoDeNavegacao();
 
 	public abstract FiltroListaProduto getFiltro();

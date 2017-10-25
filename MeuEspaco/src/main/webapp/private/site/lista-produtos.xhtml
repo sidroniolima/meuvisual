@@ -62,51 +62,54 @@
 	 
 						<h:panelGroup
 	                    	id="panel-filtros">
+							<h:panelGroup
+								rendered="#{listaProdutosConsignadosBean.mostraTamanhos}">
 
-							<div class="panel panel-default sidebar-menu">
-		                    
-		                        <div class="panel-heading">
-		                            <h3 class="panel-title">Tamanho 
-		                            	<a class="btn btn-xs btn-default pull-right" 
-		                            		href="#"
-		                            		jsfc="h:commandLink"
-		                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
-		                            	
-		                            		<f:ajax
-		                            			execute="@this"
-		                            			render="panel-produtos panel-filtros panel-load-more"/>
-		                            			
-		                            		<i class="fa fa-times-circle"></i> Limpar
-		                            	</a>
-		                            </h3>
-		                        </div>
-		
-		                        <div class="panel-body">
-		                        
-		                        	<div class="form-group">
-		                        
-										<h:selectOneMenu
-											id="select-tamanho"
-											value="#{listaProdutosConsignadosBean.filtro.tamanho}"
-											valueChangeListener="#{listaProdutosConsignadosBean.filtraPorTamanhoListener}"
-			                               	style="padding-left:20px"
-			                               	styleClass="form-control">
-			                               			                               	
-			                               	<f:selectItems
-			                               		value="#{listaProdutosConsignadosBean.tamanhos}"
-			                               		var="tam"
-			                               		itemLabel="&nbsp;&nbsp;&nbsp;#{tam.descricao}"
-			                               		itemValue="#{tam}"/>
-			                               		
-						                   	<f:ajax
-						                   		execute="@this"
-						                        event="change"
-						                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
-			                        	</h:selectOneMenu>	
-			                        </div>                      
-		
-		                        </div>
-		                    </div>
+								<div class="panel panel-default sidebar-menu">
+			                    
+			                        <div class="panel-heading">
+			                            <h3 class="panel-title">Tamanho 
+			                            	<a class="btn btn-xs btn-default pull-right" 
+			                            		href="#"
+			                            		jsfc="h:commandLink"
+			                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
+			                            	
+			                            		<f:ajax
+			                            			execute="@this"
+			                            			render="panel-produtos panel-filtros panel-load-more"/>
+			                            			
+			                            		<i class="fa fa-times-circle"></i> Limpar
+			                            	</a>
+			                            </h3>
+			                        </div>
+			
+			                        <div class="panel-body">
+			                        
+			                        	<div class="form-group">
+			                        
+											<h:selectOneMenu
+												id="select-tamanho"
+												value="#{listaProdutosConsignadosBean.filtro.tamanho}"
+												valueChangeListener="#{listaProdutosConsignadosBean.filtraPorTamanhoListener}"
+				                               	style="padding-left:20px"
+				                               	styleClass="form-control">
+				                               			                               	
+				                               	<f:selectItems
+				                               		value="#{listaProdutosConsignadosBean.tamanhos}"
+				                               		var="tam"
+				                               		itemLabel="&nbsp;&nbsp;&nbsp;#{tam.descricao}"
+				                               		itemValue="#{tam}"/>
+				                               		
+							                   	<f:ajax
+							                   		execute="@this"
+							                        event="change"
+							                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
+				                        	</h:selectOneMenu>	
+				                        </div>                      
+			
+			                        </div>
+			                    </div>
+			                </h:panelGroup>
 	                    
 		                    <div class="panel panel-default sidebar-menu">
 		                    

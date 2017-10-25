@@ -36,6 +36,28 @@ public abstract class EstadoDeNavegacao {
 		this.estado.setPaginator(paginator);
 		
 	}
+
+	/**
+	 * Salva um estado de navegação.
+	 * 
+	 * @param estado
+	 */
+	public void salvaEstado(
+			Departamento dep, 
+			Grupo grupo, 
+			Subgrupo subgrupo, 
+			FiltroListaProduto filtro, 
+			Paginator paginator,
+			boolean mostraTamanhos) 
+	{
+		this.estado.setDep(dep);
+		this.estado.setGrupo(grupo);
+		this.estado.setSubgrupo(subgrupo);
+		this.estado.setFiltro(filtro);
+		this.estado.setPaginator(paginator);
+		this.estado.setMostraTamanhos(mostraTamanhos);
+		
+	}	
 	
 	/**
 	 * Instancia o Estado.
@@ -61,6 +83,7 @@ public abstract class EstadoDeNavegacao {
 		private Grupo grupo;
 		private Subgrupo subgrupo;
 		private Paginator paginator;
+		private boolean mostraTamanhos;
 		
 		/**
 		 * Construtor padrão.
@@ -80,6 +103,21 @@ public abstract class EstadoDeNavegacao {
 			this.paginator = paginator;
 		}
 		
+		public Estado(FiltroListaProduto filtro, 
+				Departamento dep, 
+				Grupo grupo, 
+				Subgrupo subgrupo, 
+				Paginator paginator,
+				boolean mostraTamanhos) 
+		{
+			this.filtro = filtro;
+			this.dep = dep;
+			this.grupo = grupo;
+			this.subgrupo = subgrupo;
+			this.paginator = paginator;
+			this.mostraTamanhos = mostraTamanhos;
+		}
+
 		/**
 		 * @return the filtro
 		 */
@@ -144,13 +182,19 @@ public abstract class EstadoDeNavegacao {
 		public void setPaginator(Paginator paginator) {
 			this.paginator = paginator;
 		}
+		
+		public boolean isMostraTamanhos() {
+			return mostraTamanhos;
+		}
+		public void setMostraTamanhos(boolean mostraTamanhos) {
+			this.mostraTamanhos = mostraTamanhos;
+		}
 
 		@Override
 		public String toString() {
 			return "Estado [filtro=" + filtro + ", dep=" + dep + ", grupo=" + grupo + ", subgrupo=" + subgrupo
 					+ ", paginator=" + paginator + "]";
 		}
-		
 	}
 
 	/**

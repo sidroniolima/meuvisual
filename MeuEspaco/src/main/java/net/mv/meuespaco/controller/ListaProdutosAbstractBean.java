@@ -17,6 +17,7 @@ import net.mv.meuespaco.model.Composicao;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.grade.Tamanho;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.DepartamentoService;
 import net.mv.meuespaco.service.GrupoService;
@@ -68,6 +69,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	private List<Subgrupo> subgrupos;
 	
 	private Composicao[] composicoes;
+	private Tamanho[] tamanhos;
 
 	private Paginator paginator = new Paginator(IConstants.QTD_EXIBIDA_NA_LISTAGEM_DE_PRODUTOS);
 	
@@ -104,7 +106,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		}
 		
 		composicoes = Composicao.values();
-
+		tamanhos = Tamanho.values();
 	}
 	
 	/**
@@ -250,6 +252,24 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	}
 	
 	/**
+	 * Filtra os registros pelo tamanho selecionado.
+	 * 
+	 * @param event Tamanho selecionado.
+	 */
+	public void filtraPorTamanho(ValueChangeEvent event) 
+	{
+		String selecionado = (String) event.getNewValue();
+		if (null != selecionado) 
+		{
+			this.getFiltro().setTamanho(Tamanho.valueOf(selecionado));
+		}
+		
+		this.reiniciaPaginator();
+		
+		listarComPaginacaoESalvarEstado();
+	}
+	
+	/**
 	 * Reinicia o Paginador.
 	 */
 	private void reiniciaPaginator() {
@@ -272,22 +292,8 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		this.reiniciaPaginator();
 		
 		listarComPaginacaoESalvarEstado();
-		
-		/*
-		Composicao comp = (Composicao) event.getNewValue();
-		limpaFiltro();
-		if (null != comp) {
-			
-			produtosFiltrados = produtos
-					.stream()
-					.filter(p -> p.getComposicao().equals(comp))
-					.collect(Collectors.toList());
-		}
-		*/
 	}
 
-	
-	
 	/**
 	 * @return the produtos
 	 */
@@ -332,6 +338,11 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	 */
 	public Composicao[] getComposicoes() {
 		return composicoes;
+	}
+	
+	public Tamanho[] getTamanhos() 
+	{
+		return tamanhos;
 	}
 
 	/**

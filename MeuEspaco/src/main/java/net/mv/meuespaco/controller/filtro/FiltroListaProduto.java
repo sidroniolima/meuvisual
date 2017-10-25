@@ -6,6 +6,7 @@ import java.util.Map;
 import net.mv.meuespaco.model.Composicao;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.TipoProduto;
+import net.mv.meuespaco.model.grade.Tamanho;
 
 /**
  * Filtro para listagem dos produtos de acordo com parâmetros do 
@@ -19,6 +20,7 @@ public abstract class FiltroListaProduto {
 	private TipoProduto tipo;
 	private String caracteristica;
 	private Composicao composicao;
+	private Tamanho tamanho;
 	
 	private String ordenacao;
 	
@@ -26,8 +28,9 @@ public abstract class FiltroListaProduto {
 	
 	public FiltroListaProduto() 
 	{	
-		ordens.put("-valor", "Menor preço");
-		ordens.put("+valor", "Maior preço");
+		ordens.put("Menor preço", "-valor");
+		ordens.put("Maior preço", "+valor");
+		ordenacao = ordens.get("Menor preço");
 	}
 	
 	/**
@@ -36,9 +39,9 @@ public abstract class FiltroListaProduto {
 	 * @param campo
 	 * @return DESC ou ASC
 	 */
-	public static String verificaOrdem(String key)
+	public static String verificaOrdem(String value)
 	{
-		return key.charAt(0) == '+' ? "DESC" : "ASC";
+		return value.charAt(0) == '+' ? "DESC" : "ASC";
 	}
 	
 	/**
@@ -48,6 +51,7 @@ public abstract class FiltroListaProduto {
 		tipo = null;
 		caracteristica = "";
 		composicao = null;
+		ordenacao = this.getOrdens().get("Menor preço");
 	}	
 
 	public TipoProduto getTipo() {
@@ -85,5 +89,12 @@ public abstract class FiltroListaProduto {
 
 	public Map<String, String> getOrdens() {
 		return ordens;
+	}
+
+	public Tamanho getTamanho() {
+		return tamanho;
+	}
+	public void setTamanho(Tamanho tamanho) {
+		this.tamanho = tamanho;
 	}
 }

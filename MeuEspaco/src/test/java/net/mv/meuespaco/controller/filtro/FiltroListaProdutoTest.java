@@ -18,8 +18,7 @@ public class FiltroListaProdutoTest
 	@Test
 	public void deveVerificarAOrdenacao() 
 	{
-		assertEquals("Ordenacao", "DESC", FiltroListaProduto.verificaOrdem(filtro.getOrdens().get("Produtos mais novos")));
-		assertEquals("Ordenacao", "ASC", FiltroListaProduto.verificaOrdem(filtro.getOrdens().get("Mais baratos")));
-		assertEquals("Ordenacao", "DESC", FiltroListaProduto.verificaOrdem(filtro.getOrdens().get("Mais caros")));
+		assertEquals("Ordenacao", "ASC", FiltroListaProduto.verificaOrdem(filtro.getOrdens().get("Menor preço")));
+		assertEquals("Ordenacao", "DESC", FiltroListaProduto.verificaOrdem(filtro.getOrdens().get("Maior preço")));
 	}
 }

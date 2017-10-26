@@ -55,7 +55,7 @@
 	
 	                <ul class="nav navbar-nav navbar-left">
 	                    
-	                    <ui:repeat var="dep" value="#{navBarConsignadoBean.criaMenus().entrySet().toArray()}">
+	                    <ui:repeat var="dep" value="#{navBarVendaBean.criaMenus().entrySet().toArray()}">
 	                    
 		                    <li class="dropdown yamm-fw">
 		                    
@@ -80,7 +80,7 @@
 				                                            <h5>
 						                                       	<a 
 						                                       		jsfc="h:outputLink"
-						                                       		value="#{root}private/site/lista-produtos.xhtml">
+						                                       		value="#{root}private/venda/lista-produtos.xhtml">
 						                                       		
 						                                       		<h:outputText value="#{grupo.key.descricao}" />
 						                                       		
@@ -100,7 +100,7 @@
 																	<li>
 								                                       	<a 
 								                                       		jsfc="h:outputLink"
-								                                       		value="#{root}private/site/lista-produtos.xhtml">
+								                                       		value="#{root}private/venda/lista-produtos.xhtml">
 								                                       		
 								                                       		<h:outputText value="#{subgrupo.key.descricao}" />
 								                                       		

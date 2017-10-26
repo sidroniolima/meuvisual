@@ -33,6 +33,7 @@ public class HibernateDepartamentoDAO extends HibernateGenericDAO<Departamento, 
 		+ "WHERE "
 		+ "p.departamento_codigo = d.codigo AND "
 		+ "p.subgrupo_codigo = s.codigo		AND "
+		+ "p.finalidade = :finalidade		AND "
 		+ "s.grupo_codigo = g.codigo		AND "
 		+ "p.ativo = 1						AND "
 		+ "d.ativo = 1 "
@@ -49,6 +50,8 @@ public class HibernateDepartamentoDAO extends HibernateGenericDAO<Departamento, 
 		+ "1,2,3,4,5,6";
 		
 		SQLQuery query = this.getSession().createSQLQuery(sql);
+		query.setParameter("finalidade", finalidade.toString());	
+		
 		query.setResultTransformer(new AliasToBeanResultTransformer(MenuPorDepartamento.class));
 		
 		List<MenuPorDepartamento> lista = query.list();

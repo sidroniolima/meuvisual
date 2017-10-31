@@ -346,6 +346,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteriaSublist.createAlias("subgrupo", "sub");
 		
 		criteriaSublist.createAlias("caracteristicas", "carac", JoinType.LEFT_OUTER_JOIN);
+		criteriaSublist.createAlias("grades", "gra", JoinType.LEFT_OUTER_JOIN);
+		
 		criteriaSublist.setProjection(Projections.property("codigo"));
 		
 		criteriaSublist.add(Restrictions.eq("ativo", true));
@@ -362,6 +364,11 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 			
 			if (null != filtro.getCaracteristica() && !filtro.getCaracteristica().isEmpty()) {
 				criteriaSublist.add(Restrictions.eq("carac." + CollectionPropertyNames.COLLECTION_ELEMENTS, filtro.getCaracteristica()));
+			}
+			
+			if (null != filtro.getTamanho())
+			{
+				criteriaSublist.add(Restrictions.eq("gra.tamanho", filtro.getTamanho()));
 			}
 			
 			if (null != filtro.getOrdenacao())
@@ -385,6 +392,8 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		if (null != subgrupo) {
 			criteriaSublist.add(Restrictions.eq("subgrupo", subgrupo));
 		}
+		
+		criteriaSublist.setProjection(Projections.groupProperty("codigo"));
 		
 		criteriaSublist.addOrder(orderNatural);
 		

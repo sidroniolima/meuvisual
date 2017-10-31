@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -71,7 +70,6 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 						super.getSubgrupo(), 
 						this.getFiltro(), 
 						super.getPaginator()));
-		
 	}	
 	
 	@Override

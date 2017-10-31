@@ -409,12 +409,15 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 
 		.append("GROUP BY  ")
 		.append("horario, ")
+		.append("p.codigo_interno, ")
 		.append("p.descricao, ")
 		.append("concat(g.descricao, ', ', s.descricao) ")
 
 		.append("ORDER BY ")
 		.append("horario, ")
-		.append("p.descricao; ");
+		.append("p.codigo_interno, ")
+		.append("p.descricao, ")
+		.append("concat(g.descricao, ', ', s.descricao); ");
 		
 		SQLQuery query = this.getSession().createSQLQuery(sqlStrBuilder.toString());
 		

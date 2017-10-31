@@ -25,6 +25,12 @@ public class FiltroPesquisaMovimento implements IFiltro, FiltroDePesquisa
 	private LocalDate dataInicial;
 	private LocalDate dataFinal;
 	
+	public FiltroPesquisaMovimento() 
+	{
+		this.tipo = TipoMovimento.ENTRADA;
+		this.origem = OrigemMovimento.AJUSTE;
+	}
+	
 	/**
 	 * Se o período é apenas uma data.
 	 * 

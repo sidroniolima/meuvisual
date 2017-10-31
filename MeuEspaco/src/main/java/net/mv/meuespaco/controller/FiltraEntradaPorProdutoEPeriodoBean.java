@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,13 +20,16 @@ import net.mv.meuespaco.service.SubgrupoService;
 import net.mv.meuespaco.util.FacesUtil;
 
 @Named
-@ViewScoped
+@ConversationScoped
 public class FiltraEntradaPorProdutoEPeriodoBean extends ListaSimples implements Serializable
 {
 	private static final long serialVersionUID = 3855803300739845052L;
 
 	private static final String ERROR_FILTRO_NAO_PREENCHIDO = "Não foi possível realizar a consulta. Redefina o filtro e tente novamente.";
-
+	
+	@Inject
+	private Conversation conversation;
+	
 	@Inject
 	private EstoqueService estoqueSrvc;
 	
@@ -53,6 +57,14 @@ public class FiltraEntradaPorProdutoEPeriodoBean extends ListaSimples implements
 		this.subgrupos = subgrupoSrvc.buscaTodosComGrupoEFamilia();
 	}
 
+	public void beginConversation()
+	{
+	    if (conversation.isTransient() == false){
+	        conversation.end();
+	    }
+	    conversation.begin();
+	}	
+	
 	@Override
 	public void listarComPaginacao() 
 	{
@@ -63,6 +75,11 @@ public class FiltraEntradaPorProdutoEPeriodoBean extends ListaSimples implements
 		{
 			FacesUtil.addErrorMessage(ERROR_FILTRO_NAO_PREENCHIDO);
 		}
+	}
+	
+	public String imprimir()
+	{	
+		return "./mov-por-subgrupo-composicao-print.xhtml";
 	}
 
 	@Override
@@ -84,5 +101,10 @@ public class FiltraEntradaPorProdutoEPeriodoBean extends ListaSimples implements
 
 	public List<Subgrupo> getSubgrupos() {
 		return subgrupos;
+	}
+	
+	public Conversation getConversation() 
+	{
+		return conversation;
 	}
 }

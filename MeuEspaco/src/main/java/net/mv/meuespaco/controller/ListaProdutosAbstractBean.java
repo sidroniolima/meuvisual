@@ -276,12 +276,12 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	 * 
 	 * @param event Tamanho selecionado.
 	 */
-	public void filtraPorTamanho(ValueChangeEvent event) 
+	public void filtraPorTamanhoListener(ValueChangeEvent event) 
 	{
-		String selecionado = (String) event.getNewValue();
+		Tamanho selecionado = (Tamanho) event.getNewValue();
 		if (null != selecionado) 
 		{
-			this.getFiltro().setTamanho(Tamanho.valueOf(selecionado));
+			this.getFiltro().setTamanho(selecionado);
 		}
 		
 		this.reiniciaPaginator();

@@ -52,6 +52,7 @@ public abstract class FiltroListaProduto {
 		caracteristica = "";
 		composicao = null;
 		ordenacao = this.getOrdens().get("Menor preço");
+		tamanho = null;
 	}	
 
 	public TipoProduto getTipo() {

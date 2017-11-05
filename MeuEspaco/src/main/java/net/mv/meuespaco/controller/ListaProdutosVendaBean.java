@@ -43,6 +43,12 @@ public class ListaProdutosVendaBean extends ListaProdutosAbstractBean implements
 	}
 	
 	@Override
+	public boolean permiteOneClick() 
+	{
+		return false;
+	}
+	
+	@Override
 	public EstadoDeNavegacao getEstadoDeNavegacao() {
 		return this.estadoDeNavegacao;
 	}

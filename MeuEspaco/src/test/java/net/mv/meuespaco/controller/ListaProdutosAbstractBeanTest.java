@@ -66,4 +66,28 @@ public class ListaProdutosAbstractBeanTest
 		assertFalse("NÃO deve mostrar", listaBean.isMostraTamanhos());
 	}
 
+	@Test
+	public void deveListarTamanhosPares()
+	{
+		List<Tamanho> pares = Arrays.asList(
+				Tamanho.TAM_2,
+				Tamanho.TAM_4,
+				Tamanho.TAM_6,
+				Tamanho.TAM_8,
+				Tamanho.TAM_10,
+				Tamanho.TAM_12,
+				Tamanho.TAM_14,
+				Tamanho.TAM_16,
+				Tamanho.TAM_18,
+				Tamanho.TAM_20,
+				Tamanho.TAM_22,
+				Tamanho.TAM_24,
+				Tamanho.TAM_26,
+				Tamanho.TAM_28,
+				Tamanho.TAM_30,
+				Tamanho.TAM_32);
+		
+		List<Tamanho> tamanhos = listaBean.listaTamanhos();
+		assertEquals(pares, tamanhos);
+	}
 }

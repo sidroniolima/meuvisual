@@ -690,3 +690,10 @@ i.afastada {
 	color: green; 
 	opacity: 0;
 }
+
+/* max device width */
+@media screen and (max-device-width: 480px) {
+	.btn-detail-add-chart {
+		margin-top: 5px;
+	}
+}

@@ -367,14 +367,14 @@
                                     
                                     	<div class="form-group">
 	                                    	
-	                                    	<div class="col-sm-3">
+	                                    	<div class="col-md-4 col-sm-12">
 	                                    		<h:inputText
 	                                    			id="qtd-do-produto"
 	                                    			pt:type="number"
 	                                    			pt:min="1"
 	                                    			class="form-control"
 	                                    			value="#{produtoDetailConsignadoBean.qtdDoProduto}"
-	                                    			pt:max="99">                                			
+	                                    			pt:max="99">                               			
 	                                    			
 	                                    			<f:ajax/>
 	                                    			
@@ -387,20 +387,21 @@
 	                                    			
 	                                    		</h:inputText>
 	                                    	</div>	
-		                                    <a 
-		                                    	href="#"
-		                                    	jsfc="h:commandLink" 
-		                                    	class="btn btn-primary"
-		                                    	action="#{produtoDetailConsignadoBean.addToChart()}"
-		                                    	disabled="#{not produtoDetailConsignadoBean.habilitaEscolha}">
-		                                    	
-		                                    	<f:ajax
-		                                    		execute="@this"
-		                                    		render="@form"/>
-		                                    	
-		                                    	<i class="fa fa-shopping-cart"></i> Carrinho
-		                                    </a>
-		                                    	 
+	                                    	<div style="text-align: center">
+			                                    <a 
+			                                    	href="#"
+			                                    	jsfc="h:commandLink" 
+			                                    	class="btn btn-primary btn-detail-add-chart"
+			                                    	action="#{produtoDetailConsignadoBean.addToChart()}"
+			                                    	disabled="#{not produtoDetailConsignadoBean.habilitaEscolha}">
+			                                    	
+			                                    	<f:ajax
+			                                    		execute="@this"
+			                                    		render="@form"/>
+			                                    	
+			                                    	<i class="fa fa-shopping-cart"></i> Carrinho
+			                                    </a>
+		                                    </div>	 
 		                                </div>
 		                                
 		                                <div class="form-group">
@@ -411,7 +412,7 @@
 									     	 	globalOnly="true"/>
 								     	 </div>
 	                        	
-	                        	</h:form> <!-- /#frm-control -->
+	                        		</h:form> <!-- /#frm-control -->
 	                        	
 	                        	</p>
 

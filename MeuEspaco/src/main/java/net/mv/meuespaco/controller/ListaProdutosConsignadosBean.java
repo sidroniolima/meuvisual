@@ -17,6 +17,9 @@ import net.mv.meuespaco.exception.QtdInsuficienteParaEscolhaException;
 import net.mv.meuespaco.exception.RegraDeNegocioException;
 import net.mv.meuespaco.exception.ValorInsuficienteParaEscolhaException;
 import net.mv.meuespaco.model.Produto;
+import net.mv.meuespaco.model.TipoGrade;
+import net.mv.meuespaco.model.grade.Grade;
+import net.mv.meuespaco.model.grade.GradeTamanho;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.ProdutoService;
 import net.mv.meuespaco.util.EstadoDeNavegacao;
@@ -99,9 +102,21 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 
 		Produto produto = this.produtoSrvc.buscaPeloCodigoComRelacionamentos(new Long(paramProduto));
 		
+		Grade grade = null;
+		
 		try 
 		{
-			carrinho.adicionaProduto(produto, BigDecimal.ONE, produto.valor(), produto.gradeUnica());
+			if (produto.getTipoGrade().equals(TipoGrade.UNICA))
+			{
+				grade = produto.gradeUnica();
+			} 
+			
+			if (this.isTamanhoSelecionado())
+			{
+				grade = this.produtoSrvc.gradeDoProduto(produto, new GradeTamanho(this.getFiltro().getTamanho()));
+			}
+			
+			carrinho.adicionaProduto(produto, BigDecimal.ONE, produto.valor(), grade);
 		}
 		catch (QtdInsuficienteParaEscolhaException e)
 		{
@@ -121,6 +136,12 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 		{
 			FacesUtil.addErrorMessage("Não foi possível adicionar o produto ao carrinho.");
 		}
+	}
+	
+	@Override
+	public boolean permiteOneClick() 
+	{
+		return this.isTamanhoSelecionado();
 	}
 	
 	@Override

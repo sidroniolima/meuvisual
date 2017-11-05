@@ -1,10 +1,12 @@
 package net.mv.meuespaco.controller;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ValueChangeEvent;
@@ -70,7 +72,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	private List<Produto> produtos;
 	
 	private Composicao[] composicoes;
-	private Tamanho[] tamanhos;
+	private List<Tamanho> tamanhos;
 
 	private Paginator paginator = new Paginator(IConstants.QTD_EXIBIDA_NA_LISTAGEM_DE_PRODUTOS);
 	
@@ -107,7 +109,15 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		this.salvaEstado();
 		
 		composicoes = Composicao.values();
-		tamanhos = Tamanho.values();
+		tamanhos = this.listaTamanhos();
+	}
+	
+	public List<Tamanho> listaTamanhos()
+	{
+		return Arrays.asList(Tamanho.values())
+				.stream()
+				.filter(Tamanho::isListar)
+				.collect(Collectors.toList());
 	}
 	
 	/**
@@ -279,6 +289,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	public void filtraPorTamanhoListener(ValueChangeEvent event) 
 	{
 		Tamanho selecionado = (Tamanho) event.getNewValue();
+
 		if (null != selecionado) 
 		{
 			this.getFiltro().setTamanho(selecionado);
@@ -314,6 +325,25 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		listarComPaginacaoESalvarEstado();
 	}
 
+	
+	/**
+	 * Permite ou não a escolha com o método oneclick.
+	 * 
+	 * @return sim ou não.
+	 */
+	public abstract boolean permiteOneClick();
+	
+	/**
+	 * Verifica se o tamanho foi selecionado. Esta informação 
+	 * será utilizada para permitir o oneclick.
+	 * 
+	 * @return sim ou não.
+	 */
+	public boolean isTamanhoSelecionado() 
+	{
+		return null != this.getFiltro().getTamanho();
+	}
+	
 	/**
 	 * @return the produtos
 	 */
@@ -353,7 +383,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		return composicoes;
 	}
 	
-	public Tamanho[] getTamanhos() 
+	public List<Tamanho> getTamanhos() 
 	{
 		return tamanhos;
 	}

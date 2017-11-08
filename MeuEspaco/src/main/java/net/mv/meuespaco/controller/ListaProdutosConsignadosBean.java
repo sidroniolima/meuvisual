@@ -3,6 +3,7 @@ package net.mv.meuespaco.controller;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.logging.Logger;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ import net.mv.meuespaco.model.grade.Grade;
 import net.mv.meuespaco.model.grade.GradeTamanho;
 import net.mv.meuespaco.service.ClienteService;
 import net.mv.meuespaco.service.ProdutoService;
+import net.mv.meuespaco.service.impl.EscolhaServiceImpl;
 import net.mv.meuespaco.util.EstadoDeNavegacao;
 import net.mv.meuespaco.util.FacesUtil;
 import net.mv.meuespaco.util.FiltroListaProdutoConsignadoAnnotation;
@@ -38,6 +40,10 @@ import net.mv.meuespaco.util.IConstants;
 public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean implements Serializable{
 
 	private static final long serialVersionUID = -1044183808309706397L;
+	private final Logger log = Logger.getLogger(EscolhaServiceImpl.class.getSimpleName());
+	
+	private static final String MSG_NAO_ADD_PRODUTO = "Add to Chart: Não foi possível add o produto %s"
+			+ " com grade %s.";
 	
 	@Inject
 	@FiltroListaProdutoConsignadoAnnotation
@@ -116,7 +122,15 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 				grade = this.produtoSrvc.gradeDoProduto(produto, new GradeTamanho(this.getFiltro().getTamanho()));
 			}
 			
-			carrinho.adicionaProduto(produto, BigDecimal.ONE, produto.valor(), grade);
+			if (null == grade)
+			{
+				FacesUtil.addErrorMessage("Não foi possível adicionar o produto ao carrinho.");
+				log.warning(String.format(MSG_NAO_ADD_PRODUTO, produto.getCodigoInterno(), grade));
+			} else
+			{
+				carrinho.adicionaProduto(produto, BigDecimal.ONE, produto.valor(), grade);
+			}
+			
 		}
 		catch (QtdInsuficienteParaEscolhaException e)
 		{

@@ -126,16 +126,20 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	 */
 	public void verificaSeMostraTamanhos(List<Produto> produtos) 
 	{
-		Predicate<Produto> predicate = p -> {
-					return 	(p.getTipoGrade() == TipoGrade.TAMANHO) || 
-							(p.getTipoGrade() == TipoGrade.COR_E_TAMANHO);};
+		if (null != produtos)
+		{
 			
-		Optional<Produto> optProd = produtos
-											.stream()
-											.filter(predicate)
-											.findAny();
-		
-		this.setMostraTamanhos(optProd.isPresent());
+			Predicate<Produto> predicate = p -> {
+						return 	(p.getTipoGrade() == TipoGrade.TAMANHO) || 
+								(p.getTipoGrade() == TipoGrade.COR_E_TAMANHO);};
+				
+			Optional<Produto> optProd = produtos
+												.stream()
+												.filter(predicate)
+												.findAny();
+			
+			this.setMostraTamanhos(optProd.isPresent());
+		}
 	}
 
 	/**

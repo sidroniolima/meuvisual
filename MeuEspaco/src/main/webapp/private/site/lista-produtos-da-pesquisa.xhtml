@@ -44,17 +44,17 @@
                 	id="frm-listagem">
                 	
 					<o:commandScript name="commandAdicionaProduto" 
-						action="${listaProdutosConsignadosBean.addToChart()}"
+						action="${pesquisaProdutosConsignadosBean.addToChart()}"
 						render="group-msg-modal"
 						oncomplete="atualizaForm()"/>  
 					
 					<o:commandScript name="commandGetMsgModal" 
-						action="${listaProdutosConsignadosBean.getMsgModal()}"
+						action="${pesquisaProdutosConsignadosBean.getMsgModal()}"
 						render="group-msg-modal"/>
 
 					<h:panelGroup
 						id="group-msg-modal">
-						<span id="span-msg-modal" style="display:none">${listaProdutosConsignadosBean.msgModal}</span>
+						<span id="span-msg-modal" style="display:none">${pesquisaProdutosConsignadosBean.msgModal}</span>
 					</h:panelGroup>
 						                  
 	                <div class="col-md-12">

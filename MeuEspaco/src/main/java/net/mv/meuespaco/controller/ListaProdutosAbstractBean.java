@@ -302,6 +302,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		this.reiniciaPaginator();
 		
 		listarComPaginacaoESalvarEstado();
+		
 	}
 	
 	/**

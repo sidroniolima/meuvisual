@@ -25,6 +25,7 @@ import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Produto;
 import net.mv.meuespaco.model.Subgrupo;
+import net.mv.meuespaco.model.TipoGrade;
 import net.mv.meuespaco.model.consulta.ReferenciaProdutoComQtd;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.util.Paginator;
@@ -368,6 +369,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 			
 			if (null != filtro.getTamanho())
 			{
+				criteriaSublist.add(Restrictions.eq("tipoGrade", TipoGrade.TAMANHO));
 				criteriaSublist.add(Restrictions.eq("gra.tamanho", filtro.getTamanho()));
 			}
 			

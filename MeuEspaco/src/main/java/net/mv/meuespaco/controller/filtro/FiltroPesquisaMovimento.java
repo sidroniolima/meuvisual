@@ -27,7 +27,6 @@ public class FiltroPesquisaMovimento implements IFiltro, FiltroDePesquisa
 	
 	public FiltroPesquisaMovimento() 
 	{
-		this.tipo = TipoMovimento.ENTRADA;
 		this.origem = OrigemMovimento.AJUSTE;
 	}
 	
@@ -54,9 +53,7 @@ public class FiltroPesquisaMovimento implements IFiltro, FiltroDePesquisa
 	@Override
 	public boolean isPreenchido() 
 	{
-		return null != this.tipo &&
-				null != this.origem &&
-				(this.isPeriodoSimples() || this.isPeriodoComposto());
+		return (this.isPeriodoSimples() || this.isPeriodoComposto());
 	}
 	
 	public TipoMovimento getTipo() {

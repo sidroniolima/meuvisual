@@ -25,7 +25,7 @@ public class ListaMovimentacaoBean extends ListaSimples implements Serializable{
 
 	private static final String SEM_REGISTROS_PARA_O_FILTRO = "Não foi encontrado nenhum resultado para esse filtro.";
 
-	private static final String FILTRO_NAO_PREENCHIDO = "É necessário preencher o período, a origem e o tipo no filtro.";
+	private static final String FILTRO_NAO_PREENCHIDO = "É necessário preencher o período do filtro.";
 
 	@Inject
 	private EstoqueService estoqueSrvc;

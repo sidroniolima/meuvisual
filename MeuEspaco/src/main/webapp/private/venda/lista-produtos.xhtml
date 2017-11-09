@@ -59,6 +59,7 @@
 		                            		action="#{listaProdutosVendaBean.limpaFiltro()}">
 		                            	
 		                            		<f:ajax
+		                            			onevent="eventSpinnerHandler"
 		                            			execute="@this"
 		                            			render="panel-produtos panel-filtros panel-load-more"/>
 		                            			
@@ -85,6 +86,7 @@
 			                               		itemValue="#{comp}"/>
 			                               		
 						                   	<f:ajax
+						                   		onevent="eventSpinnerHandler"
 						                   		execute="@this"
 						                        event="change"
 						                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
@@ -108,6 +110,7 @@
 			                            		action="#{listaProdutosVendaBean.limpaFiltro()}">
 			                            	
 							                   	<f:ajax
+							                   		onevent="eventSpinnerHandler"
 							                   		execute="@this"
 							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>   
 			                            			
@@ -134,6 +137,7 @@
 				                               		itemValue="#{value}"/>
 				                               		
 							                   	<f:ajax
+							                   		onevent="eventSpinnerHandler"
 							                   		execute="@this"
 							                        event="change"
 							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		
@@ -314,9 +318,22 @@
 						
 					</div>
 					<!-- /.col-md-9 -->	
-					
+					<!-- Modal Spinner -->
+					<div class="modal fade bd-example-modal-sm modal-spinner" id="modal-spinner" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-sm modal-spinner-dialog">
+					    <div class="modal-content" >
+					      <div class="modal-body" id="modalBody">
+							<div class="spinner">
+								<p align="center"><i class="fa fa-spinner fa-spin fa-4x"></i></p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Spinner -->	
+									
 				</h:form> <!-- end form -->
-				
+
             </div>
             <!-- /.container -->
         </div>
@@ -333,6 +350,7 @@
 	   
 	<!-- DEFINE SCRIPT -->
 	<ui:define name="script">
+		<h:outputScript library="js" name="spinner-handler.js"/>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			
 			

@@ -453,7 +453,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 			
 			if (null != filtro.getComposicao()) 
 			{
-				criteriaSublist.setParameter("comp", filtro.getComposicao());
+				criteriaSublist.setParameter("comp", filtro.getComposicao().toString());
 			}
 			
 			if (null != filtro.getCaracteristica() && !filtro.getCaracteristica().isEmpty()) {

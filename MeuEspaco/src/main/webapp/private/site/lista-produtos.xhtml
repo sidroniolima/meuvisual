@@ -73,6 +73,7 @@
 		                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
 		                            	
 		                            		<f:ajax
+		                            			onevent="eventSpinnerHandler"
 		                            			execute="@this"
 		                            			render="panel-produtos panel-filtros panel-load-more"/>
 		                            			
@@ -98,6 +99,7 @@
 			                               		itemValue="#{entry.value}"/>
 			                               		
 						                   	<f:ajax
+						                   		onevent="eventSpinnerHandler"
 						                   		execute="@this"
 						                        event="change"
 						                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		
@@ -121,6 +123,7 @@
 			                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
 			                            	
 			                            		<f:ajax
+			                            			onevent="eventSpinnerHandler"
 			                            			execute="@this"
 			                            			render="panel-produtos panel-filtros panel-load-more"/>
 			                            			
@@ -173,6 +176,7 @@
 		                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
 		                            	
 		                            		<f:ajax
+		                            			onevent="eventSpinnerHandler"
 		                            			execute="@this"
 		                            			render="panel-produtos panel-filtros panel-load-more"/>
 		                            			
@@ -199,6 +203,7 @@
 			                               		itemValue="#{comp}"/>
 			                               		
 						                   	<f:ajax
+						                   		onevent="eventSpinnerHandler"
 						                   		execute="@this"
 						                        event="change"
 						                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
@@ -222,6 +227,7 @@
 			                            		action="#{listaProdutosConsignadosBean.limpaFiltro()}">
 			                            	
 							                   	<f:ajax
+							                   		onevent="eventSpinnerHandler"
 							                   		execute="@this"
 							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>   
 			                            			
@@ -248,6 +254,7 @@
 				                               		itemValue="#{value}"/>
 				                               		
 							                   	<f:ajax
+							                   		onevent="eventSpinnerHandler"
 							                   		execute="@this"
 							                        event="change"
 							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                             		

@@ -82,6 +82,18 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	}	
 	
 	@Override
+	public void listarComPaginacaoEGrade() 
+	{
+		super.setProdutos(
+				super.getProdutoService().listaProdutosPelaNavegacaoPorGrade(
+						super.getDep(), 
+						super.getGrupo(), 
+						super.getSubgrupo(), 
+						this.getFiltro(), 
+						super.getPaginator()));
+	}
+	
+	@Override
 	public boolean verificaDisponibilidadeDaEscolha()
 	{
 		try 

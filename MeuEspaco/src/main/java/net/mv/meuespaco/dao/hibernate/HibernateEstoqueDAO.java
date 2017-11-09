@@ -109,7 +109,6 @@ public class HibernateEstoqueDAO extends HibernateGenericDAO<Movimento, Long> im
 			.append("alm.codigo = :codigo_alm 			AND ")
 			.append("grade.codigo = :codigo_grade ").toString();
 	
-
 	private String sqlQtdDisponiveldoProduto = new StringBuilder()
 			.append("SELECT ")
 			.append("coalesce( ")

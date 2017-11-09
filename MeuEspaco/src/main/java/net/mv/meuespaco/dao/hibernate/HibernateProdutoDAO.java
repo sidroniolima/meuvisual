@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -16,6 +17,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.persister.collection.CollectionPropertyNames;
 import org.hibernate.sql.JoinType;
 import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.type.StandardBasicTypes;
 
 import net.mv.meuespaco.controller.ProdutosEQtdPorSubgrupo;
 import net.mv.meuespaco.controller.filtro.FiltroListaProduto;
@@ -334,6 +336,170 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 	}
 
 	@Override
+	public List<Produto> fitrarPelaNavegacaoPorGrade(Departamento dep, Grupo grupo, Subgrupo subgrupo, FiltroListaProduto filtro,
+			Paginator paginator) 
+	{
+		Order orderFiltro = Order.asc("codigoInterno");
+		Order orderNatural = Order.asc("codigoInterno");
+		
+		String sqlListaProdutosParaNavegacaoPorGrade =
+		"SELECT "
+		+"	prod.codigo "
+		+"from "
+		+"	produto prod " 
+		+"left outer join "
+		+"	produto_caracteristicas carac " 
+		+"	on prod.codigo=carac.produto_codigo " 
+		+"left outer join "
+		+"	grade gra "
+		+"	on prod.codigo=gra.produto_codigo " 
+		+"inner join "
+		+"	sub_grupo sub "
+		+"	on prod.subgrupo_codigo=sub.codigo " 
+		+"where "
+		+"		prod.ativo=1 "
+		+"	and prod.finalidade = :finalidade "
+		+"	and prod.departamento_codigo = :dep ";
+			
+		if (null != subgrupo)
+		{
+			sqlListaProdutosParaNavegacaoPorGrade += "	and sub.codigo = :subgrupo ";
+		} 
+		
+		if (null != grupo)
+		{
+			sqlListaProdutosParaNavegacaoPorGrade += "	and sub.grupo_codigo = :grupo ";
+		}
+
+		if (null != filtro.getTipo()) 
+		{
+			sqlListaProdutosParaNavegacaoPorGrade += "	and prod.tipo = :tipo ";
+		}
+		
+		if (null != filtro.getComposicao()) 
+		{
+			sqlListaProdutosParaNavegacaoPorGrade += "	and composicao = :comp ";
+		}
+		
+		if (null != filtro.getCaracteristica() && !filtro.getCaracteristica().isEmpty()) {
+			sqlListaProdutosParaNavegacaoPorGrade += "	and carac.valor = :carac ";
+		}
+		
+		if (null != filtro.getTamanho())
+		{
+			sqlListaProdutosParaNavegacaoPorGrade += "	and prod.tipo_grade = :tipo_grade ";
+			sqlListaProdutosParaNavegacaoPorGrade += "	and gra.tamanho = :grade "; 
+			
+			sqlListaProdutosParaNavegacaoPorGrade +="	and ( "
+			+"		coalesce( " 
+			+"		( "
+			+"			SELECT coalesce(sum(qtd),0.00) FROM movimento " 
+			+"			WHERE " 
+			+"			tipo_movimento = 'ENTRADA'		AND " 
+			+"			produto_codigo = prod.codigo	AND " 
+			+"			grade_codigo = gra.codigo		AND " 
+			+"			almoxarifado_codigo  = 1) - " 
+			+"		( "
+			+"			SELECT coalesce(sum(qtd),0.00) FROM movimento " 
+			+"			WHERE " 
+			+"			tipo_movimento = 'SAIDA'		AND " 
+			+"			produto_codigo = prod.codigo	AND " 
+			+"			grade_codigo = gra.codigo		AND " 
+			+"			almoxarifado_codigo = 1) " 
+			+"		,0.00) > 0.00 "
+			+"		 ) ";
+		}
+		
+		sqlListaProdutosParaNavegacaoPorGrade += "group by "
+			+"	prod.codigo "
+			+"order by ";
+
+		if (null != filtro.getOrdenacao())
+		{
+			String ordem = filtro.getOrdenacao();
+			String direction = FiltroListaProduto.verificaOrdem(ordem);
+			ordem = ordem.replaceAll("\\+|\\-", "");
+			sqlListaProdutosParaNavegacaoPorGrade 
+				+= "prod." + ordem + " " + direction + ", ";
+			
+			orderFiltro = (direction == "ASC" ? Order.asc(ordem) : Order.desc((ordem)));
+		} 
+		
+		sqlListaProdutosParaNavegacaoPorGrade += "prod.codigo_interno";
+		
+		SQLQuery criteriaSublist = this.getSession().createSQLQuery(sqlListaProdutosParaNavegacaoPorGrade);
+		criteriaSublist.addScalar("prod.codigo",  StandardBasicTypes.LONG);
+		
+		criteriaSublist.setParameter("dep",dep.getCodigo());
+		
+		if (null != grupo) 
+		{
+			criteriaSublist.setParameter("grupo",grupo.getCodigo());
+		}
+		
+		if (null != subgrupo) 
+		{
+			criteriaSublist.setParameter("subgrupo",subgrupo.getCodigo());
+		}
+		
+		if (null != filtro) {
+			
+			criteriaSublist.setParameter("finalidade", filtro.getFinalidade().toString());
+			
+			if (null != filtro.getTipo()) 
+			{
+				criteriaSublist.setParameter("tipo", filtro.getTipo());
+			}
+			
+			if (null != filtro.getComposicao()) 
+			{
+				criteriaSublist.setParameter("comp", filtro.getComposicao());
+			}
+			
+			if (null != filtro.getCaracteristica() && !filtro.getCaracteristica().isEmpty()) {
+				criteriaSublist.setParameter("carac", filtro.getCaracteristica());
+			}
+			
+			if (null != filtro.getTamanho())
+			{
+				criteriaSublist.setParameter("tipo_grade", TipoGrade.TAMANHO.toString());
+				criteriaSublist.setParameter("grade", filtro.getTamanho().toString());
+			}
+		}	
+		
+		List registrosSublist = criteriaSublist.list();
+		
+		paginator.setTotalDeRegistros(registrosSublist.size());
+
+		if (registrosSublist.isEmpty()) {
+			return null;
+		}
+		
+		int lastResult = registrosSublist.size() <= paginator.getLastResult() ? 
+				registrosSublist.size() : paginator.getLastResult() + 1;
+				
+		registrosSublist = registrosSublist.subList(paginator.getFirstResult(), lastResult);
+		
+		Criteria criteria = this.getSession().createCriteria(Produto.class);
+		criteria.setFetchMode("subgrupo", FetchMode.JOIN);
+		criteria.setFetchMode("caracteristicas", FetchMode.JOIN);
+		
+		criteria.setFetchMode("fotos", FetchMode.JOIN);
+		
+		criteria.add(Restrictions.in("codigo", registrosSublist));
+		
+		if (null != filtro.getOrdenacao())
+		{
+			criteria.addOrder(orderFiltro);
+		}
+		criteria.addOrder(orderNatural);
+		
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return criteria.list();
+	}
+	
+	@Override
 	public List<Produto> fitrarPelaNavegacao(Departamento dep, Grupo grupo, Subgrupo subgrupo, FiltroListaProduto filtro,
 			Paginator paginator) 
 	{
@@ -429,7 +595,7 @@ public class HibernateProdutoDAO extends HibernateGenericDAO<Produto, Long> impl
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		
 		return criteria.list();
-	}
+	}	
 	
 	@Override
 	public int atualizaGradeDoProduto(Long codigo, String novoTipo) {

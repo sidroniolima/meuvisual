@@ -244,8 +244,6 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 			.distinct()
 			.collect(Collectors.toList());
 		
-		simbolos.forEach(System.out::println);
-		
 		return simbolos;
 	}
 	
@@ -350,6 +348,12 @@ public class ProdutoServiceImpl extends SimpleServiceLayerImpl<Produto, Long> im
 	public List<Produto> listaProdutosPelaNavegacao(Departamento dep, Grupo grupo, Subgrupo subgrupo, FiltroListaProduto filtro,
 			Paginator paginator) {
 		return this.produtoDAO.fitrarPelaNavegacao(dep, grupo, subgrupo, filtro, paginator);
+	}
+	
+	@Override
+	public List<Produto> listaProdutosPelaNavegacaoPorGrade(Departamento dep, Grupo grupo, Subgrupo subgrupo, FiltroListaProduto filtro,
+			Paginator paginator) {
+		return this.produtoDAO.fitrarPelaNavegacaoPorGrade(dep, grupo, subgrupo, filtro, paginator);
 	}
 
 	@Override

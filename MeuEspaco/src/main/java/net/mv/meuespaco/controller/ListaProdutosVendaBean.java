@@ -43,6 +43,12 @@ public class ListaProdutosVendaBean extends ListaProdutosAbstractBean implements
 	}
 	
 	@Override
+	public void listarComPaginacaoEGrade() 
+	{
+		this.listarComPaginacao();
+	}	
+	
+	@Override
 	public boolean permiteOneClick() 
 	{
 		return false;

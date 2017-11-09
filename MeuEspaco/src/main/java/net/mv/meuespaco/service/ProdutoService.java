@@ -351,4 +351,17 @@ public interface ProdutoService extends SimpleServiceLayer<Produto, Long>{
 	 * @return produto com grade, grupo e subgrupo.
 	 */
 	public Produto buscaParaCarrinho(Long codigo);
+
+	/**
+	 * Lista os produtos por Departamento e Subgrupo fazendo filtro com paginação mas 
+	 * exibindo apenas produtos com estoque para a grade selecionada.
+	 * dos resultados.
+	 * @param dep
+	 * @param subgrupo
+	 * @param filtro
+	 * @param paginator
+	 * @return
+	 */
+	public List<Produto> listaProdutosPelaNavegacaoPorGrade(Departamento dep, Grupo grupo, Subgrupo subgrupo,
+			FiltroListaProduto filtro, Paginator paginator);
 }

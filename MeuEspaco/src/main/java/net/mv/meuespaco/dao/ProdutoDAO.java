@@ -175,4 +175,17 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long>{
 	 * @return referências dos produtos agrupados.
 	 */
 	List<ReferenciaProdutoComQtd> detalharQtdDeProdutosPorSubgrupoEGrupo(FiltroProduto filtro);
+
+	/**
+	 * Filtra os produtos pelo Subgrupo com filtro e paginador. Incluindo 
+	 * a grade Selecionada do produto como Tamanho.
+	 * 
+	 * @param dep
+	 * @param subgrupo
+	 * @param filtro
+	 * @param paginator Paginador para construir o índice.
+	 * @return
+	 */
+	List<Produto> fitrarPelaNavegacaoPorGrade(Departamento dep, Grupo grupo, Subgrupo subgrupo,
+			FiltroListaProduto filtro, Paginator paginator);
 }

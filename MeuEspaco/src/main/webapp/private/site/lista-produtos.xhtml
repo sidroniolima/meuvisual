@@ -152,6 +152,7 @@
 				                               		itemValue="#{tam}"/>
 				                               		
 							                   	<f:ajax
+							                   		onevent="eventSpinnerHandler"
 							                   		execute="@this"
 							                        event="change"
 							                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
@@ -497,7 +498,21 @@
 					    </div>
 					  </div>
 					</div>	
-					<!-- End of Modal Zoom fotos -->										
+					<!-- End of Modal Zoom fotos -->	
+					
+					<!-- Modal Spinner -->
+					<div class="modal fade bd-example-modal-sm modal-spinner" id="modal-spinner" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+					  <div class="modal-dialog modal-sm modal-spinner-dialog">
+					    <div class="modal-content" >
+					      <div class="modal-body" id="modalBody">
+							<div class="spinner">
+								<p align="center"><i class="fa fa-spinner fa-spin fa-4x"></i></p>
+							</div>
+					      </div>	    
+					    </div>
+					  </div>
+					</div>	
+					<!-- End of Modal Spinner -->															
 					
 				</h:form> <!-- end form -->
 				
@@ -519,6 +534,7 @@
 	<ui:define name="script">
 		<h:outputScript library="js" name="jquery.zoom.js" />
 		<h:outputScript library="js" name="add-to-chart.js" />
+		<h:outputScript library="js" name="spinner-handler.js"/>
 		<script> 
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()

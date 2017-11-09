@@ -217,13 +217,20 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	public abstract void listarComPaginacao();
 
 	/**
+	 * Lista os registros de produtos de forma paginada. Como abstração 
+	 * para listagem de produtos consignados e para venda. Com grade selecionada para
+	 * listar apenas produtos com estoque para a grade específica.
+	 */
+	public abstract void listarComPaginacaoEGrade();
+	
+	/**
 	 * Lista os produtos de forma paginada e salva  
 	 * o estado de navegação atual.
 	 * 
 	 */
 	public void listarComPaginacaoESalvarEstado()
 	{
-		this.listarComPaginacao();
+		this.listarComPaginacaoEGrade();
 		this.salvaEstado();
 	}
 	

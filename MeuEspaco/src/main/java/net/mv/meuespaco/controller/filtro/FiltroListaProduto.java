@@ -98,4 +98,14 @@ public abstract class FiltroListaProduto {
 	public void setTamanho(Tamanho tamanho) {
 		this.tamanho = tamanho;
 	}
+
+	@Override
+	public String toString() {
+		return "FiltroListaProduto [tipo=" + tipo 
+				+ ", caracteristica=" + caracteristica 
+				+ ", composicao=" + composicao
+				+ ", tamanho=" + tamanho 
+				+ ", ordenacao=" + ordenacao 
+				+ ", ordens=" + ordens + "]";
+	}
 }

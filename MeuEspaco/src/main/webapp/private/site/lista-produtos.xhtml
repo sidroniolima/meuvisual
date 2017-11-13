@@ -75,7 +75,7 @@
 		                            		<f:ajax
 		                            			onevent="eventSpinnerHandler"
 		                            			execute="@this"
-		                            			render="panel-produtos panel-filtros panel-load-more"/>
+		                            			render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>
 		                            			
 		                            		<i class="fa fa-times-circle"></i> Limpar
 		                            	</a>
@@ -125,7 +125,7 @@
 			                            		<f:ajax
 			                            			onevent="eventSpinnerHandler"
 			                            			execute="@this"
-			                            			render="panel-produtos panel-filtros panel-load-more"/>
+			                            			render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>
 			                            			
 			                            		<i class="fa fa-times-circle"></i> Limpar
 			                            	</a>
@@ -158,7 +158,7 @@
 							                   		onevent="eventSpinnerHandler"
 							                   		execute="@this"
 							                        event="change"
-							                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
+							                   		render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>                                           		
 				                        	</h:selectOneMenu>	
 				                        </div>                      
 			
@@ -178,7 +178,7 @@
 		                            		<f:ajax
 		                            			onevent="eventSpinnerHandler"
 		                            			execute="@this"
-		                            			render="panel-produtos panel-filtros panel-load-more"/>
+		                            			render="frm-lista-produto:panel-produtos frm-lista-produto:panel-filtros frm-lista-produto:panel-load-more"/>
 		                            			
 		                            		<i class="fa fa-times-circle"></i> Limpar
 		                            	</a>
@@ -206,13 +206,13 @@
 						                   		onevent="eventSpinnerHandler"
 						                   		execute="@this"
 						                        event="change"
-						                   		render="panel-produtos panel-filtros panel-load-more"/>                                           		
+						                   		render="@form"/>                                           		
 			                        	</h:selectOneRadio>	
 			                        </div>                      
 		
 		                        </div>
 		                    </div>
-		                    
+
 		                    <ui:repeat 
 								var="entry" 
 								value="#{listaProdutosConsignadosBean.caracteristicas.entrySet().toArray()}">	
@@ -272,14 +272,15 @@
 		                
 		                </h:panelGroup>
 	                </div>
+	                
 					<div class="col-md-9">
 					    <h:panelGroup
 					    	id="panel-produtos">
 					    	
 					    	<h:panelGroup
 								id="panel-sem-registros"
-								rendered="#{listaProdutosConsignadosBean.produtos.size() == 0 || listaProdutosConsignadosBean.produtos eq null}">
-								
+								rendered="#{listaProdutosConsignadosBean.produtos eq null}">
+								<h:outputText value="${listaProdutosConsignadosBean.produtos.size()}" />
 								<div class="box">
 									<p>Não há produtos para o filtro selecionado.</p>
 					   				
@@ -292,92 +293,97 @@
 								</div>
 								
 							</h:panelGroup>
+
+					    	<h:panelGroup
+								id="panel-com-registros"
+								rendered="#{listaProdutosConsignadosBean.produtos ne null}">
 					
-						    <div class="row products">
-						
-					            <ui:repeat 
-					            	var="produto" 
-					            	value="#{listaProdutosConsignadosBean.produtos}">			
-					            	
-							        <div class="col-md-4 col-sm-6">
-							            
-							            <div class="product">
-							                <div class="flip-container">
-							                    <div class="flipper">
-							                        <div class="front">
-							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
-							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
-							                            </a>
-							                        </div>
-							                        <div class="back">
-							                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
-							                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
-							                            </a>
-							                        </div>
-							                    </div>
-							                </div>
-							                
-											<div class="ribbon new" style="#{listaProdutosConsignadosBean.permiteOneClick() ? '' : 'display: none'}">
-				                                <div class="theribbon">
-				                                	<span class="fa fa-circle-thin" aria-hidden="true"/>
-				                                	<span>${listaProdutosConsignadosBean.filtro.tamanho.descricao}</span>
-				                                </div>
-				                                <div class="ribbon-background"></div>
-					                        </div>
-					                        <!-- /.ribbon -->
-							                
-							                <a href="#" class="invisible">
-							                    <img src="#{props.serverImageName()}/imagens/meu-espaco/Produto_sem_foto.png" class="img-responsive"/>
-							                </a>
-							                <div class="text">
-							                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
-							                    <p class="price">#{produto.codigoInterno}</p>
-							                    <p class="buttons">
-							                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
-													
-													<h:commandButton style="display: none" 
-														id="btn-oneclick_${produto.codigo}"
-														action="#{listaProdutosConsignadosBean.addToChart()}"
-														type="button"
-														immediate="true">
+							    <div class="row products">
+							
+						            <ui:repeat 
+						            	var="produto" 
+						            	value="#{listaProdutosConsignadosBean.produtos}">			
+						            	
+								        <div class="col-md-4 col-sm-6">
+								            
+								            <div class="product">
+								                <div class="flip-container">
+								                    <div class="flipper">
+								                        <div class="front">
+								                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
+								                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(1)}" class="img-responsive" alt="" />
+								                            </a>
+								                        </div>
+								                        <div class="back">
+								                            <a href="javascript:;" onclick="showModalFotos('#{produto.codigoInterno}', '#{produto.descricao}', '#{produto.buscaFotoPeloIndice(2)}', '${props.serverImageName()}')">
+								                                <img src="#{props.serverImageName()}/imagens/meu-espaco/#{produto.buscaFotoPeloIndice(2)}" class="img-responsive" alt="" />
+								                            </a>
+								                        </div>
+								                    </div>
+								                </div>
+								                
+												<div class="ribbon new" style="#{listaProdutosConsignadosBean.permiteOneClick() ? '' : 'display: none'}">
+					                                <div class="theribbon">
+					                                	<span class="fa fa-circle-thin" aria-hidden="true"/>
+					                                	<span>${listaProdutosConsignadosBean.filtro.tamanho.descricao}</span>
+					                                </div>
+					                                <div class="ribbon-background"></div>
+						                        </div>
+						                        <!-- /.ribbon -->
+								                
+								                <a href="#" class="invisible">
+								                    <img src="#{props.serverImageName()}/imagens/meu-espaco/Produto_sem_foto.png" class="img-responsive"/>
+								                </a>
+								                <div class="text">
+								                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
+								                    <p class="price">#{produto.codigoInterno}</p>
+								                    <p class="buttons">
+								                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
 														
-														<f:setPropertyActionListener 
-															value="#{produto}" 
-															target="#{listaProdutosConsignadosBean.produtoSelecionado}"/>
-														
-							                    	</h:commandButton>
-							                    	<button 
-							                    		class="btn btn-warning btn-oneclick"
-							                    		onclick="adicionaProduto(${produto.codigo});"
-														style="#{(produto.isOneClick() or listaProdutosConsignadosBean.permiteOneClick()) and listaProdutosConsignadosBean.habilitaEscolha ? '' : 'display: none'}"
-														type="button">
-														
-														<span>Escolher</span>
-														
-													</button>
-													<span>
-														<i id="check_${produto.codigo}" class="fa fa-check fa-2x one-click-check" aria-hidden="true"></i>
-													</span>
-							                    		
-												</p>
-							                </div>
-							                <!-- /.text -->
-							            </div>
-							            <!-- /.product -->
-							            
-							        </div>
-							        <!-- /.col-md-4 -->
-						        </ui:repeat>
-						    </div>
-						    <!-- /.products -->
+														<h:commandButton style="display: none" 
+															id="btn-oneclick_${produto.codigo}"
+															action="#{listaProdutosConsignadosBean.addToChart()}"
+															type="button"
+															immediate="true">
+															
+															<f:setPropertyActionListener 
+																value="#{produto}" 
+																target="#{listaProdutosConsignadosBean.produtoSelecionado}"/>
+															
+								                    	</h:commandButton>
+								                    	<button 
+								                    		class="btn btn-warning btn-oneclick"
+								                    		onclick="adicionaProduto(${produto.codigo});"
+															style="#{(produto.isOneClick() or listaProdutosConsignadosBean.permiteOneClick()) and listaProdutosConsignadosBean.habilitaEscolha ? '' : 'display: none'}"
+															type="button">
+															
+															<span>Escolher</span>
+															
+														</button>
+														<span>
+															<i id="check_${produto.codigo}" class="fa fa-check fa-2x one-click-check" aria-hidden="true"></i>
+														</span>
+								                    		
+													</p>
+								                </div>
+								                <!-- /.text -->
+								            </div>
+								            <!-- /.product -->
+								            
+								        </div>
+								        <!-- /.col-md-4 -->
+							        </ui:repeat>
+							    </div>
+							    <!-- /.products -->
+							    
+							</h:panelGroup>
 						
 						</h:panelGroup>
 						<!-- /#panel-produtos -->
 
 						<h:panelGroup
 							id="panel-load-more"
-							rendered="#{not (listaProdutosConsignadosBean.produtos.size() == 0 || listaProdutosConsignadosBean.produtos eq null)}">
-							
+							rendered="#{(listaProdutosConsignadosBean.produtos ne null and listaProdutosConsignadosBean.produtos.size() > 0)}">
 						    <div class="pages">
 						    
 				                <div class="col-md-12" id="paginator">
@@ -393,7 +399,7 @@
 									    		value="«">
 
 							                   	<f:ajax
-							                   		render="panel-produtos"/>   
+							                   		render="panel-produtos panel-load-more"/>   
 									    	</a>
 									    </li>
 
@@ -404,13 +410,14 @@
 									    	
 										    <li>
 									    		<a
+									    			styleClass="#{listaProdutosConsignadosBean.paginator.index == index ?  'pagina-atual' : ''}"
 									    			jsfc="h:commandLink"
 										    		actionListener="#{listaProdutosConsignadosBean.paginator.goTo(index)}" 
 										    		action="#{listaProdutosConsignadosBean.listarComPaginacaoESalvarEstado()}"
-										    		value="#{index+1}" >
+										    		value="#{index+1}">
 										    		
 								                   	<f:ajax
-								                   		render="panel-produtos"/>   
+								                   		render="panel-produtos panel-load-more"/>   
 										    	</a>
 										    </li>
 									    </c:forEach>
@@ -429,7 +436,7 @@
 									    		value="#{listaProdutosConsignadosBean.paginator.partes}">
 									    		
 							                   	<f:ajax
-							                   		render="panel-produtos"/>   
+							                   		render="panel-produtos panel-load-more"/>   
 									    	</h:commandLink>
 									    </li>
 									    
@@ -441,7 +448,7 @@
 									    		value="»">
 									    		
 							                   	<f:ajax
-							                   		render="panel-produtos"/>   
+							                   		render="panel-produtos panel-load-more"/>   
 									    	</h:commandLink>
 									    </li>
 									  </ul>
@@ -546,6 +553,7 @@
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})			
+			
 		</script>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			

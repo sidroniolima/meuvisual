@@ -70,21 +70,15 @@ public class ListaProdutosConsignadosBean extends ListaProdutosAbstractBean impl
 	/**
 	 * Lista os registros de produtos para consignação de forma paginada.
 	 */
-	public void listarComPaginacao() {
-			
-		super.setProdutos(
-				super.getProdutoService().listaProdutosPelaNavegacao(
-						super.getDep(), 
-						super.getGrupo(), 
-						super.getSubgrupo(), 
-						this.getFiltro(), 
-						super.getPaginator()));
+	public void listarComPaginacao() 
+	{
+		this.listarComPaginacaoEGrade();
 	}	
 	
 	@Override
 	public void listarComPaginacaoEGrade() 
 	{
-		super.setProdutos(
+		this.setProdutos(
 				super.getProdutoService().listaProdutosPelaNavegacaoPorGrade(
 						super.getDep(), 
 						super.getGrupo(), 

@@ -17,6 +17,8 @@ public class Paginator {
 	private int page = 0;
 	private int totalPages = 0;
 	
+	private int index;
+	
 	public Paginator() {	}
 	
 	public Paginator(int qtdPorPagina) {
@@ -36,7 +38,7 @@ public class Paginator {
 	}
 
 	public void goTo(int index) {
-		
+		this.setIndex(index);
 		if (index == 0) 
 		{
 			firstResult = 0;
@@ -54,7 +56,7 @@ public class Paginator {
 	}
 	
 	public void next() {
-		
+		this.setIndex(++index);
 		if (firstResult + qtdPorPagina < getTotalDeRegistros()) 
 		{
 			firstResult = getLastResult() + 1;
@@ -64,7 +66,7 @@ public class Paginator {
 	}
 	
 	public void previous() {
-		
+		this.setIndex(--index);
 		if (firstResult - qtdPorPagina <= 0) 
 		{
 			firstResult = 0;
@@ -82,6 +84,7 @@ public class Paginator {
 	public void reset() {
 		
 		firstResult = 0;
+		this.setIndex(0);
 		
 		lastResult = firstResult + qtdPorPagina - 1;
 	
@@ -98,6 +101,7 @@ public class Paginator {
 	 */
 	public void desabilita() {
 		this.firstResult = 0;
+		this.setIndex(0);
 		this.qtdPorPagina = Integer.MAX_VALUE;
 		
 		habilitado = false;
@@ -236,6 +240,13 @@ public class Paginator {
 	{
 		this.totalDeRegistros = totalElements;
 		this.totalPages = totalPages;
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+	public void setIndex(int index) {
+		this.index = index;
 	}
 
 	@Override

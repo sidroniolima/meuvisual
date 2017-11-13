@@ -92,6 +92,9 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 		if (this.getEstadoDeNavegacao().isEstadoCriado() && !isParametrizado()) {
 			this.restauraEstado();
 			
+			
+			prossegueInicio();
+			
 		} else {
 		
 			try {
@@ -99,11 +102,17 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 				this.preencheInformacoesDeNavegacao(paramDep, paramGrupo, paramSubgrupo);
 				this.getEstadoDeNavegacao().criaEstado();
 				
+				prossegueInicio();
+				
 			} catch (RegraDeNegocioException e) {
 				FacesUtil.addErrorMessage(e.getMessage() + " Clique nos links de navegação acima para listar as peças.");
 			}
 		}
 		
+
+	}
+
+	private void prossegueInicio() {
 		this.listarComPaginacao();
 		this.verificaSeMostraTamanhos(this.produtos);
 		this.salvaEstado();
@@ -169,11 +178,17 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 			{
 				dep = depSrvc.buscaPeloCodigo(paramDep);
 				
+				if (null == dep )
+				{
+					throw new RegraDeNegocioException("Não foi possível listar produtos para o Departamento selecionado.");
+				}
 			} catch (IllegalArgumentException ex)
 			{
 				throw new RegraDeNegocioException("Não foi possível listar produtos para o Departamento selecionado.");
 			}
 			
+		} else {
+			throw new RegraDeNegocioException("Não foi possível listar produtos para o Departamento selecionado.");	
 		}
 		
 		if (null != paramGrupo) {
@@ -194,8 +209,12 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 			}
 			
 			grupo = subgrupo.getGrupo();
+			
+			if (null != grupo)
+			{
+				throw new RegraDeNegocioException("Não foi possível identificar o grupo deste subgrupo.");
+			}
 		}
-		
 	}
 
 	/**

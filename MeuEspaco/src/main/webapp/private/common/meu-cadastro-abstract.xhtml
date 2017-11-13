@@ -28,7 +28,7 @@
 				    	
 				    	<div class="row">
 				    
-							<div class="col-md-12">
+							<div class="col-md-12">lista
 				        		<p>#{meuCadastroBean.mensagem}</p>
 				        	</div>
 				        	
@@ -57,7 +57,7 @@
                         
                           	<label for="input-codigo">Código</label>
 						<h:inputText 
-                           	class="form-control"
+                           	class="form-control input-sm"
                            	id="input-codigo" 
                            	value="#{meuCadastroBean.cliente.codigoSiga}"
                            	readonly="true"/>
@@ -67,7 +67,7 @@
                        
 						<label for="select-status">Status </label>
 						<h:inputText 
-							class="form-control" 
+							class="form-control input-sm" 
 							id="input-status" 
 							value="#{meuCadastroBean.cliente.status.descricao}"
 							readonly="true"/>				                          	
@@ -78,7 +78,7 @@
                         
                           <label for="input-nome">Nome </label>
                           <h:inputText 
-                          	class="form-control" 
+                          	class="form-control input-sm" 
                           	id="input-nome" 
                           	value="#{meuCadastroBean.cliente.nome}"
                           	readonly="true"/>			                            	
@@ -88,7 +88,7 @@
                        
 					<label for="select-regiao">Região </label>
 					<h:inputText 
-                          	class="form-control" 
+                          	class="form-control input-sm" 
                           	id="input-regiao" 
                           	value="#{meuCadastroBean.cliente.regiao.descricao}"
                           	readonly="true"/>	
@@ -98,7 +98,7 @@
                         
 					<label for="input-cpf">Cpf </label>
 					<h:inputText 
-                          	class="form-control" 
+                          	class="form-control input-sm" 
                           	id="input-cpf" 
                           	value="#{meuCadastroBean.cliente.cpf}"
                           	converter="cpfFacesConverter"
@@ -108,7 +108,7 @@
 					<div class="form-group">
 						<label for="input-rg">Rg </label>
 						<h:inputText 
-                           	class="form-control" 
+                           	class="form-control input-sm" 
                            	id="input-rg" 
                            	value="#{meuCadastroBean.cliente.rg}"
                            	converter="rgFacesConverter"
@@ -118,7 +118,7 @@
 					<div class="form-group">
 						<label for="input-telefone-fixo">Telefone fixo</label>
 						<h:inputText 
-                           	class="form-control" 
+                           	class="form-control input-sm" 
                            	id="input-telefone-fixo" 
                            	value="#{meuCadastroBean.cliente.telefoneFixo}"
                            	readonly="true"/>					                          	
@@ -127,7 +127,7 @@
 					<div class="form-group">
 						<label for="input-celular">Celular</label>
 						<h:inputText 
-                           	class="form-control" 
+                           	class="form-control input-sm" 
                            	id="input-celular" 
                            	value="#{meuCadastroBean.cliente.celular}"
                            	readonly="true"/>					                          	
@@ -138,7 +138,7 @@
                         
 						<label for="input-email">Email </label>
 						<h:inputText 
-                           	class="form-control" 
+                           	class="form-control input-sm" 
                            	id="input-email" 
                            	value="#{meuCadastroBean.cliente.email}"
                            	readonly="true"/>

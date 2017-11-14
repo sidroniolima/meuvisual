@@ -78,6 +78,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	
 	private boolean habilitaEscolha;
 	private boolean mostraTamanhos;
+	private boolean erroParametros;
 	
 	/**
 	 * Inicia o Bean por um Estado de Navegação já utilizado ou
@@ -89,27 +90,27 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	{
 		this.habilitaEscolha = this.verificaDisponibilidadeDaEscolha();
 		
-		if (this.getEstadoDeNavegacao().isEstadoCriado() && !isParametrizado()) {
+		if (this.getEstadoDeNavegacao().isEstadoCriado() && !isParametrizado()) 
+		{
 			this.restauraEstado();
-			
-			
 			prossegueInicio();
 			
-		} else {
-		
-			try {
-				
+		} else 
+		{
+			try 
+			{
 				this.preencheInformacoesDeNavegacao(paramDep, paramGrupo, paramSubgrupo);
 				this.getEstadoDeNavegacao().criaEstado();
 				
-				prossegueInicio();
+				this.setErroParametros(false);
 				
-			} catch (RegraDeNegocioException e) {
+				prossegueInicio();
+			} catch (RegraDeNegocioException e) 
+			{
+				this.setErroParametros(true);
 				FacesUtil.addErrorMessage(e.getMessage() + " Clique nos links de navegação acima para listar as peças.");
 			}
 		}
-		
-
 	}
 
 	private void prossegueInicio() {
@@ -210,7 +211,7 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 			
 			grupo = subgrupo.getGrupo();
 			
-			if (null != grupo)
+			if (null == grupo)
 			{
 				throw new RegraDeNegocioException("Não foi possível identificar o grupo deste subgrupo.");
 			}
@@ -460,7 +461,14 @@ public abstract class ListaProdutosAbstractBean implements Serializable {
 	{
 		this.mostraTamanhos = mostraTamanhos;
 	}
-	
+
+	public boolean isErroParametros() {
+		return erroParametros;
+	}
+	public void setErroParametros(boolean erroParametros) {
+		this.erroParametros = erroParametros;
+	}
+
 	public abstract EstadoDeNavegacao getEstadoDeNavegacao();
 
 	public abstract FiltroListaProduto getFiltro();

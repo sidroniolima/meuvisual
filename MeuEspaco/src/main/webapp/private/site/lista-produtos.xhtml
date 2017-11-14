@@ -62,7 +62,7 @@
 
 						<h:panelGroup
 	                    	id="panel-filtros"
-	                    	rendered="#{listaProdutosConsignadosBean.produtos}">
+	                    	rendered="#{not listaProdutosConsignadosBean.erroParametros}">
 
 							<div class="panel panel-default sidebar-menu">
 			                    
@@ -272,6 +272,21 @@
 		                    <!-- *** MENUS AND FILTERS END *** -->
 		                
 		                </h:panelGroup>
+						<h:panelGroup
+	                    	id="panel-sem-filtros"
+	                    	rendered="#{listaProdutosConsignadosBean.erroParametros}">
+
+							<div class="panel panel-default sidebar-menu">
+			                    
+		                        <div class="panel-heading">
+		                            <h3 class="panel-title">Sem filtro</h3>
+		                        </div>
+		
+		                        <div class="panel-body">
+		                        	Não há filtros disponívies.                     
+		                        </div>
+			                </div>	  
+			        	</h:panelGroup>		                
 	                </div>
 	                
 					<div class="col-md-9">
@@ -339,7 +354,11 @@
 								                    <h3><a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}">#{produto.descricao}</a></h3>
 								                    <p class="price">#{produto.codigoInterno}</p>
 								                    <p class="buttons">
-								                        <a href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" class="btn btn-default">Detalhes</a>
+								                        <a 
+								                        	href="../site/produto/produto-detail.xhtml?paramCodigo=#{produto.codigo}" 
+								                        	class="btn btn-default detalhe-produto">
+								                        	Detalhes
+								                        </a>
 														
 														<h:commandButton style="display: none" 
 															id="btn-oneclick_${produto.codigo}"
@@ -554,7 +573,11 @@
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})			
-			
+
+			$('.detalhe-produto').click(function() 
+			{
+				$('#modal-spinner').modal('show');
+			});
 		</script>
 	</ui:define>
 	<!-- END OF DEFINE SCRIPT -->			

@@ -40,10 +40,10 @@ function registraCronometro()
 			});
 	      	
 			$("#myModalMsgs").modal('show');
-			clearInterval(cronometroId);						
+			//clearInterval(cronometroId);						
 		}
 
-	}, 600000);
+	}, 60000);
 };
 	
 $("#myModalMsgs").on("hide.bs.modal", function () 

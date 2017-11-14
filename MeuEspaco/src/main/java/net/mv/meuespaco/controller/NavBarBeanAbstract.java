@@ -3,14 +3,19 @@ package net.mv.meuespaco.controller;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.primefaces.context.RequestContext;
+
+import net.mv.meuespaco.exception.IntegracaoException;
 import net.mv.meuespaco.model.Finalidade;
 import net.mv.meuespaco.model.Grupo;
 import net.mv.meuespaco.model.Subgrupo;
 import net.mv.meuespaco.model.consulta.MenuPorDepartamento;
+import net.mv.meuespaco.model.integracao.Message;
 import net.mv.meuespaco.model.loja.Departamento;
 import net.mv.meuespaco.service.DepartamentoService;
 import net.mv.meuespaco.service.GrupoService;
@@ -35,8 +40,9 @@ public abstract class NavBarBeanAbstract implements Serializable {
 	private String pesquisa;
 	
 	@PostConstruct
-	public void init() {
-	}
+	public void init() 
+	{
+	}	
 	
 	/**
 	 * Criação do menu de forma dinâmica e performatica, evitando querys.
